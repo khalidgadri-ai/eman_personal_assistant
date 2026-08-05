@@ -1,0 +1,16 @@
+{
+  "name": "تطبيق إدارة الحياة - إيمان",
+  "short_name": "إيمان",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0d9488",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "eman_logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -2,31 +2,82 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=./web_app/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تطبيق إدارة الحياة والمنزل | إيمان</title>
-    <script>
-        window.location.href = "./web_app/";
-    </script>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background: #0b132b;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        a { color: #6366f1; }
-    </style>
+    <!-- Tajawal Google Font & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
-        <h2>🌸 جاري تحويلك إلى تطبيق إيمان...</h2>
-        <p>إذا لم يتم التحويل تلقائياً، <a href="./web_app/">اضغط هنا للفتح مباشرة</a>.</p>
+
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="brand-info">
+            <div class="brand-logo"><i class="fa-solid fa-gem"></i></div>
+            <div class="brand-title">
+                <h1>مساعد إيمان المتكامل</h1>
+                <p>تطبيق تنظيم الحياة والمنزل 🌸</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="openSettingsModal()" title="الإعدادات والبيانات"><i class="fa-solid fa-gear"></i></button>
+            <button class="icon-btn" onclick="exportDataJSON()" title="تصدير نسخة احتياطية"><i class="fa-solid fa-download"></i></button>
+            <button class="icon-btn" onclick="triggerImportJSON()" title="استعادة نسخة احتياطية"><i class="fa-solid fa-upload"></i></button>
+        </div>
+    </header>
+
+    <!-- Hidden file input for json import -->
+    <input type="file" id="import-json-input" class="hidden-file-input" accept=".json" onchange="importDataJSON(event)">
+
+    <!-- Main Container -->
+    <main class="app-container">
+        <!-- Tab Content Views -->
+        <div id="view-container"></div>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('tasks')">
+            <i class="fa-solid fa-list-check"></i>
+            <span>المهام</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('health')">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>الصحة والرياضة</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('home')">
+            <i class="fa-solid fa-kitchen-set"></i>
+            <span>المطبخ والمنزل</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('budget')">
+            <i class="fa-solid fa-wallet"></i>
+            <span>الميزانية</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('reading')">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span>القراءة والملاحظات</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('ai')">
+            <i class="fa-solid fa-robot"></i>
+            <span>المساعد الذكي</span>
+        </div>
+    </nav>
+
+    <!-- Global Modal Overlay -->
+    <div class="modal-overlay" id="global-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title-text">عنوان النافذة</h3>
+                <button class="icon-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modal-body-content"></div>
+        </div>
     </div>
+
+    <!-- Main Application JavaScript Logic -->
+    <script src="app.js"></script>
 </body>
 </html>

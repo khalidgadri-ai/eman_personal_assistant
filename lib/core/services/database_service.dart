@@ -90,4 +90,18 @@ class DatabaseService {
   Future<void> saveGeminiApiKey(String key) async {
     await _prefs?.setString('gemini_api_key', key.trim());
   }
+
+  // --- User Feedback ---
+  List<Map<String, dynamic>> getFeedbackEntries() {
+    final String? raw = _prefs?.getString('feedback_entries');
+    if (raw == null) return [];
+    final List decoded = jsonDecode(raw);
+    return decoded.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  Future<void> saveFeedbackEntry(String text) async {
+    final entries = getFeedbackEntries();
+    entries.add({'text': text, 'date': DateTime.now().toIso8601String()});
+    await _prefs?.setString('feedback_entries', jsonEncode(entries));
+  }
 }

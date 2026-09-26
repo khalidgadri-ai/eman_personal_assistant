@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'core/services/database_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/goals_and_tasks/goals_tasks_screen.dart';
 import 'features/health_and_fitness/health_fitness_screen.dart';
@@ -42,9 +43,65 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     AIAssistantScreen(),
   ];
 
+  Future<void> _showFeedbackDialog() async {
+    final feedbackController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            backgroundColor: AppTheme.cardColor,
+            title: const Text('إرسال ملاحظات', style: TextStyle(color: AppTheme.textColor)),
+            content: TextField(
+              controller: feedbackController,
+              maxLines: 4,
+              autofocus: true,
+              style: const TextStyle(color: AppTheme.textColor),
+              decoration: const InputDecoration(
+                hintText: 'شاركينا رأيك أو اقتراحك حول التطبيق...',
+                hintStyle: TextStyle(color: AppTheme.subTextColor),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('إلغاء', style: TextStyle(color: AppTheme.subTextColor)),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+                onPressed: () async {
+                  final text = feedbackController.text.trim();
+                  if (text.isEmpty) return;
+                  final db = await DatabaseService.getInstance();
+                  await db.saveFeedbackEntry(text);
+                  if (!context.mounted) return;
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('شكراً لك، تم إرسال ملاحظتك بنجاح!')),
+                  );
+                },
+                child: const Text('إرسال', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'feedback_fab',
+        tooltip: 'إرسال ملاحظات',
+        backgroundColor: AppTheme.accentColor,
+        onPressed: _showFeedbackDialog,
+        child: const Icon(Icons.feedback_rounded, color: Colors.white),
+      ),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: IndexedStack(

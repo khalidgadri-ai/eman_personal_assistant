@@ -87,7 +87,8 @@ let appData = {
             { id: 2, title: 'مقاضي ومستلزمات الشهر', category: 'تسوق', amount: 2500, dueDate: 'أول الشهر' },
             { id: 3, title: 'ادخار وطوارئ', category: 'ادخار', amount: 2000, dueDate: 'تلقائي' }
         ]
-    }
+    },
+    feedbackEntries: []
 };
 
 // Current active main tab & sub tab state
@@ -126,6 +127,7 @@ function loadAppData() {
         if (Array.isArray(parsed.laundrySchedule))    appData.laundrySchedule = parsed.laundrySchedule;
         if (Array.isArray(parsed.beautyProducts))     appData.beautyProducts = parsed.beautyProducts;
         if (Array.isArray(parsed.medications))        appData.medications = parsed.medications;
+        if (Array.isArray(parsed.feedbackEntries))    appData.feedbackEntries = parsed.feedbackEntries;
 
         // Deep-merge weeklyIndependentTasks
         if (parsed.weeklyIndependentTasks && typeof parsed.weeklyIndependentTasks === 'object') {
@@ -1792,6 +1794,26 @@ function saveSettings() {
     saveAppData();
     closeModal();
     alert('تم حفظ الإعدادات بنجاح!');
+}
+
+function openFeedbackModal() {
+    openModal('إرسال ملاحظات', `
+        <div class="form-group">
+            <label class="form-label">شاركينا رأيك أو اقتراحك حول التطبيق</label>
+            <textarea id="feedback-text" class="form-control" placeholder="اكتبي ملاحظتك هنا..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%" onclick="submitFeedback()"><i class="fa-solid fa-paper-plane"></i> إرسال الملاحظة</button>
+    `);
+}
+
+function submitFeedback() {
+    const text = document.getElementById('feedback-text').value.trim();
+    if (!text) return alert('الرجاء كتابة ملاحظتك أولاً!');
+
+    appData.feedbackEntries.push({ id: Date.now(), text, date: new Date().toISOString() });
+    saveAppData();
+    closeModal();
+    alert('شكراً لك، تم إرسال ملاحظتك بنجاح!');
 }
 
 function resetAppData() {

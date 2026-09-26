@@ -6,6 +6,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
+    DatabaseService.resetForTesting();
     SharedPreferences.setMockInitialValues({});
   });
 

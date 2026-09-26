@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseService {
@@ -11,6 +12,14 @@ class DatabaseService {
     _instance ??= DatabaseService._();
     _prefs ??= await SharedPreferences.getInstance();
     return _instance!;
+  }
+
+  /// Clears the cached singleton so tests can start from a fresh
+  /// SharedPreferences.setMockInitialValues() state between cases.
+  @visibleForTesting
+  static void resetForTesting() {
+    _instance = null;
+    _prefs = null;
   }
 
   // --- Daily Tasks ---

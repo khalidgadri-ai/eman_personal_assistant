@@ -6,6 +6,7 @@ import 'package:eman_life_app/core/services/database_service.dart';
 
 void main() {
   setUp(() {
+    DatabaseService.resetForTesting();
     SharedPreferences.setMockInitialValues({});
   });
 

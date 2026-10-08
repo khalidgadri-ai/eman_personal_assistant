@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:eman_life_app/core/services/encrypted_boxes.dart';
 import 'package:eman_life_app/features/budget/budget_service.dart';
 import 'package:eman_life_app/features/budget/models/expense_entry.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 
@@ -13,6 +15,8 @@ void main() {
   setUp(() async {
     hiveDir = Directory.systemTemp.createTempSync('budget_hive_test');
     Hive.init(hiveDir.path);
+    FlutterSecureStorage.setMockInitialValues({});
+    EncryptedBoxes.resetForTesting();
     BudgetService.resetForTesting();
     budget = await BudgetService.getInstance();
   });

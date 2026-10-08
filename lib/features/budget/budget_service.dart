@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import '../../core/services/encrypted_boxes.dart';
 import 'models/expense_entry.dart';
 
 /// إدخال يدوي فقط: لا ربط بنكي ولا بطاقات ولا أي API مالي خارجي.
@@ -13,7 +14,7 @@ class BudgetService {
 
   static Future<BudgetService> getInstance() async {
     _instance ??= BudgetService._();
-    _box ??= await Hive.openBox(_boxName);
+    _box ??= await EncryptedBoxes.open(_boxName);
     return _instance!;
   }
 

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:eman_life_app/core/services/encrypted_boxes.dart';
 import 'package:eman_life_app/features/coach/coach_ai_service.dart';
 import 'package:eman_life_app/features/coach/coach_safety.dart';
 import 'package:eman_life_app/features/coach/coach_session_service.dart';
 import 'package:eman_life_app/features/coach/models/coach_question.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 
@@ -109,6 +111,8 @@ void main() {
     setUp(() {
       hiveDir = Directory.systemTemp.createTempSync('coach_hive_test');
       Hive.init(hiveDir.path);
+      FlutterSecureStorage.setMockInitialValues({});
+      EncryptedBoxes.resetForTesting();
       CoachSessionService.resetForTesting();
     });
 

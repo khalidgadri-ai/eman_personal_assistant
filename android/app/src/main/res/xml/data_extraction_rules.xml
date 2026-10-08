@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+: نفس استثناءات backup_rules.xml للنسخ السحابي وللنقل بين الأجهزة. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" path="app_flutter/coach_sessions_enc.hive"/>
+        <exclude domain="root" path="app_flutter/expenses_enc.hive"/>
+        <exclude domain="sharedpref" path="FlutterSecureStorage.xml"/>
+        <exclude domain="sharedpref" path="FlutterSecureKeyStorage.xml"/>
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" path="app_flutter/coach_sessions_enc.hive"/>
+        <exclude domain="root" path="app_flutter/expenses_enc.hive"/>
+        <exclude domain="sharedpref" path="FlutterSecureStorage.xml"/>
+        <exclude domain="sharedpref" path="FlutterSecureKeyStorage.xml"/>
+    </device-transfer>
+</data-extraction-rules>

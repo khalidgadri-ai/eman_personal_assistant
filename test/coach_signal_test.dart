@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:eman_life_app/core/services/encrypted_boxes.dart';
 import 'package:eman_life_app/features/budget/budget_service.dart';
 import 'package:eman_life_app/features/budget/models/expense_entry.dart';
 import 'package:eman_life_app/features/coach/coach_session_service.dart';
 import 'package:eman_life_app/features/coach/coach_signal_service.dart';
 import 'package:eman_life_app/features/coach/models/coach_question.dart';
 import 'package:eman_life_app/features/coach/models/coach_signals.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 
@@ -36,6 +38,8 @@ void main() {
   setUp(() async {
     hiveDir = Directory.systemTemp.createTempSync('coach_signal_test');
     Hive.init(hiveDir.path);
+    FlutterSecureStorage.setMockInitialValues({});
+    EncryptedBoxes.resetForTesting();
     BudgetService.resetForTesting();
     CoachSessionService.resetForTesting();
     budget = await BudgetService.getInstance();

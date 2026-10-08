@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:hive/hive.dart';
+import '../../core/services/encrypted_boxes.dart';
 import 'models/coach_question.dart';
 import 'models/coach_signals.dart';
 
@@ -21,7 +22,7 @@ class CoachSessionService {
 
   static Future<CoachSessionService> getInstance() async {
     _instance ??= CoachSessionService._();
-    _box ??= await Hive.openBox(_boxName);
+    _box ??= await EncryptedBoxes.open(_boxName);
     _questionBank ??= await _loadQuestionBank();
     return _instance!;
   }

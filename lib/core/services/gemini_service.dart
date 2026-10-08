@@ -8,27 +8,24 @@ class GeminiService {
 
   GeminiService._();
 
-  /// ✅ Factory async constructor — يقرأ المفتاح من DatabaseService أولاً
-  /// ثم يستخدم المفتاح الثابت في AIConfig كـ fallback احتياطي
+  static const String missingKeyMessage =
+      'فعّل ميزات الذكاء الاصطناعي بمفتاحك الخاص أولًا.';
+
+  /// لا يوجد مفتاح مركزي: بدون مفتاح المستخدم يبقى الموديل فارغًا و[hasKey] = false.
   static Future<GeminiService> create() async {
     final service = GeminiService._();
     final db = await DatabaseService.getInstance();
     final userKey = db.getGeminiApiKey();
-    final activeKey = userKey.isNotEmpty ? userKey : AIConfig.apiKey;
-    service._model = GenerativeModel(
-      model: AIConfig.modelName,
-      apiKey: activeKey,
-    );
+    if (userKey.isNotEmpty) {
+      service._model = GenerativeModel(
+        model: AIConfig.modelName,
+        apiKey: userKey,
+      );
+    }
     return service;
   }
 
-  /// ✅ Constructor بسيط للاستخدام المتزامن (يستخدم المفتاح الثابت مبدئياً)
-  GeminiService() {
-    _model = GenerativeModel(
-      model: AIConfig.modelName,
-      apiKey: AIConfig.apiKey,
-    );
-  }
+  bool get hasKey => _model != null;
 
   /// ✅ يُعيد تهيئة الموديل فور تحديث المستخدم لمفتاحه
   Future<void> resetModel(String newKey) async {
@@ -50,8 +47,10 @@ class GeminiService {
 
   /// Sends a general text prompt to Gemini
   Future<String> askAssistant(String prompt) async {
+    final model = _model;
+    if (model == null) return missingKeyMessage;
     try {
-      final response = await _model!.generateContent([Content.text(prompt)]);
+      final response = await model.generateContent([Content.text(prompt)]);
       return response.text ?? 'لم يتم استلام رد من المساعد الذكي.';
     } catch (e) {
       return 'حدث خطأ أثناء التواصل مع المساعد الذكي: $e';
@@ -64,6 +63,8 @@ class GeminiService {
     required String mimeType,
     required String prompt,
   }) async {
+    final model = _model;
+    if (model == null) return missingKeyMessage;
     try {
       final content = [
         Content.multi([
@@ -71,7 +72,7 @@ class GeminiService {
           DataPart(mimeType, imageBytes),
         ])
       ];
-      final response = await _model!.generateContent(content);
+      final response = await model.generateContent(content);
       return response.text ?? 'لم أتمكن من تحليل الصورة.';
     } catch (e) {
       return 'حدث خطأ أثناء تحليل الصورة: $e';

@@ -1,23 +1,19 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- ✅ صلاحيات الاتصال بالإنترنت (Gemini AI API) -->
+    <!-- Gemini بمفتاح المستخدم، والتحقق من الاشتراك عبر Google Play -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
-    <!-- ✅ صلاحيات الكاميرا والمعرض لتحليل الصور -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <!-- الكاميرا والمعرض عبر image_picker يعملان بدون صلاحيات (كاميرا النظام ومنتقي الصور).
+         لا تضف CAMERA أو READ_MEDIA_IMAGES: الأولى تفرض طلبها وقت التشغيل،
+         والثانية تتطلب إقرار سياسة الصور والفيديو في Google Play. -->
 
-    <!-- ✅ صلاحيات الوصول للصور (Android 13+) -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-
-    <!-- ✅ صلاحيات الوصول للتخزين (Android 12 وأقدم) -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
-
-    <!-- ✅ صلاحيات الميكروفون للمذكرات الصوتية -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- وعي الاستخدام: دقائق الاستخدام لكل تطبيق فقط. صلاحية نظام خاصة يفعّلها المستخدم يدويًا من الإعدادات -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions"/>
 
     <application
-        android:label="eman_life_app"
+        android:label="إيمان"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -58,5 +54,14 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- تطبيقات التواصل في وعي الاستخدام (lib/features/awareness/models/social_app.dart)؛
+             أسماء محددة بدل QUERY_ALL_PACKAGES الذي يتطلب إقرارًا خاصًا في Google Play -->
+        <package android:name="com.whatsapp"/>
+        <package android:name="com.whatsapp.w4b"/>
+        <package android:name="com.instagram.android"/>
+        <package android:name="com.twitter.android"/>
+        <package android:name="com.zhiliaoapp.musically"/>
+        <package android:name="com.ss.android.ugc.trill"/>
+        <package android:name="com.snapchat.android"/>
     </queries>
 </manifest>

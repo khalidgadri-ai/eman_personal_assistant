@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/services/gemini_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/ai_key_setup_screen.dart';
+import '../budget/budget_summary_screen.dart';
 
 class FinancialScreen extends StatefulWidget {
   const FinancialScreen({super.key});
@@ -10,7 +11,6 @@ class FinancialScreen extends StatefulWidget {
 }
 
 class _FinancialScreenState extends State<FinancialScreen> {
-  final GeminiService _geminiService = GeminiService();
   final TextEditingController _salaryController = TextEditingController(text: '10000');
   final TextEditingController _expensesController = TextEditingController(text: '3500');
   final TextEditingController _savingsController = TextEditingController(text: '2000');
@@ -44,9 +44,12 @@ class _FinancialScreenState extends State<FinancialScreen> {
       return;
     }
 
+    final gemini = await requireGeminiService(context);
+    if (gemini == null || !mounted) return;
+
     setState(() => _isGeneratingAdvice = true);
 
-    final result = await _geminiService.getBudgetAdvice(
+    final result = await gemini.getBudgetAdvice(
       salary: salary,
       fixedExpenses: expenses,
       savingsGoal: savings,
@@ -90,6 +93,15 @@ class _FinancialScreenState extends State<FinancialScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('💰 المحفظة المالية والميزانية'),
+        actions: [
+          IconButton(
+            tooltip: 'مصاريفي الشهرية',
+            icon: const Icon(Icons.receipt_long_rounded, color: AppTheme.accentColor),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const BudgetSummaryScreen()),
+            ),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

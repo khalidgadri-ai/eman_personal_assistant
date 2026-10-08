@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/services/database_service.dart';
-import '../../core/services/gemini_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/ai_key_setup_screen.dart';
 
 class GoalsTasksScreen extends StatefulWidget {
   const GoalsTasksScreen({super.key});
@@ -13,7 +13,6 @@ class GoalsTasksScreen extends StatefulWidget {
 class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   DatabaseService? _db;
-  final GeminiService _geminiService = GeminiService();
 
   List<Map<String, dynamic>> _dailyTasks = [];
   int _quranPage = 142;
@@ -203,8 +202,10 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
                         : () async {
                             final text = noteController.text.trim();
                             if (text.isEmpty) return;
+                            final gemini = await requireGeminiService(context);
+                            if (gemini == null || !context.mounted) return;
                             setModalState(() => isAnalyzing = true);
-                            final result = await _geminiService.parseVoiceNoteToTasks(text);
+                            final result = await gemini.parseVoiceNoteToTasks(text);
                             setModalState(() {
                               isAnalyzing = false;
                               aiResult = result;

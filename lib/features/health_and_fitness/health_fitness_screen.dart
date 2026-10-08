@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../core/services/gemini_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/ai_key_setup_screen.dart';
+import '../awareness/usage_awareness_screen.dart';
 
 class HealthFitnessScreen extends StatefulWidget {
   const HealthFitnessScreen({super.key});
@@ -13,7 +14,6 @@ class HealthFitnessScreen extends StatefulWidget {
 
 class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final GeminiService _geminiService = GeminiService();
   final ImagePicker _imagePicker = ImagePicker();
   bool _isAnalyzingExercise = false;
   bool _isAnalyzingMed = false;
@@ -44,6 +44,8 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
 
   /// ✅ يفتح الكاميرا أو المعرض ويرسل الصورة لـ Gemini لتحليل التمرين
   Future<void> _analyzeExerciseImage() async {
+    final gemini = await requireGeminiService(context);
+    if (gemini == null || !mounted) return;
     final source = await _showImageSourceDialog();
     if (source == null) return;
 
@@ -57,7 +59,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     setState(() => _isAnalyzingExercise = true);
 
     final Uint8List imageBytes = await pickedFile.readAsBytes();
-    final result = await _geminiService.analyzeExerciseImage(imageBytes);
+    final result = await gemini.analyzeExerciseImage(imageBytes);
 
     setState(() => _isAnalyzingExercise = false);
 
@@ -66,6 +68,8 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
 
   /// ✅ يفتح الكاميرا أو المعرض ويرسل صورة الدواء لـ Gemini للتحليل
   Future<void> _analyzeMedicationLabel() async {
+    final gemini = await requireGeminiService(context);
+    if (gemini == null || !mounted) return;
     final source = await _showImageSourceDialog();
     if (source == null) return;
 
@@ -79,7 +83,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     setState(() => _isAnalyzingMed = true);
 
     final Uint8List imageBytes = await pickedFile.readAsBytes();
-    final result = await _geminiService.analyzeMedicationLabel(imageBytes);
+    final result = await gemini.analyzeMedicationLabel(imageBytes);
 
     setState(() => _isAnalyzingMed = false);
 
@@ -162,6 +166,15 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     return Scaffold(
       appBar: AppBar(
         title: const Text('🏋️‍♀️ الصحة واللياقة والعناية'),
+        actions: [
+          IconButton(
+            tooltip: 'وعي الاستخدام',
+            icon: const Icon(Icons.hourglass_bottom_rounded, color: AppTheme.accentColor),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const UsageAwarenessScreen()),
+            ),
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: AppTheme.accentColor,

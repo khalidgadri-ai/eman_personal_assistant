@@ -1,14 +1,31 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'core/services/database_service.dart';
+import 'core/services/subscription_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/goals_and_tasks/goals_tasks_screen.dart';
 import 'features/health_and_fitness/health_fitness_screen.dart';
 import 'features/kitchen_and_home/kitchen_home_screen.dart';
 import 'features/financial/financial_screen.dart';
 import 'features/ai_assistant/ai_assistant_screen.dart';
+import 'features/coach/coach_screen.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
   runApp(const EmanLifeApp());
+  unawaited(_startSubscriptionChecks());
+}
+
+// استماع مبكر لمشتريات Google Play: أي اشتراك لا يُؤكَّد خلال 3 أيام يُسترد تلقائيًا.
+Future<void> _startSubscriptionChecks() async {
+  try {
+    final subscription = await SubscriptionService.getInstance();
+    await subscription.restore();
+  } catch (e) {
+    debugPrint('Subscription startup check: $e');
+  }
 }
 
 class EmanLifeApp extends StatelessWidget {
@@ -17,7 +34,7 @@ class EmanLifeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'تطبيق إدارة الحياة المتكامل',
+      title: 'إيمان',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       home: const MainNavigationScreen(),
@@ -95,12 +112,27 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'feedback_fab',
-        tooltip: 'إرسال ملاحظات',
-        backgroundColor: AppTheme.accentColor,
-        onPressed: _showFeedbackDialog,
-        child: const Icon(Icons.feedback_rounded, color: Colors.white),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: 'coach_fab',
+            tooltip: 'مدرب الحياة',
+            backgroundColor: AppTheme.primaryColor,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const CoachScreen()),
+            ),
+            child: const Icon(Icons.psychology_rounded, color: Colors.white),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: 'feedback_fab',
+            tooltip: 'إرسال ملاحظات',
+            backgroundColor: AppTheme.accentColor,
+            onPressed: _showFeedbackDialog,
+            child: const Icon(Icons.feedback_rounded, color: Colors.white),
+          ),
+        ],
       ),
       body: Directionality(
         textDirection: TextDirection.rtl,

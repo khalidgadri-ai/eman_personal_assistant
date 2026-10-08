@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/services/gemini_service.dart';
 import '../../core/services/database_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/ai_key_setup_screen.dart';
 
 class AIAssistantScreen extends StatefulWidget {
   const AIAssistantScreen({super.key});
@@ -155,6 +156,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     if (_geminiService == null) return;
     final text = _promptController.text.trim();
     if (text.isEmpty) return;
+
+    if (!_geminiService!.hasKey) {
+      final service = await requireGeminiService(context);
+      if (service == null || !mounted) return;
+      _geminiService = service;
+    }
 
     setState(() {
       _messages.add({'sender': 'user', 'text': text});

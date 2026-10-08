@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/services/gemini_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/ai_key_setup_screen.dart';
 
 class KitchenHomeScreen extends StatefulWidget {
   const KitchenHomeScreen({super.key});
@@ -11,7 +11,6 @@ class KitchenHomeScreen extends StatefulWidget {
 
 class _KitchenHomeScreenState extends State<KitchenHomeScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final GeminiService _geminiService = GeminiService();
   final TextEditingController _ingredientsController = TextEditingController();
   bool _isGeneratingRecipe = false;
 
@@ -63,6 +62,9 @@ class _KitchenHomeScreenState extends State<KitchenHomeScreen> with SingleTicker
       return;
     }
 
+    final gemini = await requireGeminiService(context);
+    if (gemini == null || !mounted) return;
+
     setState(() => _isGeneratingRecipe = true);
 
     final ingredients = ingredientsText
@@ -71,7 +73,7 @@ class _KitchenHomeScreenState extends State<KitchenHomeScreen> with SingleTicker
         .where((e) => e.isNotEmpty)
         .toList();
 
-    final result = await _geminiService.suggestRecipes(ingredients);
+    final result = await gemini.suggestRecipes(ingredients);
 
     setState(() => _isGeneratingRecipe = false);
 

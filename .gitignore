@@ -47,3 +47,11 @@ app.*.map.json
 # Zip archives
 *.zip
 
+# Secrets
+.env
+
+# Android release signing (keystore + passwords)
+key.properties
+*.jks
+*.keystore
+

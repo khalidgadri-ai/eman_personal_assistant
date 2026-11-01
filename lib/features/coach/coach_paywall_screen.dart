@@ -144,7 +144,7 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
                       ),
                       child: const Text(
                         'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل.\n'
-                        'سؤال المتابعة يعمل بمفتاح Gemini الخاص بك (مجاني من Google AI Studio).',
+                        'سؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.',
                         style: TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.7),
                       ),
                     ),

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 
-/// يفتح صناديق Hive الحساسة (سجل المدرب والمصاريف) مشفّرة بـ AES-256.
+/// يفتح صناديق Hive الحساسة (سجل المدرب والمصاريف والملف الشخصي وبيانات الصحة) مشفّرة بـ AES-256.
 ///
 /// المفتاح عشوائي (256-bit) يُولَّد مرة واحدة عند أول تشغيل ويُحفظ عبر
 /// flutter_secure_storage (Android Keystore)، لا بجانب البيانات.
@@ -14,7 +14,7 @@ import 'package:hive/hive.dart';
 /// يُحذف ملفه، ولو انقطع النسخ في المنتصف يبقى الملف القديم ويُعاد النسخ كاملًا في
 /// التشغيل التالي.
 ///
-/// الملفان المشفّران ومخزن المفتاح مستثناة من النسخ الاحتياطي لأندرويد
+/// الملفات المشفّرة ومخزن المفتاح مستثناة من النسخ الاحتياطي لأندرويد
 /// (`res/xml/backup_rules.xml` و`data_extraction_rules.xml`): مفتاح Keystore لا
 /// ينتقل لجوال جديد، فالنسخة المستعادة لا يمكن فكّها. أي صندوق مشفّر جديد يُضاف
 /// هناك أيضًا.
@@ -72,9 +72,13 @@ class EncryptedBoxes {
     return key;
   }
 
-  @visibleForTesting
-  static void resetForTesting() {
+  /// ينسى المفتاح المحفوظ في الذاكرة وطلبات الفتح الجارية، فيُقرأ المفتاح (أو يُولَّد من
+  /// جديد) عند أول فتح قادم. يُستدعى بعد مسح بيانات المستخدم.
+  static void reset() {
     _key = null;
     _opening.clear();
   }
+
+  @visibleForTesting
+  static void resetForTesting() => reset();
 }

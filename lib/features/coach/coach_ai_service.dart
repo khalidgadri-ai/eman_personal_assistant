@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
-import '../../core/config/ai_config.dart';
-import '../../core/services/database_service.dart';
+import '../../core/ai/ai_models.dart';
+import '../../core/ai/ai_service.dart';
 import 'coach_safety.dart';
 import 'coach_session_service.dart';
 import 'models/coach_question.dart';
@@ -31,7 +30,7 @@ class CoachAiService {
   final CoachTextGenerator _generate;
 
   CoachAiService({CoachTextGenerator? generator})
-      : _generate = generator ?? _generateWithGemini;
+      : _generate = generator ?? _generateWithProvider;
 
   static String buildSystemPrompt(CoachDomain domain) {
     return 'أنت مدرب حياة يستخدم أسلوب الأسئلة السقراطية فقط. ممنوع تمامًا: تقديم '
@@ -72,7 +71,7 @@ class CoachAiService {
         ));
       }
     } catch (e) {
-      debugPrint('CoachAiService: $e');
+      debugPrint('CoachAiService: ${e.runtimeType}');
     }
 
     final sessions = await CoachSessionService.getInstance();
@@ -81,21 +80,14 @@ class CoachAiService {
     );
   }
 
-  // مفتاح المستخدم فقط كما في GeminiService.create()، لكن بدون askAssistant لأنه
-  // يرجّع نص الخطأ كرد عادي ولا يدعم systemInstruction.
-  static Future<String> _generateWithGemini({
+  // مزوّد المستخدم ومفتاحه فقط كما في AiService.create()، لكن عبر sendRaw: يحتاج المدرب
+  // تعليمات نظام حقيقية وأن يرى أخطاء المزوّد (askAssistant يرجّع نص الخطأ كرد عادي).
+  static Future<String> _generateWithProvider({
     required String systemPrompt,
     required String userContent,
   }) async {
-    final db = await DatabaseService.getInstance();
-    final userKey = db.getGeminiApiKey();
-    if (userKey.isEmpty) throw StateError('لا يوجد مفتاح Gemini للمستخدم');
-    final model = GenerativeModel(
-      model: AIConfig.modelName,
-      apiKey: userKey,
-      systemInstruction: Content.system(systemPrompt),
-    );
-    final response = await model.generateContent([Content.text(userContent)]);
-    return response.text ?? '';
+    final service = await AiService.create(systemPrompt: systemPrompt);
+    final reply = await service.sendRaw(AiRequest(messages: [AiMessage.user(userContent)]));
+    return reply.text;
   }
 }

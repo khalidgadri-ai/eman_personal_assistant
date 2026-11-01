@@ -55,3 +55,6 @@ key.properties
 *.jks
 *.keystore
 
+
+# User backup files (encrypted, but personal)
+*.emanbak

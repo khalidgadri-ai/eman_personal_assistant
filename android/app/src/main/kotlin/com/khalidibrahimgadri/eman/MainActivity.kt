@@ -1,4 +1,4 @@
-package com.lifeapp.eman_life_app
+package com.khalidibrahimgadri.eman
 
 import io.flutter.embedding.android.FlutterActivity
 

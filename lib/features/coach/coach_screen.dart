@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/widgets/ai_key_setup_screen.dart';
+import '../../core/widgets/ai_provider_screen.dart';
 import 'coach_ai_service.dart';
 import 'coach_history_screen.dart';
 import 'coach_paywall_screen.dart';
@@ -102,8 +102,8 @@ class _CoachScreenState extends State<CoachScreen> {
 
     if (!await _ensureSubscribed() || !mounted) return;
 
-    final gemini = await requireGeminiService(context);
-    if (gemini == null || !mounted) return;
+    final ai = await requireAiService(context);
+    if (ai == null || !mounted) return;
 
     setState(() => _deepening = true);
     final result = await _aiService.requestFollowUp(question: question, answer: answer);

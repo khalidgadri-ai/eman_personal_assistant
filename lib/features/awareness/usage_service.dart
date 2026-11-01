@@ -92,8 +92,11 @@ class UsageService {
 
   static Future<UsageService> _open() async => UsageService._(await Hive.openBox(_boxName));
 
+  /// يُنسى الصندوق المفتوح (بعد مسح بيانات المستخدم يُفتح صندوق جديد عند الطلب).
+  static void reset() => _instance = null;
+
   @visibleForTesting
-  static void resetForTesting() => _instance = null;
+  static void resetForTesting() => reset();
 
   static bool get isSupported => !kIsWeb && Platform.isAndroid;
 

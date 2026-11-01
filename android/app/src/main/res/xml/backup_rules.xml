@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- النسخ الاحتياطي في Android 6 إلى 11 (Android 12+ يقرأ data_extraction_rules.xml).
-     صندوقا Hive المشفّران ومخزن مفتاحهما لا يُنسخان: مفتاح Android Keystore لا ينتقل
+     صناديق Hive المشفّرة ومخزن مفتاحها لا تُنسخ: مفتاح Android Keystore لا ينتقل
      لجوال جديد، فالنسخة المستعادة لا يمكن فكّها (lib/core/services/encrypted_boxes.dart).
-     باقي البيانات (المهام، الأدوية، المخزن...) تُنسخ كالمعتاد. -->
+     أي صندوق مشفّر جديد يُضاف هنا وفي data_extraction_rules.xml وفي
+     DataResetService.userBoxes. باقي البيانات (المهام، الأهداف، المخزن...) تُنسخ كالمعتاد. -->
 <full-backup-content>
     <exclude domain="root" path="app_flutter/coach_sessions_enc.hive"/>
     <exclude domain="root" path="app_flutter/expenses_enc.hive"/>
+    <exclude domain="root" path="app_flutter/budget_plan_enc.hive"/>
+    <exclude domain="root" path="app_flutter/profile_enc.hive"/>
+    <exclude domain="root" path="app_flutter/health_enc.hive"/>
+    <exclude domain="root" path="app_flutter/exercise_images_enc.hive"/>
     <exclude domain="sharedpref" path="FlutterSecureStorage.xml"/>
     <exclude domain="sharedpref" path="FlutterSecureKeyStorage.xml"/>
 </full-backup-content>

@@ -2,7 +2,7 @@
 
 ---
 
-![شعار تطبيق إيمان](file:///C:/Users/aluca/.gemini/antigravity-ide/brain/7cfaa2dc-2332-4d67-8ca0-7110b6fde2ed/eman_logo.png)
+![شعار تطبيق إيمان](eman_logo.png)
 
 ---
 
@@ -15,4 +15,4 @@
 | **الصيغة (Format)** | `PNG` عالي الجودة والدقة |
 | **الأبعاد (Dimensions)** | 512 × 512 بكسل (أبعاد الأيقونة الرسمية لأبل وأندرويد) |
 | **النص المدمج** | اسم **"إيمان"** بأسلوب خطي ذهبي وفاخر |
-| **مسار الحفظ المباشر** | [d:\eman_personal_assisstant\eman_logo.png](file:///d:/eman_personal_assisstant/eman_logo.png) |
+| **مسار الملف** | [eman_logo.png](eman_logo.png) (في جذر المستودع) |

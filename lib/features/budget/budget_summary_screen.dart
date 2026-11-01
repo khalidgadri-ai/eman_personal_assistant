@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/nice_axis_step.dart';
+import '../../core/widgets/undo_snackbar.dart';
+import 'budget_format.dart';
+import 'budget_plan_service.dart';
 import 'budget_service.dart';
 import 'expense_entry_screen.dart';
+import 'models/budget_plan.dart';
 import 'models/expense_entry.dart';
-
-const List<String> _arabicMonths = [
-  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
-  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر',
-];
 
 final intl.NumberFormat _money = intl.NumberFormat('#,##0.##');
 final intl.NumberFormat _compact = intl.NumberFormat.compact();
@@ -28,9 +27,11 @@ class BudgetSummaryScreen extends StatefulWidget {
 
 class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
   BudgetService? _budget;
+  String _symbol = BudgetCurrency.sar.symbol;
   DateTime _month = DateTime(DateTime.now().year, DateTime.now().month);
   double _total = 0;
   Map<ExpenseCategory, double> _byCategory = const {};
+  List<ExpenseEntry> _entries = const [];
 
   @override
   void initState() {
@@ -40,11 +41,14 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
 
   Future<void> _load() async {
     final budget = _budget ?? await BudgetService.getInstance();
+    final symbol = (await BudgetPlanService.getInstance()).plan.currency.symbol;
     if (!mounted) return;
     setState(() {
       _budget = budget;
+      _symbol = symbol;
       _total = budget.getTotalForMonth(_month);
       _byCategory = budget.getTotalByCategory(_month);
+      _entries = budget.getExpensesForMonth(_month);
     });
   }
 
@@ -59,13 +63,32 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
   }
 
   Future<void> _addExpense() async {
-    final saved = await Navigator.of(context).push<bool>(
+    final saved = await Navigator.of(context).push<ExpenseEntry>(
       MaterialPageRoute(builder: (_) => const ExpenseEntryScreen()),
     );
-    if (saved != true) return;
-    final now = DateTime.now();
-    _month = DateTime(now.year, now.month);
+    if (saved == null) return;
+    // ننتقل إلى شهر المصروف المسجَّل (قد يكون بتاريخ سابق) ليظهر أمام المستخدم فورًا.
+    _month = DateTime(saved.date.year, saved.date.month);
     _load();
+  }
+
+  Future<void> _editExpense(ExpenseEntry entry) async {
+    final saved = await Navigator.of(context).push<ExpenseEntry>(
+      MaterialPageRoute(builder: (_) => ExpenseEntryScreen(existing: entry)),
+    );
+    if (saved == null) return;
+    _month = DateTime(saved.date.year, saved.date.month);
+    _load();
+  }
+
+  Future<void> _deleteExpense(ExpenseEntry entry) async {
+    final removed = await _budget?.deleteExpense(entry.id);
+    await _load();
+    if (removed == null || !mounted) return;
+    showUndoSnackBar(context, 'حُذف مصروف ${_money.format(entry.amount)} $_symbol', () async {
+      await _budget?.restoreExpense(removed);
+      if (mounted) await _load();
+    });
   }
 
   @override
@@ -104,6 +127,8 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
                     _buildChartCard(),
                     const SizedBox(height: 16),
                     _buildBreakdown(),
+                    const SizedBox(height: 24),
+                    _buildEntries(),
                   ],
                 ],
               ),
@@ -121,7 +146,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
         ),
         Expanded(
           child: Text(
-            '${_arabicMonths[_month.month - 1]} ${_month.year}',
+            '${arabicMonthNames[_month.month - 1]} ${_month.year}',
             textAlign: TextAlign.center,
             style: const TextStyle(color: AppTheme.textColor, fontSize: 16, fontWeight: FontWeight.w600),
           ),
@@ -157,9 +182,9 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const TextSpan(
-                  text: ' ر.س',
-                  style: TextStyle(color: AppTheme.subTextColor, fontSize: 18),
+                TextSpan(
+                  text: ' $_symbol',
+                  style: const TextStyle(color: AppTheme.subTextColor, fontSize: 18),
                 ),
               ],
             ),
@@ -255,7 +280,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
           touchTooltipData: BarTouchTooltipData(
             getTooltipColor: (_) => AppTheme.surfaceColor,
             getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
-              '${_chartOrder[group.x].arabicLabel}\n${_money.format(rod.toY)} ر.س',
+              '${_chartOrder[group.x].arabicLabel}\n${_money.format(rod.toY)} $_symbol',
               const TextStyle(color: AppTheme.textColor, fontSize: 12),
             ),
           ),
@@ -282,7 +307,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
                 style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
               ),
               trailing: Text(
-                '${_money.format(row.value)} ر.س',
+                '${_money.format(row.value)} $_symbol',
                 style: const TextStyle(
                   color: AppTheme.textColor,
                   fontWeight: FontWeight.w600,
@@ -292,6 +317,64 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
             ),
         ],
       ),
+    );
+  }
+
+  /// كل مصروف مسجَّل في الشهر: يُعدَّل بالضغط عليه ويُحذف بأيقونة الحذف (مع "تراجع").
+  Widget _buildEntries() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'مصروفات الشهر',
+          style: TextStyle(color: AppTheme.textColor, fontSize: 15, fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 8),
+        // Material لا Container: ListTile القابل للضغط يرسم تأثير اللمس على أقرب Material.
+        Material(
+          color: AppTheme.cardColor,
+          borderRadius: BorderRadius.circular(16),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              for (final entry in _entries)
+                ListTile(
+                  key: ValueKey('expense_${entry.id}'),
+                  leading: Icon(entry.category.icon, color: AppTheme.accentColor),
+                  title: Text(
+                    entry.note == null || entry.note!.isEmpty ? entry.category.arabicLabel : entry.note!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: AppTheme.textColor),
+                  ),
+                  subtitle: Text(
+                    '${entry.category.arabicLabel} · ${entry.date.day}/${entry.date.month}',
+                    style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                  ),
+                  onTap: () => _editExpense(entry),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${_money.format(entry.amount)} $_symbol',
+                        style: const TextStyle(
+                          color: AppTheme.textColor,
+                          fontWeight: FontWeight.w600,
+                          fontFeatures: [FontFeature.tabularFigures()],
+                        ),
+                      ),
+                      IconButton(
+                        tooltip: 'حذف المصروف',
+                        icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
+                        onPressed: () => _deleteExpense(entry),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

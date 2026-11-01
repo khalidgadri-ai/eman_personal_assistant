@@ -1,12 +1,32 @@
-import 'dart:typed_data';
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import '../../core/ai/ai_errors.dart';
+import '../../core/ai/ai_service.dart';
+import '../../core/ai/provider_presets.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/widgets/ai_key_setup_screen.dart';
+import '../../core/widgets/ai_provider_screen.dart';
+import '../../core/widgets/entry_dialog.dart';
+import '../../core/widgets/undo_snackbar.dart';
 import '../awareness/usage_awareness_screen.dart';
+import '../reminders/reminder_service.dart';
+import '../settings/settings_button.dart';
+import 'exercise_details_screen.dart';
+import 'exercise_edit_screen.dart';
+import 'health_service.dart';
+import 'image_source_sheet.dart';
+import 'models/exercise.dart';
+import 'models/health_entry.dart';
+import 'workout_log_screen.dart';
 
 class HealthFitnessScreen extends StatefulWidget {
-  const HealthFitnessScreen({super.key});
+  /// [pickImage] و[aiProviderBuilder] يُستبدلان في الاختبارات فقط؛ الأصل هو كاميرا النظام أو
+  /// المعرض والمحوّل الحقيقي للمزوّد.
+  const HealthFitnessScreen({super.key, this.pickImage = pickExerciseImage, this.aiProviderBuilder});
+
+  final ExerciseImagePicker pickImage;
+  final AiProviderBuilder? aiProviderBuilder;
 
   @override
   State<HealthFitnessScreen> createState() => _HealthFitnessScreenState();
@@ -14,158 +34,370 @@ class HealthFitnessScreen extends StatefulWidget {
 
 class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final ImagePicker _imagePicker = ImagePicker();
+  HealthService? _health;
+  List<Exercise> _exercises = [];
+  List<Medication> _medications = [];
+  List<BeautyItem> _beautyItems = [];
+  bool _loadFailed = false;
   bool _isAnalyzingExercise = false;
   bool _isAnalyzingMed = false;
-
-  final List<Map<String, dynamic>> _medications = [
-    {'name': 'فيتامين د3 (5000 وحدة)', 'time': '09:00 صباحاً', 'taken': true},
-    {'name': 'أوميغا 3 (زيت السمك)', 'time': '02:00 مساءً', 'taken': false},
-    {'name': 'كولاجين للبشرة والشعر', 'time': '09:00 مساءً', 'taken': false},
-  ];
-
-  final List<Map<String, String>> _beautyRoutine = [
-    {'item': 'سيروم فيتامين سي', 'time': 'صباحاً', 'step': 'تنظيف الوجه ثم تطبيق السيروم'},
-    {'item': 'واقي الشمس Spf 50', 'time': 'صباحاً', 'step': 'تطبيق قبل الخروج بـ 15 دقيقة'},
-    {'item': 'مرطب البشرة الليلي + ريتينول', 'time': 'مساءً', 'step': 'ترطيب عميق قبل النوم'},
-  ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this)..addListener(_onTabChanged);
+    _loadData();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController
+      ..removeListener(_onTabChanged)
+      ..dispose();
     super.dispose();
   }
 
-  /// ✅ يفتح الكاميرا أو المعرض ويرسل الصورة لـ Gemini لتحليل التمرين
-  Future<void> _analyzeExerciseImage() async {
-    final gemini = await requireGeminiService(context);
-    if (gemini == null || !mounted) return;
-    final source = await _showImageSourceDialog();
-    if (source == null) return;
+  void _onTabChanged() {
+    // الزر العائم يتغير بحسب التبويب.
+    if (!_tabController.indexIsChanging && mounted) setState(() {});
+  }
 
-    final XFile? pickedFile = await _imagePicker.pickImage(
-      source: source,
-      imageQuality: 85,
-      maxWidth: 1024,
+  Future<void> _loadData() async {
+    try {
+      final health = await HealthService.getInstance();
+      if (!mounted) return;
+      setState(() {
+        _health = health;
+        _exercises = health.exercises();
+        _medications = health.medications();
+        _beautyItems = health.beautyItems();
+        _loadFailed = false;
+      });
+    } catch (e) {
+      debugPrint('HealthFitnessScreen: could not open health data (${e.runtimeType})');
+      if (!mounted) return;
+      setState(() => _loadFailed = true);
+    }
+  }
+
+  void _refresh() {
+    final health = _health;
+    if (health == null || !mounted) return;
+    setState(() {
+      _exercises = health.exercises();
+      _medications = health.medications();
+      _beautyItems = health.beautyItems();
+    });
+  }
+
+  /// يعيد جدولة التذكيرات بعد أي تغيير في الأدوية أو العناية. [ask] لا يكون true إلا حين ضبط
+  /// المستخدم تذكيرًا بنفسه، فيُسأل عن إذن الإشعارات عندئذ وحده.
+  void _syncReminders({bool ask = false}) {
+    unawaited(ReminderService.syncAll(askPermission: ask));
+  }
+
+  // --- التمارين ---
+
+  Future<void> _addExercise({ExerciseDraft? draft, Uint8List? image}) async {
+    final health = _health;
+    if (health == null) return;
+    await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => ExerciseEditScreen(health: health, draft: draft, image: image, pickImage: widget.pickImage),
+      ),
     );
-    if (pickedFile == null) return;
+    _refresh();
+  }
+
+  Future<void> _openExercise(Exercise exercise) async {
+    final health = _health;
+    if (health == null) return;
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) => ExerciseDetailsScreen(health: health, exerciseId: exercise.id, pickImage: widget.pickImage),
+      ),
+    );
+    _refresh();
+  }
+
+  Future<void> _deleteExercise(Exercise exercise) async {
+    final removed = await _health?.deleteExercise(exercise.id);
+    _refresh();
+    if (removed == null || !mounted) return;
+    showUndoSnackBar(context, 'حُذف «${exercise.name}»', () async {
+      await _health?.restoreExercise(removed);
+      _refresh();
+    });
+  }
+
+  Future<void> _toggleExercisePin(Exercise exercise) async {
+    await _health?.toggleExercisePin(exercise.id);
+    _refresh();
+  }
+
+  void _openWorkoutLog() {
+    final health = _health;
+    if (health == null) return;
+    Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => WorkoutLogScreen(health: health)));
+  }
+
+  // --- الأدوية ---
+
+  Future<void> _addMedication() async {
+    final health = _health;
+    if (health == null) return;
+    final values = await showEntryDialog(
+      context,
+      title: 'إضافة دواء أو مكمل',
+      fields: const [
+        EntryField(key: 'name', label: 'الاسم', hint: 'مثال: فيتامين د', required: true),
+        EntryField(key: 'time', label: 'الوقت (اختياري)', hint: 'مثال: 09:00 صباحاً'),
+        EntryField(key: 'reminder', label: 'تذكير', isTime: true),
+      ],
+    );
+    if (values == null) return;
+    await health.addMedication(name: values['name']!, time: values['time']!, reminder: values['reminder']!);
+    _refresh();
+    _syncReminders(ask: values['reminder']!.isNotEmpty);
+  }
+
+  Future<void> _editMedication(Medication med) async {
+    final health = _health;
+    if (health == null) return;
+    final values = await showEntryDialog(
+      context,
+      title: 'تعديل الدواء',
+      confirmLabel: 'حفظ',
+      fields: [
+        EntryField(key: 'name', label: 'الاسم', required: true, initial: med.name),
+        EntryField(key: 'time', label: 'الوقت (اختياري)', initial: med.time),
+        EntryField(key: 'reminder', label: 'تذكير', isTime: true, initial: med.reminder),
+      ],
+    );
+    if (values == null) return;
+    await health.updateMedication(med.id, name: values['name']!, time: values['time']!, reminder: values['reminder']!);
+    _refresh();
+    _syncReminders(ask: values['reminder']!.isNotEmpty);
+  }
+
+  Future<void> _setMedicationTaken(Medication med, bool taken) async {
+    await _health?.setMedicationTaken(med.id, taken);
+    _refresh();
+  }
+
+  Future<void> _deleteEntry(String id) async {
+    await _health?.delete(id);
+    _refresh();
+    _syncReminders();
+  }
+
+  // --- روتين العناية ---
+
+  Future<void> _addBeautyItem() async {
+    final health = _health;
+    if (health == null) return;
+    final values = await showEntryDialog(
+      context,
+      title: 'إضافة منتج للروتين',
+      fields: const [
+        EntryField(key: 'item', label: 'المنتج', hint: 'مثال: مرطب البشرة', required: true),
+        EntryField(key: 'time', label: 'الوقت', options: ['صباحاً', 'مساءً', 'صباحاً ومساءً']),
+        EntryField(key: 'step', label: 'طريقة الاستخدام (اختياري)', maxLength: 200),
+        EntryField(key: 'reminder', label: 'تذكير', isTime: true),
+      ],
+    );
+    if (values == null) return;
+    await health.addBeautyItem(
+      item: values['item']!,
+      time: values['time']!,
+      step: values['step']!,
+      reminder: values['reminder']!,
+    );
+    _refresh();
+    _syncReminders(ask: values['reminder']!.isNotEmpty);
+  }
+
+  Future<void> _editBeautyItem(BeautyItem item) async {
+    final health = _health;
+    if (health == null) return;
+    const times = ['صباحاً', 'مساءً', 'صباحاً ومساءً'];
+    final values = await showEntryDialog(
+      context,
+      title: 'تعديل المنتج',
+      confirmLabel: 'حفظ',
+      fields: [
+        EntryField(key: 'item', label: 'المنتج', required: true, initial: item.item),
+        EntryField(
+          key: 'time',
+          label: 'الوقت',
+          options: times.contains(item.time) || item.time.isEmpty ? times : [...times, item.time],
+          initial: item.time.isEmpty ? times.first : item.time,
+        ),
+        EntryField(key: 'step', label: 'طريقة الاستخدام (اختياري)', maxLength: 200, initial: item.step),
+        EntryField(key: 'reminder', label: 'تذكير', isTime: true, initial: item.reminder),
+      ],
+    );
+    if (values == null) return;
+    await health.updateBeautyItem(
+      item.id,
+      item: values['item']!,
+      time: values['time']!,
+      step: values['step']!,
+      reminder: values['reminder']!,
+    );
+    _refresh();
+    _syncReminders(ask: values['reminder']!.isNotEmpty);
+  }
+
+  // --- تحليل الصور بالذكاء الاصطناعي ---
+
+  /// يلتقط صورة تمرين ويحلّلها بالمزوّد المختار، ثم يعرض النتيجة مع "حفظ كتمرين".
+  Future<void> _analyzeExerciseImage() async {
+    final ai = await requireAiService(context, builder: widget.aiProviderBuilder);
+    if (ai == null || !mounted) return;
+    final image = await widget.pickImage(context);
+    if (image == null || !mounted) return;
 
     setState(() => _isAnalyzingExercise = true);
-
-    final Uint8List imageBytes = await pickedFile.readAsBytes();
-    final result = await gemini.analyzeExerciseImage(imageBytes);
-
+    String? text;
+    String? error;
+    try {
+      text = await ai.analyzeImageStrict(
+        imageBytes: image,
+        mimeType: 'image/jpeg',
+        prompt: AiService.exerciseAnalysisPrompt,
+      );
+    } catch (e) {
+      error = aiFriendlyError(e);
+    }
+    if (!mounted) return;
     setState(() => _isAnalyzingExercise = false);
 
-    if (mounted) _showResultDialog('🏋️‍♀️ تحليل التمرين والعضلات', result);
-  }
-
-  /// ✅ يفتح الكاميرا أو المعرض ويرسل صورة الدواء لـ Gemini للتحليل
-  Future<void> _analyzeMedicationLabel() async {
-    final gemini = await requireGeminiService(context);
-    if (gemini == null || !mounted) return;
-    final source = await _showImageSourceDialog();
-    if (source == null) return;
-
-    final XFile? pickedFile = await _imagePicker.pickImage(
-      source: source,
-      imageQuality: 85,
-      maxWidth: 1024,
+    if (error != null) {
+      _showResultDialog('🏋️ تحليل التمرين والعضلات', error);
+      return;
+    }
+    final reply = text!;
+    final draft = ExerciseDraft.tryParse(reply);
+    await _showExerciseResult(
+      draft?.toDisplayText() ?? reply,
+      // رد ليس بصيغة JSON: يُعرض كما هو ويمكن حفظه كملاحظة تمرين بعد مراجعته.
+      draft ?? ExerciseDraft(notes: String.fromCharCodes(reply.runes.take(Exercise.maxNotesLength))),
+      image,
     );
-    if (pickedFile == null) return;
-
-    setState(() => _isAnalyzingMed = true);
-
-    final Uint8List imageBytes = await pickedFile.readAsBytes();
-    final result = await gemini.analyzeMedicationLabel(imageBytes);
-
-    setState(() => _isAnalyzingMed = false);
-
-    if (mounted) _showResultDialog('💊 تحليل علبة الدواء', result);
   }
 
-  /// يعرض نافذة اختيار مصدر الصورة (كاميرا أو معرض)
-  Future<ImageSource?> _showImageSourceDialog() async {
-    return showModalBottomSheet<ImageSource>(
+  /// نتيجة تحليل التمرين: عرض ثم زر "حفظ كتمرين" يفتح نموذجًا معبّأ للمراجعة.
+  Future<void> _showExerciseResult(String shown, ExerciseDraft draft, Uint8List image) async {
+    final save = await showDialog<bool>(
       context: context,
-      backgroundColor: AppTheme.cardColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) => Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('اختيار مصدر الصورة', style: TextStyle(color: AppTheme.textColor, fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _sourceOption(Icons.camera_alt_rounded, 'الكاميرا', () => Navigator.pop(context, ImageSource.camera)),
-                _sourceOption(Icons.photo_library_rounded, 'المعرض', () => Navigator.pop(context, ImageSource.gallery)),
-              ],
+      builder: (dialogContext) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          backgroundColor: AppTheme.cardColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text('🏋️ تحليل التمرين والعضلات', style: TextStyle(color: AppTheme.textColor, fontSize: 17)),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: SingleChildScrollView(
+              // نص عادي فقط: ما يولّده الذكاء الاصطناعي لا يُفسَّر Markdown ولا روابط.
+              child: SelectableText(shown, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
             ),
-            const SizedBox(height: 8),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const Text('إغلاق', style: TextStyle(color: AppTheme.subTextColor)),
+            ),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+              icon: const Icon(Icons.bookmark_add_rounded, color: Colors.white, size: 18),
+              label: const Text('حفظ كتمرين', style: TextStyle(color: Colors.white)),
+              onPressed: () => Navigator.pop(dialogContext, true),
+            ),
           ],
         ),
       ),
     );
+    if (save == true && mounted) await _addExercise(draft: draft, image: image);
   }
 
-  Widget _sourceOption(IconData icon, String label, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.2),
-            child: Icon(icon, color: AppTheme.accentColor, size: 28),
-          ),
-          const SizedBox(height: 8),
-          Text(label, style: const TextStyle(color: AppTheme.textColor)),
-        ],
-      ),
-    );
+  /// يفتح الكاميرا أو المعرض ويرسل صورة الدواء للمزوّد المختار للتحليل.
+  Future<void> _analyzeMedicationLabel() async {
+    final ai = await requireAiService(context, builder: widget.aiProviderBuilder);
+    if (ai == null || !mounted) return;
+    final image = await widget.pickImage(context);
+    if (image == null || !mounted) return;
+
+    setState(() => _isAnalyzingMed = true);
+    final result = await ai.analyzeMedicationLabel(image);
+
+    if (!mounted) return;
+    setState(() => _isAnalyzingMed = false);
+    _showResultDialog('💊 تحليل علبة الدواء', result);
   }
 
   /// يعرض نتيجة التحليل في نافذة قابلة للتمرير
   void _showResultDialog(String title, String content) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppTheme.cardColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(title, style: const TextStyle(color: AppTheme.textColor, fontSize: 17)),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: SingleChildScrollView(
-            child: Text(content, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
+      builder: (context) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          backgroundColor: AppTheme.cardColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text(title, style: const TextStyle(color: AppTheme.textColor, fontSize: 17)),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: SingleChildScrollView(
+              child: SelectableText(content, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
+            ),
           ),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+              onPressed: () => Navigator.pop(context),
+              child: const Text('حسناً', style: TextStyle(color: Colors.white)),
+            ),
+          ],
         ),
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-            onPressed: () => Navigator.pop(context),
-            child: const Text('حسناً', style: TextStyle(color: Colors.white)),
-          ),
-        ],
       ),
     );
+  }
+
+  Widget? _buildFab() {
+    if (_health == null) return null;
+    return switch (_tabController.index) {
+      0 => FloatingActionButton(
+          heroTag: 'add_exercise_fab',
+          tooltip: 'إضافة تمرين',
+          backgroundColor: AppTheme.primaryColor,
+          onPressed: _addExercise,
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
+      1 => FloatingActionButton(
+          heroTag: 'add_medication_fab',
+          tooltip: 'إضافة دواء',
+          backgroundColor: AppTheme.primaryColor,
+          onPressed: _addMedication,
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
+      2 => FloatingActionButton(
+          heroTag: 'add_beauty_fab',
+          tooltip: 'إضافة منتج',
+          backgroundColor: AppTheme.primaryColor,
+          onPressed: _addBeautyItem,
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
+      _ => null,
+    };
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🏋️‍♀️ الصحة واللياقة والعناية'),
+        title: const Text('🏋️ الصحة واللياقة والعناية'),
         actions: [
           IconButton(
             tooltip: 'وعي الاستخدام',
@@ -174,6 +406,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
               MaterialPageRoute<void>(builder: (_) => const UsageAwarenessScreen()),
             ),
           ),
+          const SettingsButton(),
         ],
         bottom: TabBar(
           controller: _tabController,
@@ -187,6 +420,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
           ],
         ),
       ),
+      floatingActionButton: _buildFab(),
       body: TabBarView(
         controller: _tabController,
         children: [
@@ -198,10 +432,34 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     );
   }
 
+  Widget _buildLoadFailedCard() {
+    return Card(
+      color: AppTheme.surfaceColor,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Text(
+              'تعذّر فتح بياناتك الصحية المحفوظة.',
+              style: TextStyle(color: AppTheme.textColor),
+            ),
+            TextButton(
+              onPressed: _loadData,
+              child: const Text('إعادة المحاولة', style: TextStyle(color: AppTheme.accentColor)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildFitnessTab() {
+    final health = _health;
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       children: [
+        if (_loadFailed) _buildLoadFailedCard(),
         Card(
           color: AppTheme.surfaceColor,
           child: Padding(
@@ -211,12 +469,11 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
                 const Icon(Icons.fitness_center, size: 48, color: AppTheme.accentColor),
                 const SizedBox(height: 10),
                 const Text(
-                  'تمارين اليوم: عضلات الجزء العلوي والظهر',
+                  'تمارينك',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 12),
-                // ✅ زر تحليل التمرين مربوط الآن بالكاميرا وGemini
                 _isAnalyzingExercise
                     ? const Column(
                         children: [
@@ -239,31 +496,116 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
           ),
         ),
         const SizedBox(height: 16),
-        const Text('بطاقات التمارين بالجولات والتكرارات', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
+        Row(
+          children: [
+            const Expanded(
+              child: Text(
+                'بطاقات التمارين بالجولات والتكرارات',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor),
+              ),
+            ),
+            if (_exercises.isNotEmpty)
+              TextButton.icon(
+                onPressed: _openWorkoutLog,
+                icon: const Icon(Icons.history_rounded, size: 18),
+                label: const Text('السجل'),
+              ),
+          ],
+        ),
         const SizedBox(height: 8),
-        _buildExerciseCard('تمرين سحب البار للظهر (Lat Pulldown)', '4 جولات × 12 تكرار', 'التركيز على انقباض عضلات الظهر العلوي مع الثبات لمدة ثانية'),
-        _buildExerciseCard('تمرين الأكتاف بالدنابل (Dumbbell Press)', '3 جولات × 10 تكرارات', 'التحكم في الهبوط والحفاظ على استقامة الظهر'),
+        if (_exercises.isEmpty)
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'لم تُضف تمارين بعد.',
+                style: TextStyle(color: AppTheme.subTextColor),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        for (final exercise in _exercises) _exerciseCard(exercise, health),
       ],
     );
   }
 
-  Widget _buildExerciseCard(String title, String sets, String note) {
+  Widget _exerciseCard(Exercise exercise, HealthService? health) {
+    final image = exercise.hasImage ? health?.exerciseImage(exercise.id) : null;
     return Card(
+      key: ValueKey('exercise_${exercise.id}'),
       margin: const EdgeInsets.only(bottom: 10),
-      child: ListTile(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.textColor)),
-        subtitle: Text('$sets\n$note', style: const TextStyle(color: AppTheme.subTextColor)),
-        isThreeLine: true,
-        trailing: const Icon(Icons.check_circle_outline, color: AppTheme.accentColor),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => _openExercise(exercise),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: image != null
+                      ? Image.memory(image, fit: BoxFit.cover, cacheWidth: 160, gaplessPlayback: true)
+                      : const ColoredBox(
+                          color: AppTheme.surfaceColor,
+                          child: Icon(Icons.fitness_center_rounded, color: AppTheme.accentColor),
+                        ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        if (exercise.pinned)
+                          const Padding(
+                            padding: EdgeInsetsDirectional.only(end: 4),
+                            child: Icon(Icons.push_pin_rounded, size: 14, color: AppTheme.accentColor),
+                          ),
+                        Expanded(
+                          child: Text(
+                            exercise.name,
+                            style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      [if (exercise.muscles.isNotEmpty) exercise.muscles, exercise.setsAndReps].join(' · '),
+                      style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                tooltip: exercise.pinned ? 'إلغاء تثبيت التمرين' : 'تثبيت التمرين',
+                icon: Icon(
+                  exercise.pinned ? Icons.push_pin_rounded : Icons.push_pin_outlined,
+                  color: AppTheme.subTextColor,
+                ),
+                onPressed: () => _toggleExercisePin(exercise),
+              ),
+              IconButton(
+                tooltip: 'حذف التمرين',
+                icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
+                onPressed: () => _deleteExercise(exercise),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildMedsTab() {
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       children: [
-        // ✅ زر تحليل علبة الدواء بالكاميرا
+        if (_loadFailed) _buildLoadFailedCard(),
         Card(
           color: AppTheme.surfaceColor,
           margin: const EdgeInsets.only(bottom: 16),
@@ -280,7 +622,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'التقطي صورة لعلبة الدواء أو المكمل الغذائي لمعرفة الجرعة والتحذيرات',
+                  'التقاط صورة لعلبة الدواء أو المكمل الغذائي لمعرفة الجرعة والتحذيرات',
                   style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
                 ),
                 const SizedBox(height: 12),
@@ -304,23 +646,49 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
         ),
         const Text('توقيتات الأدوية والمكملات اليومية', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
         const SizedBox(height: 12),
+        if (_medications.isEmpty)
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'لم تُضف أدوية أو مكملات بعد. اضغط + للإضافة.',
+                style: TextStyle(color: AppTheme.subTextColor),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ..._medications.map((med) => Card(
           margin: const EdgeInsets.only(bottom: 10),
           child: ListTile(
             leading: Icon(
               Icons.medication_liquid_rounded,
-              color: med['taken'] ? Colors.green : Colors.orangeAccent,
+              color: med.takenToday ? Colors.green : Colors.orangeAccent,
             ),
-            title: Text(med['name'], style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
-            subtitle: Text(med['time'], style: const TextStyle(color: AppTheme.subTextColor)),
-            trailing: Switch(
-              value: med['taken'],
-              activeThumbColor: AppTheme.primaryColor,
-              onChanged: (val) {
-                setState(() {
-                  med['taken'] = val;
-                });
-              },
+            title: Text(med.name, style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
+            subtitle: (med.time.isEmpty && med.reminder.isEmpty)
+                ? null
+                : Text(
+                    [
+                      if (med.time.isNotEmpty) med.time,
+                      if (med.reminder.isNotEmpty) '⏰ ${med.reminder}',
+                    ].join('  ·  '),
+                    style: const TextStyle(color: AppTheme.subTextColor),
+                  ),
+            onTap: () => _editMedication(med),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Switch(
+                  value: med.takenToday,
+                  activeThumbColor: AppTheme.primaryColor,
+                  onChanged: (val) => _setMedicationTaken(med, val),
+                ),
+                IconButton(
+                  tooltip: 'حذف الدواء',
+                  icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
+                  onPressed: () => _deleteEntry(med.id),
+                ),
+              ],
             ),
           ),
         )),
@@ -330,16 +698,39 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
 
   Widget _buildBeautyTab() {
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       children: [
+        if (_loadFailed) _buildLoadFailedCard(),
         const Text('سجل منتجات الروتين اليومي للبشرة والشعر', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
         const SizedBox(height: 12),
-        ..._beautyRoutine.map((item) => Card(
+        if (_beautyItems.isEmpty)
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'لم تُضف منتجات بعد. اضغط + للإضافة.',
+                style: TextStyle(color: AppTheme.subTextColor),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ..._beautyItems.map((item) => Card(
           margin: const EdgeInsets.only(bottom: 10),
           child: ListTile(
             leading: const Icon(Icons.spa_rounded, color: AppTheme.accentColor),
-            title: Text(item['item']!, style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
-            subtitle: Text('${item['time']} - ${item['step']}', style: const TextStyle(color: AppTheme.subTextColor)),
+            title: Text(item.item, style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
+            subtitle: Text(
+              [item.time, item.step, if (item.reminder.isNotEmpty) '⏰ ${item.reminder}']
+                  .where((s) => s.isNotEmpty)
+                  .join(' - '),
+              style: const TextStyle(color: AppTheme.subTextColor),
+            ),
+            onTap: () => _editBeautyItem(item),
+            trailing: IconButton(
+              tooltip: 'حذف المنتج',
+              icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
+              onPressed: () => _deleteEntry(item.id),
+            ),
           ),
         )),
       ],

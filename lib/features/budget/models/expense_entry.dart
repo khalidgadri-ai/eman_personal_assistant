@@ -23,6 +23,12 @@ extension ExpenseCategoryDisplay on ExpenseCategory {
 }
 
 class ExpenseEntry {
+  /// أكبر مبلغ يقبله التطبيق لمصروف واحد؛ ما فوقه خطأ إدخال (أو بيانات غير موثوقة).
+  static const double maxAmount = 1000000000;
+
+  /// أطول ملاحظة تُحفظ مع مصروف.
+  static const int maxNoteLength = 200;
+
   final String id;
   final double amount;
   final ExpenseCategory category;
@@ -55,8 +61,9 @@ class ExpenseEntry {
       };
 }
 
-/// يقبل الأرقام العربية-الهندية والفاصلة العشرية العربية، ويرجّع null لأي مبلغ غير موجب.
-double? parseAmount(String input) {
+/// يقبل الأرقام العربية-الهندية والفاصلة العشرية العربية، ويرجّع null لأي مبلغ غير موجب أو فوق الحد.
+/// مع [allowZero] يُقبل الصفر أيضًا (هدف ادخار بلا مبلغ، أو حدّ فئة معطَّل).
+double? parseAmount(String input, {bool allowZero = false}) {
   const arabicDigits = '٠١٢٣٤٥٦٧٨٩';
   final buffer = StringBuffer();
   for (final char in input.trim().split('')) {
@@ -69,7 +76,11 @@ double? parseAmount(String input) {
       buffer.write(char);
     }
   }
-  final value = double.tryParse(buffer.toString());
-  if (value == null || !value.isFinite || value <= 0) return null;
+  final text = buffer.toString();
+  // أرقام عشرية عادية فقط: بلا "1e5" ولا "0x10" ولا إشارات.
+  if (!RegExp(r'^(\d+(\.\d*)?|\.\d+)$').hasMatch(text)) return null;
+  final value = double.tryParse(text);
+  if (value == null || !value.isFinite || value > ExpenseEntry.maxAmount) return null;
+  if (value < 0 || (value == 0 && !allowZero)) return null;
   return value;
 }

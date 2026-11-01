@@ -28,10 +28,15 @@ class CoachSessionService {
   }
 
   /// يمسح الحالة المخزّنة بين الاختبارات، على نمط DatabaseService.resetForTesting.
-  @visibleForTesting
-  static void resetForTesting() {
+  /// يُنسى الصندوق المفتوح (بعد مسح بيانات المستخدم يُفتح صندوق جديد عند الطلب).
+  static void reset() {
     _instance = null;
     _box = null;
+  }
+
+  @visibleForTesting
+  static void resetForTesting() {
+    reset();
     _questionBank = null;
   }
 
@@ -124,6 +129,24 @@ class CoachSessionService {
     return sorted.first;
   }
 
+  /// يحذف جلسة واحدة ويرجّعها (بمفتاحها) لاستعمالها في "تراجع". null إن لم توجد.
+  Future<Map<String, dynamic>?> deleteSession(String id) async {
+    final key = int.tryParse(id);
+    final current = key == null ? null : _box?.get(key);
+    if (key == null || current is! Map) return null;
+    await _box!.delete(key);
+    return {...Map<String, dynamic>.from(current), 'id': id};
+  }
+
+  Future<void> restoreSession(Map<String, dynamic> session) async {
+    final key = int.tryParse('${session['id']}');
+    if (key == null) return;
+    await _box?.put(key, {
+      for (final e in session.entries)
+        if (e.key != 'id') e.key: e.value,
+    });
+  }
+
   Future<void> saveSession({
     required CoachQuestion question,
     String? answerText,
@@ -138,10 +161,10 @@ class CoachSessionService {
     });
   }
 
+  /// كل جلسة معها `id` (مفتاح السجل) لحذفها أو إعادتها.
   List<Map<String, dynamic>> getSessions({CoachDomain? domain}) {
-    final entries = (_box?.values ?? const Iterable.empty())
-        .cast<Map>()
-        .map((e) => Map<String, dynamic>.from(e));
+    final entries = (_box?.toMap().entries ?? const <MapEntry<dynamic, dynamic>>[])
+        .map((e) => {...Map<String, dynamic>.from(e.value as Map), 'id': '${e.key}'});
     final filtered = domain == null
         ? entries
         : entries.where((e) => e['domain'] == domain.name);

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- لا يحذف تقليص الموارد أيقونات الإشعارات: flutter_local_notifications يطلبها بالاسم وقت التشغيل -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@mipmap/ic_launcher,@drawable/*" />

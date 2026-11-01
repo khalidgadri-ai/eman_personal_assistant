@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/undo_snackbar.dart';
 import 'coach_session_service.dart';
 import 'models/coach_question.dart';
 
@@ -33,6 +34,17 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
     setState(() {
       _grouped = grouped;
       _loading = false;
+    });
+  }
+
+  Future<void> _delete(Map<String, dynamic> session) async {
+    final service = await CoachSessionService.getInstance();
+    final removed = await service.deleteSession('${session['id']}');
+    await _load();
+    if (removed == null || !mounted) return;
+    showUndoSnackBar(context, 'حُذفت الجلسة', () async {
+      await service.restoreSession(removed);
+      if (mounted) await _load();
     });
   }
 
@@ -100,9 +112,21 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
               Text(answer, style: const TextStyle(color: AppTheme.subTextColor)),
             ],
             const SizedBox(height: 6),
-            Text(
-              intl.DateFormat('yyyy-MM-dd HH:mm').format(date),
-              style: const TextStyle(fontSize: 11, color: AppTheme.subTextColor),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    intl.DateFormat('yyyy-MM-dd HH:mm').format(date),
+                    style: const TextStyle(fontSize: 11, color: AppTheme.subTextColor),
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'حذف الجلسة',
+                  visualDensity: VisualDensity.compact,
+                  icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor, size: 20),
+                  onPressed: () => _delete(session),
+                ),
+              ],
             ),
           ],
         ),

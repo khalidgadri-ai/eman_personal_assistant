@@ -33,7 +33,12 @@ class PlannedReminder {
 abstract class ReminderGateway {
   Future<void> cancelAll();
   Future<bool> requestPermission();
-  Future<void> schedule(PlannedReminder reminder, DateTime firstFire);
+
+  /// هل إشعارات التطبيق مفعّلة في النظام؟ `null` إن تعذّر الفحص.
+  Future<bool?> areNotificationsEnabled();
+
+  /// يرجّع `true` إن قبل النظام التذكير و`false` إن فشلت جدولته.
+  Future<bool> schedule(PlannedReminder reminder, DateTime firstFire);
 }
 
 class PlatformReminderGateway implements ReminderGateway {
@@ -46,7 +51,10 @@ class PlatformReminderGateway implements ReminderGateway {
   Future<bool> requestPermission() => NotificationService.requestPermission();
 
   @override
-  Future<void> schedule(PlannedReminder reminder, DateTime firstFire) {
+  Future<bool?> areNotificationsEnabled() => NotificationService.areNotificationsEnabled();
+
+  @override
+  Future<bool> schedule(PlannedReminder reminder, DateTime firstFire) {
     return NotificationService.schedule(
       id: reminder.id,
       title: reminder.title,
@@ -128,19 +136,50 @@ abstract final class ReminderPlanner {
   }
 }
 
+/// نتيجة مزامنة واحدة: كم تذكيرًا خُطِّط وكم نجحت جدولته، وهل الإشعارات مفعّلة في النظام.
+class ReminderSyncResult {
+  const ReminderSyncResult({
+    required this.planned,
+    required this.scheduled,
+    this.notificationsEnabled,
+    this.failed = false,
+  });
+
+  static const ReminderSyncResult empty = ReminderSyncResult(planned: 0, scheduled: 0);
+
+  final int planned;
+  final int scheduled;
+
+  /// `null` = تعذّر الفحص (لا نفترض أنها مطفأة).
+  final bool? notificationsEnabled;
+
+  /// فشلت المزامنة كلها قبل أن نعرف ما يجب جدولته (مثل تعذّر فتح البيانات).
+  final bool failed;
+
+  /// هل يحتاج المستخدم أن يعرف أن تذكيره قد لا يرن؟ (إشعارات مطفأة، أو فشلت الجدولة).
+  bool get needsAttention => failed || (planned > 0 && (notificationsEnabled == false || scheduled < planned));
+}
+
 /// يجدول تذكيرات الأدوية والعناية والمهام من بيانات المستخدم الحالية: يلغي القديم ويجدول من جديد
 /// في كل مرة تتغير البيانات وعند كل تشغيل للتطبيق (فيصحّ أي تغيّر في توقيت الجهاز).
 class ReminderService {
   ReminderService._();
+
+  /// رسالة للمستخدم حين لا يُضمن أن يرن تذكيره. صيغة لا تخاطب جنسًا بعينه.
+  static const String notScheduledMessage =
+      'لم يُضبط التذكير. يلزم تفعيل إشعارات هذا التطبيق من إعدادات الجوال ثم إعادة المحاولة.';
 
   @visibleForTesting
   static ReminderGateway? gatewayOverride;
 
   static ReminderGateway get _gateway => gatewayOverride ?? const PlatformReminderGateway();
 
-  /// يرجّع عدد التذكيرات المجدولة. [askPermission] لا يكون true إلا بعد أن ضبط المستخدم تذكيرًا
-  /// بنفسه، حتى لا يُسأل عن إذن الإشعارات دون سبب. لا يرمي أبدًا.
-  static Future<int> syncAll({bool askPermission = false}) async {
+  /// يرجّع عدد التذكيرات التي **نجحت** جدولتها فعلًا. انظر [sync] لتفاصيل أكثر.
+  static Future<int> syncAll({bool askPermission = false}) async => (await sync(askPermission: askPermission)).scheduled;
+
+  /// يعيد جدولة كل التذكيرات ويرجّع تفاصيل النتيجة. [askPermission] لا يكون true إلا بعد أن ضبط
+  /// المستخدم تذكيرًا بنفسه، حتى لا يُسأل عن إذن الإشعارات دون سبب. لا يرمي أبدًا.
+  static Future<ReminderSyncResult> sync({bool askPermission = false}) async {
     try {
       final health = await HealthService.getInstance();
       final db = await DatabaseService.getInstance();
@@ -151,16 +190,28 @@ class ReminderService {
       );
       final gateway = _gateway;
       await gateway.cancelAll();
-      if (planned.isEmpty) return 0;
+      if (planned.isEmpty) return ReminderSyncResult.empty;
       if (askPermission) await gateway.requestPermission();
       final now = DateTime.now();
+      var scheduled = 0;
       for (final reminder in planned) {
-        await gateway.schedule(reminder, reminder.nextFire(now));
+        // فشل تذكير واحد لا يمنع الباقي.
+        try {
+          if (await gateway.schedule(reminder, reminder.nextFire(now))) scheduled++;
+        } catch (e) {
+          debugPrint('ReminderService.sync: one reminder failed (${e.runtimeType})');
+        }
       }
-      return planned.length;
+      bool? enabled;
+      try {
+        enabled = await gateway.areNotificationsEnabled();
+      } catch (e) {
+        debugPrint('ReminderService.sync: notification check failed (${e.runtimeType})');
+      }
+      return ReminderSyncResult(planned: planned.length, scheduled: scheduled, notificationsEnabled: enabled);
     } catch (e) {
-      debugPrint('ReminderService.syncAll: ${e.runtimeType}');
-      return 0;
+      debugPrint('ReminderService.sync: ${e.runtimeType}');
+      return const ReminderSyncResult(planned: 0, scheduled: 0, failed: true);
     }
   }
 

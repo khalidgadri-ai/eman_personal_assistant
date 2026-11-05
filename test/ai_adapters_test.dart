@@ -307,6 +307,116 @@ void main() {
       ]);
     });
 
+    test('asks for low thinking, so a thinking model answers inside the timeout', () async {
+      final log = _Log();
+      await provider(log, 200, okReply([{'text': 'ok'}])).send(const AiRequest(messages: [AiMessage.user('س')]));
+
+      // generationConfig.thinkingConfig.thinkingLevel، حسب مرجع REST (ThinkingConfig).
+      expect(log.bodyOf(0)['generationConfig'], {
+        'thinkingConfig': {'thinkingLevel': 'LOW'},
+      });
+    });
+
+    test('maxOutputTokens is sent when the caller sets it, and only then', () async {
+      final log = _Log();
+      await provider(log, 200, okReply([{'text': 'ok'}]))
+          .send(const AiRequest(messages: [AiMessage.user('س')], maxOutputTokens: 64));
+
+      expect(log.bodyOf(0)['generationConfig'], {
+        'maxOutputTokens': 64,
+        'thinkingConfig': {'thinkingLevel': 'LOW'},
+      });
+
+      final plain = _Log();
+      await provider(plain, 200, okReply([{'text': 'ok'}])).send(const AiRequest(messages: [AiMessage.user('س')]));
+      expect((plain.bodyOf(0)['generationConfig'] as Map).containsKey('maxOutputTokens'), isFalse);
+    });
+
+    group('a model that rejects the thinking setting', () {
+      const thinkingError = {
+        'error': {'code': 400, 'message': 'Thinking level is not supported for this model.', 'status': 'INVALID_ARGUMENT'},
+      };
+
+      /// يردّ بالقائمة بالترتيب: (الحالة، الجسم) لكل طلب.
+      GeminiProvider sequence(_Log log, List<(int, Object)> replies) {
+        var i = 0;
+        final client = MockClient((request) async {
+          log.requests.add(request);
+          final (status, body) = replies[i < replies.length ? i++ : replies.length - 1];
+          return http.Response.bytes(
+            utf8.encode(jsonEncode(body)),
+            status,
+            headers: {'content-type': 'application/json; charset=utf-8'},
+          );
+        });
+        return GeminiProvider(
+          _config(AiProviderKind.gemini, 'https://generativelanguage.googleapis.com', 'older-model'),
+          _key,
+          client: client,
+        );
+      }
+
+      Map<String, Object?> ok(String text) => {
+            'candidates': [
+              {
+                'content': {'role': 'model', 'parts': [{'text': text}]},
+                'finishReason': 'STOP',
+              },
+            ],
+          };
+
+      test('is retried once without thinkingConfig and then answers normally', () async {
+        final log = _Log();
+
+        final reply = await sequence(log, [(400, thinkingError), (200, ok('تم'))])
+            .send(const AiRequest(messages: [AiMessage.user('س')], maxOutputTokens: 64));
+
+        expect(reply.text, 'تم');
+        expect(log.requests, hasLength(2));
+        expect(log.bodyOf(0)['generationConfig'], {
+          'maxOutputTokens': 64,
+          'thinkingConfig': {'thinkingLevel': 'LOW'},
+        });
+        expect(log.bodyOf(1)['generationConfig'], {'maxOutputTokens': 64}, reason: 'same request minus thinking');
+        expect(log.bodyOf(1)['contents'], log.bodyOf(0)['contents']);
+        expect(log.requests.every((r) => r.headers['x-goog-api-key'] == _key), isTrue);
+        expect(log.requests.any((r) => r.url.toString().contains(_key)), isFalse);
+      });
+
+      test('the retry carries no generationConfig at all when nothing else was set', () async {
+        final log = _Log();
+
+        await sequence(log, [(400, thinkingError), (200, ok('تم'))])
+            .send(const AiRequest(messages: [AiMessage.user('س')]));
+
+        expect(log.bodyOf(1).containsKey('generationConfig'), isFalse);
+      });
+
+      test('is retried only once: a second rejection is reported, not looped on', () async {
+        final log = _Log();
+
+        final failure = await _failureOf(() => sequence(log, [(400, thinkingError)])
+            .send(const AiRequest(messages: [AiMessage.user('س')])));
+
+        expect(failure, AiFailure.badRequest);
+        expect(log.requests, hasLength(2));
+      });
+
+      test('an unrelated 400, or any other status, is never retried', () async {
+        for (final (status, body) in <(int, Object)>[
+          (400, {'error': {'message': 'Invalid JSON payload received.', 'status': 'INVALID_ARGUMENT'}}),
+          (429, {'error': {'message': 'Quota exceeded', 'status': 'RESOURCE_EXHAUSTED'}}),
+          (500, {'error': {'message': 'thinking service failed', 'status': 'INTERNAL'}}),
+        ]) {
+          final log = _Log();
+
+          await _failureOf(() => sequence(log, [(status, body)]).send(const AiRequest(messages: [AiMessage.user('س')])));
+
+          expect(log.requests, hasLength(1), reason: '$status');
+        }
+      });
+    });
+
     test('a model name given with the models/ prefix is accepted', () async {
       final log = _Log();
       await provider(log, 200, okReply([{'text': 'ok'}]), model: 'models/some-gemini')
@@ -495,9 +605,50 @@ void main() {
         final byTimeout = await _failureOf(() => builders[name]!(_throwing(TimeoutException('slow')))
             .send(const AiRequest(messages: [AiMessage.user('س')])));
         expect(byNetwork, AiFailure.network, reason: name);
-        expect(byTimeout, AiFailure.network, reason: name);
+        expect(byTimeout, AiFailure.timeout, reason: '$name: a slow provider is not "no internet"');
       }
       expect(await failWith('openai', 200, 'not json at all'), AiFailure.unknown);
+    });
+
+    test('a timeout and a lost connection have different messages for the user', () {
+      expect(AiFailure.timeout.message, isNot(AiFailure.network.message));
+      expect(aiFriendlyError(TimeoutException('slow')), AiFailure.timeout.message);
+      expect(aiFriendlyError(const SocketException('Failed host lookup: secret-host')), AiFailure.network.message);
+      expect(isNetworkError(TimeoutException('slow')), isFalse);
+      expect(isNetworkError(const SocketException('x')), isTrue);
+      expect(aiFriendlyError(TimeoutException('slow')), isNot(contains('slow')));
+    });
+
+    test('the chat timeout leaves a thinking model two minutes, model listing stays short', () {
+      expect(AiProvider.chatTimeout, const Duration(seconds: 120));
+      expect(AiProvider.listTimeout, const Duration(seconds: 20));
+    });
+
+    testWidgets('a provider that never answers ends as a timeout only after the chat timeout', (tester) async {
+      final never = MockClient((_) => Completer<http.Response>().future);
+      final provider = OpenAiCompatibleProvider(
+        _config(AiProviderKind.openAiCompatible, 'https://api.example.com/v1', 'm'),
+        _key,
+        client: never,
+      );
+      AiFailure? outcome;
+      unawaited(_failureOf(() => provider.send(const AiRequest(messages: [AiMessage.user('س')]))).then((f) => outcome = f));
+
+      await tester.pump(AiProvider.chatTimeout - const Duration(seconds: 1));
+      expect(outcome, isNull, reason: 'still waiting just before the limit');
+
+      await tester.pump(const Duration(seconds: 2));
+      expect(outcome, AiFailure.timeout);
+    });
+
+    test('only a 400 that names the thinking setting is flagged as a thinking rejection', () {
+      const thinking = '{"error":{"code":400,"message":"Thinking level is not supported for this model.","status":"INVALID_ARGUMENT"}}';
+      const other = '{"error":{"code":400,"message":"Invalid JSON payload received.","status":"INVALID_ARGUMENT"}}';
+
+      expect(classifyHttpFailure(400, thinking).rejectedThinking, isTrue);
+      expect(classifyHttpFailure(400, other).rejectedThinking, isFalse);
+      expect(classifyHttpFailure(500, thinking).rejectedThinking, isFalse);
+      expect(classifyHttpFailure(400, thinking).failure, AiFailure.badRequest, reason: 'the message shown is unchanged');
     });
 
     test('the message shown to the user is the fixed Arabic text, whatever the provider said', () async {

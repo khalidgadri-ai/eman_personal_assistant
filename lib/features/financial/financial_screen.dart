@@ -103,14 +103,14 @@ class _FinancialScreenState extends State<FinancialScreen> {
 
   Future<void> _addExpense() async {
     await Navigator.of(context).push<ExpenseEntry>(
-      MaterialPageRoute(builder: (_) => const ExpenseEntryScreen()),
+      MaterialPageRoute(builder: (_) => ExpenseEntryScreen(now: widget.now)),
     );
     _refresh();
   }
 
   Future<void> _openMonthlyExpenses() async {
     await Navigator.of(context).push<void>(
-      MaterialPageRoute(builder: (_) => const BudgetSummaryScreen()),
+      MaterialPageRoute(builder: (_) => BudgetSummaryScreen(now: widget.now)),
     );
     _refresh();
   }

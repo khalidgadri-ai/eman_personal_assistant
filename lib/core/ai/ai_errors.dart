@@ -18,6 +18,7 @@ enum AiFailure {
   ),
   busy('خدمة المزوّد مشغولة الآن. يرجى المحاولة بعد قليل.'),
   network('تعذّر الاتصال بالإنترنت. يرجى التحقق من الشبكة ثم إعادة المحاولة.'),
+  timeout('تأخّر المزوّد في الرد. حاول مرة أخرى، أو اختر موديلًا أسرع من إعدادات الذكاء الاصطناعي.'),
   badRequest('رفض المزوّد الطلب. قد لا يدعم الموديل هذا النوع من الطلبات، فجرّب موديلًا آخر.'),
   imageUnsupported(
     'الموديل المختار لا يدعم الصور. يرجى اختيار موديل يدعمها من إعدادات مزوّد الذكاء الاصطناعي.',
@@ -34,10 +35,14 @@ enum AiFailure {
 }
 
 class AiException implements Exception {
-  const AiException(this.failure, {this.statusCode});
+  const AiException(this.failure, {this.statusCode, this.rejectedThinking = false});
 
   final AiFailure failure;
   final int? statusCode;
+
+  /// ردّ 400 ذكرت رسالته إعداد "التفكير" (موديل لا يدعمه). علامة داخلية فقط لإعادة المحاولة بدونه؛
+  /// لا تحمل أي نص من المزوّد.
+  final bool rejectedThinking;
 
   String get message => failure.message;
 
@@ -52,12 +57,13 @@ String aiFriendlyError(Object error) {
     return error.message;
   }
   debugPrint('AI error: ${error.runtimeType}');
+  if (error is TimeoutException) return AiFailure.timeout.message;
   if (isNetworkError(error)) return AiFailure.network.message;
   return AiFailure.unknown.message;
 }
 
+/// انقطاع الاتصال فعلًا. انتهاء المهلة ([TimeoutException]) ليس منه: الإنترنت قد يعمل والمزوّد بطيء.
 bool isNetworkError(Object error) =>
-    error is TimeoutException ||
     error is SocketException ||
     error is http.ClientException ||
     error is HandshakeException ||
@@ -68,7 +74,11 @@ bool isNetworkError(Object error) =>
 AiException classifyHttpFailure(int status, String body, {bool hadImages = false}) {
   final text = _errorFields(body).toLowerCase();
   bool has(List<String> needles) => needles.any(text.contains);
-  AiException fail(AiFailure f) => AiException(f, statusCode: status);
+  AiException fail(AiFailure f) => AiException(
+        f,
+        statusCode: status,
+        rejectedThinking: status == 400 && has(['thinking']),
+      );
 
   if (has(['user location is not supported', 'location is not supported'])) {
     return fail(AiFailure.unsupportedLocation);

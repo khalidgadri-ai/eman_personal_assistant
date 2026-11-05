@@ -11,6 +11,10 @@ class _FakeGateway implements ReminderGateway {
   int cancels = 0;
   int permissionAsks = 0;
   bool permissionGranted = true;
+  bool? notificationsEnabled = true;
+
+  /// معرّفات تذكيرات يرفضها النظام (تُحاكي فشل الجدولة).
+  final Set<int> failingIds = {};
   final List<(PlannedReminder, DateTime)> scheduled = [];
 
   @override
@@ -26,8 +30,13 @@ class _FakeGateway implements ReminderGateway {
   }
 
   @override
-  Future<void> schedule(PlannedReminder reminder, DateTime firstFire) async {
+  Future<bool?> areNotificationsEnabled() async => notificationsEnabled;
+
+  @override
+  Future<bool> schedule(PlannedReminder reminder, DateTime firstFire) async {
+    if (failingIds.contains(reminder.id)) return false;
     scheduled.add((reminder, firstFire));
+    return true;
   }
 }
 
@@ -205,15 +214,122 @@ void main() {
       expect(await ReminderService.syncAll(askPermission: true), 0);
       await ReminderService.cancelAll();
     });
+
+    test('syncAll counts only the reminders the system really accepted', () async {
+      final h = await health();
+      await h.addMedication(name: 'دواء أول', reminder: '08:00');
+      await h.addMedication(name: 'دواء ثانٍ', reminder: '09:00');
+      final rejected = h.medications().first;
+      gateway.failingIds.add(ReminderPlanner.stableId('med', rejected.id));
+
+      final count = await ReminderService.syncAll();
+
+      expect(count, 1, reason: 'one of the two was refused by the system');
+      expect(gateway.scheduled, hasLength(1));
+    });
+
+    test('a refused reminder is reported, so the user can be told', () async {
+      final h = await health();
+      await h.addMedication(name: 'دواء', reminder: '08:00');
+      gateway.failingIds.add(ReminderPlanner.stableId('med', h.medications().single.id));
+
+      final result = await ReminderService.sync(askPermission: true);
+
+      expect(result.planned, 1);
+      expect(result.scheduled, 0);
+      expect(result.needsAttention, isTrue);
+    });
+
+    test('switched-off notifications are reported even when scheduling itself succeeded', () async {
+      final h = await health();
+      await h.addMedication(name: 'دواء', reminder: '08:00');
+      gateway.notificationsEnabled = false;
+
+      final result = await ReminderService.sync(askPermission: true);
+
+      expect(result.scheduled, 1);
+      expect(result.notificationsEnabled, isFalse);
+      expect(result.needsAttention, isTrue);
+    });
+
+    test('everything fine, or a check that could not be made, does not raise an alarm', () async {
+      final h = await health();
+      await h.addMedication(name: 'دواء', reminder: '08:00');
+
+      expect((await ReminderService.sync(askPermission: true)).needsAttention, isFalse);
+
+      gateway.notificationsEnabled = null;
+      final unknown = await ReminderService.sync(askPermission: true);
+      expect(unknown.notificationsEnabled, isNull);
+      expect(unknown.needsAttention, isFalse, reason: 'unknown is not the same as switched off');
+    });
+
+    test('with nothing to remind of there is nothing to warn about', () async {
+      final h = await health();
+      await h.addMedication(name: 'بلا تذكير');
+      gateway.notificationsEnabled = false;
+
+      expect((await ReminderService.sync(askPermission: true)).needsAttention, isFalse);
+    });
+
+    test('a failing system is reported as a failed sync, not as success', () async {
+      ReminderService.gatewayOverride = _ThrowingGateway();
+      final h = await health();
+      await h.addMedication(name: 'دواء', reminder: '08:00');
+
+      final result = await ReminderService.sync(askPermission: true);
+
+      expect(result.failed, isTrue);
+      expect(result.needsAttention, isTrue);
+    });
   });
 
   group('device time zone', () {
+    // java.time.ZoneId.of يقبل "UTC" و"UTC+03:00" وأمثالهما، ولا يقبل أي اسم آخر مثل "device".
+    final validZoneId = RegExp(r'^UTC([+-]\d{2}:\d{2})?$');
+
+    test('the zone id is one that Android accepts, for every kind of offset', () {
+      final cases = <(Duration, String)>[
+        (Duration.zero, 'UTC'),
+        (const Duration(hours: 3), 'UTC+03:00'),
+        (const Duration(hours: -4), 'UTC-04:00'),
+        (const Duration(hours: 5, minutes: 30), 'UTC+05:30'),
+        (const Duration(hours: 5, minutes: 45), 'UTC+05:45'),
+        (const Duration(hours: -9, minutes: -30), 'UTC-09:30'),
+        (const Duration(hours: 14), 'UTC+14:00'),
+      ];
+
+      for (final (offset, expected) in cases) {
+        final id = NotificationService.zoneIdFor(offset);
+        expect(id, expected);
+        expect(validZoneId.hasMatch(id), isTrue, reason: '$id must be accepted by ZoneId.of');
+      }
+    });
+
+    test('the location carries that id and the exact offset, for several offsets', () {
+      for (final offset in const [
+        Duration.zero,
+        Duration(hours: 3),
+        Duration(hours: -4),
+        Duration(hours: 5, minutes: 30),
+        Duration(hours: 5, minutes: 45),
+      ]) {
+        final location = NotificationService.locationForOffset(offset, 'X');
+
+        expect(location.name, matches(validZoneId));
+        expect(location.currentTimeZone.offset, offset);
+        // الاسم نفسه يحمل الإزاحة نفسها: UTC+05:45 = 5 ساعات و45 دقيقة.
+        expect(location.name, NotificationService.zoneIdFor(offset));
+      }
+    });
+
     test('the schedule uses the device offset right now, with no zone database', () {
       final now = DateTime.now();
 
       final location = NotificationService.locationFor(now);
 
       expect(location.currentTimeZone.offset, now.timeZoneOffset);
+      expect(validZoneId.hasMatch(location.name), isTrue, reason: '"${location.name}" is not a valid ZoneId');
     });
   });
 }
@@ -226,5 +342,8 @@ class _ThrowingGateway implements ReminderGateway {
   Future<bool> requestPermission() async => throw StateError('boom');
 
   @override
-  Future<void> schedule(PlannedReminder reminder, DateTime firstFire) async => throw StateError('boom');
+  Future<bool?> areNotificationsEnabled() async => throw StateError('boom');
+
+  @override
+  Future<bool> schedule(PlannedReminder reminder, DateTime firstFire) async => throw StateError('boom');
 }

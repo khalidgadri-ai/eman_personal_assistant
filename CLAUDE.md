@@ -4,10 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository overview
 
-This repo contains **two independent implementations of the same app** ("إيمان" / eman — a personal life/home assistant: tasks, health, kitchen/pantry, finance, and an AI assistant that works with the user's own provider key: Gemini, Claude, or any OpenAI-compatible service). They are not related by build tooling and must be edited separately:
-
-1. **Flutter app** (`lib/`, `pubspec.yaml`) — the primary app, targets Android/iOS/Web/Windows/Linux/macOS.
-2. **Vanilla JS PWA** (`app.js`, `index.html`, `styles.css` at repo root) — a static, no-build, single-file-per-type web app served directly (e.g. via GitHub Pages). `web_app/app.js`, `web_app/index.html`, `web_app/styles.css` are byte-identical duplicates of the root versions; keep both copies in sync when editing one.
+This repo contains one app, built with **Flutter** (`lib/`, `pubspec.yaml`; targets Android/iOS/Web/Windows/Linux/macOS): "إيمان" / eman, a personal life/home assistant (tasks, health, kitchen/pantry, finance, and an AI assistant that works with the user's own provider key: Gemini, Claude, or any OpenAI-compatible service). The old vanilla JS PWA (`app.js`, `index.html`, `styles.css`, `manifest.json` at the root and their `web_app/` copies) was removed on 2026-11-05: it put the Gemini key in the request URL, used shut-down models and carried one person's sample data. Do not bring it back; the web build is `flutter build web` from `web/`.
 
 There is also `agent_engine/` — only compiled `__pycache__/*.pyc` artifacts are present, no source `.py` files exist in the repo currently.
 
@@ -25,8 +22,6 @@ flutter analyze              # static analysis (flutter_lints)
 flutter test                 # run all tests
 flutter test test/widget_test.dart   # run a single test file
 ```
-
-Vanilla JS PWA: no build step. Open `index.html` directly or serve the repo root with any static file server.
 
 ## Architecture
 
@@ -61,13 +56,6 @@ Vanilla JS PWA: no build step. Open `index.html` directly or serve the repo root
 - The "تواصل معنا" button (`core/services/contact_service.dart`, `url_launcher`) opens the mail app to `AppContact.supportEmail` (`core/config/app_contact.dart`). **That constant must be set to the public support address before release; while it is empty the button is hidden.** The old developer-notes button and its `feedback_entries` storage are gone (the leftover pref is removed on first start).
 - All user-facing strings and prompts sent to the AI provider are in Arabic; identifiers (files, classes, variables) are in English using standard Dart naming (snake_case files, camelCase members). Keep this split when adding code.
 
-### Vanilla JS PWA (root `app.js` / `web_app/app.js`)
-
-- Single `app.js` file, no modules/bundler. All app state lives in one in-memory `appData` object, persisted as a single JSON blob to `localStorage` (`STORAGE_KEY`) via `loadAppData()` / `saveAppData()`.
-- `switchTab()` / `setSubTab()` / `renderCurrentView()` drive a manual view-router that re-renders a section into `#view-container` — there is no virtual DOM or templating library, views are built via string concatenation / direct DOM manipulation.
-- Each domain (goals, weekly tasks, categorized tasks, workouts, medications, beauty, recipes, pantry) follows the same CRUD shape: `openAdd*Modal()` → `save*()` → `toggle*()/delete*()`, each ending in `saveAppData()` then a re-render. Follow this shape for new domains instead of introducing new state patterns.
-- `sanitize()` is used to escape user input before it's injected into the DOM — always route untrusted strings through it when adding new render code, since this file does not use a templating engine that escapes by default.
-
 ## API keys — no central key, by design
 
 There is no central or fallback API key anywhere in the app. Every user activates AI features with their own key from the provider they choose, stored only on their device in secure storage (`AiSettingsService`). Do not add a shared key in any form — hardcoded, a bundled `.env` asset, or any other file shipped in the build — because anything bundled in a mobile or web app can be extracted. The old hardcoded key in the initial commit's git history must be treated as compromised.
@@ -77,7 +65,7 @@ There is no central or fallback API key anywhere in the app. Every user activate
 - `applicationId` (and `namespace`, and the Kotlin package of `MainActivity`) is `com.khalidibrahimgadri.eman` and cannot change after the first Google Play upload. iOS/macOS/Linux still carry the old `com.lifeapp.*` identifiers (iOS is deferred); the Dart package name stays `eman_life_app`. Bump the `+build` number in `version:` (pubspec) for every upload.
 - Signing: `android/app/build.gradle.kts` reads `android/key.properties` (gitignored), which points to the upload keystore kept **outside the repo**: `%USERPROFILE%\keystores\eman-upload-key.jks`, alias `eman-upload` (PKCS12, so `keyPassword` equals `storePassword`; certificate `CN` is the owner's name). The owner created it personally on 2026-10-21 and keeps the passwords only in their password manager and backup copies of the file elsewhere; Claude never sees the passwords. The older `eman-release-key.jks` (alias `eman`, `CN=Eman Life App`, created 2026-10-04 by an earlier session) was never used for an upload and is superseded: do not sign with it. Play App Signing should stay enabled so this key is only an upload key. Without `key.properties`, release builds fall back to debug signing so `flutter run --release` still works; Google Play rejects debug-signed bundles.
 - Release build: `flutter build appbundle --release --obfuscate --split-debug-info=build/symbols`. R8 minify + resource shrinking are on (`proguard-rules.pro`, `res/raw/keep.xml` keeps the notification icon); keep `build/symbols` per released version outside the repo to read crash stack traces. `targetSdk`/`minSdk` come from the Flutter SDK (currently 36/24); verify them in `build/app/intermediates/merged_manifests/release/.../AndroidManifest.xml`. `android/gradle.properties` pins the Gradle JVM to `-Duser.language=en`: on an Arabic-locale Windows, bundletool otherwise looks for `classes٢.dex` and `bundleRelease` fails at `packageReleaseBundle`.
-- Permissions: the manifest declares only `INTERNET` (the chosen AI provider, billing), `PACKAGE_USAGE_STATS` (usage awareness) and `RECEIVE_BOOT_COMPLETED` (reminders survive a reboot, plus the plugin's two receivers); plugins add `POST_NOTIFICATIONS` and `VIBRATE` (flutter_local_notifications), `ACCESS_NETWORK_STATE` and `com.android.vending.BILLING` (Play Billing). `<queries>` declares the five social apps, `PROCESS_TEXT` and `SENDTO mailto`. `docs/play_data_safety.md` is the Data safety inventory; update it when a feature starts sending something new off the device. Do not add `CAMERA`, `READ_MEDIA_IMAGES`, `READ_EXTERNAL_STORAGE` or `RECORD_AUDIO`: `image_picker` works without them, and `READ_MEDIA_IMAGES` triggers Play's photo/video declaration.
+- Permissions: the manifest declares only `INTERNET` (the chosen AI provider, billing), `PACKAGE_USAGE_STATS` (usage awareness) and `RECEIVE_BOOT_COMPLETED` (reminders survive a reboot, plus the plugin's two receivers); plugins add `POST_NOTIFICATIONS` and `VIBRATE` (flutter_local_notifications), `ACCESS_NETWORK_STATE` and `com.android.vending.BILLING` (Play Billing). `<queries>` declares the five social apps, `PROCESS_TEXT` and `SENDTO mailto`. `docs/play_data_safety.md` is the Data safety inventory; update it when a feature starts sending something new off the device. Do not add `CAMERA`, `READ_MEDIA_IMAGES`, `READ_EXTERNAL_STORAGE` or `RECORD_AUDIO`: `image_picker` works without them, and `READ_MEDIA_IMAGES` triggers Play's photo/video declaration. `test/security_config_test.dart` pins this permission list, the backup exclusions, and checks that no key-like string is in any shipped file (`lib`, `assets`, `android/app/src`, `web`).
 - Backup: `res/xml/backup_rules.xml` (Android 6–11) and `data_extraction_rules.xml` (12+) exclude the encrypted Hive files and flutter_secure_storage's prefs (`FlutterSecureStorage.xml`, `FlutterSecureKeyStorage.xml`) from Auto Backup and device transfer, because the Keystore key can't be restored on a new phone. Add any new encrypted box to both files.
 - Launcher icons are generated from `eman_logo.png` by `flutter_launcher_icons` (config in `pubspec.yaml`): run `dart run flutter_launcher_icons` instead of editing the `mipmap-*`/`drawable-*` icons by hand. The app's on-device name is `android:label="إيمان"`, which the usage-awareness steps also reference.
 

@@ -13,9 +13,12 @@ class SubscriptionStatus {
 
   const SubscriptionStatus({required this.active, required this.lastVerified});
 
-  /// الحالة المحفوظة تُعتمد بدون اتصال لمدة [SubscriptionService.offlineGrace] فقط.
-  bool isActiveAt(DateTime now) =>
-      active && now.difference(lastVerified) <= SubscriptionService.offlineGrace;
+  /// الحالة المحفوظة تُعتمد بدون اتصال لمدة [SubscriptionService.offlineGrace] فقط. وتاريخ تحقق
+  /// في المستقبل (ساعة جهاز رُجعت للوراء، أو ملف عُدّل يدويًا) لا يُعتمد أبدًا.
+  bool isActiveAt(DateTime now) {
+    final age = now.difference(lastVerified);
+    return active && age >= -SubscriptionService.clockTolerance && age <= SubscriptionService.offlineGrace;
+  }
 
   factory SubscriptionStatus.fromMap(Map map) => SubscriptionStatus(
         active: map['active'] as bool,
@@ -31,6 +34,9 @@ class SubscriptionService {
   static const String productId = 'eman_coach_monthly';
   static const Duration offlineGrace = Duration(days: 3);
   static const Duration recheckAfter = Duration(hours: 12);
+
+  /// فرق صغير مقبول بين ساعة الجهاز ووقت آخر تحقق.
+  static const Duration clockTolerance = Duration(minutes: 5);
   static const Duration _restoreTimeout = Duration(seconds: 15);
   static const String _boxName = 'subscription';
   static const String _statusKey = 'status';
@@ -77,10 +83,12 @@ class SubscriptionService {
 
   bool get isActive => status?.isActiveAt(DateTime.now()) ?? false;
 
-  /// يعيد سؤال Google Play إذا مر على آخر تحقق أكثر من [recheckAfter]، ثم يرجّع [isActive].
+  /// يعيد سؤال Google Play إذا مر على آخر تحقق أكثر من [recheckAfter] (أو كان تاريخه في
+  /// المستقبل)، ثم يرجّع [isActive].
   Future<bool> verify() async {
     final lastVerified = status?.lastVerified;
-    if (lastVerified == null || DateTime.now().difference(lastVerified) > recheckAfter) {
+    final age = lastVerified == null ? null : DateTime.now().difference(lastVerified);
+    if (age == null || age > recheckAfter || age < -clockTolerance) {
       await restore();
     }
     return isActive;

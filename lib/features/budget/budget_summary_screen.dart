@@ -19,7 +19,10 @@ final intl.NumberFormat _compact = intl.NumberFormat.compact();
 final List<ExpenseCategory> _chartOrder = ExpenseCategory.values.reversed.toList();
 
 class BudgetSummaryScreen extends StatefulWidget {
-  const BudgetSummaryScreen({super.key});
+  /// [now] يُستبدل في الاختبارات فقط، ليتفق "اليوم" هنا مع الشاشة التي فتحت هذه.
+  const BudgetSummaryScreen({super.key, this.now = DateTime.now});
+
+  final DateTime Function() now;
 
   @override
   State<BudgetSummaryScreen> createState() => _BudgetSummaryScreenState();
@@ -28,7 +31,7 @@ class BudgetSummaryScreen extends StatefulWidget {
 class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
   BudgetService? _budget;
   String _symbol = BudgetCurrency.sar.symbol;
-  DateTime _month = DateTime(DateTime.now().year, DateTime.now().month);
+  late DateTime _month;
   double _total = 0;
   Map<ExpenseCategory, double> _byCategory = const {};
   List<ExpenseEntry> _entries = const [];
@@ -36,6 +39,8 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
   @override
   void initState() {
     super.initState();
+    final today = widget.now();
+    _month = DateTime(today.year, today.month);
     _load();
   }
 
@@ -53,7 +58,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
   }
 
   bool get _isCurrentMonth {
-    final now = DateTime.now();
+    final now = widget.now();
     return _month.year == now.year && _month.month == now.month;
   }
 
@@ -64,7 +69,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
 
   Future<void> _addExpense() async {
     final saved = await Navigator.of(context).push<ExpenseEntry>(
-      MaterialPageRoute(builder: (_) => const ExpenseEntryScreen()),
+      MaterialPageRoute(builder: (_) => ExpenseEntryScreen(now: widget.now)),
     );
     if (saved == null) return;
     // ننتقل إلى شهر المصروف المسجَّل (قد يكون بتاريخ سابق) ليظهر أمام المستخدم فورًا.
@@ -74,7 +79,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
 
   Future<void> _editExpense(ExpenseEntry entry) async {
     final saved = await Navigator.of(context).push<ExpenseEntry>(
-      MaterialPageRoute(builder: (_) => ExpenseEntryScreen(existing: entry)),
+      MaterialPageRoute(builder: (_) => ExpenseEntryScreen(existing: entry, now: widget.now)),
     );
     if (saved == null) return;
     _month = DateTime(saved.date.year, saved.date.month);

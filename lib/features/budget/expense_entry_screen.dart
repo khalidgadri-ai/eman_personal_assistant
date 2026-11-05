@@ -8,9 +8,11 @@ import 'models/expense_entry.dart';
 /// تسجيل مصروف جديد، أو تعديل [existing]. ترجّع المصروف المحفوظ (أو null عند الخروج بلا حفظ)
 /// حتى تنتقل الشاشة السابقة إلى شهره وتُحدّث نفسها.
 class ExpenseEntryScreen extends StatefulWidget {
-  const ExpenseEntryScreen({super.key, this.existing});
+  /// [now] يُستبدل في الاختبارات فقط، ليتفق "اليوم" هنا مع الشاشة التي فتحت هذه.
+  const ExpenseEntryScreen({super.key, this.existing, this.now = DateTime.now});
 
   final ExpenseEntry? existing;
+  final DateTime Function() now;
 
   @override
   State<ExpenseEntryScreen> createState() => _ExpenseEntryScreenState();
@@ -31,7 +33,7 @@ class _ExpenseEntryScreenState extends State<ExpenseEntryScreen> {
     final e = widget.existing;
     _amountController = TextEditingController(text: e == null ? '' : _plainAmount(e.amount));
     _noteController = TextEditingController(text: e?.note ?? '');
-    _date = e?.date ?? DateTime.now();
+    _date = e?.date ?? widget.now();
     _category = e?.category;
   }
 
@@ -53,7 +55,7 @@ class _ExpenseEntryScreenState extends State<ExpenseEntryScreen> {
       '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
   Future<void> _pickDate() async {
-    final now = DateTime.now();
+    final now = widget.now();
     final picked = await showDatePicker(
       context: context,
       initialDate: _date.isAfter(now) ? now : _date,

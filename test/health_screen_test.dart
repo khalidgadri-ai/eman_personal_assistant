@@ -1,18 +1,26 @@
 import 'package:eman_life_app/features/health_and_fitness/health_fitness_screen.dart';
 import 'package:eman_life_app/features/health_and_fitness/health_service.dart';
+import 'package:eman_life_app/features/reminders/reminder_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'helpers/fake_reminder_gateway.dart';
 import 'helpers/test_storage.dart';
 import 'helpers/widget_helpers.dart';
 
 void main() {
   late TestStorage storage;
+  late FakeReminderGateway reminders;
 
   setUp(() async {
     storage = await TestStorage.inMemory();
+    reminders = FakeReminderGateway();
+    ReminderService.gatewayOverride = reminders;
   });
-  tearDown(() => storage.dispose());
+  tearDown(() async {
+    ReminderService.gatewayOverride = null;
+    await storage.dispose();
+  });
 
   Future<HealthService> health() => HealthService.getInstance();
 
@@ -56,6 +64,53 @@ void main() {
       await tester.pump();
       expect(find.text('مكمل تجريبي'), findsNothing);
       expect((await health()).medications(), isEmpty);
+    });
+
+    Future<void> addMedicationWithReminder(WidgetTester tester) async {
+      await openMedsTab(tester);
+      await tester.tap(find.byTooltip('إضافة دواء'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.widgetWithText(TextField, 'الاسم'), 'دواء بتذكير');
+      await tester.tap(find.text('ضبط تذكير'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('إضافة'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('a medication reminder that the system accepts shows no warning', (tester) async {
+      await addMedicationWithReminder(tester);
+
+      expect(reminders.scheduled, hasLength(1));
+      expect(find.text(ReminderService.notScheduledMessage), findsNothing);
+    });
+
+    testWidgets('switched-off notifications are explained right after the user sets a reminder', (tester) async {
+      reminders.notificationsEnabled = false;
+
+      await addMedicationWithReminder(tester);
+
+      expect(find.text(ReminderService.notScheduledMessage), findsOneWidget);
+    });
+
+    testWidgets('a reminder the system refuses is explained too', (tester) async {
+      reminders.accepts = false;
+
+      await addMedicationWithReminder(tester);
+
+      expect(find.text(ReminderService.notScheduledMessage), findsOneWidget);
+    });
+
+    testWidgets('a medication without a reminder never warns, even with notifications off', (tester) async {
+      reminders.notificationsEnabled = false;
+      await openMedsTab(tester);
+
+      await tester.tap(find.byTooltip('إضافة دواء'));
+      await tester.pumpAndSettle();
+      await fillDialog(tester, {'الاسم': 'بلا تذكير'});
+
+      expect(find.text(ReminderService.notScheduledMessage), findsNothing);
     });
 
     testWidgets('an empty name is not accepted', (tester) async {

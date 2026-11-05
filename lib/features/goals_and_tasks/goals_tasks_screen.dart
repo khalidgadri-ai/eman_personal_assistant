@@ -8,7 +8,7 @@ import '../../core/utils/ids.dart';
 import '../../core/widgets/ai_provider_screen.dart';
 import '../../core/widgets/entry_dialog.dart';
 import '../../core/widgets/undo_snackbar.dart';
-import '../reminders/reminder_service.dart';
+import '../reminders/reminder_notice.dart';
 import '../settings/settings_button.dart';
 
 const List<String> _taskCategories = ['شخصي', 'المنزل', 'العمل', 'العائلة'];
@@ -75,7 +75,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
         ...items.where((i) => i['pinned'] != true),
       ];
 
-  void _syncReminders({bool ask = false}) => unawaited(ReminderService.syncAll(askPermission: ask));
+  void _syncReminders({bool ask = false}) => unawaited(syncRemindersWithNotice(context, ask: ask));
 
   // --- المهام ---
 

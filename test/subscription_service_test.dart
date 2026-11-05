@@ -54,6 +54,20 @@ void main() {
 
       expect(status.isActiveAt(now), isFalse);
     });
+
+    test('a verification date in the future is not trusted, beyond a small clock drift', () {
+      final drift = SubscriptionStatus(
+        active: true,
+        lastVerified: now.add(const Duration(minutes: 2)),
+      );
+      final tampered = SubscriptionStatus(
+        active: true,
+        lastVerified: now.add(const Duration(days: 365)),
+      );
+
+      expect(drift.isActiveAt(now), isTrue);
+      expect(tampered.isActiveAt(now), isFalse);
+    });
   });
 
   group('SubscriptionService', () {

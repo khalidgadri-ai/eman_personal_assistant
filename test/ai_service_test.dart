@@ -111,7 +111,7 @@ void main() {
 
     expect(await askWith(const AiException(AiFailure.modelNotFound, statusCode: 404)), AiFailure.modelNotFound.message);
     expect(await askWith(const SocketException('Failed host lookup: secret-host')), AiFailure.network.message);
-    expect(await askWith(TimeoutException('slow')), AiFailure.network.message);
+    expect(await askWith(TimeoutException('slow')), AiFailure.timeout.message);
     final unknown = await askWith(StateError('internal secret detail'));
     expect(unknown, AiFailure.unknown.message);
     expect(unknown, isNot(contains('secret')));

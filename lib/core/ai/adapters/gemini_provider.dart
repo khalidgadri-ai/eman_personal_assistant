@@ -17,9 +17,34 @@ class GeminiProvider extends AiProvider {
     return clean.startsWith('models/') ? clean : 'models/$clean';
   }
 
+  /// مستوى التفكير الأدنى المعتمد في مرجع generateContent (`ThinkingConfig.thinkingLevel`، القيم:
+  /// MINIMAL وLOW وMEDIUM وHIGH). موديلات Gemini 3 فما بعد تفكّر افتراضيًا فتتجاوز مهلة الرد.
+  static const String thinkingLevel = 'LOW';
+
   @override
   Future<AiReply> send(AiRequest request) async {
-    final body = <String, Object?>{
+    final url = joinBaseUrl(config.baseUrl, '/v1beta/${_modelPath(config.model)}:generateContent');
+    Future<Map<String, dynamic>> post({required bool withThinking}) {
+      return postJson(url, _headers, _body(request, withThinking: withThinking), hadImages: request.hasImages);
+    }
+
+    Map<String, dynamic> json;
+    try {
+      json = await post(withThinking: true);
+    } on AiException catch (e) {
+      // موديل لا يدعم إعداد التفكير يردّ 400 يذكره: نعيد مرة واحدة بدونه.
+      if (!e.rejectedThinking) rethrow;
+      json = await post(withThinking: false);
+    }
+    return AiReply(_replyText(json));
+  }
+
+  Map<String, Object?> _body(AiRequest request, {required bool withThinking}) {
+    final generationConfig = <String, Object?>{
+      'maxOutputTokens': ?request.maxOutputTokens,
+      if (withThinking) 'thinkingConfig': {'thinkingLevel': thinkingLevel},
+    };
+    return <String, Object?>{
       if (request.systemPrompt != null)
         'systemInstruction': {
           'parts': [
@@ -27,14 +52,8 @@ class GeminiProvider extends AiProvider {
           ],
         },
       'contents': [for (final m in request.messages) _content(m)],
+      if (generationConfig.isNotEmpty) 'generationConfig': generationConfig,
     };
-    final json = await postJson(
-      joinBaseUrl(config.baseUrl, '/v1beta/${_modelPath(config.model)}:generateContent'),
-      _headers,
-      body,
-      hadImages: request.hasImages,
-    );
-    return AiReply(_replyText(json));
   }
 
   Map<String, Object?> _content(AiMessage m) {

@@ -243,7 +243,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.kitchen_rounded),
-              label: 'المطبخ والمنازل',
+              label: 'المطبخ والمنزل',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance_wallet_rounded),

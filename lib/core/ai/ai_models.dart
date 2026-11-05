@@ -29,7 +29,8 @@ class AiRequest {
   final List<AiMessage> messages;
   final String? systemPrompt;
 
-  /// تستعمله Anthropic وحدها لأنه إلزامي عندها؛ غيرها يتجاهله حتى لا نكسر موديلات التفكير.
+  /// إلزامي عند Anthropic. Gemini يرسله كما هو إن وُجد. المحوّل المتوافق مع OpenAI يتجاهله حتى
+  /// لا نكسر موديلات التفكير هناك (اسم الحقل يختلف بين الموديلات).
   final int? maxOutputTokens;
 
   bool get hasImages => messages.any((m) => m.images.isNotEmpty);

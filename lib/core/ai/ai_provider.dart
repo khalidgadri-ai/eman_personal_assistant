@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -103,7 +104,8 @@ abstract class AiProvider {
   final String apiKey;
   final http.Client _client;
 
-  static const Duration chatTimeout = Duration(seconds: 60);
+  /// موديلات "التفكير" مع تعليمات نظام طويلة قد تحتاج أكثر من دقيقة قبل أول رد.
+  static const Duration chatTimeout = Duration(seconds: 120);
   static const Duration listTimeout = Duration(seconds: 20);
 
   Future<AiReply> send(AiRequest request);
@@ -152,6 +154,9 @@ abstract class AiProvider {
     final http.Response response;
     try {
       response = await request().timeout(timeout);
+    } on TimeoutException {
+      // الإنترنت يعمل غالبًا والمزوّد بطيء؛ لا نقول للمستخدم إن الإنترنت مقطوع.
+      throw const AiException(AiFailure.timeout);
     } catch (e) {
       if (isNetworkError(e)) throw const AiException(AiFailure.network);
       throw const AiException(AiFailure.unknown);

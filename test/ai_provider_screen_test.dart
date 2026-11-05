@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:eman_life_app/core/ai/ai_errors.dart';
 import 'package:eman_life_app/core/ai/ai_models.dart';
@@ -246,13 +247,24 @@ void main() {
     });
 
     testWidgets('a network failure is reported as no connection', (tester) async {
-      behaviour.sendError = TimeoutException('slow');
+      behaviour.sendError = const SocketException('Failed host lookup');
       await openScreen(tester);
       await tester.enterText(find.byType(TextField).at(2), _secret);
 
       await tapText(tester, 'اختبار الاتصال');
 
       expect(find.text(AiFailure.network.message), findsOneWidget);
+    });
+
+    testWidgets('a slow provider is reported as a delay, not as no connection', (tester) async {
+      behaviour.sendError = TimeoutException('slow');
+      await openScreen(tester);
+      await tester.enterText(find.byType(TextField).at(2), _secret);
+
+      await tapText(tester, 'اختبار الاتصال');
+
+      expect(find.text(AiFailure.timeout.message), findsOneWidget);
+      expect(find.text(AiFailure.network.message), findsNothing);
     });
   });
 

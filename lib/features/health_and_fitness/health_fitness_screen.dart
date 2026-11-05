@@ -10,7 +10,7 @@ import '../../core/widgets/ai_provider_screen.dart';
 import '../../core/widgets/entry_dialog.dart';
 import '../../core/widgets/undo_snackbar.dart';
 import '../awareness/usage_awareness_screen.dart';
-import '../reminders/reminder_service.dart';
+import '../reminders/reminder_notice.dart';
 import '../settings/settings_button.dart';
 import 'exercise_details_screen.dart';
 import 'exercise_edit_screen.dart';
@@ -91,9 +91,9 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
   }
 
   /// يعيد جدولة التذكيرات بعد أي تغيير في الأدوية أو العناية. [ask] لا يكون true إلا حين ضبط
-  /// المستخدم تذكيرًا بنفسه، فيُسأل عن إذن الإشعارات عندئذ وحده.
+  /// المستخدم تذكيرًا بنفسه، فيُسأل عن إذن الإشعارات عندئذ وحده، ويُخبَر إن لم يُضمن أن يرن.
   void _syncReminders({bool ask = false}) {
-    unawaited(ReminderService.syncAll(askPermission: ask));
+    unawaited(syncRemindersWithNotice(context, ask: ask));
   }
 
   // --- التمارين ---

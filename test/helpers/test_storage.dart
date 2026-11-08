@@ -4,7 +4,9 @@ import 'dart:typed_data';
 import 'package:eman_life_app/core/ai/ai_settings_service.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/services/encrypted_boxes.dart';
+import 'package:eman_life_app/core/services/free_quota_service.dart';
 import 'package:eman_life_app/core/services/profile_service.dart';
+import 'package:eman_life_app/core/services/subscription_service.dart';
 import 'package:eman_life_app/features/awareness/usage_service.dart';
 import 'package:eman_life_app/features/budget/budget_plan_service.dart';
 import 'package:eman_life_app/features/budget/budget_service.dart';
@@ -43,6 +45,8 @@ class TestStorage {
     ProfileService.reset();
     HealthService.resetForTesting();
     UsageService.resetForTesting();
+    SubscriptionService.resetForTesting();
+    FreeQuotaService.resetForTesting();
   }
 
   /// Hive على ملفات حقيقية في مجلد مؤقت (للاختبارات العادية `test`).
@@ -58,7 +62,7 @@ class TestStorage {
   static Future<TestStorage> inMemory({Map<String, Object> prefs = const {}}) async {
     Hive.init(Directory.systemTemp.path);
     _reset(prefs);
-    for (final name in [...kEncryptedBoxFiles, 'app_usage']) {
+    for (final name in [...kEncryptedBoxFiles, 'app_usage', 'subscription']) {
       await Hive.openBox(name, bytes: Uint8List(0));
     }
     return TestStorage._(null);

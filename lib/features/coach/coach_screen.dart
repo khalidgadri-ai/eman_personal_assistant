@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
+import '../../core/services/free_quota_service.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/ai_provider_screen.dart';
 import 'coach_ai_service.dart';
 import 'coach_history_screen.dart';
 import 'coach_paywall_screen.dart';
+import 'coach_quota_text.dart';
 import 'coach_safety.dart';
 import 'coach_session_service.dart';
 import 'coach_signal_service.dart';
 import 'models/coach_question.dart';
 
+/// يتأكد أن مزوّد الذكاء الاصطناعي مُعدّ (ويعرض شاشة الإعداد إن لم يكن). false إن غادر المستخدم دون إعداد.
+typedef CoachAiAccess = Future<bool> Function(BuildContext context);
+
+Future<bool> _requireConfiguredAi(BuildContext context) async =>
+    await requireAiService(context) != null;
+
+/// كيف سُمح بطلب سؤال المتابعة: اشتراك فعّال، أو استعمال من الحصة المجانية الشهرية.
+enum _DeepenAccess { subscriber, free }
+
 class CoachScreen extends StatefulWidget {
-  const CoachScreen({super.key});
+  /// المعاملات الثلاثة للاختبارات فقط؛ الأصل هو الخدمة الحقيقية وساعة الجهاز.
+  const CoachScreen({
+    super.key,
+    this.aiService,
+    this.clock = DateTime.now,
+    this.aiAccess = _requireConfiguredAi,
+  });
+
+  final CoachAiService? aiService;
+  final DateTime Function() clock;
+  final CoachAiAccess aiAccess;
 
   @override
   State<CoachScreen> createState() => _CoachScreenState();
@@ -19,7 +40,10 @@ class CoachScreen extends StatefulWidget {
 
 class _CoachScreenState extends State<CoachScreen> {
   CoachSessionService? _service;
-  final CoachAiService _aiService = CoachAiService();
+  late final CoachAiService _aiService = widget.aiService ?? CoachAiService();
+  SubscriptionService? _subscription;
+  FreeQuotaService? _quota;
+  String? _quotaLine;
   CoachDomain _selectedDomain = CoachDomain.beliefs;
   CoachQuestion? _currentQuestion;
   String? _signalHint;
@@ -43,8 +67,16 @@ class _CoachScreenState extends State<CoachScreen> {
     final service = await CoachSessionService.getInstance();
     final signals = await CoachSignalService().getSignals();
     final domain = CoachSessionService.pickDomain(signals);
+    try {
+      _subscription = await SubscriptionService.getInstance();
+      _quota = await FreeQuotaService.getInstance();
+    } catch (e) {
+      // بلا سطر الحصة فقط؛ المدرب نفسه يعمل.
+      debugPrint('CoachScreen: quota state unavailable (${e.runtimeType})');
+    }
     if (!mounted) return;
     setState(() {
+      _quotaLine = _buildQuotaLine();
       _service = service;
       _selectedDomain = domain;
       _currentQuestion = service.pickQuestion(domain);
@@ -89,21 +121,45 @@ class _CoachScreenState extends State<CoachScreen> {
     });
   }
 
+  /// السطر تحت «عمّق أكثر»: لغير المشترك فقط. الحالة المحفوظة (بلا اتصال) تكفي لعرضه.
+  String? _buildQuotaLine() {
+    final subscription = _subscription;
+    final quota = _quota;
+    if (subscription == null || quota == null || subscription.isActive) return null;
+    final now = widget.clock();
+    return coachQuotaLine(
+      remaining: quota.remaining(FreeQuotaService.coachFollowUp, now),
+      now: now,
+    );
+  }
+
+  void _refreshQuotaLine() {
+    if (!mounted) return;
+    setState(() => _quotaLine = _buildQuotaLine());
+  }
+
   Future<void> _onDeepen() async {
     final service = _service;
     final question = _currentQuestion;
     final answer = _answerController.text.trim();
     if (service == null || question == null || answer.isEmpty) return;
 
+    // فحص الأزمة أولًا دائمًا، قبل أي شاشة اشتراك أو طلب للموديل.
     if (containsCrisisSignals(answer)) {
       await _showCrisisDialog();
       return;
     }
 
-    if (!await _ensureSubscribed() || !mounted) return;
+    final access = await _resolveAccess();
+    if (access == null || !mounted) {
+      _refreshQuotaLine();
+      return;
+    }
 
-    final ai = await requireAiService(context);
-    if (ai == null || !mounted) return;
+    if (!await widget.aiAccess(context) || !mounted) {
+      _refreshQuotaLine();
+      return;
+    }
 
     setState(() => _deepening = true);
     final result = await _aiService.requestFollowUp(question: question, answer: answer);
@@ -115,6 +171,10 @@ class _CoachScreenState extends State<CoachScreen> {
         await _showCrisisDialog();
       case FollowUpQuestion(question: final followUp):
         await service.saveSession(question: question, answerText: answer);
+        // يُحتسب الاستعمال المجاني فقط إذا جاء السؤال فعلًا من الموديل، لا من البنك المحلي.
+        if (access == _DeepenAccess.free && followUp.id == CoachAiService.aiFollowUpId) {
+          await _consumeFreeUse();
+        }
         if (!mounted) return;
         setState(() {
           _currentQuestion = followUp;
@@ -123,20 +183,47 @@ class _CoachScreenState extends State<CoachScreen> {
           _deepening = false;
         });
     }
+    _refreshQuotaLine();
   }
 
-  Future<bool> _ensureSubscribed() async {
+  /// مشترك فعّال، أو غير مشترك بقي له استعمال مجاني: يكمل. وإلا تظهر شاشة الاشتراك.
+  /// null إذا لم يكمل (رجع المستخدم من شاشة الاشتراك دون اشتراك).
+  Future<_DeepenAccess?> _resolveAccess() async {
     setState(() => _deepening = true);
     final subscription = await SubscriptionService.getInstance();
     final active = await subscription.verify();
-    if (!mounted) return false;
+    final quota = await _loadQuota();
+    if (!mounted) return null;
     setState(() => _deepening = false);
-    if (active) return true;
+    if (active) return _DeepenAccess.subscriber;
+
+    final now = widget.clock();
+    if (quota != null && quota.remaining(FreeQuotaService.coachFollowUp, now) > 0) {
+      return _DeepenAccess.free;
+    }
 
     final subscribed = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(builder: (_) => const CoachPaywallScreen()),
+      MaterialPageRoute(builder: (_) => CoachPaywallScreen(quotaExhaustedAt: now)),
     );
-    return subscribed == true;
+    return subscribed == true ? _DeepenAccess.subscriber : null;
+  }
+
+  Future<FreeQuotaService?> _loadQuota() async {
+    try {
+      return _quota ??= await FreeQuotaService.getInstance();
+    } catch (e) {
+      debugPrint('CoachScreen: free quota unavailable (${e.runtimeType})');
+      return null;
+    }
+  }
+
+  /// فشل الحفظ لا يمنع المستخدم من سؤاله الذي وصل فعلًا.
+  Future<void> _consumeFreeUse() async {
+    try {
+      await _quota?.consume(FreeQuotaService.coachFollowUp, widget.clock());
+    } catch (e) {
+      debugPrint('CoachScreen: could not count the free use (${e.runtimeType})');
+    }
   }
 
   Future<void> _showCrisisDialog() async {
@@ -323,6 +410,17 @@ class _CoachScreenState extends State<CoachScreen> {
                         );
                       },
                     ),
+                    if (_quotaLine case final line?)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Center(
+                          child: Text(
+                            line,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),

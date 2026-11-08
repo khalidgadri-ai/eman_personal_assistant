@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:eman_life_app/core/ai/ai_settings_service.dart';
 import 'package:eman_life_app/core/app_events.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
+import 'package:eman_life_app/core/services/free_quota_service.dart';
 import 'package:eman_life_app/core/services/profile_service.dart';
 import 'package:eman_life_app/features/budget/budget_plan_service.dart';
 import 'package:eman_life_app/features/budget/budget_service.dart';
@@ -140,6 +141,23 @@ void main() {
 
     expect(Hive.isBoxOpen('subscription'), isTrue);
     expect(Hive.box('subscription').get('status'), {'active': true});
+  });
+
+  test('erasing everything does not give back the free monthly uses', () async {
+    final november = DateTime(2026, 11, 6);
+    final quota = await FreeQuotaService.getInstance();
+    for (var i = 0; i < 3; i++) {
+      await quota.consume(FreeQuotaService.coachFollowUp, november);
+    }
+    expect(quota.remaining(FreeQuotaService.coachFollowUp, november), 2);
+
+    await DataResetService.eraseEverything();
+
+    // نفس الخدمة، ثم كأن التطبيق أُعيد تشغيله: العدّاد باقٍ في صندوق الاشتراك الذي لا يُمسح.
+    expect(quota.remaining(FreeQuotaService.coachFollowUp, november), 2);
+    FreeQuotaService.resetForTesting();
+    final reopened = await FreeQuotaService.getInstance();
+    expect(reopened.remaining(FreeQuotaService.coachFollowUp, november), 2);
   });
 
   test('picked images in the cache folder are removed, other cache files stay', () async {

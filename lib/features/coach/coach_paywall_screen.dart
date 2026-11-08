@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
+import 'coach_quota_text.dart';
 
 /// يرجع true عندما يصبح الاشتراك فعّالًا (شراء أو استعادة).
 class CoachPaywallScreen extends StatefulWidget {
-  const CoachPaywallScreen({super.key});
+  /// [quotaExhaustedAt]: وقت فتح الشاشة إن كانت المحاولات المجانية قد انتهت، فيُذكر تاريخ
+  /// تجددها. بلا قيمة (null) لا يُذكر تاريخ.
+  const CoachPaywallScreen({super.key, this.quotaExhaustedAt});
+
+  final DateTime? quotaExhaustedAt;
 
   @override
   State<CoachPaywallScreen> createState() => _CoachPaywallScreenState();
@@ -148,7 +153,27 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
                         style: TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.7),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
+                    Text(
+                      coachQuotaOfferLine,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: AppTheme.textColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        height: 1.6,
+                      ),
+                    ),
+                    if (widget.quotaExhaustedAt case final exhaustedAt?)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(
+                          coachQuotaRenewalLine(exhaustedAt),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: AppTheme.accentColor, fontSize: 13),
+                        ),
+                      ),
+                    const SizedBox(height: 16),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primaryColor,

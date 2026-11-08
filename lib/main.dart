@@ -131,6 +131,9 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
+  /// تبويب المساعد الذكي: خانة الكتابة في أسفله، فلا تظهر فوقها الأزرار العائمة.
+  static const int _assistantTab = 4;
+
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
@@ -192,30 +195,32 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton(
-            heroTag: 'coach_fab',
-            tooltip: 'مدرب الحياة',
-            backgroundColor: AppTheme.primaryColor,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(builder: (_) => const CoachScreen()),
+      floatingActionButton: _currentIndex == _assistantTab
+          ? null
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton(
+                  heroTag: 'coach_fab',
+                  tooltip: 'مدرب الحياة',
+                  backgroundColor: AppTheme.primaryColor,
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(builder: (_) => const CoachScreen()),
+                  ),
+                  child: const Icon(Icons.psychology_rounded, color: Colors.white),
+                ),
+                if (widget.supportEmail.isNotEmpty) ...[
+                  const SizedBox(width: 16),
+                  FloatingActionButton(
+                    heroTag: 'contact_fab',
+                    tooltip: 'تواصل معنا',
+                    backgroundColor: AppTheme.accentColor,
+                    onPressed: _contactUs,
+                    child: const Icon(Icons.mail_outline_rounded, color: Colors.white),
+                  ),
+                ],
+              ],
             ),
-            child: const Icon(Icons.psychology_rounded, color: Colors.white),
-          ),
-          if (widget.supportEmail.isNotEmpty) ...[
-            const SizedBox(width: 16),
-            FloatingActionButton(
-              heroTag: 'contact_fab',
-              tooltip: 'تواصل معنا',
-              backgroundColor: AppTheme.accentColor,
-              onPressed: _contactUs,
-              child: const Icon(Icons.mail_outline_rounded, color: Colors.white),
-            ),
-          ],
-        ],
-      ),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: IndexedStack(

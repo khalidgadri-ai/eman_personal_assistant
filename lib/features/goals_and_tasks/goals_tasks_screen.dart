@@ -627,7 +627,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   Widget _buildQuranTrackerTab() {
     final finished = _quranPage >= DatabaseService.quranPages;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       child: Card(
         color: AppTheme.surfaceColor,
         child: Padding(

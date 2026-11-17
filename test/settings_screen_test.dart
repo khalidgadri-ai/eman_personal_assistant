@@ -69,7 +69,9 @@ void main() {
 
     expect(find.text('تعذّر مسح البيانات. لم يُحذف شيء، حاول مرة أخرى.'), findsOneWidget);
     expect(find.textContaining('secret path'), findsNothing);
-    // الزر ما زال يعمل بعد الفشل.
+    // الزر ما زال يعمل بعد الفشل (بعد أن تختفي رسالة الخطأ التي تغطي أسفل الشاشة).
+    ScaffoldMessenger.of(tester.element(find.text('مسح كل بياناتي'))).hideCurrentSnackBar();
+    await tester.pumpAndSettle();
     await tester.tap(find.text('مسح كل بياناتي'));
     await tester.pumpAndSettle();
     expect(find.text('مسح كل بياناتي؟'), findsOneWidget);

@@ -7,6 +7,7 @@ import '../ai/ai_service.dart';
 import '../ai/ai_settings_service.dart';
 import '../ai/provider_presets.dart';
 import '../theme/app_theme.dart';
+import 'api_key_guide.dart';
 
 /// يرجّع [AiService] بمزوّد ومفتاح المستخدم، وإن لم يكن مُعدًّا يعرض شاشة الإعداد أولًا.
 /// يرجّع null إذا رجع المستخدم دون إعداد.
@@ -349,6 +350,17 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text('المفتاح', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                    if (_preset.keyUrl.isNotEmpty)
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: TextButton.icon(
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(builder: (_) => ApiKeyGuideScreen(preset: _preset)),
+                          ),
+                          icon: const Icon(Icons.help_outline_rounded, size: 18),
+                          label: const Text('كيف أحصل على مفتاح؟'),
+                        ),
+                      ),
                     if (_preset.keyUrl.isNotEmpty)
                       Row(
                         children: [

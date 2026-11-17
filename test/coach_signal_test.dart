@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/services/encrypted_boxes.dart';
 import 'package:eman_life_app/features/budget/budget_service.dart';
 import 'package:eman_life_app/features/budget/models/expense_entry.dart';
@@ -11,6 +12,7 @@ import 'package:eman_life_app/features/coach/models/coach_signals.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _FixedRandom implements Random {
   _FixedRandom(this.value);
@@ -39,6 +41,8 @@ void main() {
     hiveDir = Directory.systemTemp.createTempSync('coach_signal_test');
     Hive.init(hiveDir.path);
     FlutterSecureStorage.setMockInitialValues({});
+    SharedPreferences.setMockInitialValues({});
+    DatabaseService.resetForTesting();
     EncryptedBoxes.resetForTesting();
     BudgetService.resetForTesting();
     CoachSessionService.resetForTesting();

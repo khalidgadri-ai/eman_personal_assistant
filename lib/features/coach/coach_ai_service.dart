@@ -76,7 +76,7 @@ class CoachAiService {
 
     final sessions = await CoachSessionService.getInstance();
     return FollowUpQuestion(
-      sessions.pickQuestion(question.domain, excludeId: question.id),
+      await sessions.showNextQuestion(question.domain, excludeId: question.id),
     );
   }
 

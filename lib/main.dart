@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'core/app_events.dart';
 import 'core/config/app_contact.dart';
 import 'core/services/contact_service.dart';
+import 'core/services/database_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/profile_service.dart';
 import 'core/services/subscription_service.dart';
@@ -16,6 +17,7 @@ import 'features/kitchen_and_home/kitchen_home_screen.dart';
 import 'features/financial/financial_screen.dart';
 import 'features/ai_assistant/ai_assistant_screen.dart';
 import 'features/coach/coach_screen.dart';
+import 'features/onboarding/app_tour_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/reminders/reminder_service.dart';
 
@@ -56,13 +58,18 @@ class EmanLifeApp extends StatelessWidget {
   }
 }
 
-enum _GateState { loading, onboarding, ready }
+enum _GateState { loading, onboarding, tour, ready }
 
-/// أول تشغيل: يعرض شاشة الترحيب، وبعد إكمالها (أو "تخطي") يفتح التطبيق. بعد
-/// "مسح كل بياناتي" يعيد قراءة الحالة فيعود الترحيب من جديد، واستعادة نسخة احتياطية تعيد
-/// بناء الشاشات ببياناتها.
+Future<int> _readTourVersion() async => (await DatabaseService.getInstance()).getAppTourVersion();
+
+/// أول تشغيل: شاشة الترحيب، ثم جولة التعريف الإجبارية (إن لم تُرَ على هذا الجهاز)، ثم التطبيق.
+/// بعد "مسح كل بياناتي" يعيد قراءة الحالة فيعود الترحيب ثم الجولة، واستعادة نسخة احتياطية
+/// تعيد بناء الشاشات ببياناتها (والجولة لا تعود لمن رآها: رقمها خارج النسخة).
 class AppGate extends StatefulWidget {
-  const AppGate({super.key});
+  /// [readTourVersion] يُستبدل في الاختبارات فقط.
+  const AppGate({super.key, this.readTourVersion = _readTourVersion});
+
+  final Future<int> Function() readTourVersion;
 
   @override
   State<AppGate> createState() => _AppGateState();
@@ -71,24 +78,38 @@ class AppGate extends StatefulWidget {
 class _AppGateState extends State<AppGate> {
   _GateState _state = _GateState.loading;
 
+  /// أنهى الجولة في هذا التشغيل. إن فشل حفظ رقمها لا تُعاد عليه قبل التشغيل التالي.
+  bool _tourDoneThisRun = false;
+
   @override
   void initState() {
     super.initState();
-    AppEvents.dataErased.addListener(_onDataChanged);
+    AppEvents.dataErased.addListener(_onDataErased);
     AppEvents.dataRestored.addListener(_onDataChanged);
     _load();
   }
 
   @override
   void dispose() {
-    AppEvents.dataErased.removeListener(_onDataChanged);
+    AppEvents.dataErased.removeListener(_onDataErased);
     AppEvents.dataRestored.removeListener(_onDataChanged);
     super.dispose();
+  }
+
+  /// بعد المسح تعود الجولة مع الترحيب.
+  void _onDataErased() {
+    _tourDoneThisRun = false;
+    _onDataChanged();
   }
 
   /// بعد المسح أو استعادة نسخة احتياطية: إعادة قراءة الحالة (ترحيب أو التطبيق ببياناته الجديدة).
   void _onDataChanged() {
     setState(() => _state = _GateState.loading);
+    _load();
+  }
+
+  void _onTourFinished() {
+    _tourDoneThisRun = true;
     _load();
   }
 
@@ -101,6 +122,14 @@ class _AppGateState extends State<AppGate> {
       // ملف مشفّر تعذّر فتحه: لا نحبس المستخدم خارج التطبيق.
       debugPrint('AppGate: profile unavailable (${e.runtimeType})');
     }
+    if (next == _GateState.ready && !_tourDoneThisRun) {
+      try {
+        if (!AppTour.isSeen(await widget.readTourVersion())) next = _GateState.tour;
+      } catch (e) {
+        // تعذّرت القراءة: يفتح التطبيق مباشرة بدل أن يحبس المستخدم في الجولة.
+        debugPrint('AppGate: tour state unavailable (${e.runtimeType})');
+      }
+    }
     if (!mounted) return;
     setState(() => _state = next);
   }
@@ -110,6 +139,7 @@ class _AppGateState extends State<AppGate> {
     return switch (_state) {
       _GateState.loading => const Scaffold(body: Center(child: CircularProgressIndicator())),
       _GateState.onboarding => OnboardingScreen(onFinished: _load),
+      _GateState.tour => AppTourScreen(mandatory: true, onFinished: _onTourFinished),
       _GateState.ready => const MainNavigationScreen(),
     };
   }

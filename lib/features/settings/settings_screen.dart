@@ -7,6 +7,7 @@ import '../../core/app_events.dart';
 import '../../core/services/profile_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/ai_provider_screen.dart';
+import '../onboarding/app_tour_screen.dart';
 import '../onboarding/onboarding_screen.dart';
 import 'backup_file_gateway.dart';
 import 'backup_service.dart';
@@ -253,6 +254,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         final summary = await _readAiSummary();
                         if (mounted) setState(() => _aiSummary = summary);
                       },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Card(
+                    child: ListTile(
+                      leading: const Icon(Icons.tour_rounded, color: AppTheme.accentColor),
+                      title: const Text('جولة التعريف بالتطبيق', style: TextStyle(color: AppTheme.textColor)),
+                      subtitle: const Text(
+                        'شرح قصير لكل أقسام التطبيق وطريقة الحصول على مفتاح',
+                        style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                      ),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(builder: (_) => const AppTourScreen(mandatory: false)),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),

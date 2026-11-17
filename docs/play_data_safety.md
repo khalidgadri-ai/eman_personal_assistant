@@ -19,6 +19,7 @@
 | الملف الشخصي (الاسم، الاهتمامات، الأهداف) | Hive `profile_enc` | AES-256 | `profile_service.dart` |
 | الأدوية والمكملات وروتين العناية (مع وقت التذكير إن ضُبط) | Hive `health_enc` | AES-256 | `health_service.dart` |
 | التمارين المحفوظة (الاسم، العضلات، الخطوات، المجموعات، الملاحظات) وسجل التمرين | Hive `health_enc` | AES-256 | `health_service.dart` |
+| أسئلة المدرب التي ظهرت (معرّفات فقط، لمنع التكرار) | SharedPreferences (`coach_seen_questions`) | غير مشفّرة (بلا نص المستخدم) | `database_service.dart` |
 | **صور التمارين** التي يحفظها المستخدم | Hive `exercise_images_enc` | AES-256 | `health_service.dart` (`exerciseImage`) |
 | المصاريف اليدوية (المبلغ، الفئة، ملاحظة، التاريخ) | Hive `expenses_enc` | AES-256 | `budget_service.dart` |
 | **خطة الميزانية** (الدخل، يوم الراتب، العملة، المصروفات الثابتة وحالة "دُفعت"، هدف الادخار، حدود الفئات) | Hive `budget_plan_enc` | AES-256 | `budget_plan_service.dart` |

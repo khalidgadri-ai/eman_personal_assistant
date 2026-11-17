@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/profile_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/page_dots.dart';
 
 /// اهتمامات جاهزة للاختيار؛ لا تتضمن أي معلومة عن شخص بعينه.
 const List<String> kInterestOptions = [
@@ -113,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
             child: Column(
               children: [
-                _PageDots(page: _page, count: 2),
+                PageDots(page: _page, count: 2),
                 const SizedBox(height: 16),
                 Expanded(
                   child: SingleChildScrollView(
@@ -296,29 +297,3 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-class _PageDots extends StatelessWidget {
-  const _PageDots({required this.page, required this.count});
-
-  final int page;
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (var i = 0; i < count; i++)
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: i == page ? 24 : 8,
-            height: 8,
-            decoration: BoxDecoration(
-              color: i == page ? AppTheme.accentColor : AppTheme.surfaceColor,
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-      ],
-    );
-  }
-}

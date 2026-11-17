@@ -6,13 +6,18 @@ import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
 import 'coach_quota_text.dart';
 
+/// من أين فُتحت شاشة الاشتراك: يتغير العنوان، والمزايا هي نفسها (الاشتراك واحد).
+enum PaywallFeature { coach, meditation }
+
+/// شاشة الاشتراك الشهري الواحد: «عمّق أكثر» بلا حد وكل جلسات التأمل.
 /// يرجع true عندما يصبح الاشتراك فعّالًا (شراء أو استعادة).
 class CoachPaywallScreen extends StatefulWidget {
   /// [quotaExhaustedAt]: وقت فتح الشاشة إن كانت المحاولات المجانية قد انتهت، فيُذكر تاريخ
   /// تجددها. بلا قيمة (null) لا يُذكر تاريخ.
-  const CoachPaywallScreen({super.key, this.quotaExhaustedAt});
+  const CoachPaywallScreen({super.key, this.quotaExhaustedAt, this.feature = PaywallFeature.coach});
 
   final DateTime? quotaExhaustedAt;
+  final PaywallFeature feature;
 
   @override
   State<CoachPaywallScreen> createState() => _CoachPaywallScreenState();
@@ -117,7 +122,7 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: const Text('سؤال المتابعة الذكي')),
+        appBar: AppBar(title: const Text('الاشتراك الشهري')),
         body: _loading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
@@ -125,21 +130,27 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Icon(Icons.psychology_rounded, size: 56, color: AppTheme.accentColor),
+                    Icon(
+                      widget.feature == PaywallFeature.meditation
+                          ? Icons.self_improvement_rounded
+                          : Icons.psychology_rounded,
+                      size: 56,
+                      color: AppTheme.accentColor,
+                    ),
                     const SizedBox(height: 12),
-                    const Text(
-                      'تعمّق أكثر في تأملك',
+                    Text(
+                      widget.feature == PaywallFeature.meditation ? 'كل جلسات التأمل' : 'تعمّق أكثر في تأملك',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppTheme.textColor,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const _Benefit('سؤال متابعة واحد مبني على إجابتك أنت، بدل سؤال عام من البنك.'),
-                    const _Benefit('نفس قواعد المدرب: أسئلة فقط، بلا نصائح ولا أحكام.'),
-                    const _Benefit('أنت تقرر متى تتعمق، لا شيء يحدث تلقائيًا.'),
+                    const _Benefit('«عمّق أكثر» بلا حد: سؤال متابعة مبني على إجابتك أنت، بلا نصائح ولا أحكام.'),
+                    const _Benefit('كل جلسات التأمل المرشدة والحركية: مسح الجسد، والحضور في اللحظة، وحركة ثم سكون.'),
+                    const _Benefit('أنت تقرر متى تستعملها، لا شيء يحدث تلقائيًا.'),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(14),
@@ -148,22 +159,24 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Text(
-                        'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل.\n'
+                        'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك المؤقت '
+                        'الصامت وموجات جاما وجلسة التنفّس الهادئ.\n'
                         'سؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.',
                         style: TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.7),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      coachQuotaOfferLine,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: AppTheme.textColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        height: 1.6,
+                    if (widget.feature == PaywallFeature.coach)
+                      Text(
+                        coachQuotaOfferLine,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: AppTheme.textColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 1.6,
+                        ),
                       ),
-                    ),
                     if (widget.quotaExhaustedAt case final exhaustedAt?)
                       Padding(
                         padding: const EdgeInsets.only(top: 6),

@@ -52,6 +52,9 @@ dependencies:
   file_picker: ^13.1.0
   url_launcher: ^6.3.3
   timezone: ^0.11.2
+  just_audio: ^0.10.6
+  audio_service: ^0.18.19
+  audio_session: ^0.2.4
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +93,13 @@ flutter:
 
   assets:
     - assets/coach_questions.json
+    - assets/meditation/sessions.json
+    # تسجيلات صوت المرشد (m4a) حسب docs/meditation_recording_script.md. الجلسة المرشدة
+    # تظهر تلقائيًا حين تكتمل كل مقاطعها في مجلدها؛ مجلد جلسة جديدة يُضاف هنا.
+    - assets/meditation/voice/calm_breathing/
+    - assets/meditation/voice/body_scan/
+    - assets/meditation/voice/present_moment/
+    - assets/meditation/voice/move_and_still/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

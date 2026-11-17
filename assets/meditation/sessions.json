@@ -1,0 +1,163 @@
+[
+  {
+    "id": "silent_timer",
+    "title": "مؤقت صامت بأجراس",
+    "description": "جلوس هادئ بلا صوت مرشد. جرس في البداية وجرس في النهاية، ويمكن إضافة نغمة جاما في الخلفية.",
+    "kind": "silent",
+    "tier": "free",
+    "durations": [5, 10, 15, 20, 30, 45, 60],
+    "phases": [
+      { "id": "silence", "title": "صمت", "durationSec": 300, "instruction": "جلوس هادئ مع النفَس." }
+    ]
+  },
+  {
+    "id": "gamma_listening",
+    "title": "موجات جاما 40 هرتز",
+    "description": "نغمة 40 هرتز للاستماع أثناء التأمل. النوع المزدوج يحتاج سماعات، والنبضي يعمل بلا سماعات.",
+    "kind": "gamma",
+    "tier": "free",
+    "durations": [5, 10, 15, 20, 30],
+    "phases": [
+      {
+        "id": "listening",
+        "title": "استماع",
+        "durationSec": 300,
+        "background": "gamma_binaural",
+        "instruction": "استماع هادئ للنغمة بصوت منخفض."
+      }
+    ]
+  },
+  {
+    "id": "calm_breathing",
+    "title": "تنفّس هادئ",
+    "description": "تنفّس بطيء بعدّ بسيط: أربعة للشهيق وستة للزفير.",
+    "kind": "guided",
+    "tier": "free",
+    "durations": [5, 10],
+    "phases": [
+      {
+        "id": "settle",
+        "title": "الاستقرار",
+        "durationSec": 60,
+        "cues": [
+          { "atSec": 0, "clip": "breathing_01" },
+          { "atSec": 30, "clip": "breathing_02" }
+        ]
+      },
+      {
+        "id": "counted_breath",
+        "title": "التنفّس بالعدّ",
+        "durationSec": 180,
+        "instruction": "شهيق: 1، 2، 3، 4 — زفير: 1، 2، 3، 4، 5، 6",
+        "cues": [
+          { "atSec": 0, "clip": "breathing_03" },
+          { "atSec": 90, "clip": "breathing_04" }
+        ]
+      },
+      {
+        "id": "natural_breath",
+        "title": "نفَس طبيعي",
+        "durationSec": 60,
+        "cues": [
+          { "atSec": 0, "clip": "breathing_05" },
+          { "atSec": 20, "clip": "breathing_06", "fromEnd": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "body_scan",
+    "title": "مسح الجسد",
+    "description": "انتباه هادئ ينتقل عبر الجسد من القدمين إلى الرأس.",
+    "kind": "guided",
+    "tier": "premium",
+    "durations": [10, 15],
+    "phases": [
+      { "id": "settle", "title": "الاستقرار", "durationSec": 60, "cues": [{ "atSec": 0, "clip": "body_scan_01" }] },
+      { "id": "legs", "title": "القدمان والساقان", "durationSec": 120, "cues": [{ "atSec": 0, "clip": "body_scan_02" }] },
+      { "id": "torso", "title": "البطن والصدر والظهر", "durationSec": 120, "cues": [{ "atSec": 0, "clip": "body_scan_03" }] },
+      { "id": "arms", "title": "اليدان والذراعان", "durationSec": 90, "cues": [{ "atSec": 0, "clip": "body_scan_04" }] },
+      { "id": "face", "title": "الرقبة والوجه", "durationSec": 90, "cues": [{ "atSec": 0, "clip": "body_scan_05" }] },
+      {
+        "id": "whole",
+        "title": "الجسد كله",
+        "durationSec": 120,
+        "cues": [
+          { "atSec": 0, "clip": "body_scan_06" },
+          { "atSec": 20, "clip": "body_scan_07", "fromEnd": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "present_moment",
+    "title": "الحضور في اللحظة",
+    "description": "الأصوات، ثم الجسد، ثم الأفكار وهي تمرّ، دون حكم عليها.",
+    "kind": "guided",
+    "tier": "premium",
+    "durations": [10, 20],
+    "phases": [
+      { "id": "arrive", "title": "الوصول", "durationSec": 60, "cues": [{ "atSec": 0, "clip": "present_moment_01" }] },
+      { "id": "sounds", "title": "الأصوات", "durationSec": 150, "cues": [{ "atSec": 0, "clip": "present_moment_02" }] },
+      { "id": "body", "title": "الجسد", "durationSec": 150, "cues": [{ "atSec": 0, "clip": "present_moment_03" }] },
+      { "id": "thoughts", "title": "الأفكار", "durationSec": 150, "cues": [{ "atSec": 0, "clip": "present_moment_04" }] },
+      {
+        "id": "open",
+        "title": "انتباه مفتوح",
+        "durationSec": 90,
+        "cues": [
+          { "atSec": 0, "clip": "present_moment_05" },
+          { "atSec": 20, "clip": "present_moment_06", "fromEnd": true }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "move_and_still",
+    "title": "حركة ثم سكون",
+    "description": "تأمل حركي بخمس مراحل: إحماء، ثم حركة بإيقاع، ثم حركة حرة، ثم جلوس صامت، ثم استلقاء.",
+    "kind": "active",
+    "tier": "premium",
+    "durations": [20],
+    "phases": [
+      {
+        "id": "warm_up",
+        "title": "إحماء وتنفّس",
+        "durationSec": 180,
+        "instruction": "وقوف في مكان واسع، وتنفّس هادئ، وتمدّد خفيف للذراعين والرقبة.",
+        "cues": [{ "atSec": 0, "clip": "move_and_still_01" }]
+      },
+      {
+        "id": "rhythm",
+        "title": "حركة بإيقاع",
+        "durationSec": 300,
+        "instruction": "مشي في المكان بإيقاع ثابت، والذراعان تتحركان مع الخطوات.",
+        "cues": [{ "atSec": 0, "clip": "move_and_still_02" }]
+      },
+      {
+        "id": "free_movement",
+        "title": "حركة حرة",
+        "durationSec": 300,
+        "instruction": "حركة حرة بلطف: الكتفان والذراعان والوركان، كما يريد الجسد.",
+        "cues": [{ "atSec": 0, "clip": "move_and_still_03" }]
+      },
+      {
+        "id": "sitting",
+        "title": "جلوس صامت",
+        "durationSec": 300,
+        "instruction": "جلوس هادئ، والنفَس والنبض يعودان إلى الهدوء.",
+        "cues": [{ "atSec": 0, "clip": "move_and_still_04" }]
+      },
+      {
+        "id": "lying",
+        "title": "استلقاء",
+        "durationSec": 120,
+        "instruction": "استلقاء على الظهر، وثقل الجسد على الأرض.",
+        "cues": [
+          { "atSec": 0, "clip": "move_and_still_05" },
+          { "atSec": 15, "clip": "move_and_still_06", "fromEnd": true }
+        ]
+      }
+    ]
+  }
+]

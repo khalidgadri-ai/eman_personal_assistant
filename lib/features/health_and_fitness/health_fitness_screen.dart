@@ -10,6 +10,7 @@ import '../../core/widgets/ai_provider_screen.dart';
 import '../../core/widgets/entry_dialog.dart';
 import '../../core/widgets/undo_snackbar.dart';
 import '../awareness/usage_awareness_screen.dart';
+import '../meditation/meditation_tab.dart';
 import '../reminders/reminder_notice.dart';
 import '../settings/settings_button.dart';
 import 'exercise_details_screen.dart';
@@ -45,7 +46,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this)..addListener(_onTabChanged);
+    _tabController = TabController(length: 4, vsync: this)..addListener(_onTabChanged);
     _loadData();
   }
 
@@ -410,6 +411,9 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
         ],
         bottom: TabBar(
           controller: _tabController,
+          // أربعة أقسام: قابل للتمرير حتى لا تُقصّ الأسماء على الجوالات الضيقة.
+          isScrollable: true,
+          tabAlignment: TabAlignment.start,
           indicatorColor: AppTheme.accentColor,
           labelColor: AppTheme.accentColor,
           unselectedLabelColor: AppTheme.subTextColor,
@@ -417,6 +421,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
             Tab(text: 'التمارين والعضلات'),
             Tab(text: 'جدول الأدوية'),
             Tab(text: 'العناية بالبشرة'),
+            Tab(text: 'التأمل'),
           ],
         ),
       ),
@@ -427,6 +432,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
           _buildFitnessTab(),
           _buildMedsTab(),
           _buildBeautyTab(),
+          const MeditationTab(),
         ],
       ),
     );

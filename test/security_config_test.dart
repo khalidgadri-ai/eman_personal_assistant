@@ -48,7 +48,7 @@ void main() {
   group('AndroidManifest.xml', () {
     final manifest = File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
 
-    test('declares only the three expected permissions', () {
+    test('declares only the six expected permissions', () {
       final declared = RegExp(r'<uses-permission\s+android:name="([^"]+)"')
           .allMatches(manifest)
           .map((m) => m.group(1))
@@ -57,7 +57,18 @@ void main() {
         'android.permission.INTERNET',
         'android.permission.PACKAGE_USAGE_STATS',
         'android.permission.RECEIVE_BOOT_COMPLETED',
+        // صوت التأمل والشاشة مطفأة (audio_service).
+        'android.permission.WAKE_LOCK',
+        'android.permission.FOREGROUND_SERVICE',
+        'android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK',
       });
+    });
+
+    test('the only foreground service is media playback for meditation', () {
+      final services = RegExp(r'<service\b[^>]*>').allMatches(manifest).map((m) => m.group(0)!).toList();
+      expect(services, hasLength(1));
+      expect(services.single, contains('com.ryanheise.audioservice.AudioService'));
+      expect(services.single, contains('android:foregroundServiceType="mediaPlayback"'));
     });
 
     test('never asks for exact alarms, all packages, camera, photos or the microphone', () {
@@ -74,14 +85,24 @@ void main() {
       }
     });
 
-    test('allows no plain-http traffic and exports only the launcher activity', () {
+    test('allows no plain-http traffic and exports only the launcher activity and the meditation audio', () {
       expect(manifest.contains('usesCleartextTraffic="true"'), isFalse);
-      final receivers = RegExp(r'<receiver\b[^>]*>').allMatches(manifest).map((m) => m.group(0)!).toList();
-      expect(receivers, isNotEmpty);
-      for (final receiver in receivers) {
-        expect(receiver, contains('android:exported="false"'));
+      // المسموح بالاسم فقط: خدمة صوت التأمل وزر الوسائط (يتصل بهما النظام وأزرار السماعات).
+      const allowedExported = {
+        'com.ryanheise.audioservice.AudioService',
+        'com.ryanheise.audioservice.MediaButtonReceiver',
+      };
+      final components = RegExp(r'<(receiver|service)\b[^>]*>').allMatches(manifest).map((m) => m.group(0)!).toList();
+      expect(components, isNotEmpty);
+      for (final component in components) {
+        final name = RegExp(r'android:name="([^"]+)"').firstMatch(component)!.group(1)!;
+        if (allowedExported.contains(name)) {
+          expect(component, contains('android:exported="true"'), reason: name);
+        } else {
+          expect(component, contains('android:exported="false"'), reason: name);
+        }
       }
-      expect(RegExp(r'android:exported="true"').allMatches(manifest).length, 1);
+      expect(RegExp(r'android:exported="true"').allMatches(manifest).length, 1 + allowedExported.length);
     });
   });
 

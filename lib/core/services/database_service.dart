@@ -135,6 +135,19 @@ class DatabaseService {
   Future<void> saveCoachSeenQuestions(List<Map<String, dynamic>> entries) =>
       _writeList(coachSeenQuestionsKey, entries);
 
+  // --- ملاحظات السلامة في التأمل ---
+  // تظهر مرة واحدة لكل نوع (جاما، الحركي). إعداد خاص بالجهاز خارج النسخة الاحتياطية عمدًا،
+  // و«مسح كل بياناتي» يعيدها.
+  static const String meditationNoticesKey = 'meditation_notices_seen';
+
+  bool hasSeenMeditationNotice(String kind) =>
+      _prefs?.getStringList(meditationNoticesKey)?.contains(kind) ?? false;
+
+  Future<void> markMeditationNoticeSeen(String kind) async {
+    final seen = {...?_prefs?.getStringList(meditationNoticesKey), kind}.toList()..sort();
+    await _prefs?.setStringList(meditationNoticesKey, seen);
+  }
+
   // --- جولة التعريف (AppTour) ---
   // إعداد خاص بهذا الجهاز لا من بيانات المستخدم، فهو خارج [backupListKeys] عمدًا.
   // «مسح كل بياناتي» يمسحه مع SharedPreferences كلها، فتعود الجولة بعد المسح.

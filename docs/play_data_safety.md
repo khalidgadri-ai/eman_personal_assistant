@@ -9,7 +9,8 @@
 - كل بيانات المستخدم تُخزَّن على جهازه فقط.
 - الشيئان الوحيدان اللذان يتصلان بالإنترنت:
   1. **مزوّد الذكاء الاصطناعي الذي يختاره المستخدم** (Gemini من Google، أو Claude من Anthropic، أو أي خدمة متوافقة مع OpenAI مثل OpenAI وxAI وOpenRouter وGroq وDeepSeek وMistral) بمفتاح يدخله المستخدم بنفسه، وفقط عند ضغطه على ميزة ذكاء اصطناعي. التطبيق لا يستعمل حزمة أي مزوّد: يتصل مباشرة بعنوان https الذي اختاره المستخدم.
-  2. **Google Play Billing** للاشتراك الوحيد `eman_coach_monthly` (زر "عمّق أكثر" في المدرب).
+  2. **Google Play Billing** للاشتراك الوحيد `eman_coach_monthly` (زر "عمّق أكثر" في المدرب، وجلسات التأمل المدفوعة).
+- **التأمل لا يُرسل شيئًا من الجهاز:** الأصوات تُولَّد على الجوال أو مضمّنة في التطبيق، وسجل دقائق التأمل في `health_enc` المشفّر.
 - لا تُحمَّل خطوط ولا صور ولا إعدادات من الإنترنت (`google_fonts` في `pubspec.yaml` غير مستعمل في `lib/`).
 
 ## 2) ما يخزّنه التطبيق على الجهاز
@@ -19,6 +20,7 @@
 | الملف الشخصي (الاسم، الاهتمامات، الأهداف) | Hive `profile_enc` | AES-256 | `profile_service.dart` |
 | الأدوية والمكملات وروتين العناية (مع وقت التذكير إن ضُبط) | Hive `health_enc` | AES-256 | `health_service.dart` |
 | التمارين المحفوظة (الاسم، العضلات، الخطوات، المجموعات، الملاحظات) وسجل التمرين | Hive `health_enc` | AES-256 | `health_service.dart` |
+| سجل التأمل (الجلسة، الدقائق، الوقت) | Hive `health_enc` | AES-256 | `health_service.dart` (`logMeditation`) |
 | أسئلة المدرب التي ظهرت (معرّفات فقط، لمنع التكرار) | SharedPreferences (`coach_seen_questions`) | غير مشفّرة (بلا نص المستخدم) | `database_service.dart` |
 | **صور التمارين** التي يحفظها المستخدم | Hive `exercise_images_enc` | AES-256 | `health_service.dart` (`exerciseImage`) |
 | المصاريف اليدوية (المبلغ، الفئة، ملاحظة، التاريخ) | Hive `expenses_enc` | AES-256 | `budget_service.dart` |

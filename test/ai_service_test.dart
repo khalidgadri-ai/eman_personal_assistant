@@ -241,7 +241,7 @@ void main() {
 
   group('model name rules for Gemini', () {
     test('the starting suggestion is the current stable model, not a retired one', () {
-      expect(AIConfig.modelName, 'gemini-3.8-flash');
+      expect(AIConfig.modelName, 'gemini-3.5-flash-lite');
       expect(AIConfig.modelName, isNot(startsWith('gemini-2.0')));
       expect(AIConfig.modelName, isNot(startsWith('gemini-1.5')));
     });

@@ -7,7 +7,7 @@ import '../ai_provider.dart';
 /// Gemini عبر REST مباشرة (حزمة google_generative_ai مهجورة وتفشل في قيم الرد الجديدة).
 /// المفتاح في ترويسة `x-goog-api-key` لا في الرابط، حتى لا يتسرب إلى السجلات.
 class GeminiProvider extends AiProvider {
-  GeminiProvider(super.config, super.apiKey, {super.client});
+  GeminiProvider(super.config, super.apiKey, {super.client, super.busyRetryDelay});
 
   Map<String, String> get _headers => {'x-goog-api-key': apiKey};
 

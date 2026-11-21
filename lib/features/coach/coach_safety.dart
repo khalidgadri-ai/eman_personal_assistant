@@ -35,6 +35,12 @@ const List<String> crisisKeywords = [
   'hurt myself',
   'no reason to live',
   'better off dead',
+  'suicidal',
+  'take my own life',
+  'kill my self',
+  "don't want to live",
+  'dont want to live',
+  "don't want to be alive",
 ];
 
 const List<String> advicePhrases = [
@@ -64,6 +70,9 @@ class CrisisHelpline {
 
 // لا يوجد في السعودية خط وطني مخصص للانتحار على مدار الساعة، لذلك نعرض
 // الخطوط الحكومية الرسمية الأقرب للغرض، مرتبة حسب الأولوية.
+// هذه الأرقام سعودية فقط، وتظهر دائمًا تحت عنوان يقول ذلك ([crisisHelplinesNote])، وأولًا
+// إن كانت منطقة الجوال السعودية ([showSaudiHelplinesFirst]). لا نضع أرقام دول أخرى من عندنا:
+// الرقم الخاطئ في أزمة خطر، فبقية الدول يوجّهها [crisisHelplineFinderUrl].
 const List<CrisisHelpline> crisisHelplines = [
   CrisisHelpline('911 / 997', 'طوارئ فورية أو خطر مباشر على الحياة (997: الهلال الأحمر)'),
   CrisisHelpline(
@@ -73,7 +82,22 @@ const List<CrisisHelpline> crisisHelplines = [
   CrisisHelpline('937', 'استشارة طبية على مدار 24 ساعة — مركز اتصال وزارة الصحة'),
 ];
 
-const String crisisHelplinesNote = 'هذه خطوط حكومية رسمية في المملكة العربية السعودية.';
+const String crisisHelplinesNote = 'في المملكة العربية السعودية (خطوط حكومية رسمية):';
+
+/// لكل البلاد، لأن التطبيق متاح خارج السعودية.
+const String crisisLocalEmergencyMessage =
+    'إن كان هناك خطر مباشر، اتصل الآن برقم الطوارئ في بلدك، أو اذهب إلى أقرب قسم طوارئ.';
+
+const String crisisHelplineFinderLabel = 'ابحث عن خط مساعدة مجاني في بلدك';
+
+/// Find A Helpline (ThroughLine): دليل مجاني لخطوط المساعدة الموثّقة في أكثر من 175 بلدًا،
+/// ويقترح خطوط بلد الزائر (راجعناه في 21 نوفمبر 2026). يُفتح فقط حين يضغط المستخدم،
+/// في المتصفح، ولا يُرسل التطبيق إليه أي شيء.
+final Uri crisisHelplineFinderUrl = Uri.parse('https://findahelpline.com');
+
+/// منطقة الجوال (من إعداد اللغة والمنطقة، مثل ar_SA). تقريب لا موقع فعلي، لذلك لا تُخفى
+/// الأرقام السعودية عن أحد: تتغير فقط هل تأتي قبل الدليل العام أو بعده.
+bool showSaudiHelplinesFirst(String? countryCode) => countryCode?.toUpperCase() == 'SA';
 
 String normalizeArabic(String input) {
   return input

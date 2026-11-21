@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/services/contact_service.dart';
 import '../../core/services/free_quota_service.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
@@ -21,18 +22,24 @@ Future<bool> _requireConfiguredAi(BuildContext context) async =>
 /// كيف سُمح بطلب سؤال المتابعة: اشتراك فعّال، أو استعمال من الحصة المجانية الشهرية.
 enum _DeepenAccess { subscriber, free }
 
+String? _deviceCountryCode() => WidgetsBinding.instance.platformDispatcher.locale.countryCode;
+
 class CoachScreen extends StatefulWidget {
-  /// المعاملات الثلاثة للاختبارات فقط؛ الأصل هو الخدمة الحقيقية وساعة الجهاز.
+  /// المعاملات للاختبارات فقط؛ الأصل هو الخدمة الحقيقية وساعة الجهاز ومنطقته والمتصفح.
   const CoachScreen({
     super.key,
     this.aiService,
     this.clock = DateTime.now,
     this.aiAccess = _requireConfiguredAi,
+    this.countryCode = _deviceCountryCode,
+    this.openLink = openExternalLink,
   });
 
   final CoachAiService? aiService;
   final DateTime Function() clock;
   final CoachAiAccess aiAccess;
+  final String? Function() countryCode;
+  final LinkOpener openLink;
 
   @override
   State<CoachScreen> createState() => _CoachScreenState();
@@ -231,6 +238,51 @@ class _CoachScreenState extends State<CoachScreen> {
   }
 
   Future<void> _showCrisisDialog() async {
+    final general = <Widget>[
+      const Text(
+        crisisLocalEmergencyMessage,
+        style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.w600, height: 1.6),
+      ),
+      const SizedBox(height: 8),
+      OutlinedButton.icon(
+        style: OutlinedButton.styleFrom(side: const BorderSide(color: AppTheme.accentColor)),
+        onPressed: () => widget.openLink(crisisHelplineFinderUrl),
+        icon: const Icon(Icons.open_in_new_rounded, size: 18, color: AppTheme.accentColor),
+        label: const Text(crisisHelplineFinderLabel, style: TextStyle(color: AppTheme.accentColor)),
+      ),
+      const SizedBox(height: 16),
+    ];
+    final saudi = <Widget>[
+      const Text(
+        crisisHelplinesNote,
+        style: TextStyle(color: AppTheme.subTextColor, fontSize: 12, fontWeight: FontWeight.w600),
+      ),
+      const SizedBox(height: 8),
+      for (final line in crisisHelplines)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SelectableText(
+                line.number,
+                textDirection: TextDirection.ltr,
+                style: const TextStyle(
+                  color: AppTheme.accentColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                line.description,
+                style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+    ];
+    final saudiFirst = showSaudiHelplinesFirst(widget.countryCode());
+
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => Directionality(
@@ -248,32 +300,7 @@ class _CoachScreenState extends State<CoachScreen> {
                   style: TextStyle(color: AppTheme.textColor, height: 1.6),
                 ),
                 const SizedBox(height: 16),
-                for (final line in crisisHelplines)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                          line.number,
-                          textDirection: TextDirection.ltr,
-                          style: const TextStyle(
-                            color: AppTheme.accentColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          line.description,
-                          style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                const Text(
-                  crisisHelplinesNote,
-                  style: TextStyle(color: AppTheme.subTextColor, fontSize: 11),
-                ),
+                ...saudiFirst ? [...saudi, ...general] : [...general, ...saudi],
               ],
             ),
           ),

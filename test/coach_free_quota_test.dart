@@ -26,6 +26,8 @@ void main() {
   var aiAccessCalls = 0;
   var aiConfigured = true;
   late Future<String> Function() modelReply;
+  String? country;
+  final openedLinks = <Uri>[];
 
   setUp(() async {
     storage = await TestStorage.inMemory();
@@ -33,6 +35,8 @@ void main() {
     aiAccessCalls = 0;
     aiConfigured = true;
     modelReply = () async => modelQuestion;
+    country = null;
+    openedLinks.clear();
   });
   tearDown(() => storage.dispose());
 
@@ -67,6 +71,11 @@ void main() {
         aiAccess: (_) async {
           aiAccessCalls++;
           return aiConfigured;
+        },
+        countryCode: () => country,
+        openLink: (url) async {
+          openedLinks.add(url);
+          return true;
         },
       ),
     );
@@ -166,6 +175,35 @@ void main() {
       expect(aiAccessCalls, 0);
       expect(paywall, findsNothing);
       expect(freeLeft(), 5);
+    });
+
+    testWidgets('outside Saudi Arabia the crisis help starts with the local emergency number and a helpline finder',
+        (tester) async {
+      country = 'EG';
+      await openCoach(tester);
+
+      await tapDeepen(tester, 'I feel suicidal');
+
+      final general = tester.getTopLeft(find.text(crisisLocalEmergencyMessage)).dy;
+      final saudi = tester.getTopLeft(find.text(crisisHelplinesNote)).dy;
+      expect(general, lessThan(saudi), reason: 'Saudi lines are still shown, labelled, but after');
+      expect(modelCalls, 0, reason: 'English crisis words are caught too');
+
+      await tester.tap(find.text(crisisHelplineFinderLabel));
+      await tester.pump();
+      expect(openedLinks, [crisisHelplineFinderUrl]);
+    });
+
+    testWidgets('on a Saudi phone the official Saudi lines come first', (tester) async {
+      country = 'SA';
+      await openCoach(tester);
+
+      await tapDeepen(tester, 'أفكر في الانتحار');
+
+      final general = tester.getTopLeft(find.text(crisisLocalEmergencyMessage)).dy;
+      final saudi = tester.getTopLeft(find.text(crisisHelplinesNote)).dy;
+      expect(saudi, lessThan(general));
+      expect(find.text('937'), findsOneWidget);
     });
 
     testWidgets('the model answering with the crisis sentinel shows the helpline and costs nothing',

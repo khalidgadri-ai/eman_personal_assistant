@@ -1582,4 +1582,402 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recipeTypeField => 'Type';
+
+  @override
+  String get expenseFood => 'Food';
+
+  @override
+  String get expenseTransport => 'Transport';
+
+  @override
+  String get expenseEntertainment => 'Entertainment';
+
+  @override
+  String get expenseBills => 'Bills';
+
+  @override
+  String get expenseShopping => 'Shopping';
+
+  @override
+  String get percentSign => '%';
+
+  @override
+  String get listSeparator => ', ';
+
+  @override
+  String get planSaved => 'Budget plan saved';
+
+  @override
+  String get limitsSaved => 'Limits saved. Change them from \"Edit plan\"';
+
+  @override
+  String get budgetTitle => '💰 Wallet & budget';
+
+  @override
+  String get monthlyExpenses => 'My monthly expenses';
+
+  @override
+  String get budgetOpenFailed => 'Couldn\'t open the budget data';
+
+  @override
+  String get setupBudgetTitle => 'Set up your budget';
+
+  @override
+  String get setupBudgetBody =>
+      'Enter your monthly income, your payday and your fixed expenses, and we\'ll work out what is left and how much you can spend each day. All your data stays on your device, encrypted.';
+
+  @override
+  String get setupBudgetButton => 'Set up budget';
+
+  @override
+  String get currentCycleBudget => 'This cycle\'s budget';
+
+  @override
+  String daysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '1 day left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleRange(String start, String end) {
+    return '$start to $end';
+  }
+
+  @override
+  String get remainingLabel => 'Remaining';
+
+  @override
+  String spentPercent(int percent) {
+    return 'Spent $percent% of the available amount';
+  }
+
+  @override
+  String get incomeLabel => 'Income';
+
+  @override
+  String get fixedExpenses => 'Fixed expenses';
+
+  @override
+  String get savingsLabel => 'Savings';
+
+  @override
+  String get availableToSpend => 'Available to spend';
+
+  @override
+  String get spentSoFar => 'Spent so far';
+
+  @override
+  String get dailyAvailable => 'Available per day';
+
+  @override
+  String overcommittedWarning(String amount) {
+    return 'Fixed expenses and savings ($amount) are more than your income. Adjust the plan.';
+  }
+
+  @override
+  String overspentWarning(String amount) {
+    return 'You went over the available amount this cycle by $amount.';
+  }
+
+  @override
+  String nearEndWarning(int percent, String amount) {
+    return 'Close to the end of the available amount: $percent% spent, $amount left.';
+  }
+
+  @override
+  String get editPlan => 'Edit plan';
+
+  @override
+  String get suggestBudget => 'Suggest a budget';
+
+  @override
+  String paidCount(int paid, int total) {
+    return '$paid of $total paid';
+  }
+
+  @override
+  String dueDayLine(int day) {
+    return 'Day $day of the month';
+  }
+
+  @override
+  String dueDayAmount(int day, String amount) {
+    return 'Day $day of the month · $amount';
+  }
+
+  @override
+  String get byCategory => 'Spending by category';
+
+  @override
+  String get noCategorySpending =>
+      'No spending recorded this cycle and no category limits. You can get suggested limits from \"Suggest a budget\".';
+
+  @override
+  String overLimit(String category, String amount) {
+    return 'Over the \"$category\" limit by $amount.';
+  }
+
+  @override
+  String nearLimit(String category, int percent) {
+    return 'Close to the \"$category\" limit: $percent% spent.';
+  }
+
+  @override
+  String get recentExpenses => 'Recent expenses';
+
+  @override
+  String get noRecentExpenses => 'No expenses recorded this cycle yet.';
+
+  @override
+  String get recordExpense => 'Add expense';
+
+  @override
+  String get allExpenses => 'All expenses';
+
+  @override
+  String get invalidAmountPositive => 'Enter a valid amount greater than zero';
+
+  @override
+  String get percentRange => 'Enter a percentage from 0 to 100';
+
+  @override
+  String get savingsAmountInvalid => 'Enter a valid amount (or leave it empty)';
+
+  @override
+  String get checkRedFields =>
+      'Check the fields marked in red, then save again';
+
+  @override
+  String get planSaveFailed => 'Couldn\'t save the plan. Please try again';
+
+  @override
+  String get unsavedChanges => 'Unsaved changes';
+
+  @override
+  String get unsavedPlanBody =>
+      'The changes to the budget plan aren\'t saved. Save them before leaving?';
+
+  @override
+  String get keepEditing => 'Keep editing';
+
+  @override
+  String get leaveWithoutSaving => 'Leave without saving';
+
+  @override
+  String get savePlan => 'Save plan';
+
+  @override
+  String get newFixedExpense => 'New fixed expense';
+
+  @override
+  String get editFixedExpense => 'Edit fixed expense';
+
+  @override
+  String get expenseName => 'Expense name';
+
+  @override
+  String get expenseNameHint => 'e.g. Rent';
+
+  @override
+  String get amountLabel => 'Amount';
+
+  @override
+  String get dueDayField => 'Due day (1 to 31)';
+
+  @override
+  String get dueDayInvalid => 'Enter a day from 1 to 31';
+
+  @override
+  String get budgetPlanTitle => 'Budget plan';
+
+  @override
+  String get incomeAndCycle => 'Income & cycle';
+
+  @override
+  String get monthlyIncome => 'Monthly income';
+
+  @override
+  String get paydayField => 'Payday';
+
+  @override
+  String get paydayHelper => 'The budget cycle starts on this day every month';
+
+  @override
+  String get currencyField => 'Currency';
+
+  @override
+  String get fixedEmptyHint =>
+      'Add what repeats every month: rent, installments, subscriptions, bills.';
+
+  @override
+  String deleteNamed(String name) {
+    return 'Delete $name';
+  }
+
+  @override
+  String totalLine(String amount) {
+    return 'Total: $amount';
+  }
+
+  @override
+  String get addFixedExpense => 'Add fixed expense';
+
+  @override
+  String get monthlySavingsGoal => 'Monthly savings goal';
+
+  @override
+  String get savingsModeAmount => 'Amount';
+
+  @override
+  String get savingsModePercent => 'Share of income';
+
+  @override
+  String get savingsPercentField => 'Savings rate';
+
+  @override
+  String get savingsAmountField => 'Savings amount';
+
+  @override
+  String equalsMonthly(String amount) {
+    return 'That is $amount a month';
+  }
+
+  @override
+  String get categoryLimitsOptional => 'Category limits (optional)';
+
+  @override
+  String get categoryLimitsHint =>
+      'A spending cap for each category during the cycle. Leave it empty for no limit.';
+
+  @override
+  String categoryLimitField(String category) {
+    return '$category limit';
+  }
+
+  @override
+  String planOvercommitted(String committed, String income) {
+    return 'Fixed expenses and savings ($committed) are more than the income ($income). Nothing will be left to spend.';
+  }
+
+  @override
+  String limitsOverAvailable(String limits, String available) {
+    return 'The category limits ($limits) add up to more than is available to spend ($available).';
+  }
+
+  @override
+  String get planSummary => 'Plan summary';
+
+  @override
+  String get limitsSaveFailed => 'Couldn\'t save the limits. Please try again';
+
+  @override
+  String get yourAiProvider => 'the AI provider you chose';
+
+  @override
+  String get sendFinancialData => 'Send your financial data?';
+
+  @override
+  String financialConsentBody(
+    String provider,
+    String income,
+    String fixed,
+    String savings,
+    String available,
+  ) {
+    return 'Only these numbers will be sent to \"$provider\":\n• Monthly income: $income\n• Fixed expenses total: $fixed\n• Savings goal: $savings\n• Available to spend: $available\n\nThe names of your fixed expenses and your recorded expenses are not sent. What is sent is subject to this provider\'s policy. We ask every time, and nothing is sent before you agree.';
+  }
+
+  @override
+  String get agreeAndSend => 'Agree and send this time';
+
+  @override
+  String aiSuggestionUnreadable(String reply) {
+    return 'Couldn\'t read the suggestion as category limits. $reply';
+  }
+
+  @override
+  String get saveAsLimits => 'Save as category limits';
+
+  @override
+  String get availableMonthly => 'Available to spend per month';
+
+  @override
+  String get noAvailableForLimits =>
+      'Your plan has nothing available to spend right now, so no limits can be suggested. Adjust the income, fixed expenses or savings first.';
+
+  @override
+  String get localSuggestion => 'Local suggestion (offline)';
+
+  @override
+  String localRuleText(String rule) {
+    return 'A simple rule splits the available amount like this: $rule. After saving, change any limit from \"Edit plan\".';
+  }
+
+  @override
+  String get aiSuggestionOptional => 'AI suggestion (optional)';
+
+  @override
+  String get aiSuggestionNote =>
+      'Sends your plan\'s numbers to the provider you chose; nothing is sent without your OK, every time.';
+
+  @override
+  String get askAiSuggestion => 'Ask the AI for a suggestion';
+
+  @override
+  String aiSuggestionOver(String amount) {
+    return 'This suggestion adds up to $amount, more than is available to spend. Adjust it after saving.';
+  }
+
+  @override
+  String expenseDeleted(String amount) {
+    return 'Expense of $amount deleted';
+  }
+
+  @override
+  String get noMonthExpenses => 'No expenses recorded this month';
+
+  @override
+  String get previousMonth => 'Previous month';
+
+  @override
+  String get nextMonth => 'Next month';
+
+  @override
+  String get totalSpending => 'Total spending';
+
+  @override
+  String get breakdownByCategory => 'Breakdown by category';
+
+  @override
+  String percentOfTotal(int percent) {
+    return '$percent% of the total';
+  }
+
+  @override
+  String get monthExpenses => 'This month\'s expenses';
+
+  @override
+  String get deleteExpense => 'Delete expense';
+
+  @override
+  String get recordExpenseTitle => 'Add expense';
+
+  @override
+  String get editExpenseTitle => 'Edit expense';
+
+  @override
+  String get expenseCategoryField => 'Category';
+
+  @override
+  String dateLine(String date) {
+    return 'Date: $date';
+  }
+
+  @override
+  String get changeDate => 'Change date';
 }

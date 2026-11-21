@@ -59,8 +59,13 @@ void main() {
 
   setUp(() async {
     storage = await TestStorage.inMemory();
+    // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ هذه الاختبارات على هاتف سعودي (ريال).
+    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.localeTestValue = const Locale('ar', 'SA');
   });
-  tearDown(() => storage.dispose());
+  tearDown(() async {
+    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.clearLocaleTestValue();
+    await storage.dispose();
+  });
 
   Future<void> bigScreen(WidgetTester tester) async {
     tester.view.physicalSize = const Size(900, 3200);
@@ -528,13 +533,47 @@ void main() {
       expect(find.text('40 د.إ'), findsWidgets);
     });
 
-    testWidgets('the monthly screen keeps the Saudi riyal when no plan exists', (tester) async {
+    testWidgets('the monthly screen shows the Saudi riyal on a Saudi phone when no plan exists', (tester) async {
       final b = await BudgetService.getInstance();
       await b.addExpense(amount: 25.5, category: ExpenseCategory.food, date: DateTime.now());
       await bigScreen(tester);
       await pumpScreen(tester, const BudgetSummaryScreen());
 
       expect(find.text('25.5 ر.س'), findsWidgets);
+    });
+
+    testWidgets('before any plan the phone\'s country picks the currency; a saved plan keeps its own', (tester) async {
+      tester.platformDispatcher.localeTestValue = const Locale('ar', 'EG');
+      final b = await BudgetService.getInstance();
+      await b.addExpense(amount: 25.5, category: ExpenseCategory.food, date: DateTime.now());
+      await bigScreen(tester);
+      await pumpScreen(tester, const BudgetSummaryScreen());
+      expect(find.text('25.5 ج.م'), findsWidgets);
+
+      await savePlan(_base); // خطة محفوظة بالريال
+      await pumpScreen(tester, BudgetSummaryScreen(key: UniqueKey()));
+      expect(find.text('25.5 ر.س'), findsWidgets);
+    });
+  });
+
+  group('regions and currencies', () {
+    test('each country gets its currency, euro countries the euro, others the dollar', () {
+      expect(BudgetCurrency.forRegion('SA').code, 'SAR');
+      expect(BudgetCurrency.forRegion('ma').code, 'MAD');
+      expect(BudgetCurrency.forRegion('DE').code, 'EUR');
+      expect(BudgetCurrency.forRegion('GB').code, 'GBP');
+      expect(BudgetCurrency.forRegion('BR').code, 'USD');
+      expect(BudgetCurrency.forRegion('').code, 'SAR');
+    });
+
+    test('Arabic symbols stay in Arabic; other languages get a Latin symbol or the code', () {
+      final sar = BudgetCurrency.byCode('SAR');
+      expect(sar.symbolFor('ar'), 'ر.س');
+      expect(sar.symbolFor('en'), 'SAR');
+      expect(sar.nameFor('en'), 'Saudi riyal');
+      expect(BudgetCurrency.byCode('GBP').symbolFor('en'), '£');
+      final codes = BudgetCurrency.all.map((c) => c.code).toList();
+      expect(codes.toSet().length, codes.length, reason: 'no currency is listed twice');
     });
   });
 

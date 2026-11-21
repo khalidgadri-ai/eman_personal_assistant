@@ -12,8 +12,13 @@ void main() {
 
   setUp(() async {
     storage = await TestStorage.inMemory();
+    // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ هذه الاختبارات على هاتف سعودي (ريال).
+    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.localeTestValue = const Locale('ar', 'SA');
   });
-  tearDown(() => storage.dispose());
+  tearDown(() async {
+    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.clearLocaleTestValue();
+    await storage.dispose();
+  });
 
   Future<BudgetService> budget() => BudgetService.getInstance();
 

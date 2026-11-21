@@ -8,19 +8,23 @@ import 'budget_format.dart';
 import 'budget_plan_service.dart';
 import 'models/budget_plan.dart';
 import 'models/expense_entry.dart';
+import '../../l10n/l10n.dart';
 
 /// إعداد خطة الميزانية: الدخل ويوم الراتب والعملة والمصروفات الثابتة وهدف الادخار وحدود الفئات.
 /// لا يُحفظ شيء حتى يضغط المستخدم "حفظ الخطة"، وإن خرج بتعديلات غير محفوظة يُسأل أولًا.
 /// ترجّع true إذا حُفظت الخطة.
 class BudgetPlanScreen extends StatefulWidget {
-  const BudgetPlanScreen({super.key});
+  const BudgetPlanScreen({super.key, this.countryCode});
+
+  /// بلد الهاتف لاقتراح العملة قبل أول حفظ؛ null = بلد الهاتف الفعلي. يُستبدل في الاختبارات.
+  final String? countryCode;
 
   @override
   State<BudgetPlanScreen> createState() => _BudgetPlanScreenState();
 }
 
 class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
-  static const String _invalidAmount = 'أدخل مبلغًا صحيحًا أكبر من صفر';
+  String get _invalidAmount => context.l10n.invalidAmountPositive;
 
   final TextEditingController _income = TextEditingController();
   final TextEditingController _savings = TextEditingController();
@@ -65,7 +69,8 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
       _service = service;
       _income.text = plan.income > 0 ? _plain(plan.income) : '';
       _payday = plan.payday;
-      _currencyCode = plan.currencyCode;
+      // قبل أول حفظ تُقترح عملة بلد الهاتف؛ المستخدم يغيّرها من القائمة.
+      _currencyCode = plan.displayCurrency(widget.countryCode).code;
       _mode = plan.savings.mode;
       _savings.text = plan.savings.value > 0 ? _plain(plan.savings.value) : '';
       _fixed = List.of(plan.fixed);
@@ -78,6 +83,8 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   void _touch() => setState(() => _dirty = true);
 
   BudgetCurrency get _currency => BudgetCurrency.byCode(_currencyCode);
+
+  String get _symbol => _currency.symbolFor(context.appLang);
 
   /// خطة للعرض الحي فقط: القيم غير الصالحة تُحتسب صفرًا ولا تظهر أخطاء قبل الحفظ.
   BudgetPlan get _lenient {
@@ -117,7 +124,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
     setState(() {
       _incomeError = income == null ? _invalidAmount : null;
       _savingsError = savingsInvalid
-          ? (_mode == SavingsMode.percent ? 'أدخل نسبة بين 0 و100' : 'أدخل مبلغًا صحيحًا (أو اتركه فارغًا)')
+          ? (_mode == SavingsMode.percent ? context.l10n.percentRange : context.l10n.savingsAmountInvalid)
           : null;
       _limitErrors
         ..clear()
@@ -138,7 +145,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   Future<bool> _save() async {
     final plan = _buildStrict();
     if (plan == null) {
-      showInfoSnackBar(context, 'راجع الحقول المعلَّمة بالأحمر ثم احفظ مرة أخرى');
+      showInfoSnackBar(context, context.l10n.checkRedFields);
       return false;
     }
     setState(() => _saving = true);
@@ -148,7 +155,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
       debugPrint('BudgetPlanScreen: save failed (${e.runtimeType})');
       if (!mounted) return false;
       setState(() => _saving = false);
-      showInfoSnackBar(context, 'تعذّر حفظ الخطة. حاول مرة أخرى');
+      showInfoSnackBar(context, context.l10n.planSaveFailed);
       return false;
     }
     if (!mounted) return true;
@@ -160,31 +167,28 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   Future<void> _onBackWithChanges() async {
     final choice = await showDialog<String>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('تعديلات غير محفوظة', style: TextStyle(color: AppTheme.textColor)),
-          content: const Text(
-            'لم تحفظ التغييرات على خطة الميزانية. هل تحفظها قبل الخروج؟',
-            style: TextStyle(color: AppTheme.subTextColor, height: 1.6),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, 'stay'),
-              child: const Text('متابعة التعديل', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, 'discard'),
-              child: const Text('خروج بلا حفظ', style: TextStyle(color: Colors.redAccent)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              onPressed: () => Navigator.pop(dialogContext, 'save'),
-              child: const Text('حفظ الخطة', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(context.l10n.unsavedChanges, style: TextStyle(color: AppTheme.textColor)),
+        content: Text(
+          context.l10n.unsavedPlanBody,
+          style: TextStyle(color: AppTheme.subTextColor, height: 1.6),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, 'stay'),
+            child: Text(context.l10n.keepEditing, style: TextStyle(color: AppTheme.subTextColor)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, 'discard'),
+            child: Text(context.l10n.leaveWithoutSaving, style: TextStyle(color: Colors.redAccent)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            onPressed: () => Navigator.pop(dialogContext, 'save'),
+            child: Text(context.l10n.savePlan, style: TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
     if (!mounted) return;
@@ -201,20 +205,20 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   Future<void> _editFixed({FixedExpense? existing}) async {
     final values = await showEntryDialog(
       context,
-      title: existing == null ? 'مصروف ثابت جديد' : 'تعديل المصروف الثابت',
-      confirmLabel: existing == null ? 'إضافة' : 'حفظ',
+      title: existing == null ? context.l10n.newFixedExpense : context.l10n.editFixedExpense,
+      confirmLabel: existing == null ? context.l10n.add : context.l10n.save,
       fields: [
         EntryField(
           key: 'name',
-          label: 'اسم المصروف',
-          hint: 'مثال: إيجار',
+          label: context.l10n.expenseName,
+          hint: context.l10n.expenseNameHint,
           required: true,
           maxLength: FixedExpense.maxNameLength,
           initial: existing?.name,
         ),
         EntryField(
           key: 'amount',
-          label: 'المبلغ',
+          label: context.l10n.amountLabel,
           required: true,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           maxLength: 15,
@@ -223,14 +227,14 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
         ),
         EntryField(
           key: 'day',
-          label: 'يوم الاستحقاق (من 1 إلى 31)',
+          label: context.l10n.dueDayField,
           required: true,
           keyboardType: TextInputType.number,
           maxLength: 2,
           initial: existing?.dueDay.toString(),
           validator: (v) {
             final day = parseInteger(v);
-            return day == null || day < 1 || day > 31 ? 'أدخل يومًا من 1 إلى 31' : null;
+            return day == null || day < 1 || day > 31 ? context.l10n.dueDayInvalid : null;
           },
         ),
       ],
@@ -260,7 +264,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
       _dirty = true;
       _fixed = [..._fixed]..removeAt(index);
     });
-    showUndoSnackBar(context, 'حُذف «${item.name}»', () async {
+    showUndoSnackBar(context, context.l10n.itemDeleted(item.name), () async {
       if (!mounted) return;
       setState(() {
         _dirty = true;
@@ -274,50 +278,47 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   @override
   Widget build(BuildContext context) {
     final plan = _lenient;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: PopScope(
-        canPop: !_dirty,
-        onPopInvokedWithResult: (didPop, _) {
-          if (!didPop) _onBackWithChanges();
-        },
-        child: Scaffold(
-          appBar: AppBar(title: const Text('خطة الميزانية')),
-          bottomNavigationBar: _service == null
-              ? null
-              : SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.primaryColor,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                        onPressed: _saving ? null : _save,
-                        child: const Text('حفظ الخطة', style: TextStyle(color: Colors.white, fontSize: 16)),
+    return PopScope(
+      canPop: !_dirty,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _onBackWithChanges();
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text(context.l10n.budgetPlanTitle)),
+        bottomNavigationBar: _service == null
+            ? null
+            : SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
+                      onPressed: _saving ? null : _save,
+                      child: Text(context.l10n.savePlan, style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                   ),
                 ),
-          body: _service == null
-              ? const Center(child: CircularProgressIndicator())
-              : ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                  children: [
-                    _buildIncomeCard(),
-                    const SizedBox(height: 12),
-                    _buildFixedCard(plan),
-                    const SizedBox(height: 12),
-                    _buildSavingsCard(plan),
-                    const SizedBox(height: 12),
-                    _buildLimitsCard(),
-                    const SizedBox(height: 12),
-                    _buildSummaryCard(plan),
-                  ],
-                ),
-        ),
+              ),
+        body: _service == null
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                children: [
+                  _buildIncomeCard(),
+                  const SizedBox(height: 12),
+                  _buildFixedCard(plan),
+                  const SizedBox(height: 12),
+                  _buildSavingsCard(plan),
+                  const SizedBox(height: 12),
+                  _buildLimitsCard(),
+                  const SizedBox(height: 12),
+                  _buildSummaryCard(plan),
+                ],
+              ),
       ),
     );
   }
@@ -354,13 +355,13 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   }
 
   Widget _buildIncomeCard() {
-    return _section('الدخل والدورة', [
+    return _section(context.l10n.incomeAndCycle, [
       TextField(
         controller: _income,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         maxLength: 15,
         style: const TextStyle(color: AppTheme.textColor),
-        decoration: _decoration('الدخل الشهري', suffix: _currency.symbol, error: _incomeError),
+        decoration: _decoration(context.l10n.monthlyIncome, suffix: _symbol, error: _incomeError),
         onChanged: (_) {
           _incomeError = null;
           _touch();
@@ -371,7 +372,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
         initialValue: _payday,
         isExpanded: true,
         dropdownColor: AppTheme.cardColor,
-        decoration: _decoration('يوم نزول الراتب', helper: 'تبدأ دورة الميزانية من هذا اليوم كل شهر'),
+        decoration: _decoration(context.l10n.paydayField, helper: context.l10n.paydayHelper),
         items: [
           for (var d = 1; d <= 31; d++)
             DropdownMenuItem(value: d, child: Text('$d', style: const TextStyle(color: AppTheme.textColor))),
@@ -389,12 +390,12 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
         initialValue: _currencyCode,
         isExpanded: true,
         dropdownColor: AppTheme.cardColor,
-        decoration: _decoration('العملة'),
+        decoration: _decoration(context.l10n.currencyField),
         items: [
           for (final c in BudgetCurrency.all)
             DropdownMenuItem(
               value: c.code,
-              child: Text('${c.arabicName} (${c.symbol})', style: const TextStyle(color: AppTheme.textColor)),
+              child: Text('${c.nameFor(context.appLang)} (${c.symbolFor(context.appLang)})', style: const TextStyle(color: AppTheme.textColor)),
             ),
         ],
         onChanged: (v) {
@@ -409,13 +410,12 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   }
 
   Widget _buildFixedCard(BudgetPlan plan) {
-    final symbol = _currency.symbol;
-    return _section('المصروفات الثابتة', [
+    return _section(context.l10n.fixedExpenses, [
       if (_fixed.isEmpty)
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(bottom: 8),
           child: Text(
-            'أضف ما يتكرر كل شهر: إيجار، أقساط، اشتراكات، فواتير.',
+            context.l10n.fixedEmptyHint,
             style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
           ),
         ),
@@ -425,7 +425,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
           contentPadding: EdgeInsets.zero,
           title: Text(item.name, style: const TextStyle(color: AppTheme.textColor)),
           subtitle: Text(
-            'يوم ${item.dueDay} من الشهر',
+            context.l10n.dueDayLine(item.dueDay),
             style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
           ),
           onTap: () => _editFixed(existing: item),
@@ -433,11 +433,11 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                formatWithCurrency(item.amount, symbol),
+                formatWithCurrency(item.amount, _symbol),
                 style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.w600),
               ),
               IconButton(
-                tooltip: 'حذف ${item.name}',
+                tooltip: context.l10n.deleteNamed(item.name),
                 icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                 onPressed: () => _removeFixed(item),
               ),
@@ -448,7 +448,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 4, bottom: 4),
           child: Text(
-            'المجموع: ${formatWithCurrency(plan.fixedTotal, symbol)}',
+            context.l10n.totalLine(formatWithCurrency(plan.fixedTotal, _symbol)),
             style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold),
           ),
         ),
@@ -457,7 +457,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
         child: TextButton.icon(
           onPressed: _fixed.length >= BudgetPlan.maxFixedExpenses ? null : () => _editFixed(),
           icon: const Icon(Icons.add_rounded),
-          label: const Text('إضافة مصروف ثابت'),
+          label: Text(context.l10n.addFixedExpense),
         ),
       ),
     ]);
@@ -465,11 +465,11 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
 
   Widget _buildSavingsCard(BudgetPlan plan) {
     final percent = _mode == SavingsMode.percent;
-    return _section('هدف الادخار الشهري', [
+    return _section(context.l10n.monthlySavingsGoal, [
       SegmentedButton<SavingsMode>(
-        segments: const [
-          ButtonSegment(value: SavingsMode.amount, label: Text('مبلغ')),
-          ButtonSegment(value: SavingsMode.percent, label: Text('نسبة من الدخل')),
+        segments: [
+          ButtonSegment(value: SavingsMode.amount, label: Text(context.l10n.savingsModeAmount)),
+          ButtonSegment(value: SavingsMode.percent, label: Text(context.l10n.savingsModePercent)),
         ],
         selected: {_mode},
         onSelectionChanged: (s) => setState(() {
@@ -485,10 +485,10 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
         maxLength: 15,
         style: const TextStyle(color: AppTheme.textColor),
         decoration: _decoration(
-          percent ? 'نسبة الادخار' : 'مبلغ الادخار',
-          suffix: percent ? '٪' : _currency.symbol,
+          percent ? context.l10n.savingsPercentField : context.l10n.savingsAmountField,
+          suffix: percent ? context.l10n.percentSign : _symbol,
           error: _savingsError,
-          helper: percent && plan.income > 0 ? 'يساوي ${formatWithCurrency(plan.savingsAmount, _currency.symbol)} شهريًا' : null,
+          helper: percent && plan.income > 0 ? context.l10n.equalsMonthly(formatWithCurrency(plan.savingsAmount, _symbol)) : null,
         ),
         onChanged: (_) {
           _savingsError = null;
@@ -499,9 +499,9 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   }
 
   Widget _buildLimitsCard() {
-    return _section('حدود الفئات (اختياري)', [
-      const Text(
-        'حدّ أقصى للصرف في كل فئة خلال الدورة. اتركه فارغًا لعدم وضع حد.',
+    return _section(context.l10n.categoryLimitsOptional, [
+      Text(
+        context.l10n.categoryLimitsHint,
         style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
       ),
       const SizedBox(height: 12),
@@ -513,7 +513,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             maxLength: 15,
             style: const TextStyle(color: AppTheme.textColor),
-            decoration: _decoration('حد ${category.arabicLabel}', suffix: _currency.symbol, error: _limitErrors[category]),
+            decoration: _decoration(context.l10n.categoryLimitField(category.label(context.l10n)), suffix: _symbol, error: _limitErrors[category]),
             onChanged: (_) {
               _limitErrors[category] = null;
               _touch();
@@ -524,12 +524,14 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
   }
 
   Widget _buildSummaryCard(BudgetPlan plan) {
-    final symbol = _currency.symbol;
     final warnings = <String>[
       if (plan.income > 0 && plan.overcommitted)
-        'المصروفات الثابتة والادخار (${formatWithCurrency(plan.fixedTotal + plan.savingsAmount, symbol)}) أكبر من الدخل (${formatWithCurrency(plan.income, symbol)}). لن يبقى شيء للصرف.',
+        context.l10n.planOvercommitted(
+          formatWithCurrency(plan.fixedTotal + plan.savingsAmount, _symbol),
+          formatWithCurrency(plan.income, _symbol),
+        ),
       if (plan.income > 0 && !plan.overcommitted && plan.limitsTotal > plan.available)
-        'مجموع حدود الفئات (${formatWithCurrency(plan.limitsTotal, symbol)}) أكبر من المتاح للصرف (${formatWithCurrency(plan.available, symbol)}).',
+        context.l10n.limitsOverAvailable(formatWithCurrency(plan.limitsTotal, _symbol), formatWithCurrency(plan.available, _symbol)),
     ];
     Widget row(String label, double value, {bool bold = false}) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -537,7 +539,7 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
             children: [
               Expanded(child: Text(label, style: const TextStyle(color: AppTheme.subTextColor))),
               Text(
-                formatWithCurrency(value, symbol),
+                formatWithCurrency(value, _symbol),
                 style: TextStyle(
                   color: bold ? AppTheme.accentColor : AppTheme.textColor,
                   fontWeight: bold ? FontWeight.bold : FontWeight.w500,
@@ -546,12 +548,12 @@ class _BudgetPlanScreenState extends State<BudgetPlanScreen> {
             ],
           ),
         );
-    return _section('ملخص الخطة', [
-      row('الدخل', plan.income),
-      row('المصروفات الثابتة', plan.fixedTotal),
-      row('الادخار', plan.savingsAmount),
+    return _section(context.l10n.planSummary, [
+      row(context.l10n.incomeLabel, plan.income),
+      row(context.l10n.fixedExpenses, plan.fixedTotal),
+      row(context.l10n.savingsLabel, plan.savingsAmount),
       const Divider(color: AppTheme.surfaceColor),
-      row('المتاح للصرف', plan.available, bold: true),
+      row(context.l10n.availableToSpend, plan.available, bold: true),
       for (final w in warnings)
         Padding(
           padding: const EdgeInsets.only(top: 8),

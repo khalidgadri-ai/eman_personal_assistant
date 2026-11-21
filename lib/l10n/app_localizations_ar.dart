@@ -1602,4 +1602,404 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recipeTypeField => 'النوع';
+
+  @override
+  String get expenseFood => 'طعام';
+
+  @override
+  String get expenseTransport => 'مواصلات';
+
+  @override
+  String get expenseEntertainment => 'ترفيه';
+
+  @override
+  String get expenseBills => 'فواتير';
+
+  @override
+  String get expenseShopping => 'تسوق';
+
+  @override
+  String get percentSign => '٪';
+
+  @override
+  String get listSeparator => '، ';
+
+  @override
+  String get planSaved => 'حُفظت خطة الميزانية';
+
+  @override
+  String get limitsSaved => 'حُفظت الحدود. عدّلها من «تعديل الخطة»';
+
+  @override
+  String get budgetTitle => '💰 المحفظة المالية والميزانية';
+
+  @override
+  String get monthlyExpenses => 'مصاريفي الشهرية';
+
+  @override
+  String get budgetOpenFailed => 'تعذّر فتح بيانات الميزانية';
+
+  @override
+  String get setupBudgetTitle => 'ابدأ بإعداد ميزانيتك';
+
+  @override
+  String get setupBudgetBody =>
+      'أدخل دخلك الشهري ويوم نزول الراتب ومصروفاتك الثابتة، وسنحسب لك كم يبقى لك وكم تصرف يوميًا. تُحفظ كل بياناتك على جهازك مشفّرة.';
+
+  @override
+  String get setupBudgetButton => 'إعداد الميزانية';
+
+  @override
+  String get currentCycleBudget => 'ميزانية الدورة الحالية';
+
+  @override
+  String daysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'باقي $count يوم',
+      many: 'باقي $count يومًا',
+      few: 'باقي $count أيام',
+      two: 'باقي يومان',
+      one: 'باقي يوم واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleRange(String start, String end) {
+    return 'من $start إلى $end';
+  }
+
+  @override
+  String get remainingLabel => 'المتبقي';
+
+  @override
+  String spentPercent(int percent) {
+    return 'صرفت $percent٪ من المتاح';
+  }
+
+  @override
+  String get incomeLabel => 'الدخل';
+
+  @override
+  String get fixedExpenses => 'المصروفات الثابتة';
+
+  @override
+  String get savingsLabel => 'الادخار';
+
+  @override
+  String get availableToSpend => 'المتاح للصرف';
+
+  @override
+  String get spentSoFar => 'المصروف حتى الآن';
+
+  @override
+  String get dailyAvailable => 'المتاح يوميًا';
+
+  @override
+  String overcommittedWarning(String amount) {
+    return 'المصروفات الثابتة والادخار ($amount) أكبر من دخلك. عدّل الخطة.';
+  }
+
+  @override
+  String overspentWarning(String amount) {
+    return 'تجاوزت المتاح في هذه الدورة بمقدار $amount.';
+  }
+
+  @override
+  String nearEndWarning(int percent, String amount) {
+    return 'اقتربت من نهاية المتاح: صرفت $percent٪ ويبقى $amount.';
+  }
+
+  @override
+  String get editPlan => 'تعديل الخطة';
+
+  @override
+  String get suggestBudget => 'اقتراح ميزانية';
+
+  @override
+  String paidCount(int paid, int total) {
+    return 'دُفع $paid من $total';
+  }
+
+  @override
+  String dueDayLine(int day) {
+    return 'يوم $day من الشهر';
+  }
+
+  @override
+  String dueDayAmount(int day, String amount) {
+    return 'يوم $day من الشهر · $amount';
+  }
+
+  @override
+  String get byCategory => 'الصرف حسب الفئة';
+
+  @override
+  String get noCategorySpending =>
+      'لا صرف مسجَّل في هذه الدورة ولا حدود للفئات. يمكنك اقتراح حدود من «اقتراح ميزانية».';
+
+  @override
+  String overLimit(String category, String amount) {
+    return 'تجاوزت حد «$category» بمقدار $amount.';
+  }
+
+  @override
+  String nearLimit(String category, int percent) {
+    return 'اقتربت من حد «$category»: صرفت $percent٪ منه.';
+  }
+
+  @override
+  String get recentExpenses => 'آخر المصاريف';
+
+  @override
+  String get noRecentExpenses => 'لا مصاريف مسجَّلة في هذه الدورة بعد.';
+
+  @override
+  String get recordExpense => 'سجّل مصروف';
+
+  @override
+  String get allExpenses => 'كل المصاريف';
+
+  @override
+  String get invalidAmountPositive => 'أدخل مبلغًا صحيحًا أكبر من صفر';
+
+  @override
+  String get percentRange => 'أدخل نسبة بين 0 و100';
+
+  @override
+  String get savingsAmountInvalid => 'أدخل مبلغًا صحيحًا (أو اتركه فارغًا)';
+
+  @override
+  String get checkRedFields => 'راجع الحقول المعلَّمة بالأحمر ثم احفظ مرة أخرى';
+
+  @override
+  String get planSaveFailed => 'تعذّر حفظ الخطة. حاول مرة أخرى';
+
+  @override
+  String get unsavedChanges => 'تعديلات غير محفوظة';
+
+  @override
+  String get unsavedPlanBody =>
+      'لم تحفظ التغييرات على خطة الميزانية. هل تحفظها قبل الخروج؟';
+
+  @override
+  String get keepEditing => 'متابعة التعديل';
+
+  @override
+  String get leaveWithoutSaving => 'خروج بلا حفظ';
+
+  @override
+  String get savePlan => 'حفظ الخطة';
+
+  @override
+  String get newFixedExpense => 'مصروف ثابت جديد';
+
+  @override
+  String get editFixedExpense => 'تعديل المصروف الثابت';
+
+  @override
+  String get expenseName => 'اسم المصروف';
+
+  @override
+  String get expenseNameHint => 'مثال: إيجار';
+
+  @override
+  String get amountLabel => 'المبلغ';
+
+  @override
+  String get dueDayField => 'يوم الاستحقاق (من 1 إلى 31)';
+
+  @override
+  String get dueDayInvalid => 'أدخل يومًا من 1 إلى 31';
+
+  @override
+  String get budgetPlanTitle => 'خطة الميزانية';
+
+  @override
+  String get incomeAndCycle => 'الدخل والدورة';
+
+  @override
+  String get monthlyIncome => 'الدخل الشهري';
+
+  @override
+  String get paydayField => 'يوم نزول الراتب';
+
+  @override
+  String get paydayHelper => 'تبدأ دورة الميزانية من هذا اليوم كل شهر';
+
+  @override
+  String get currencyField => 'العملة';
+
+  @override
+  String get fixedEmptyHint =>
+      'أضف ما يتكرر كل شهر: إيجار، أقساط، اشتراكات، فواتير.';
+
+  @override
+  String deleteNamed(String name) {
+    return 'حذف $name';
+  }
+
+  @override
+  String totalLine(String amount) {
+    return 'المجموع: $amount';
+  }
+
+  @override
+  String get addFixedExpense => 'إضافة مصروف ثابت';
+
+  @override
+  String get monthlySavingsGoal => 'هدف الادخار الشهري';
+
+  @override
+  String get savingsModeAmount => 'مبلغ';
+
+  @override
+  String get savingsModePercent => 'نسبة من الدخل';
+
+  @override
+  String get savingsPercentField => 'نسبة الادخار';
+
+  @override
+  String get savingsAmountField => 'مبلغ الادخار';
+
+  @override
+  String equalsMonthly(String amount) {
+    return 'يساوي $amount شهريًا';
+  }
+
+  @override
+  String get categoryLimitsOptional => 'حدود الفئات (اختياري)';
+
+  @override
+  String get categoryLimitsHint =>
+      'حدّ أقصى للصرف في كل فئة خلال الدورة. اتركه فارغًا لعدم وضع حد.';
+
+  @override
+  String categoryLimitField(String category) {
+    return 'حد $category';
+  }
+
+  @override
+  String planOvercommitted(String committed, String income) {
+    return 'المصروفات الثابتة والادخار ($committed) أكبر من الدخل ($income). لن يبقى شيء للصرف.';
+  }
+
+  @override
+  String limitsOverAvailable(String limits, String available) {
+    return 'مجموع حدود الفئات ($limits) أكبر من المتاح للصرف ($available).';
+  }
+
+  @override
+  String get planSummary => 'ملخص الخطة';
+
+  @override
+  String get limitsSaveFailed => 'تعذّر حفظ الحدود. حاول مرة أخرى';
+
+  @override
+  String get yourAiProvider => 'مزوّد الذكاء الاصطناعي الذي اخترته';
+
+  @override
+  String get sendFinancialData => 'إرسال بياناتك المالية؟';
+
+  @override
+  String financialConsentBody(
+    String provider,
+    String income,
+    String fixed,
+    String savings,
+    String available,
+  ) {
+    return 'سيُرسل إلى «$provider» الأرقام التالية فقط:\n• الدخل الشهري: $income\n• مجموع المصروفات الثابتة: $fixed\n• هدف الادخار: $savings\n• المتاح للصرف: $available\n\nلن تُرسل أسماء مصروفاتك الثابتة ولا مصاريفك المسجَّلة. ما يُرسل يخضع لسياسة هذا المزوّد. نسألك في كل مرة، ولا شيء يُرسل قبل موافقتك.';
+  }
+
+  @override
+  String get agreeAndSend => 'أوافق وأرسل هذه المرة';
+
+  @override
+  String aiSuggestionUnreadable(String reply) {
+    return 'لم أتمكن من قراءة الاقتراح كحدود للفئات. $reply';
+  }
+
+  @override
+  String get saveAsLimits => 'حفظ كحدود للفئات';
+
+  @override
+  String get availableMonthly => 'المتاح للصرف شهريًا';
+
+  @override
+  String get noAvailableForLimits =>
+      'لا يوجد متاح للصرف في خطتك الآن، فلا يمكن اقتراح حدود. عدّل الدخل أو المصروفات الثابتة أو الادخار أولًا.';
+
+  @override
+  String get localSuggestion => 'اقتراح محلي (بلا إنترنت)';
+
+  @override
+  String localRuleText(String rule) {
+    return 'قاعدة بسيطة توزّع المتاح هكذا: $rule. بعد الحفظ تعدّل أي حد من «تعديل الخطة».';
+  }
+
+  @override
+  String get aiSuggestionOptional => 'اقتراح بالذكاء الاصطناعي (اختياري)';
+
+  @override
+  String get aiSuggestionNote =>
+      'يرسل أرقام خطتك المالية إلى المزوّد الذي اخترته، ولا يُرسل شيء إلا بموافقتك في كل مرة.';
+
+  @override
+  String get askAiSuggestion => 'اطلب اقتراحًا بالذكاء الاصطناعي';
+
+  @override
+  String aiSuggestionOver(String amount) {
+    return 'مجموع هذا الاقتراح ($amount) أكبر من المتاح للصرف. عدّله بعد الحفظ.';
+  }
+
+  @override
+  String expenseDeleted(String amount) {
+    return 'حُذف مصروف $amount';
+  }
+
+  @override
+  String get noMonthExpenses => 'لا توجد مصاريف مسجلة في هذا الشهر';
+
+  @override
+  String get previousMonth => 'الشهر السابق';
+
+  @override
+  String get nextMonth => 'الشهر التالي';
+
+  @override
+  String get totalSpending => 'إجمالي الصرف';
+
+  @override
+  String get breakdownByCategory => 'التوزيع حسب الفئة';
+
+  @override
+  String percentOfTotal(int percent) {
+    return '$percent٪ من الإجمالي';
+  }
+
+  @override
+  String get monthExpenses => 'مصروفات الشهر';
+
+  @override
+  String get deleteExpense => 'حذف المصروف';
+
+  @override
+  String get recordExpenseTitle => 'تسجيل مصروف';
+
+  @override
+  String get editExpenseTitle => 'تعديل مصروف';
+
+  @override
+  String get expenseCategoryField => 'الفئة';
+
+  @override
+  String dateLine(String date) {
+    return 'التاريخ: $date';
+  }
+
+  @override
+  String get changeDate => 'تغيير التاريخ';
 }

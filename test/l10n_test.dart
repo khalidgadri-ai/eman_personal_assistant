@@ -4,6 +4,11 @@ import 'dart:io';
 import 'package:eman_life_app/core/config/app_locale.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
+import 'package:eman_life_app/features/budget/budget_plan_service.dart';
+import 'package:eman_life_app/features/budget/budget_service.dart';
+import 'package:eman_life_app/features/budget/models/budget_plan.dart';
+import 'package:eman_life_app/features/budget/models/expense_entry.dart';
+import 'package:eman_life_app/features/financial/financial_screen.dart';
 import 'package:eman_life_app/features/goals_and_tasks/goals_tasks_screen.dart';
 import 'package:eman_life_app/features/kitchen_and_home/kitchen_home_screen.dart';
 import 'package:eman_life_app/features/onboarding/app_tour_screen.dart';
@@ -94,6 +99,21 @@ void main() {
     expect(ar.wirdRemaining(11), 'المتبقي لإتمام الختمة: 11 صفحة');
     expect(ar.wirdRemaining(2), 'المتبقي لإتمام الختمة: صفحتان');
     expect(ar.wirdRemaining(1), 'المتبقي لإتمام الختمة: صفحة واحدة');
+  });
+
+  test('Arabic day and item counts follow the number rules (3-10 plural, 11-99 accusative, 100 singular)', () {
+    final ar = lookupAppLocalizations(AppLocale.arabic);
+    const days = {
+      1: 'باقي يوم واحد', 2: 'باقي يومان', 3: 'باقي 3 أيام', 10: 'باقي 10 أيام', 11: 'باقي 11 يومًا',
+      31: 'باقي 31 يومًا', 100: 'باقي 100 يوم', 102: 'باقي 102 يوم', 105: 'باقي 105 أيام',
+    };
+    days.forEach((n, text) => expect(ar.daysLeft(n), text));
+    expect(ar.servingsCount(4), '4 حصص');
+    expect(ar.movedToPantry(12), 'نُقل 12 بندًا إلى المؤونة');
+    expect(ar.movedToPantry(100), 'نُقل 100 بند إلى المؤونة');
+    final en = lookupAppLocalizations(AppLocale.english);
+    expect(en.daysLeft(1), '1 day left');
+    expect(en.daysLeft(9), '9 days left');
   });
 
   group('choosing the language', () {
@@ -265,6 +285,30 @@ void main() {
       await tester.tap(find.widgetWithText(Tab, 'Laundry'));
       await settle(tester);
       expect(find.text('Saturday: Whites'), findsOneWidget);
+    });
+
+    testWidgets('the budget tab speaks English, with the currency code instead of the Arabic symbol', (tester) async {
+      tester.view.physicalSize = const Size(900, 3200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await (await BudgetPlanService.getInstance()).save(const BudgetPlan(income: 9000, payday: 27));
+      await (await BudgetService.getInstance())
+          .addExpense(amount: 40, category: ExpenseCategory.food, date: DateTime(2026, 10, 12));
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(FinancialScreen(now: () => DateTime(2026, 10, 18))));
+      await settle(tester);
+
+      expect(find.text("This cycle's budget"), findsOneWidget);
+      expect(find.text('9 days left'), findsOneWidget);
+      expect(find.text('27 September to 26 October'), findsOneWidget);
+      expect(tester.widget<Text>(find.byKey(const Key('income_value'))).data, '9,000 SAR');
+      expect(find.text('Food'), findsWidgets);
+      expect(find.textContaining('ر.س'), findsNothing);
+
+      await tester.tap(find.byTooltip('My monthly expenses'));
+      await settle(tester);
+      expect(find.text('October 2026'), findsOneWidget);
+      expect(find.text('Breakdown by category'), findsOneWidget);
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

@@ -768,5 +768,319 @@
       }
     }
   },
-  "recipeTypeField": "النوع"
+  "recipeTypeField": "النوع",
+  "expenseFood": "طعام",
+  "expenseTransport": "مواصلات",
+  "expenseEntertainment": "ترفيه",
+  "expenseBills": "فواتير",
+  "expenseShopping": "تسوق",
+  "percentSign": "٪",
+  "listSeparator": "، ",
+  "planSaved": "حُفظت خطة الميزانية",
+  "limitsSaved": "حُفظت الحدود. عدّلها من «تعديل الخطة»",
+  "budgetTitle": "💰 المحفظة المالية والميزانية",
+  "monthlyExpenses": "مصاريفي الشهرية",
+  "budgetOpenFailed": "تعذّر فتح بيانات الميزانية",
+  "setupBudgetTitle": "ابدأ بإعداد ميزانيتك",
+  "setupBudgetBody": "أدخل دخلك الشهري ويوم نزول الراتب ومصروفاتك الثابتة، وسنحسب لك كم يبقى لك وكم تصرف يوميًا. تُحفظ كل بياناتك على جهازك مشفّرة.",
+  "setupBudgetButton": "إعداد الميزانية",
+  "currentCycleBudget": "ميزانية الدورة الحالية",
+  "daysLeft": "{count, plural, =1{باقي يوم واحد} =2{باقي يومان} few{باقي {count} أيام} many{باقي {count} يومًا} other{باقي {count} يوم}}",
+  "@daysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cycleRange": "من {start} إلى {end}",
+  "@cycleRange": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingLabel": "المتبقي",
+  "spentPercent": "صرفت {percent}٪ من المتاح",
+  "@spentPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "incomeLabel": "الدخل",
+  "fixedExpenses": "المصروفات الثابتة",
+  "savingsLabel": "الادخار",
+  "availableToSpend": "المتاح للصرف",
+  "spentSoFar": "المصروف حتى الآن",
+  "dailyAvailable": "المتاح يوميًا",
+  "overcommittedWarning": "المصروفات الثابتة والادخار ({amount}) أكبر من دخلك. عدّل الخطة.",
+  "@overcommittedWarning": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "overspentWarning": "تجاوزت المتاح في هذه الدورة بمقدار {amount}.",
+  "@overspentWarning": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "nearEndWarning": "اقتربت من نهاية المتاح: صرفت {percent}٪ ويبقى {amount}.",
+  "@nearEndWarning": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "editPlan": "تعديل الخطة",
+  "suggestBudget": "اقتراح ميزانية",
+  "paidCount": "دُفع {paid} من {total}",
+  "@paidCount": {
+    "placeholders": {
+      "paid": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dueDayLine": "يوم {day} من الشهر",
+  "@dueDayLine": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "dueDayAmount": "يوم {day} من الشهر · {amount}",
+  "@dueDayAmount": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "byCategory": "الصرف حسب الفئة",
+  "noCategorySpending": "لا صرف مسجَّل في هذه الدورة ولا حدود للفئات. يمكنك اقتراح حدود من «اقتراح ميزانية».",
+  "overLimit": "تجاوزت حد «{category}» بمقدار {amount}.",
+  "@overLimit": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "nearLimit": "اقتربت من حد «{category}»: صرفت {percent}٪ منه.",
+  "@nearLimit": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "recentExpenses": "آخر المصاريف",
+  "noRecentExpenses": "لا مصاريف مسجَّلة في هذه الدورة بعد.",
+  "recordExpense": "سجّل مصروف",
+  "allExpenses": "كل المصاريف",
+  "invalidAmountPositive": "أدخل مبلغًا صحيحًا أكبر من صفر",
+  "percentRange": "أدخل نسبة بين 0 و100",
+  "savingsAmountInvalid": "أدخل مبلغًا صحيحًا (أو اتركه فارغًا)",
+  "checkRedFields": "راجع الحقول المعلَّمة بالأحمر ثم احفظ مرة أخرى",
+  "planSaveFailed": "تعذّر حفظ الخطة. حاول مرة أخرى",
+  "unsavedChanges": "تعديلات غير محفوظة",
+  "unsavedPlanBody": "لم تحفظ التغييرات على خطة الميزانية. هل تحفظها قبل الخروج؟",
+  "keepEditing": "متابعة التعديل",
+  "leaveWithoutSaving": "خروج بلا حفظ",
+  "savePlan": "حفظ الخطة",
+  "newFixedExpense": "مصروف ثابت جديد",
+  "editFixedExpense": "تعديل المصروف الثابت",
+  "expenseName": "اسم المصروف",
+  "expenseNameHint": "مثال: إيجار",
+  "amountLabel": "المبلغ",
+  "dueDayField": "يوم الاستحقاق (من 1 إلى 31)",
+  "dueDayInvalid": "أدخل يومًا من 1 إلى 31",
+  "budgetPlanTitle": "خطة الميزانية",
+  "incomeAndCycle": "الدخل والدورة",
+  "monthlyIncome": "الدخل الشهري",
+  "paydayField": "يوم نزول الراتب",
+  "paydayHelper": "تبدأ دورة الميزانية من هذا اليوم كل شهر",
+  "currencyField": "العملة",
+  "fixedEmptyHint": "أضف ما يتكرر كل شهر: إيجار، أقساط، اشتراكات، فواتير.",
+  "deleteNamed": "حذف {name}",
+  "@deleteNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "totalLine": "المجموع: {amount}",
+  "@totalLine": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "addFixedExpense": "إضافة مصروف ثابت",
+  "monthlySavingsGoal": "هدف الادخار الشهري",
+  "savingsModeAmount": "مبلغ",
+  "savingsModePercent": "نسبة من الدخل",
+  "savingsPercentField": "نسبة الادخار",
+  "savingsAmountField": "مبلغ الادخار",
+  "equalsMonthly": "يساوي {amount} شهريًا",
+  "@equalsMonthly": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryLimitsOptional": "حدود الفئات (اختياري)",
+  "categoryLimitsHint": "حدّ أقصى للصرف في كل فئة خلال الدورة. اتركه فارغًا لعدم وضع حد.",
+  "categoryLimitField": "حد {category}",
+  "@categoryLimitField": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "planOvercommitted": "المصروفات الثابتة والادخار ({committed}) أكبر من الدخل ({income}). لن يبقى شيء للصرف.",
+  "@planOvercommitted": {
+    "placeholders": {
+      "committed": {
+        "type": "String"
+      },
+      "income": {
+        "type": "String"
+      }
+    }
+  },
+  "limitsOverAvailable": "مجموع حدود الفئات ({limits}) أكبر من المتاح للصرف ({available}).",
+  "@limitsOverAvailable": {
+    "placeholders": {
+      "limits": {
+        "type": "String"
+      },
+      "available": {
+        "type": "String"
+      }
+    }
+  },
+  "planSummary": "ملخص الخطة",
+  "limitsSaveFailed": "تعذّر حفظ الحدود. حاول مرة أخرى",
+  "yourAiProvider": "مزوّد الذكاء الاصطناعي الذي اخترته",
+  "sendFinancialData": "إرسال بياناتك المالية؟",
+  "financialConsentBody": "سيُرسل إلى «{provider}» الأرقام التالية فقط:\n• الدخل الشهري: {income}\n• مجموع المصروفات الثابتة: {fixed}\n• هدف الادخار: {savings}\n• المتاح للصرف: {available}\n\nلن تُرسل أسماء مصروفاتك الثابتة ولا مصاريفك المسجَّلة. ما يُرسل يخضع لسياسة هذا المزوّد. نسألك في كل مرة، ولا شيء يُرسل قبل موافقتك.",
+  "@financialConsentBody": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "income": {
+        "type": "String"
+      },
+      "fixed": {
+        "type": "String"
+      },
+      "savings": {
+        "type": "String"
+      },
+      "available": {
+        "type": "String"
+      }
+    }
+  },
+  "agreeAndSend": "أوافق وأرسل هذه المرة",
+  "aiSuggestionUnreadable": "لم أتمكن من قراءة الاقتراح كحدود للفئات. {reply}",
+  "@aiSuggestionUnreadable": {
+    "placeholders": {
+      "reply": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAsLimits": "حفظ كحدود للفئات",
+  "availableMonthly": "المتاح للصرف شهريًا",
+  "noAvailableForLimits": "لا يوجد متاح للصرف في خطتك الآن، فلا يمكن اقتراح حدود. عدّل الدخل أو المصروفات الثابتة أو الادخار أولًا.",
+  "localSuggestion": "اقتراح محلي (بلا إنترنت)",
+  "localRuleText": "قاعدة بسيطة توزّع المتاح هكذا: {rule}. بعد الحفظ تعدّل أي حد من «تعديل الخطة».",
+  "@localRuleText": {
+    "placeholders": {
+      "rule": {
+        "type": "String"
+      }
+    }
+  },
+  "aiSuggestionOptional": "اقتراح بالذكاء الاصطناعي (اختياري)",
+  "aiSuggestionNote": "يرسل أرقام خطتك المالية إلى المزوّد الذي اخترته، ولا يُرسل شيء إلا بموافقتك في كل مرة.",
+  "askAiSuggestion": "اطلب اقتراحًا بالذكاء الاصطناعي",
+  "aiSuggestionOver": "مجموع هذا الاقتراح ({amount}) أكبر من المتاح للصرف. عدّله بعد الحفظ.",
+  "@aiSuggestionOver": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseDeleted": "حُذف مصروف {amount}",
+  "@expenseDeleted": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "noMonthExpenses": "لا توجد مصاريف مسجلة في هذا الشهر",
+  "previousMonth": "الشهر السابق",
+  "nextMonth": "الشهر التالي",
+  "totalSpending": "إجمالي الصرف",
+  "breakdownByCategory": "التوزيع حسب الفئة",
+  "percentOfTotal": "{percent}٪ من الإجمالي",
+  "@percentOfTotal": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "monthExpenses": "مصروفات الشهر",
+  "deleteExpense": "حذف المصروف",
+  "recordExpenseTitle": "تسجيل مصروف",
+  "editExpenseTitle": "تعديل مصروف",
+  "expenseCategoryField": "الفئة",
+  "dateLine": "التاريخ: {date}",
+  "@dateLine": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "changeDate": "تغيير التاريخ"
 }

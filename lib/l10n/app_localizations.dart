@@ -2833,6 +2833,672 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'النوع'**
   String get recipeTypeField;
+
+  /// No description provided for @expenseFood.
+  ///
+  /// In ar, this message translates to:
+  /// **'طعام'**
+  String get expenseFood;
+
+  /// No description provided for @expenseTransport.
+  ///
+  /// In ar, this message translates to:
+  /// **'مواصلات'**
+  String get expenseTransport;
+
+  /// No description provided for @expenseEntertainment.
+  ///
+  /// In ar, this message translates to:
+  /// **'ترفيه'**
+  String get expenseEntertainment;
+
+  /// No description provided for @expenseBills.
+  ///
+  /// In ar, this message translates to:
+  /// **'فواتير'**
+  String get expenseBills;
+
+  /// No description provided for @expenseShopping.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسوق'**
+  String get expenseShopping;
+
+  /// No description provided for @percentSign.
+  ///
+  /// In ar, this message translates to:
+  /// **'٪'**
+  String get percentSign;
+
+  /// No description provided for @listSeparator.
+  ///
+  /// In ar, this message translates to:
+  /// **'، '**
+  String get listSeparator;
+
+  /// No description provided for @planSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظت خطة الميزانية'**
+  String get planSaved;
+
+  /// No description provided for @limitsSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظت الحدود. عدّلها من «تعديل الخطة»'**
+  String get limitsSaved;
+
+  /// No description provided for @budgetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'💰 المحفظة المالية والميزانية'**
+  String get budgetTitle;
+
+  /// No description provided for @monthlyExpenses.
+  ///
+  /// In ar, this message translates to:
+  /// **'مصاريفي الشهرية'**
+  String get monthlyExpenses;
+
+  /// No description provided for @budgetOpenFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر فتح بيانات الميزانية'**
+  String get budgetOpenFailed;
+
+  /// No description provided for @setupBudgetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ بإعداد ميزانيتك'**
+  String get setupBudgetTitle;
+
+  /// No description provided for @setupBudgetBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل دخلك الشهري ويوم نزول الراتب ومصروفاتك الثابتة، وسنحسب لك كم يبقى لك وكم تصرف يوميًا. تُحفظ كل بياناتك على جهازك مشفّرة.'**
+  String get setupBudgetBody;
+
+  /// No description provided for @setupBudgetButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد الميزانية'**
+  String get setupBudgetButton;
+
+  /// No description provided for @currentCycleBudget.
+  ///
+  /// In ar, this message translates to:
+  /// **'ميزانية الدورة الحالية'**
+  String get currentCycleBudget;
+
+  /// No description provided for @daysLeft.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{باقي يوم واحد} =2{باقي يومان} few{باقي {count} أيام} many{باقي {count} يومًا} other{باقي {count} يوم}}'**
+  String daysLeft(int count);
+
+  /// No description provided for @cycleRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'من {start} إلى {end}'**
+  String cycleRange(String start, String end);
+
+  /// No description provided for @remainingLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتبقي'**
+  String get remainingLabel;
+
+  /// No description provided for @spentPercent.
+  ///
+  /// In ar, this message translates to:
+  /// **'صرفت {percent}٪ من المتاح'**
+  String spentPercent(int percent);
+
+  /// No description provided for @incomeLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدخل'**
+  String get incomeLabel;
+
+  /// No description provided for @fixedExpenses.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصروفات الثابتة'**
+  String get fixedExpenses;
+
+  /// No description provided for @savingsLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الادخار'**
+  String get savingsLabel;
+
+  /// No description provided for @availableToSpend.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتاح للصرف'**
+  String get availableToSpend;
+
+  /// No description provided for @spentSoFar.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصروف حتى الآن'**
+  String get spentSoFar;
+
+  /// No description provided for @dailyAvailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتاح يوميًا'**
+  String get dailyAvailable;
+
+  /// No description provided for @overcommittedWarning.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصروفات الثابتة والادخار ({amount}) أكبر من دخلك. عدّل الخطة.'**
+  String overcommittedWarning(String amount);
+
+  /// No description provided for @overspentWarning.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجاوزت المتاح في هذه الدورة بمقدار {amount}.'**
+  String overspentWarning(String amount);
+
+  /// No description provided for @nearEndWarning.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقتربت من نهاية المتاح: صرفت {percent}٪ ويبقى {amount}.'**
+  String nearEndWarning(int percent, String amount);
+
+  /// No description provided for @editPlan.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الخطة'**
+  String get editPlan;
+
+  /// No description provided for @suggestBudget.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقتراح ميزانية'**
+  String get suggestBudget;
+
+  /// No description provided for @paidCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'دُفع {paid} من {total}'**
+  String paidCount(int paid, int total);
+
+  /// No description provided for @dueDayLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوم {day} من الشهر'**
+  String dueDayLine(int day);
+
+  /// No description provided for @dueDayAmount.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوم {day} من الشهر · {amount}'**
+  String dueDayAmount(int day, String amount);
+
+  /// No description provided for @byCategory.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصرف حسب الفئة'**
+  String get byCategory;
+
+  /// No description provided for @noCategorySpending.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا صرف مسجَّل في هذه الدورة ولا حدود للفئات. يمكنك اقتراح حدود من «اقتراح ميزانية».'**
+  String get noCategorySpending;
+
+  /// No description provided for @overLimit.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجاوزت حد «{category}» بمقدار {amount}.'**
+  String overLimit(String category, String amount);
+
+  /// No description provided for @nearLimit.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقتربت من حد «{category}»: صرفت {percent}٪ منه.'**
+  String nearLimit(String category, int percent);
+
+  /// No description provided for @recentExpenses.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر المصاريف'**
+  String get recentExpenses;
+
+  /// No description provided for @noRecentExpenses.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا مصاريف مسجَّلة في هذه الدورة بعد.'**
+  String get noRecentExpenses;
+
+  /// No description provided for @recordExpense.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل مصروف'**
+  String get recordExpense;
+
+  /// No description provided for @allExpenses.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل المصاريف'**
+  String get allExpenses;
+
+  /// No description provided for @invalidAmountPositive.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل مبلغًا صحيحًا أكبر من صفر'**
+  String get invalidAmountPositive;
+
+  /// No description provided for @percentRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل نسبة بين 0 و100'**
+  String get percentRange;
+
+  /// No description provided for @savingsAmountInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل مبلغًا صحيحًا (أو اتركه فارغًا)'**
+  String get savingsAmountInvalid;
+
+  /// No description provided for @checkRedFields.
+  ///
+  /// In ar, this message translates to:
+  /// **'راجع الحقول المعلَّمة بالأحمر ثم احفظ مرة أخرى'**
+  String get checkRedFields;
+
+  /// No description provided for @planSaveFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر حفظ الخطة. حاول مرة أخرى'**
+  String get planSaveFailed;
+
+  /// No description provided for @unsavedChanges.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديلات غير محفوظة'**
+  String get unsavedChanges;
+
+  /// No description provided for @unsavedPlanBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تحفظ التغييرات على خطة الميزانية. هل تحفظها قبل الخروج؟'**
+  String get unsavedPlanBody;
+
+  /// No description provided for @keepEditing.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة التعديل'**
+  String get keepEditing;
+
+  /// No description provided for @leaveWithoutSaving.
+  ///
+  /// In ar, this message translates to:
+  /// **'خروج بلا حفظ'**
+  String get leaveWithoutSaving;
+
+  /// No description provided for @savePlan.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ الخطة'**
+  String get savePlan;
+
+  /// No description provided for @newFixedExpense.
+  ///
+  /// In ar, this message translates to:
+  /// **'مصروف ثابت جديد'**
+  String get newFixedExpense;
+
+  /// No description provided for @editFixedExpense.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل المصروف الثابت'**
+  String get editFixedExpense;
+
+  /// No description provided for @expenseName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المصروف'**
+  String get expenseName;
+
+  /// No description provided for @expenseNameHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: إيجار'**
+  String get expenseNameHint;
+
+  /// No description provided for @amountLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ'**
+  String get amountLabel;
+
+  /// No description provided for @dueDayField.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوم الاستحقاق (من 1 إلى 31)'**
+  String get dueDayField;
+
+  /// No description provided for @dueDayInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل يومًا من 1 إلى 31'**
+  String get dueDayInvalid;
+
+  /// No description provided for @budgetPlanTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطة الميزانية'**
+  String get budgetPlanTitle;
+
+  /// No description provided for @incomeAndCycle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدخل والدورة'**
+  String get incomeAndCycle;
+
+  /// No description provided for @monthlyIncome.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدخل الشهري'**
+  String get monthlyIncome;
+
+  /// No description provided for @paydayField.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوم نزول الراتب'**
+  String get paydayField;
+
+  /// No description provided for @paydayHelper.
+  ///
+  /// In ar, this message translates to:
+  /// **'تبدأ دورة الميزانية من هذا اليوم كل شهر'**
+  String get paydayHelper;
+
+  /// No description provided for @currencyField.
+  ///
+  /// In ar, this message translates to:
+  /// **'العملة'**
+  String get currencyField;
+
+  /// No description provided for @fixedEmptyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف ما يتكرر كل شهر: إيجار، أقساط، اشتراكات، فواتير.'**
+  String get fixedEmptyHint;
+
+  /// No description provided for @deleteNamed.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف {name}'**
+  String deleteNamed(String name);
+
+  /// No description provided for @totalLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجموع: {amount}'**
+  String totalLine(String amount);
+
+  /// No description provided for @addFixedExpense.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة مصروف ثابت'**
+  String get addFixedExpense;
+
+  /// No description provided for @monthlySavingsGoal.
+  ///
+  /// In ar, this message translates to:
+  /// **'هدف الادخار الشهري'**
+  String get monthlySavingsGoal;
+
+  /// No description provided for @savingsModeAmount.
+  ///
+  /// In ar, this message translates to:
+  /// **'مبلغ'**
+  String get savingsModeAmount;
+
+  /// No description provided for @savingsModePercent.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسبة من الدخل'**
+  String get savingsModePercent;
+
+  /// No description provided for @savingsPercentField.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسبة الادخار'**
+  String get savingsPercentField;
+
+  /// No description provided for @savingsAmountField.
+  ///
+  /// In ar, this message translates to:
+  /// **'مبلغ الادخار'**
+  String get savingsAmountField;
+
+  /// No description provided for @equalsMonthly.
+  ///
+  /// In ar, this message translates to:
+  /// **'يساوي {amount} شهريًا'**
+  String equalsMonthly(String amount);
+
+  /// No description provided for @categoryLimitsOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدود الفئات (اختياري)'**
+  String get categoryLimitsOptional;
+
+  /// No description provided for @categoryLimitsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّ أقصى للصرف في كل فئة خلال الدورة. اتركه فارغًا لعدم وضع حد.'**
+  String get categoryLimitsHint;
+
+  /// No description provided for @categoryLimitField.
+  ///
+  /// In ar, this message translates to:
+  /// **'حد {category}'**
+  String categoryLimitField(String category);
+
+  /// No description provided for @planOvercommitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصروفات الثابتة والادخار ({committed}) أكبر من الدخل ({income}). لن يبقى شيء للصرف.'**
+  String planOvercommitted(String committed, String income);
+
+  /// No description provided for @limitsOverAvailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجموع حدود الفئات ({limits}) أكبر من المتاح للصرف ({available}).'**
+  String limitsOverAvailable(String limits, String available);
+
+  /// No description provided for @planSummary.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملخص الخطة'**
+  String get planSummary;
+
+  /// No description provided for @limitsSaveFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر حفظ الحدود. حاول مرة أخرى'**
+  String get limitsSaveFailed;
+
+  /// No description provided for @yourAiProvider.
+  ///
+  /// In ar, this message translates to:
+  /// **'مزوّد الذكاء الاصطناعي الذي اخترته'**
+  String get yourAiProvider;
+
+  /// No description provided for @sendFinancialData.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال بياناتك المالية؟'**
+  String get sendFinancialData;
+
+  /// No description provided for @financialConsentBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيُرسل إلى «{provider}» الأرقام التالية فقط:\n• الدخل الشهري: {income}\n• مجموع المصروفات الثابتة: {fixed}\n• هدف الادخار: {savings}\n• المتاح للصرف: {available}\n\nلن تُرسل أسماء مصروفاتك الثابتة ولا مصاريفك المسجَّلة. ما يُرسل يخضع لسياسة هذا المزوّد. نسألك في كل مرة، ولا شيء يُرسل قبل موافقتك.'**
+  String financialConsentBody(
+    String provider,
+    String income,
+    String fixed,
+    String savings,
+    String available,
+  );
+
+  /// No description provided for @agreeAndSend.
+  ///
+  /// In ar, this message translates to:
+  /// **'أوافق وأرسل هذه المرة'**
+  String get agreeAndSend;
+
+  /// No description provided for @aiSuggestionUnreadable.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم أتمكن من قراءة الاقتراح كحدود للفئات. {reply}'**
+  String aiSuggestionUnreadable(String reply);
+
+  /// No description provided for @saveAsLimits.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ كحدود للفئات'**
+  String get saveAsLimits;
+
+  /// No description provided for @availableMonthly.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتاح للصرف شهريًا'**
+  String get availableMonthly;
+
+  /// No description provided for @noAvailableForLimits.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد متاح للصرف في خطتك الآن، فلا يمكن اقتراح حدود. عدّل الدخل أو المصروفات الثابتة أو الادخار أولًا.'**
+  String get noAvailableForLimits;
+
+  /// No description provided for @localSuggestion.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقتراح محلي (بلا إنترنت)'**
+  String get localSuggestion;
+
+  /// No description provided for @localRuleText.
+  ///
+  /// In ar, this message translates to:
+  /// **'قاعدة بسيطة توزّع المتاح هكذا: {rule}. بعد الحفظ تعدّل أي حد من «تعديل الخطة».'**
+  String localRuleText(String rule);
+
+  /// No description provided for @aiSuggestionOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقتراح بالذكاء الاصطناعي (اختياري)'**
+  String get aiSuggestionOptional;
+
+  /// No description provided for @aiSuggestionNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرسل أرقام خطتك المالية إلى المزوّد الذي اخترته، ولا يُرسل شيء إلا بموافقتك في كل مرة.'**
+  String get aiSuggestionNote;
+
+  /// No description provided for @askAiSuggestion.
+  ///
+  /// In ar, this message translates to:
+  /// **'اطلب اقتراحًا بالذكاء الاصطناعي'**
+  String get askAiSuggestion;
+
+  /// No description provided for @aiSuggestionOver.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجموع هذا الاقتراح ({amount}) أكبر من المتاح للصرف. عدّله بعد الحفظ.'**
+  String aiSuggestionOver(String amount);
+
+  /// No description provided for @expenseDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف مصروف {amount}'**
+  String expenseDeleted(String amount);
+
+  /// No description provided for @noMonthExpenses.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد مصاريف مسجلة في هذا الشهر'**
+  String get noMonthExpenses;
+
+  /// No description provided for @previousMonth.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشهر السابق'**
+  String get previousMonth;
+
+  /// No description provided for @nextMonth.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشهر التالي'**
+  String get nextMonth;
+
+  /// No description provided for @totalSpending.
+  ///
+  /// In ar, this message translates to:
+  /// **'إجمالي الصرف'**
+  String get totalSpending;
+
+  /// No description provided for @breakdownByCategory.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوزيع حسب الفئة'**
+  String get breakdownByCategory;
+
+  /// No description provided for @percentOfTotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'{percent}٪ من الإجمالي'**
+  String percentOfTotal(int percent);
+
+  /// No description provided for @monthExpenses.
+  ///
+  /// In ar, this message translates to:
+  /// **'مصروفات الشهر'**
+  String get monthExpenses;
+
+  /// No description provided for @deleteExpense.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المصروف'**
+  String get deleteExpense;
+
+  /// No description provided for @recordExpenseTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل مصروف'**
+  String get recordExpenseTitle;
+
+  /// No description provided for @editExpenseTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل مصروف'**
+  String get editExpenseTitle;
+
+  /// No description provided for @expenseCategoryField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفئة'**
+  String get expenseCategoryField;
+
+  /// No description provided for @dateLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'التاريخ: {date}'**
+  String dateLine(String date);
+
+  /// No description provided for @changeDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير التاريخ'**
+  String get changeDate;
 }
 
 class _AppLocalizationsDelegate

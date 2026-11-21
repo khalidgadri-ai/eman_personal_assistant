@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart' show IconData, Icons;
 
+import '../../../l10n/app_localizations.dart';
+
 enum ExpenseCategory { food, transport, entertainment, bills, shopping, other }
 
 extension ExpenseCategoryDisplay on ExpenseCategory {
+  /// اسم الفئة بلغة التطبيق.
+  String label(AppLocalizations l10n) => switch (this) {
+        ExpenseCategory.food => l10n.expenseFood,
+        ExpenseCategory.transport => l10n.expenseTransport,
+        ExpenseCategory.entertainment => l10n.expenseEntertainment,
+        ExpenseCategory.bills => l10n.expenseBills,
+        ExpenseCategory.shopping => l10n.expenseShopping,
+        ExpenseCategory.other => l10n.otherCategory,
+      };
+
+  /// الاسم العربي، لطلب الذكاء الاصطناعي العربي فقط (الواجهة تستعمل [label]).
   String get arabicLabel => switch (this) {
         ExpenseCategory.food => 'طعام',
         ExpenseCategory.transport => 'مواصلات',

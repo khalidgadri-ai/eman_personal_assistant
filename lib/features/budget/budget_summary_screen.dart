@@ -11,12 +11,11 @@ import 'budget_service.dart';
 import 'expense_entry_screen.dart';
 import 'models/budget_plan.dart';
 import 'models/expense_entry.dart';
+import '../../l10n/l10n.dart';
 
 final intl.NumberFormat _money = intl.NumberFormat('#,##0.##');
 final intl.NumberFormat _compact = intl.NumberFormat.compact();
 
-// fl_chart يرسم من اليسار لليمين دائمًا، فنعكس الترتيب ليبدأ القارئ العربي من اليمين.
-final List<ExpenseCategory> _chartOrder = ExpenseCategory.values.reversed.toList();
 
 class BudgetSummaryScreen extends StatefulWidget {
   /// [now] يُستبدل في الاختبارات فقط، ليتفق "اليوم" هنا مع الشاشة التي فتحت هذه.
@@ -30,7 +29,13 @@ class BudgetSummaryScreen extends StatefulWidget {
 
 class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
   BudgetService? _budget;
-  String _symbol = BudgetCurrency.sar.symbol;
+  BudgetCurrency _currency = BudgetCurrency.forRegion();
+  String get _symbol => _currency.symbolFor(context.appLang);
+
+  // fl_chart يرسم من اليسار لليمين دائمًا، فنعكس الترتيب في العربية ليبدأ القارئ من اليمين.
+  List<ExpenseCategory> get _chartOrder => Directionality.of(context) == TextDirection.rtl
+      ? ExpenseCategory.values.reversed.toList()
+      : ExpenseCategory.values;
   late DateTime _month;
   double _total = 0;
   Map<ExpenseCategory, double> _byCategory = const {};
@@ -46,11 +51,11 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
 
   Future<void> _load() async {
     final budget = _budget ?? await BudgetService.getInstance();
-    final symbol = (await BudgetPlanService.getInstance()).plan.currency.symbol;
+    final currency = (await BudgetPlanService.getInstance()).plan.displayCurrency();
     if (!mounted) return;
     setState(() {
       _budget = budget;
-      _symbol = symbol;
+      _currency = currency;
       _total = budget.getTotalForMonth(_month);
       _byCategory = budget.getTotalByCategory(_month);
       _entries = budget.getExpensesForMonth(_month);
@@ -90,7 +95,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
     final removed = await _budget?.deleteExpense(entry.id);
     await _load();
     if (removed == null || !mounted) return;
-    showUndoSnackBar(context, 'حُذف مصروف ${_money.format(entry.amount)} $_symbol', () async {
+    showUndoSnackBar(context, context.l10n.expenseDeleted('${_money.format(entry.amount)} $_symbol'), () async {
       await _budget?.restoreExpense(removed);
       if (mounted) await _load();
     });
@@ -98,46 +103,43 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('مصاريفي الشهرية')),
-        floatingActionButton: FloatingActionButton.extended(
-          heroTag: 'add_expense_fab',
-          backgroundColor: AppTheme.primaryColor,
-          onPressed: _addExpense,
-          icon: const Icon(Icons.add_rounded, color: Colors.white),
-          label: const Text('سجّل مصروف', style: TextStyle(color: Colors.white)),
-        ),
-        body: _budget == null
-            ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
-                children: [
-                  _buildMonthSwitcher(),
-                  const SizedBox(height: 16),
-                  _buildHeroTotal(),
-                  const SizedBox(height: 24),
-                  if (_total == 0)
-                    const Padding(
-                      padding: EdgeInsets.only(top: 32),
-                      child: Center(
-                        child: Text(
-                          'لا توجد مصاريف مسجلة في هذا الشهر',
-                          style: TextStyle(color: AppTheme.subTextColor),
-                        ),
-                      ),
-                    )
-                  else ...[
-                    _buildChartCard(),
-                    const SizedBox(height: 16),
-                    _buildBreakdown(),
-                    const SizedBox(height: 24),
-                    _buildEntries(),
-                  ],
-                ],
-              ),
+    return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.monthlyExpenses)),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'add_expense_fab',
+        backgroundColor: AppTheme.primaryColor,
+        onPressed: _addExpense,
+        icon: const Icon(Icons.add_rounded, color: Colors.white),
+        label: Text(context.l10n.recordExpense, style: TextStyle(color: Colors.white)),
       ),
+      body: _budget == null
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+              children: [
+                _buildMonthSwitcher(),
+                const SizedBox(height: 16),
+                _buildHeroTotal(),
+                const SizedBox(height: 24),
+                if (_total == 0)
+                  Padding(
+                    padding: EdgeInsets.only(top: 32),
+                    child: Center(
+                      child: Text(
+                        context.l10n.noMonthExpenses,
+                        style: TextStyle(color: AppTheme.subTextColor),
+                      ),
+                    ),
+                  )
+                else ...[
+                  _buildChartCard(),
+                  const SizedBox(height: 16),
+                  _buildBreakdown(),
+                  const SizedBox(height: 24),
+                  _buildEntries(),
+                ],
+              ],
+            ),
     );
   }
 
@@ -145,20 +147,20 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
     return Row(
       children: [
         IconButton(
-          tooltip: 'الشهر السابق',
-          icon: const Icon(Icons.chevron_right_rounded, color: AppTheme.textColor),
+          tooltip: context.l10n.previousMonth,
+          icon: const Icon(Icons.chevron_left_rounded, color: AppTheme.textColor),
           onPressed: () => _shiftMonth(-1),
         ),
         Expanded(
           child: Text(
-            '${arabicMonthNames[_month.month - 1]} ${_month.year}',
+            formatMonthYear(_month, context.appLang),
             textAlign: TextAlign.center,
             style: const TextStyle(color: AppTheme.textColor, fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
         IconButton(
-          tooltip: 'الشهر التالي',
-          icon: const Icon(Icons.chevron_left_rounded),
+          tooltip: context.l10n.nextMonth,
+          icon: const Icon(Icons.chevron_right_rounded),
           color: AppTheme.textColor,
           disabledColor: AppTheme.surfaceColor,
           onPressed: _isCurrentMonth ? null : () => _shiftMonth(1),
@@ -171,7 +173,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('إجمالي الصرف', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+        Text(context.l10n.totalSpending, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
         const SizedBox(height: 4),
         FittedBox(
           fit: BoxFit.scaleDown,
@@ -209,8 +211,8 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'التوزيع حسب الفئة',
+          Text(
+            context.l10n.breakdownByCategory,
             style: TextStyle(color: AppTheme.textColor, fontSize: 15, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 16),
@@ -226,6 +228,20 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
     final step = niceAxisStep(maxValue / 4);
     final maxY = step * (maxValue / step).ceil();
     const axisStyle = TextStyle(color: AppTheme.subTextColor, fontSize: 11);
+    final order = _chartOrder;
+    final rtl = Directionality.of(context) == TextDirection.rtl;
+    final valueAxis = AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        reservedSize: 44,
+        interval: step,
+        getTitlesWidget: (value, meta) => SideTitleWidget(
+          meta: meta,
+          child: Text(_compact.format(value), style: axisStyle),
+        ),
+      ),
+    );
+    const hidden = AxisTitles(sideTitles: SideTitles(showTitles: false));
 
     return BarChart(
       BarChartData(
@@ -233,7 +249,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
         maxY: maxY,
         alignment: BarChartAlignment.spaceAround,
         barGroups: [
-          for (var i = 0; i < _chartOrder.length; i++)
+          for (var i = 0; i < order.length; i++)
             BarChartGroupData(
               x: i,
               barRods: [
@@ -258,25 +274,16 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
         ),
         titlesData: FlTitlesData(
           topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 44,
-              interval: step,
-              getTitlesWidget: (value, meta) => SideTitleWidget(
-                meta: meta,
-                child: Text(_compact.format(value), style: axisStyle),
-              ),
-            ),
-          ),
+          // محور القيم على جهة نهاية القراءة: يمين في العربية، يسار في الإنجليزية.
+          leftTitles: rtl ? hidden : valueAxis,
+          rightTitles: rtl ? valueAxis : hidden,
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 28,
               getTitlesWidget: (value, meta) => SideTitleWidget(
                 meta: meta,
-                child: Text(_chartOrder[value.toInt()].arabicLabel, style: axisStyle),
+                child: Text(order[value.toInt()].label(context.l10n), style: axisStyle),
               ),
             ),
           ),
@@ -285,7 +292,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
           touchTooltipData: BarTouchTooltipData(
             getTooltipColor: (_) => AppTheme.surfaceColor,
             getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
-              '${_chartOrder[group.x].arabicLabel}\n${_money.format(rod.toY)} $_symbol',
+              '${order[group.x].label(context.l10n)}\n${_money.format(rod.toY)} $_symbol',
               const TextStyle(color: AppTheme.textColor, fontSize: 12),
             ),
           ),
@@ -306,9 +313,9 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
           for (final row in rows)
             ListTile(
               leading: Icon(row.key.icon, color: AppTheme.accentColor),
-              title: Text(row.key.arabicLabel, style: const TextStyle(color: AppTheme.textColor)),
+              title: Text(row.key.label(context.l10n), style: const TextStyle(color: AppTheme.textColor)),
               subtitle: Text(
-                '${(row.value / _total * 100).round()}٪ من الإجمالي',
+                context.l10n.percentOfTotal((row.value / _total * 100).round()),
                 style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
               ),
               trailing: Text(
@@ -330,8 +337,8 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'مصروفات الشهر',
+        Text(
+          context.l10n.monthExpenses,
           style: TextStyle(color: AppTheme.textColor, fontSize: 15, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
@@ -347,13 +354,13 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
                   key: ValueKey('expense_${entry.id}'),
                   leading: Icon(entry.category.icon, color: AppTheme.accentColor),
                   title: Text(
-                    entry.note == null || entry.note!.isEmpty ? entry.category.arabicLabel : entry.note!,
+                    entry.note == null || entry.note!.isEmpty ? entry.category.label(context.l10n) : entry.note!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: AppTheme.textColor),
                   ),
                   subtitle: Text(
-                    '${entry.category.arabicLabel} · ${entry.date.day}/${entry.date.month}',
+                    '${entry.category.label(context.l10n)} · ${entry.date.day}/${entry.date.month}',
                     style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
                   ),
                   onTap: () => _editExpense(entry),
@@ -369,7 +376,7 @@ class _BudgetSummaryScreenState extends State<BudgetSummaryScreen> {
                         ),
                       ),
                       IconButton(
-                        tooltip: 'حذف المصروف',
+                        tooltip: context.l10n.deleteExpense,
                         icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                         onPressed: () => _deleteExpense(entry),
                       ),

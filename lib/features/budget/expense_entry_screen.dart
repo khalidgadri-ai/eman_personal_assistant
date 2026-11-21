@@ -4,6 +4,7 @@ import 'budget_plan_service.dart';
 import 'budget_service.dart';
 import 'models/budget_plan.dart';
 import 'models/expense_entry.dart';
+import '../../l10n/l10n.dart';
 
 /// تسجيل مصروف جديد، أو تعديل [existing]. ترجّع المصروف المحفوظ (أو null عند الخروج بلا حفظ)
 /// حتى تنتقل الشاشة السابقة إلى شهره وتُحدّث نفسها.
@@ -24,7 +25,7 @@ class _ExpenseEntryScreenState extends State<ExpenseEntryScreen> {
   late DateTime _date;
   ExpenseCategory? _category;
   bool _saving = false;
-  String _symbol = BudgetCurrency.sar.symbol;
+  BudgetCurrency _currency = BudgetCurrency.forRegion();
 
   @override
   void initState() {
@@ -37,11 +38,11 @@ class _ExpenseEntryScreenState extends State<ExpenseEntryScreen> {
     _category = e?.category;
   }
 
-  /// عملة الخطة (الريال السعودي إن لم تُعدَّ خطة بعد).
+  /// عملة الخطة (عملة بلد الهاتف إن لم تُعدَّ خطة بعد).
   Future<void> _loadSymbol() async {
     try {
-      final symbol = (await BudgetPlanService.getInstance()).plan.currency.symbol;
-      if (mounted) setState(() => _symbol = symbol);
+      final currency = (await BudgetPlanService.getInstance()).plan.displayCurrency();
+      if (mounted) setState(() => _currency = currency);
     } catch (e) {
       debugPrint('ExpenseEntryScreen: currency unavailable (${e.runtimeType})');
     }
@@ -97,104 +98,100 @@ class _ExpenseEntryScreenState extends State<ExpenseEntryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: Text(widget.existing == null ? 'تسجيل مصروف' : 'تعديل مصروف')),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _amountController,
-                autofocus: true,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                style: const TextStyle(
-                  color: AppTheme.textColor,
-                  fontSize: 32,
-                  fontWeight: FontWeight.w600,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'المبلغ',
-                  labelStyle: const TextStyle(color: AppTheme.subTextColor),
-                  suffixText: _symbol,
-                  suffixStyle: const TextStyle(color: AppTheme.subTextColor, fontSize: 18),
-                ),
-                onChanged: (_) => setState(() {}),
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.existing == null ? context.l10n.recordExpenseTitle : context.l10n.editExpenseTitle)),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _amountController,
+              autofocus: true,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              style: const TextStyle(
+                color: AppTheme.textColor,
+                fontSize: 32,
+                fontWeight: FontWeight.w600,
               ),
-              const SizedBox(height: 24),
-              const Text(
-                'الفئة',
-                style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
+              decoration: InputDecoration(
+                labelText: context.l10n.amountLabel,
+                labelStyle: const TextStyle(color: AppTheme.subTextColor),
+                suffixText: _currency.symbolFor(context.appLang),
+                suffixStyle: const TextStyle(color: AppTheme.subTextColor, fontSize: 18),
               ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final category in ExpenseCategory.values)
-                    ChoiceChip(
-                      avatar: Icon(
-                        category.icon,
-                        size: 18,
-                        color: _category == category ? Colors.white : AppTheme.accentColor,
-                      ),
-                      label: Text(category.arabicLabel),
-                      selected: _category == category,
-                      selectedColor: AppTheme.primaryColor,
-                      backgroundColor: AppTheme.cardColor,
-                      labelStyle: TextStyle(
-                        color: _category == category ? Colors.white : AppTheme.textColor,
-                      ),
-                      showCheckmark: false,
-                      onSelected: (_) => setState(() => _category = category),
+              onChanged: (_) => setState(() {}),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              context.l10n.expenseCategoryField,
+              style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final category in ExpenseCategory.values)
+                  ChoiceChip(
+                    avatar: Icon(
+                      category.icon,
+                      size: 18,
+                      color: _category == category ? Colors.white : AppTheme.accentColor,
                     ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  const Icon(Icons.calendar_today_rounded, size: 18, color: AppTheme.accentColor),
-                  const SizedBox(width: 8),
-                  Text(
-                    'التاريخ: ${_dateLabel(_date)}',
-                    textDirection: TextDirection.rtl,
-                    style: const TextStyle(color: AppTheme.textColor),
+                    label: Text(category.label(context.l10n)),
+                    selected: _category == category,
+                    selectedColor: AppTheme.primaryColor,
+                    backgroundColor: AppTheme.cardColor,
+                    labelStyle: TextStyle(
+                      color: _category == category ? Colors.white : AppTheme.textColor,
+                    ),
+                    showCheckmark: false,
+                    onSelected: (_) => setState(() => _category = category),
                   ),
-                  const Spacer(),
-                  TextButton(onPressed: _pickDate, child: const Text('تغيير التاريخ')),
-                ],
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _noteController,
-                maxLines: 2,
-                maxLength: ExpenseEntry.maxNoteLength,
-                style: const TextStyle(color: AppTheme.textColor),
-                decoration: const InputDecoration(
-                  labelText: 'ملاحظة (اختياري)',
-                  labelStyle: TextStyle(color: AppTheme.subTextColor),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                const Icon(Icons.calendar_today_rounded, size: 18, color: AppTheme.accentColor),
+                const SizedBox(width: 8),
+                Text(
+                  context.l10n.dateLine(_dateLabel(_date)),
+                  style: const TextStyle(color: AppTheme.textColor),
                 ),
+                const Spacer(),
+                TextButton(onPressed: _pickDate, child: Text(context.l10n.changeDate)),
+              ],
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _noteController,
+              maxLines: 2,
+              maxLength: ExpenseEntry.maxNoteLength,
+              style: const TextStyle(color: AppTheme.textColor),
+              decoration: InputDecoration(
+                labelText: context.l10n.noteOptionalField,
+                labelStyle: TextStyle(color: AppTheme.subTextColor),
               ),
-              const SizedBox(height: 28),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  onPressed: _saving ||
-                          _category == null ||
-                          parseAmount(_amountController.text) == null
-                      ? null
-                      : _save,
-                  child: const Text('حفظ', style: TextStyle(color: Colors.white, fontSize: 16)),
+            ),
+            const SizedBox(height: 28),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
+                onPressed: _saving ||
+                        _category == null ||
+                        parseAmount(_amountController.text) == null
+                    ? null
+                    : _save,
+                child: Text(context.l10n.save, style: TextStyle(color: Colors.white, fontSize: 16)),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

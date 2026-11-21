@@ -4,7 +4,10 @@ import 'dart:io';
 import 'package:eman_life_app/core/config/app_locale.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
+import 'package:eman_life_app/features/onboarding/app_tour_screen.dart';
+import 'package:eman_life_app/features/onboarding/onboarding_screen.dart';
 import 'package:eman_life_app/features/settings/settings_screen.dart';
+import 'package:eman_life_app/l10n/l10n.dart';
 import 'package:eman_life_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -58,6 +61,16 @@ void main() {
         expect(inEn.where((p) => p == 'count'), inAr.where((p) => p == 'count'), reason: key);
       }
     });
+  });
+
+  test('every ready-made interest has its own label in both languages', () {
+    final ar = lookupAppLocalizations(AppLocale.arabic);
+    final en = lookupAppLocalizations(AppLocale.english);
+    for (final stored in kInterestOptions) {
+      expect(interestLabel(ar, stored), stored, reason: 'Arabic shows what is stored');
+      expect(interestLabel(en, stored), isNot(stored), reason: '$stored has an English label');
+    }
+    expect(interestLabel(en, 'هواية قديمة'), 'هواية قديمة', reason: 'an unknown old value shows as saved');
   });
 
   group('choosing the language', () {
@@ -118,6 +131,35 @@ void main() {
       await tester.tap(find.text('العربية'));
       await tester.pumpAndSettle();
       expect(find.text('الإعدادات'), findsOneWidget);
+    });
+
+    testWidgets('the welcome screen speaks English and shows the interests in English', (tester) async {
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(OnboardingScreen(onFinished: () {})));
+      await settle(tester);
+      expect(find.text('Welcome to Eman'), findsOneWidget);
+
+      await tester.tap(find.text('Next'));
+      await settle(tester);
+      expect(find.text('What matters to you?'), findsOneWidget);
+      expect(find.text('Health & fitness'), findsOneWidget);
+      expect(find.text('الصحة واللياقة'), findsNothing);
+    });
+
+    testWidgets('the tour and its key guide speak English', (tester) async {
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(AppTourScreen(mandatory: false, linkOpener: (_) async => true)));
+      await settle(tester);
+      expect(find.text('Page 1 of 10'), findsOneWidget);
+      expect(find.text('A short tour'), findsOneWidget);
+
+      for (var i = 0; i < 8; i++) {
+        await tester.tap(find.text('Next'));
+        await settle(tester);
+      }
+      expect(find.text('AI key'), findsOneWidget);
+      expect(find.text('Steps with Google Gemini:'), findsOneWidget);
+      expect(find.text('Open the keys page'), findsOneWidget);
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

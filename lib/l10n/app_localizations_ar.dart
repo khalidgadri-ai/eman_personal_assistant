@@ -186,4 +186,282 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get eraseFailed => 'تعذّر مسح البيانات. لم يُحذف شيء، حاول مرة أخرى.';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get start => 'ابدأ';
+
+  @override
+  String get interestHealth => 'الصحة واللياقة';
+
+  @override
+  String get interestGrowth => 'التنمية الذاتية';
+
+  @override
+  String get interestReading => 'القراءة';
+
+  @override
+  String get interestFaith => 'العبادة والروحانيات';
+
+  @override
+  String get interestBudget => 'الميزانية والادخار';
+
+  @override
+  String get interestKitchen => 'المطبخ والوصفات';
+
+  @override
+  String get interestHome => 'تنظيم المنزل';
+
+  @override
+  String get interestSkills => 'تعلّم مهارات جديدة';
+
+  @override
+  String get interestWork => 'العمل والإنتاجية';
+
+  @override
+  String get interestFamily => 'الأسرة';
+
+  @override
+  String get onboardingWelcome => 'أهلًا بك في إيمان';
+
+  @override
+  String get onboardingIntro =>
+      'مساعدك الشخصي للمهام والصحة والمطبخ والميزانية. كل ما تدخله يبقى على جهازك.';
+
+  @override
+  String get onboardingNameQuestion => 'ما اسمك؟';
+
+  @override
+  String get onboardingNameLabel => 'ما اسمك؟ (اختياري)';
+
+  @override
+  String get onboardingInterestsTitle => 'ما الذي يهمّك؟';
+
+  @override
+  String get onboardingInterestsHint =>
+      'اختر ما يناسبك، ويمكنك تغييره لاحقًا من الإعدادات.';
+
+  @override
+  String get onboardingGoalsTitle => 'أهدافك (اختياري)';
+
+  @override
+  String get onboardingGoalLabel => 'اكتب هدفًا ثم اضغط +';
+
+  @override
+  String get onboardingGoalHint => 'مثال: قراءة 20 صفحة يوميًا';
+
+  @override
+  String get onboardingAddGoal => 'إضافة هدف';
+
+  @override
+  String get onboardingRemoveGoal => 'حذف الهدف';
+
+  @override
+  String get onboardingPrivacy =>
+      'تُحفظ هذه المعلومات مشفّرة على جهازك. وإن فعّلت المساعد الذكي بمفتاحك، تُرسل مع طلباته إلى مزوّد الذكاء الاصطناعي الذي تختاره لتخصيص الردود.';
+
+  @override
+  String get onboardingSaveFailed => 'تعذّر الحفظ على جهازك. حاول مرة أخرى.';
+
+  @override
+  String tourPageOf(int page, int total) {
+    return 'صفحة $page من $total';
+  }
+
+  @override
+  String get tourIntroTitle => 'جولة قصيرة';
+
+  @override
+  String get tourIntro1 => 'سنعرّفك على التطبيق في 10 صفحات قصيرة.';
+
+  @override
+  String get tourIntro2 => 'في كل صفحة فكرة واحدة فقط.';
+
+  @override
+  String get tourIntro3 => 'يمكنك الرجوع لأي صفحة بزر «رجوع».';
+
+  @override
+  String get tourTasksTitle => 'الأهداف والمهام';
+
+  @override
+  String get tourTasks1 => 'اكتب مهمة صغيرة واحدة بزر «+».';
+
+  @override
+  String get tourTasks2 => 'حين تنتهي منها، ضع علامة ✓ بجانبها.';
+
+  @override
+  String get tourTasksExample => 'مثال: «اشترِ الخبز».';
+
+  @override
+  String get tourGoalsTitle => 'قسّم الكبير إلى صغير';
+
+  @override
+  String get tourGoals1 => 'الهدف الكبير يصبح سهلًا إذا قسّمته.';
+
+  @override
+  String get tourGoals2 => 'حرّك شريط التقدّم كلما أنجزت جزءًا.';
+
+  @override
+  String get tourGoalsExample =>
+      'مثال: «ترتيب البيت» هدف شهري، و«ترتيب غرفة النوم» هدف أسبوعي، و«ترتيب درج واحد» مهمة اليوم.';
+
+  @override
+  String get tourRemindersTitle => 'التذكير';
+
+  @override
+  String get tourReminders1 =>
+      'يمكنك أن تضع وقتًا للمهمة أو للدواء فيصلك تنبيه.';
+
+  @override
+  String get tourReminders2 => 'حين يسألك الجوال عن الإشعارات اضغط «السماح».';
+
+  @override
+  String get tourReminders3 => 'قد يتأخر التنبيه دقائق قليلة.';
+
+  @override
+  String get tourHealthTitle => 'الصحة واللياقة';
+
+  @override
+  String get tourHealth1 => 'سجّل تمارينك، ومواعيد أدويتك، وروتين العناية.';
+
+  @override
+  String get tourHealthExample => 'مثال: دواء الصباح الساعة 8.';
+
+  @override
+  String get tourKitchenTitle => 'المطبخ والمنزل';
+
+  @override
+  String get tourKitchen1 =>
+      'وصفاتك، وما عندك في البيت، وقائمة المشتريات، وجدول الغسيل.';
+
+  @override
+  String get tourKitchen2 => 'ما ينقص من البيت يمكنك نقله إلى المشتريات.';
+
+  @override
+  String get tourBudgetTitle => 'الميزانية';
+
+  @override
+  String get tourBudget1 =>
+      'اكتب دخلك ومصاريفك الثابتة مرة واحدة، فيحسب لك التطبيق كم يمكنك أن تصرف اليوم.';
+
+  @override
+  String get tourBudget2 => 'كل الأرقام تبقى على جوالك.';
+
+  @override
+  String get tourCoachTitle => 'المدرب والمساعد الذكي';
+
+  @override
+  String get tourCoach1 =>
+      'زر المدرب (أيقونة الرأس في أسفل وسط الشاشة) يسألك أسئلة تساعدك تفكّر وترتّب أمورك.';
+
+  @override
+  String get tourCoach2 =>
+      'أما المساعد الذكي فيجيب أسئلتك، لكنه يحتاج مفتاحًا: الصفحة التالية تشرح كيف تحصل عليه.';
+
+  @override
+  String get tourKeyTitle => 'مفتاح الذكاء الاصطناعي';
+
+  @override
+  String get tourStartTitle => 'ابدأ بخطوة واحدة';
+
+  @override
+  String get tourStart1 => 'لا تحاول ترتيب كل شيء اليوم.';
+
+  @override
+  String get tourStart2 => 'اختر شيئًا صغيرًا واحدًا وابدأ به.';
+
+  @override
+  String get tourStart3 => 'يمكنك إعادة هذه الجولة من الإعدادات.';
+
+  @override
+  String get tourSaveFailed => 'تعذّر حفظ إنهاء الجولة على جهازك.';
+
+  @override
+  String get tourKeySaved => '✓ تم حفظ المفتاح';
+
+  @override
+  String get tourAddKeyNow => 'أضف المفتاح الآن';
+
+  @override
+  String get tourAddKeyLater => 'سأضيفه لاحقًا';
+
+  @override
+  String get tourFinishFirstRun => 'ابدأ استعمال التطبيق';
+
+  @override
+  String get tourFinish => 'إنهاء';
+
+  @override
+  String get keyGuideTitle => 'كيف أحصل على مفتاح؟';
+
+  @override
+  String get keyGuideIntro =>
+      'المفتاح مثل كلمة سرّ خاصة بك من المزوّد، يسمح للتطبيق أن يسأل الذكاء الاصطناعي باسمك.';
+
+  @override
+  String keyGuideStepsWith(String provider) {
+    return 'الخطوات مع $provider:';
+  }
+
+  @override
+  String get keyGuideGemini1 => 'اضغط «افتح صفحة المفاتيح».';
+
+  @override
+  String get keyGuideGemini2 => 'سجّل الدخول بحساب Google.';
+
+  @override
+  String get keyGuideGemini3 => 'وافق على الشروط إن ظهرت.';
+
+  @override
+  String get keyGuideGemini4 =>
+      'اضغط الزر المكتوب عليه Create API key (قد يظهر بلغة جوالك).';
+
+  @override
+  String get keyGuideGemini5 => 'انسخ المفتاح.';
+
+  @override
+  String get keyGuideGemini6 =>
+      'ارجع إلى التطبيق والصقه في خانة «المفتاح»، ثم اضغط «حفظ وتفعيل».';
+
+  @override
+  String get keyGuideOther1 => 'اضغط «افتح صفحة المفاتيح».';
+
+  @override
+  String get keyGuideOther2 => 'سجّل الدخول.';
+
+  @override
+  String get keyGuideOther3 => 'أنشئ مفتاحًا جديدًا.';
+
+  @override
+  String get keyGuideOther4 =>
+      'انسخ المفتاح، ثم ارجع إلى التطبيق والصقه في خانة «المفتاح»، ثم اضغط «حفظ وتفعيل».';
+
+  @override
+  String get keyGuideGeminiFree =>
+      'لـ Gemini استعمال مجاني ضمن حدود تضعها Google. وإن فعّلت الدفع في حسابك عند Google فقد تُحتسب عليك رسوم.';
+
+  @override
+  String get keyGuidePaymentNote =>
+      'قد يطلب بعض المزوّدين إضافة وسيلة دفع قبل أن يعمل المفتاح.';
+
+  @override
+  String get keyGuideDontShare =>
+      'لا تشارك مفتاحك مع أحد ولا تنشره. يُحفظ على جوالك فقط.';
+
+  @override
+  String get keyGuideOpenPage => 'افتح صفحة المفاتيح';
+
+  @override
+  String get keyGuideLinkCopied => 'تم نسخ الرابط. الصقه في المتصفح.';
 }

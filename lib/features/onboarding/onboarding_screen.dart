@@ -3,8 +3,11 @@ import '../../core/services/database_service.dart';
 import '../../core/services/profile_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/page_dots.dart';
+import '../../l10n/l10n.dart';
 
-/// اهتمامات جاهزة للاختيار؛ لا تتضمن أي معلومة عن شخص بعينه.
+/// اهتمامات جاهزة للاختيار؛ لا تتضمن أي معلومة عن شخص بعينه. تُحفظ في الملف الشخصي بهذا
+/// النص العربي نفسه (معرّف ثابت، ويدخل تعليمات المساعد العربية)، وتُعرض بلغة التطبيق
+/// عبر [interestLabel].
 const List<String> kInterestOptions = [
   'الصحة واللياقة',
   'التنمية الذاتية',
@@ -17,6 +20,23 @@ const List<String> kInterestOptions = [
   'العمل والإنتاجية',
   'الأسرة',
 ];
+
+/// اسم الاهتمام بلغة التطبيق. اهتمام غير معروف (نسخة قديمة) يظهر كما حُفظ.
+String interestLabel(AppLocalizations l10n, String stored) {
+  return switch (stored) {
+    'الصحة واللياقة' => l10n.interestHealth,
+    'التنمية الذاتية' => l10n.interestGrowth,
+    'القراءة' => l10n.interestReading,
+    'العبادة والروحانيات' => l10n.interestFaith,
+    'الميزانية والادخار' => l10n.interestBudget,
+    'المطبخ والوصفات' => l10n.interestKitchen,
+    'تنظيم المنزل' => l10n.interestHome,
+    'تعلّم مهارات جديدة' => l10n.interestSkills,
+    'العمل والإنتاجية' => l10n.interestWork,
+    'الأسرة' => l10n.interestFamily,
+    _ => stored,
+  };
+}
 
 /// شاشة الترحيب عند أول تشغيل: الاسم، ثم الاهتمامات والأهداف، ثم تُحفظ مشفّرة على الجهاز.
 /// مع [initial] تصبح شاشة تعديل من الإعدادات (بدون "تخطي").
@@ -95,7 +115,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       if (!mounted) return;
       setState(() {
         _saving = false;
-        _error = 'تعذّر الحفظ على جهازك. حاول مرة أخرى.';
+        _error = context.l10n.onboardingSaveFailed;
       });
       return;
     }
@@ -105,30 +125,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: widget.isEditing ? AppBar(title: const Text('تعديل ملفي')) : null,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-            child: Column(
-              children: [
-                PageDots(page: _page, count: 2),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: _page == 0 ? _buildNamePage() : _buildInterestsPage(),
-                  ),
+    return Scaffold(
+      appBar: widget.isEditing ? AppBar(title: Text(context.l10n.profileEdit)) : null,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+          child: Column(
+            children: [
+              PageDots(page: _page, count: 2),
+              const SizedBox(height: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: _page == 0 ? _buildNamePage() : _buildInterestsPage(),
                 ),
-                if (_error != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(_error!, style: const TextStyle(color: Colors.redAccent)),
-                  ),
-                _buildButtons(),
-              ],
-            ),
+              ),
+              if (_error != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(_error!, style: const TextStyle(color: Colors.redAccent)),
+                ),
+              _buildButtons(),
+            ],
           ),
         ),
       ),
@@ -136,6 +153,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildNamePage() {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -143,13 +161,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         const Icon(Icons.auto_awesome_rounded, size: 56, color: AppTheme.accentColor),
         const SizedBox(height: 16),
         Text(
-          widget.isEditing ? 'ما اسمك؟' : 'أهلًا بك في إيمان',
+          widget.isEditing ? l10n.onboardingNameQuestion : l10n.onboardingWelcome,
           style: const TextStyle(color: AppTheme.textColor, fontSize: 26, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        const Text(
-          'مساعدك الشخصي للمهام والصحة والمطبخ والميزانية. كل ما تدخله يبقى على جهازك.',
-          style: TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.7),
+        Text(
+          l10n.onboardingIntro,
+          style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.7),
         ),
         const SizedBox(height: 28),
         TextField(
@@ -158,24 +176,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           maxLength: UserProfile.maxNameLength,
           textInputAction: TextInputAction.done,
           style: const TextStyle(color: AppTheme.textColor, fontSize: 18),
-          decoration: const InputDecoration(labelText: 'ما اسمك؟ (اختياري)', counterText: ''),
+          decoration: InputDecoration(labelText: l10n.onboardingNameLabel, counterText: ''),
         ),
       ],
     );
   }
 
   Widget _buildInterestsPage() {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ما الذي يهمّك؟',
-          style: TextStyle(color: AppTheme.textColor, fontSize: 24, fontWeight: FontWeight.bold),
+        Text(
+          l10n.onboardingInterestsTitle,
+          style: const TextStyle(color: AppTheme.textColor, fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'اختر ما يناسبك، ويمكنك تغييره لاحقًا من الإعدادات.',
-          style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
+        Text(
+          l10n.onboardingInterestsHint,
+          style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
         ),
         const SizedBox(height: 12),
         Wrap(
@@ -184,7 +203,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             for (final option in kInterestOptions)
               FilterChip(
-                label: Text(option),
+                label: Text(interestLabel(l10n, option)),
                 selected: _interests.contains(option),
                 selectedColor: AppTheme.primaryColor,
                 backgroundColor: AppTheme.cardColor,
@@ -199,9 +218,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ],
         ),
         const SizedBox(height: 24),
-        const Text(
-          'أهدافك (اختياري)',
-          style: TextStyle(color: AppTheme.textColor, fontSize: 16, fontWeight: FontWeight.w600),
+        Text(
+          l10n.onboardingGoalsTitle,
+          style: const TextStyle(color: AppTheme.textColor, fontSize: 16, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
         Row(
@@ -213,9 +232,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 maxLength: UserProfile.maxItemLength,
                 textInputAction: TextInputAction.done,
                 style: const TextStyle(color: AppTheme.textColor),
-                decoration: const InputDecoration(
-                  labelText: 'اكتب هدفًا ثم اضغط +',
-                  hintText: 'مثال: قراءة 20 صفحة يوميًا',
+                decoration: InputDecoration(
+                  labelText: l10n.onboardingGoalLabel,
+                  hintText: l10n.onboardingGoalHint,
                   counterText: '',
                 ),
                 onSubmitted: (_) => _addGoal(),
@@ -223,7 +242,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             const SizedBox(width: 8),
             IconButton.filled(
-              tooltip: 'إضافة هدف',
+              tooltip: l10n.onboardingAddGoal,
               style: IconButton.styleFrom(backgroundColor: AppTheme.primaryColor),
               onPressed: _addGoal,
               icon: const Icon(Icons.add_rounded, color: Colors.white),
@@ -241,42 +260,42 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   label: Text(goal),
                   backgroundColor: AppTheme.cardColor,
                   labelStyle: const TextStyle(color: AppTheme.textColor),
-                  deleteButtonTooltipMessage: 'حذف الهدف',
+                  deleteButtonTooltipMessage: l10n.onboardingRemoveGoal,
                   onDeleted: () => setState(() => _goals.remove(goal)),
                 ),
             ],
           ),
         ],
         const SizedBox(height: 16),
-        const Text(
-          'تُحفظ هذه المعلومات مشفّرة على جهازك. وإن فعّلت المساعد الذكي بمفتاحك، '
-          'تُرسل مع طلباته إلى مزوّد الذكاء الاصطناعي الذي تختاره لتخصيص الردود.',
-          style: TextStyle(color: AppTheme.subTextColor, fontSize: 12, height: 1.7),
+        Text(
+          l10n.onboardingPrivacy,
+          style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12, height: 1.7),
         ),
       ],
     );
   }
 
   Widget _buildButtons() {
+    final l10n = context.l10n;
     final Widget leading;
     if (_page == 1) {
       leading = TextButton(
         onPressed: _saving ? null : () => setState(() => _page = 0),
-        child: const Text('رجوع', style: TextStyle(color: AppTheme.subTextColor)),
+        child: Text(l10n.back, style: const TextStyle(color: AppTheme.subTextColor)),
       );
     } else if (widget.isEditing) {
       leading = TextButton(
         onPressed: _saving ? null : () => Navigator.of(context).pop(),
-        child: const Text('إلغاء', style: TextStyle(color: AppTheme.subTextColor)),
+        child: Text(l10n.cancel, style: const TextStyle(color: AppTheme.subTextColor)),
       );
     } else {
       leading = TextButton(
         onPressed: _saving ? null : () => _finish(skip: true),
-        child: const Text('تخطي', style: TextStyle(color: AppTheme.subTextColor)),
+        child: Text(l10n.skip, style: const TextStyle(color: AppTheme.subTextColor)),
       );
     }
 
-    final lastLabel = widget.isEditing ? 'حفظ' : 'ابدأ';
+    final lastLabel = widget.isEditing ? l10n.save : l10n.start;
     return Row(
       children: [
         leading,
@@ -288,7 +307,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           onPressed: _saving ? null : (_page == 0 ? () => setState(() => _page = 1) : _finish),
           child: Text(
-            _page == 0 ? 'التالي' : lastLabel,
+            _page == 0 ? l10n.next : lastLabel,
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),

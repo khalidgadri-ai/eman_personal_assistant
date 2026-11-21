@@ -425,7 +425,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   for (final interest in profile.interests)
                     Chip(
-                      label: Text(interest, style: const TextStyle(fontSize: 12)),
+                      label: Text(interestLabel(context.l10n, interest), style: const TextStyle(fontSize: 12)),
                       backgroundColor: AppTheme.surfaceColor,
                     ),
                 ],

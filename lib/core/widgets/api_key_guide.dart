@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../ai/provider_presets.dart';
 import '../theme/app_theme.dart';
+import '../../l10n/l10n.dart';
 
 /// يفتح رابطًا في المتصفح خارج التطبيق. يرجّع false إن تعذّر الفتح.
 typedef LinkOpener = Future<bool> Function(Uri uri);
@@ -27,24 +28,25 @@ class ApiKeyGuide extends StatelessWidget {
 
   bool get _isGemini => preset.id == AiPresets.geminiId;
 
-  List<String> get _steps => _isGemini
-      ? const [
-          'اضغط «افتح صفحة المفاتيح».',
-          'سجّل الدخول بحساب Google.',
-          'وافق على الشروط إن ظهرت.',
-          'اضغط الزر المكتوب عليه Create API key (قد يظهر بلغة جوالك).',
-          'انسخ المفتاح.',
-          'ارجع إلى التطبيق والصقه في خانة «المفتاح»، ثم اضغط «حفظ وتفعيل».',
+  List<String> _steps(AppLocalizations l10n) => _isGemini
+      ? [
+          l10n.keyGuideGemini1,
+          l10n.keyGuideGemini2,
+          l10n.keyGuideGemini3,
+          l10n.keyGuideGemini4,
+          l10n.keyGuideGemini5,
+          l10n.keyGuideGemini6,
         ]
-      : const [
-          'اضغط «افتح صفحة المفاتيح».',
-          'سجّل الدخول.',
-          'أنشئ مفتاحًا جديدًا.',
-          'انسخ المفتاح، ثم ارجع إلى التطبيق والصقه في خانة «المفتاح»، ثم اضغط «حفظ وتفعيل».',
+      : [
+          l10n.keyGuideOther1,
+          l10n.keyGuideOther2,
+          l10n.keyGuideOther3,
+          l10n.keyGuideOther4,
         ];
 
   Future<void> _openKeyPage(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
+    final copied = context.l10n.keyGuideLinkCopied;
     var opened = false;
     try {
       opened = await linkOpener(Uri.parse(preset.keyUrl));
@@ -53,24 +55,23 @@ class ApiKeyGuide extends StatelessWidget {
     }
     if (opened) return;
     await Clipboard.setData(ClipboardData(text: preset.keyUrl));
-    messenger.showSnackBar(const SnackBar(content: Text('تم نسخ الرابط. الصقه في المتصفح.')));
+    messenger.showSnackBar(SnackBar(content: Text(copied)));
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final steps = _steps(l10n);
     const body = TextStyle(color: AppTheme.textColor, fontSize: 15, height: 1.7);
     const note = TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.7);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'المفتاح مثل كلمة سرّ خاصة بك من المزوّد، يسمح للتطبيق أن يسأل الذكاء الاصطناعي باسمك.',
-          style: body,
-        ),
+        Text(l10n.keyGuideIntro, style: body),
         const SizedBox(height: 12),
-        Text('الخطوات مع ${preset.label}:', style: note),
+        Text(l10n.keyGuideStepsWith(preset.label), style: note),
         const SizedBox(height: 4),
-        for (var i = 0; i < _steps.length; i++)
+        for (var i = 0; i < steps.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 6),
             child: Row(
@@ -80,15 +81,13 @@ class ApiKeyGuide extends StatelessWidget {
                   width: 24,
                   child: Text('${i + 1}.', style: const TextStyle(color: AppTheme.accentColor, fontSize: 15)),
                 ),
-                Expanded(child: Text(_steps[i], style: body)),
+                Expanded(child: Text(steps[i], style: body)),
               ],
             ),
           ),
         const SizedBox(height: 8),
         Text(
-          _isGemini
-              ? 'لـ Gemini استعمال مجاني ضمن حدود تضعها Google. وإن فعّلت الدفع في حسابك عند Google فقد تُحتسب عليك رسوم.'
-              : 'قد يطلب بعض المزوّدين إضافة وسيلة دفع قبل أن يعمل المفتاح.',
+          _isGemini ? l10n.keyGuideGeminiFree : l10n.keyGuidePaymentNote,
           style: note,
         ),
         const SizedBox(height: 12),
@@ -99,14 +98,14 @@ class ApiKeyGuide extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.orange),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(Icons.lock_rounded, color: Colors.orange),
-              SizedBox(width: 10),
+              const Icon(Icons.lock_rounded, color: Colors.orange),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'لا تشارك مفتاحك مع أحد ولا تنشره. يُحفظ على جوالك فقط.',
-                  style: TextStyle(color: AppTheme.textColor, height: 1.6),
+                  l10n.keyGuideDontShare,
+                  style: const TextStyle(color: AppTheme.textColor, height: 1.6),
                 ),
               ),
             ],
@@ -120,7 +119,7 @@ class ApiKeyGuide extends StatelessWidget {
               style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
               onPressed: () => _openKeyPage(context),
               icon: const Icon(Icons.open_in_new_rounded),
-              label: const Text('افتح صفحة المفاتيح'),
+              label: Text(l10n.keyGuideOpenPage),
             ),
           ),
         ],
@@ -138,15 +137,12 @@ class ApiKeyGuideScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('كيف أحصل على مفتاح؟')),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: ApiKeyGuide(preset: preset, linkOpener: linkOpener),
-          ),
+    return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.keyGuideTitle)),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: ApiKeyGuide(preset: preset, linkOpener: linkOpener),
         ),
       ),
     );

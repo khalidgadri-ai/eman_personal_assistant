@@ -6,6 +6,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/widgets/ai_provider_screen.dart';
 import '../../core/widgets/api_key_guide.dart';
 import '../../core/widgets/page_dots.dart';
+import '../../l10n/l10n.dart';
 
 /// رقم الجولة الحالية. رفعه يُظهر جولة جديدة لمن رأى القديمة.
 abstract final class AppTour {
@@ -44,89 +45,64 @@ class _TourPage {
 /// صفحة المفتاح لها محتوى خاص (الدليل والأزرار)، فتُعرف برقمها.
 const int _keyPageIndex = 8;
 
-const List<_TourPage> _pages = [
-  _TourPage(
-    icon: Icons.explore_rounded,
-    title: 'جولة قصيرة',
-    lines: [
-      'سنعرّفك على التطبيق في 10 صفحات قصيرة.',
-      'في كل صفحة فكرة واحدة فقط.',
-      'يمكنك الرجوع لأي صفحة بزر «رجوع».',
-    ],
-  ),
-  _TourPage(
-    icon: Icons.task_alt_rounded,
-    title: 'الأهداف والمهام',
-    lines: [
-      'اكتب مهمة صغيرة واحدة بزر «+».',
-      'حين تنتهي منها، ضع علامة ✓ بجانبها.',
-    ],
-    example: 'مثال: «اشترِ الخبز».',
-  ),
-  _TourPage(
-    icon: Icons.stairs_rounded,
-    title: 'قسّم الكبير إلى صغير',
-    lines: [
-      'الهدف الكبير يصبح سهلًا إذا قسّمته.',
-      'حرّك شريط التقدّم كلما أنجزت جزءًا.',
-    ],
-    example: 'مثال: «ترتيب البيت» هدف شهري، و«ترتيب غرفة النوم» هدف أسبوعي، '
-        'و«ترتيب درج واحد» مهمة اليوم.',
-  ),
-  _TourPage(
-    icon: Icons.notifications_active_rounded,
-    title: 'التذكير',
-    lines: [
-      'يمكنك أن تضع وقتًا للمهمة أو للدواء فيصلك تنبيه.',
-      'حين يسألك الجوال عن الإشعارات اضغط «السماح».',
-      'قد يتأخر التنبيه دقائق قليلة.',
-    ],
-  ),
-  _TourPage(
-    icon: Icons.fitness_center_rounded,
-    title: 'الصحة واللياقة',
-    lines: ['سجّل تمارينك، ومواعيد أدويتك، وروتين العناية.'],
-    example: 'مثال: دواء الصباح الساعة 8.',
-  ),
-  _TourPage(
-    icon: Icons.kitchen_rounded,
-    title: 'المطبخ والمنزل',
-    lines: [
-      'وصفاتك، وما عندك في البيت، وقائمة المشتريات، وجدول الغسيل.',
-      'ما ينقص من البيت يمكنك نقله إلى المشتريات.',
-    ],
-  ),
-  _TourPage(
-    icon: Icons.account_balance_wallet_rounded,
-    title: 'الميزانية',
-    lines: [
-      'اكتب دخلك ومصاريفك الثابتة مرة واحدة، فيحسب لك التطبيق كم يمكنك أن تصرف اليوم.',
-      'كل الأرقام تبقى على جوالك.',
-    ],
-  ),
-  _TourPage(
-    icon: Icons.smart_toy_rounded,
-    title: 'المدرب والمساعد الذكي',
-    lines: [
-      'زر المدرب (أيقونة الرأس في أسفل وسط الشاشة) يسألك أسئلة تساعدك تفكّر وترتّب أمورك.',
-      'أما المساعد الذكي فيجيب أسئلتك، لكنه يحتاج مفتاحًا: الصفحة التالية تشرح كيف تحصل عليه.',
-    ],
-  ),
-  _TourPage(
-    icon: Icons.vpn_key_rounded,
-    title: 'مفتاح الذكاء الاصطناعي',
-    lines: [],
-  ),
-  _TourPage(
-    icon: Icons.flag_rounded,
-    title: 'ابدأ بخطوة واحدة',
-    lines: [
-      'لا تحاول ترتيب كل شيء اليوم.',
-      'اختر شيئًا صغيرًا واحدًا وابدأ به.',
-      'يمكنك إعادة هذه الجولة من الإعدادات.',
-    ],
-  ),
-];
+/// عدد صفحات الجولة. نص كل صفحة في ملفات اللغات ([_pages]).
+const int _pageCount = 10;
+
+List<_TourPage> _pages(AppLocalizations l10n) => [
+      _TourPage(
+        icon: Icons.explore_rounded,
+        title: l10n.tourIntroTitle,
+        lines: [l10n.tourIntro1, l10n.tourIntro2, l10n.tourIntro3],
+      ),
+      _TourPage(
+        icon: Icons.task_alt_rounded,
+        title: l10n.tourTasksTitle,
+        lines: [l10n.tourTasks1, l10n.tourTasks2],
+        example: l10n.tourTasksExample,
+      ),
+      _TourPage(
+        icon: Icons.stairs_rounded,
+        title: l10n.tourGoalsTitle,
+        lines: [l10n.tourGoals1, l10n.tourGoals2],
+        example: l10n.tourGoalsExample,
+      ),
+      _TourPage(
+        icon: Icons.notifications_active_rounded,
+        title: l10n.tourRemindersTitle,
+        lines: [l10n.tourReminders1, l10n.tourReminders2, l10n.tourReminders3],
+      ),
+      _TourPage(
+        icon: Icons.fitness_center_rounded,
+        title: l10n.tourHealthTitle,
+        lines: [l10n.tourHealth1],
+        example: l10n.tourHealthExample,
+      ),
+      _TourPage(
+        icon: Icons.kitchen_rounded,
+        title: l10n.tourKitchenTitle,
+        lines: [l10n.tourKitchen1, l10n.tourKitchen2],
+      ),
+      _TourPage(
+        icon: Icons.account_balance_wallet_rounded,
+        title: l10n.tourBudgetTitle,
+        lines: [l10n.tourBudget1, l10n.tourBudget2],
+      ),
+      _TourPage(
+        icon: Icons.smart_toy_rounded,
+        title: l10n.tourCoachTitle,
+        lines: [l10n.tourCoach1, l10n.tourCoach2],
+      ),
+      _TourPage(
+        icon: Icons.vpn_key_rounded,
+        title: l10n.tourKeyTitle,
+        lines: const [],
+      ),
+      _TourPage(
+        icon: Icons.flag_rounded,
+        title: l10n.tourStartTitle,
+        lines: [l10n.tourStart1, l10n.tourStart2, l10n.tourStart3],
+      ),
+    ];
 
 /// جولة التعريف بالتطبيق: صفحات بملء الشاشة، صفحة لكل فكرة.
 ///
@@ -148,7 +124,7 @@ class AppTourScreen extends StatefulWidget {
   final LinkOpener linkOpener;
   final AddKeyFlow addKey;
 
-  static int get pageCount => _pages.length;
+  static int get pageCount => _pageCount;
 
   @override
   State<AppTourScreen> createState() => _AppTourScreenState();
@@ -158,7 +134,7 @@ class _AppTourScreenState extends State<AppTourScreen> {
   int _page = 0;
   bool _finishing = false;
 
-  bool get _isLast => _page == _pages.length - 1;
+  bool get _isLast => _page == _pageCount - 1;
 
   void _next() {
     if (_isLast) {
@@ -178,6 +154,7 @@ class _AppTourScreenState extends State<AppTourScreen> {
       return;
     }
     if (_finishing) return;
+    final failed = context.l10n.tourSaveFailed;
     setState(() => _finishing = true);
     try {
       final db = await DatabaseService.getInstance();
@@ -186,9 +163,7 @@ class _AppTourScreenState extends State<AppTourScreen> {
       // لا نحبس المستخدم: يكمل، وقد تظهر الجولة مرة أخرى في التشغيل التالي.
       debugPrint('AppTourScreen: could not save the tour version (${e.runtimeType})');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تعذّر حفظ إنهاء الجولة على جهازك.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(failed)));
       }
     }
     if (!mounted) return;
@@ -199,53 +174,51 @@ class _AppTourScreenState extends State<AppTourScreen> {
     final saved = await widget.addKey(context);
     if (!mounted) return;
     if (saved) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✓ تم حفظ المفتاح')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.tourKeySaved)));
       _next();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final page = _pages[_page];
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: widget.mandatory
-            ? null
-            : AppBar(
-                title: const Text('جولة التعريف بالتطبيق'),
-                automaticallyImplyLeading: false,
-                actions: [
-                  IconButton(
-                    tooltip: 'إغلاق',
-                    icon: const Icon(Icons.close_rounded),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-            child: Column(
-              children: [
-                Text(
-                  'صفحة ${_page + 1} من ${_pages.length}',
-                  style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
+    final l10n = context.l10n;
+    final page = _pages(l10n)[_page];
+    return Scaffold(
+      appBar: widget.mandatory
+          ? null
+          : AppBar(
+              title: Text(l10n.settingsTour),
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  tooltip: l10n.close,
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                const SizedBox(height: 8),
-                PageDots(page: _page, count: _pages.length),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: SingleChildScrollView(
-                    key: ValueKey('tour_page_$_page'),
-                    // بعرض الشاشة كله حتى يبدأ النص من الحافة اليمنى في كل الصفحات.
-                    child: SizedBox(width: double.infinity, child: _buildPage(page)),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                _buildButtons(),
               ],
             ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+          child: Column(
+            children: [
+              Text(
+                l10n.tourPageOf(_page + 1, _pageCount),
+                style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
+              ),
+              const SizedBox(height: 8),
+              PageDots(page: _page, count: _pageCount),
+              const SizedBox(height: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  key: ValueKey('tour_page_$_page'),
+                  // بعرض الشاشة كله حتى يبدأ النص من حافة بداية السطر في كل الصفحات.
+                  child: SizedBox(width: double.infinity, child: _buildPage(page)),
+                ),
+              ),
+              const SizedBox(height: 8),
+              _buildButtons(),
+            ],
           ),
         ),
       ),
@@ -296,7 +269,7 @@ class _AppTourScreenState extends State<AppTourScreen> {
             minimumSize: const Size(0, 48),
           ),
           onPressed: _addKeyNow,
-          child: const Text('أضف المفتاح الآن', style: TextStyle(color: Colors.white, fontSize: 16)),
+          child: Text(context.l10n.tourAddKeyNow, style: const TextStyle(color: Colors.white, fontSize: 16)),
         ),
       ),
       const SizedBox(height: 8),
@@ -305,25 +278,26 @@ class _AppTourScreenState extends State<AppTourScreen> {
         child: TextButton(
           style: TextButton.styleFrom(minimumSize: const Size(0, 48)),
           onPressed: _next,
-          child: const Text('سأضيفه لاحقًا', style: TextStyle(color: AppTheme.subTextColor, fontSize: 16)),
+          child: Text(context.l10n.tourAddKeyLater, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 16)),
         ),
       ),
     ];
   }
 
   Widget _buildButtons() {
+    final l10n = context.l10n;
     final String nextLabel;
     if (!_isLast) {
-      nextLabel = 'التالي';
+      nextLabel = l10n.next;
     } else {
-      nextLabel = widget.mandatory ? 'ابدأ استعمال التطبيق' : 'إنهاء';
+      nextLabel = widget.mandatory ? l10n.tourFinishFirstRun : l10n.tourFinish;
     }
     return Row(
       children: [
         TextButton(
           style: TextButton.styleFrom(minimumSize: const Size(88, 48)),
           onPressed: _page == 0 ? null : _back,
-          child: const Text('رجوع'),
+          child: Text(l10n.back),
         ),
         const Spacer(),
         ElevatedButton(

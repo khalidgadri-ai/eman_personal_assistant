@@ -24,9 +24,9 @@ abstract final class AppLocale {
     GlobalCupertinoLocalizations.delegate,
   ];
 
-  /// الإنجليزية لا تظهر للمستخدمين قبل ترجمة كل الشاشات: بدونها يرى نصف التطبيق بالعربية.
-  /// قبل ذلك تبقى «لغة الجوال» عربية، وخيار اللغة يظهر في نسخ التطوير فقط.
-  static const bool englishReady = false;
+  /// كل الشاشات مترجمة (منذ 21 نوفمبر 2026): جوال بلغة غير العربية يفتح بالإنجليزية، وخيار اللغة
+  /// ظاهر للجميع. إن أُضيفت لغة جديدة لم تكتمل ترجمتها فلتبقَ خارج [supported] حتى تكتمل.
+  static const bool englishReady = true;
 
   static bool get languagePickerVisible => englishReady || kDebugMode;
 
@@ -44,7 +44,16 @@ abstract final class AppLocale {
   };
 
   /// اللغة الحالية خارج الشاشات (نصوص التذكيرات مثلًا)، حيث لا يوجد BuildContext.
-  static Locale get current => resolve(choice.value, PlatformDispatcher.instance.locale);
+  static Locale get current => resolve(choice.value, _deviceLocale());
+
+  /// لغة الجوال من ربط Flutter (فتتبع ما تضبطه الاختبارات)، أو من المنصة مباشرة قبل تهيئته.
+  static Locale _deviceLocale() {
+    try {
+      return WidgetsBinding.instance.platformDispatcher.locale;
+    } catch (_) {
+      return PlatformDispatcher.instance.locale;
+    }
+  }
 
   /// نصوص اللغة الحالية خارج الشاشات.
   static AppLocalizations get texts => lookupAppLocalizations(current);

@@ -10,15 +10,11 @@ import 'helpers/widget_helpers.dart';
 void main() {
   late TestStorage storage;
 
+  // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ الاختبارات على جوال سعودي (test/flutter_test_config.dart).
   setUp(() async {
     storage = await TestStorage.inMemory();
-    // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ هذه الاختبارات على هاتف سعودي (ريال).
-    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.localeTestValue = const Locale('ar', 'SA');
   });
-  tearDown(() async {
-    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.clearLocaleTestValue();
-    await storage.dispose();
-  });
+  tearDown(() => storage.dispose());
 
   Future<BudgetService> budget() => BudgetService.getInstance();
 

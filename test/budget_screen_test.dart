@@ -57,15 +57,11 @@ final DateTime _today = DateTime(2026, 10, 18, 10);
 void main() {
   late TestStorage storage;
 
+  // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ الاختبارات على جوال سعودي (test/flutter_test_config.dart).
   setUp(() async {
     storage = await TestStorage.inMemory();
-    // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ هذه الاختبارات على هاتف سعودي (ريال).
-    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.localeTestValue = const Locale('ar', 'SA');
   });
-  tearDown(() async {
-    TestWidgetsFlutterBinding.ensureInitialized().platformDispatcher.clearLocaleTestValue();
-    await storage.dispose();
-  });
+  tearDown(() => storage.dispose());
 
   Future<void> bigScreen(WidgetTester tester) async {
     tester.view.physicalSize = const Size(900, 3200);
@@ -544,6 +540,7 @@ void main() {
 
     testWidgets('before any plan the phone\'s country picks the currency; a saved plan keeps its own', (tester) async {
       tester.platformDispatcher.localeTestValue = const Locale('ar', 'EG');
+      addTearDown(() => tester.platformDispatcher.localeTestValue = const Locale('ar', 'SA'));
       final b = await BudgetService.getInstance();
       await b.addExpense(amount: 25.5, category: ExpenseCategory.food, date: DateTime.now());
       await bigScreen(tester);

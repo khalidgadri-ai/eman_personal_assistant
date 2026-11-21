@@ -44,7 +44,7 @@ Widget _app(Widget home) => ValueListenableBuilder<AppLanguage>(
       valueListenable: AppLocale.choice,
       builder: (_, choice, _) => MaterialApp(
         theme: AppTheme.darkTheme,
-        locale: AppLocale.resolve(choice, null),
+        locale: AppLocale.resolve(choice, WidgetsBinding.instance.platformDispatcher.locale),
         supportedLocales: AppLocale.supported,
         localizationsDelegates: AppLocale.delegates,
         home: home,
@@ -180,11 +180,24 @@ void main() {
       expect(AppLocale.resolve(AppLanguage.ar, const Locale('en')), AppLocale.arabic);
       expect(AppLocale.resolve(AppLanguage.en, const Locale('ar')), AppLocale.english);
       expect(AppLocale.resolve(AppLanguage.system, const Locale('ar', 'SA')), AppLocale.arabic);
-      expect(
-        AppLocale.resolve(AppLanguage.system, const Locale('fr')),
-        AppLocale.englishReady ? AppLocale.english : AppLocale.arabic,
-        reason: 'until every screen is translated a non-Arabic phone still gets Arabic',
-      );
+      expect(AppLocale.resolve(AppLanguage.system, const Locale('fr')), AppLocale.english,
+          reason: 'a phone in any other language gets English');
+      expect(AppLocale.resolve(AppLanguage.system, const Locale('en', 'US')), AppLocale.english);
+    });
+
+    test('English is on for everyone and the language tile shows in release builds too', () {
+      expect(AppLocale.englishReady, isTrue);
+      expect(AppLocale.languagePickerVisible, isTrue);
+    });
+
+    testWidgets('an English phone opens the app in English unless Arabic was chosen', (tester) async {
+      tester.platformDispatcher.localeTestValue = const Locale('en', 'US');
+      addTearDown(() => tester.platformDispatcher.localeTestValue = const Locale('ar', 'SA'));
+      addTearDown(() => AppLocale.choice.value = AppLanguage.system);
+      expect(AppLocale.current, AppLocale.english);
+      expect(AppLocale.texts.settingsTitle, 'Settings');
+      AppLocale.choice.value = AppLanguage.ar;
+      expect(AppLocale.current, AppLocale.arabic);
     });
 
     test('a missing or unknown saved value means the phone language', () {

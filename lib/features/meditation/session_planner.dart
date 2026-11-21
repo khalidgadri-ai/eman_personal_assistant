@@ -29,9 +29,13 @@ class SessionPlan {
     required this.phases,
     required this.bells,
     required this.cues,
+    this.lang = 'ar',
   });
 
   final MeditationSession session;
+
+  /// لغة الجلسة: نصوص المراحل في الشاشة والإشعار، ومجلد صوت المرشد.
+  final String lang;
   final int totalSec;
   final List<PlannedPhase> phases;
   final List<int> bells;
@@ -55,7 +59,7 @@ class SessionPlan {
 /// - الجرس في البداية والنهاية وبين كل مرحلتين.
 /// - المقطع في موضعه من بداية مرحلته (أو من نهايتها إن كان fromEnd).
 /// - [background] يستبدل خلفية كل المراحل (اختيار المستخدم في المؤقت الصامت وجلسة جاما).
-SessionPlan planSession(MeditationSession session, {required int minutes, ToneBackground? background}) {
+SessionPlan planSession(MeditationSession session, {required int minutes, ToneBackground? background, String lang = 'ar'}) {
   if (!session.durations.contains(minutes)) {
     throw ArgumentError.value(minutes, 'minutes', 'not one of ${session.durations}');
   }
@@ -86,7 +90,7 @@ SessionPlan planSession(MeditationSession session, {required int minutes, ToneBa
       final at = cue.fromEnd ? end - cue.atSec : start + cue.atSec;
       cues.add(PlannedCue(
         atSec: at.clamp(start, end).toInt(),
-        asset: MeditationSession.clipAsset(session.id, cue.clip),
+        asset: MeditationSession.clipAsset(session.id, cue.clip, lang: lang),
         phaseId: phase.id,
       ));
     }
@@ -95,5 +99,5 @@ SessionPlan planSession(MeditationSession session, {required int minutes, ToneBa
   cues.sort((a, b) => a.atSec.compareTo(b.atSec));
 
   final bells = <int>[0, for (final p in phases.skip(1)) p.startSec, totalSec];
-  return SessionPlan(session: session, totalSec: totalSec, phases: phases, bells: bells, cues: cues);
+  return SessionPlan(session: session, totalSec: totalSec, phases: phases, bells: bells, cues: cues, lang: lang);
 }

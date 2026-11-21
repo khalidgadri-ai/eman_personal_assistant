@@ -9,6 +9,7 @@ import 'session_planner.dart';
 import 'timeline_cursor.dart';
 import 'tone_files.dart';
 import 'tone_generator.dart';
+import '../../core/config/app_locale.dart';
 
 /// حالة الجلسة كما تراها الشاشة.
 class MeditationProgress {
@@ -51,9 +52,9 @@ class AudioMeditationPlayer implements MeditationPlayer {
   /// تُهيَّأ الخدمة عند أول جلسة فقط، لا عند فتح التطبيق.
   static Future<MeditationAudioHandler> _ensureHandler() => _handler ??= AudioService.init(
         builder: MeditationAudioHandler.new,
-        config: const AudioServiceConfig(
+        config: AudioServiceConfig(
           androidNotificationChannelId: 'com.khalidibrahimgadri.eman.meditation',
-          androidNotificationChannelName: 'جلسات التأمل',
+          androidNotificationChannelName: AppLocale.texts.meditationChannelName,
           // الإعداد الافتراضي عمدًا (true): بعد الإيقاف أو الإنهاء تخرج الخدمة من المقدمة وتُفلت
           // قفل الإيقاظ ويُزال الإشعار. مع false تبقى الخدمة في المقدمة بعد «إنهاء» (النشاط
           // مرتبط بها فلا تُدمَّر)، فيبقى الإشعار ويستهلك البطارية. الاستئناف من زر الإشعار
@@ -147,8 +148,8 @@ class MeditationAudioHandler extends BaseAudioHandler {
 
     mediaItem.add(MediaItem(
       id: plan.session.id,
-      title: plan.session.title,
-      artist: _phase!.phase.title,
+      title: plan.session.titleFor(plan.lang),
+      artist: _phase!.phase.titleFor(plan.lang),
       duration: Duration(seconds: plan.totalSec),
     ));
     _publish();
@@ -172,7 +173,7 @@ class MeditationAudioHandler extends BaseAudioHandler {
         case PhaseStartEvent(:final phase):
           _phase = phase;
           final item = mediaItem.value;
-          if (item != null) mediaItem.add(item.copyWith(artist: phase.phase.title));
+          if (item != null) mediaItem.add(item.copyWith(artist: phase.phase.titleFor(plan.lang)));
         case BellEvent():
           unawaited(_ringBell());
         case CueEvent(:final cue):

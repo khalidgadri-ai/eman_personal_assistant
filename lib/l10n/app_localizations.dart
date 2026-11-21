@@ -1339,6 +1339,768 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{count, plural, =0{لم تُستورد أي مهمة} =1{✅ تم استيراد مهمة واحدة بنجاح} =2{✅ تم استيراد مهمتين بنجاح} few{✅ تم استيراد {count} مهام بنجاح} many{✅ تم استيراد {count} مهمة بنجاح} other{✅ تم استيراد {count} مهمة بنجاح}}'**
   String voiceImported(int count);
+
+  /// No description provided for @healthTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'🏋️ الصحة واللياقة والعناية'**
+  String get healthTitle;
+
+  /// No description provided for @awarenessTooltip.
+  ///
+  /// In ar, this message translates to:
+  /// **'وعي الاستخدام'**
+  String get awarenessTooltip;
+
+  /// No description provided for @tabExercises.
+  ///
+  /// In ar, this message translates to:
+  /// **'التمارين والعضلات'**
+  String get tabExercises;
+
+  /// No description provided for @tabMeds.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدول الأدوية'**
+  String get tabMeds;
+
+  /// No description provided for @tabCare.
+  ///
+  /// In ar, this message translates to:
+  /// **'العناية بالبشرة'**
+  String get tabCare;
+
+  /// No description provided for @tabMeditation.
+  ///
+  /// In ar, this message translates to:
+  /// **'التأمل'**
+  String get tabMeditation;
+
+  /// No description provided for @exerciseDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف «{name}»'**
+  String exerciseDeleted(String name);
+
+  /// No description provided for @medAddTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة دواء أو مكمل'**
+  String get medAddTitle;
+
+  /// No description provided for @nameField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم'**
+  String get nameField;
+
+  /// No description provided for @medNameHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: فيتامين د'**
+  String get medNameHint;
+
+  /// No description provided for @timeOptionalField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوقت (اختياري)'**
+  String get timeOptionalField;
+
+  /// No description provided for @medTimeHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: 09:00 صباحاً'**
+  String get medTimeHint;
+
+  /// No description provided for @medEditTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الدواء'**
+  String get medEditTitle;
+
+  /// No description provided for @careAddTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة منتج للروتين'**
+  String get careAddTitle;
+
+  /// No description provided for @productField.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنتج'**
+  String get productField;
+
+  /// No description provided for @careProductHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: مرطب البشرة'**
+  String get careProductHint;
+
+  /// No description provided for @timeField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوقت'**
+  String get timeField;
+
+  /// No description provided for @careStepField.
+  ///
+  /// In ar, this message translates to:
+  /// **'طريقة الاستخدام (اختياري)'**
+  String get careStepField;
+
+  /// No description provided for @careEditTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل المنتج'**
+  String get careEditTitle;
+
+  /// No description provided for @careMorning.
+  ///
+  /// In ar, this message translates to:
+  /// **'صباحاً'**
+  String get careMorning;
+
+  /// No description provided for @careEvening.
+  ///
+  /// In ar, this message translates to:
+  /// **'مساءً'**
+  String get careEvening;
+
+  /// No description provided for @careBoth.
+  ///
+  /// In ar, this message translates to:
+  /// **'صباحاً ومساءً'**
+  String get careBoth;
+
+  /// No description provided for @exerciseAnalysisTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'🏋️ تحليل التمرين والعضلات'**
+  String get exerciseAnalysisTitle;
+
+  /// No description provided for @saveAsExercise.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ كتمرين'**
+  String get saveAsExercise;
+
+  /// No description provided for @medReadTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'💊 قراءة علبة الدواء'**
+  String get medReadTitle;
+
+  /// No description provided for @medLabelNotice.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه قراءة آلية لما على العلبة وقد تخطئ. يُرجى الرجوع إلى نشرة الدواء أو الصيدلي أو الطبيب قبل تناول أي جرعة.'**
+  String get medLabelNotice;
+
+  /// No description provided for @okAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسناً'**
+  String get okAction;
+
+  /// No description provided for @addExercise.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة تمرين'**
+  String get addExercise;
+
+  /// No description provided for @addMedication.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة دواء'**
+  String get addMedication;
+
+  /// No description provided for @addProduct.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة منتج'**
+  String get addProduct;
+
+  /// No description provided for @healthLoadFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر فتح بياناتك الصحية المحفوظة.'**
+  String get healthLoadFailed;
+
+  /// No description provided for @retry.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get retry;
+
+  /// No description provided for @yourExercises.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمارينك'**
+  String get yourExercises;
+
+  /// No description provided for @analyzingImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ تحليل الصورة بالذكاء الاصطناعي...'**
+  String get analyzingImage;
+
+  /// No description provided for @analyzeExerciseImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحليل صورة التمرين بالذكاء الاصطناعي'**
+  String get analyzeExerciseImage;
+
+  /// No description provided for @exerciseCardsHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقات التمارين بالجولات والتكرارات'**
+  String get exerciseCardsHeader;
+
+  /// No description provided for @logLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'السجل'**
+  String get logLabel;
+
+  /// No description provided for @noExercises.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تُضف تمارين بعد.'**
+  String get noExercises;
+
+  /// No description provided for @exercisePin.
+  ///
+  /// In ar, this message translates to:
+  /// **'تثبيت التمرين'**
+  String get exercisePin;
+
+  /// No description provided for @exerciseUnpin.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء تثبيت التمرين'**
+  String get exerciseUnpin;
+
+  /// No description provided for @exerciseDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف التمرين'**
+  String get exerciseDelete;
+
+  /// No description provided for @medReadHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'قراءة علبة الدواء بالذكاء الاصطناعي'**
+  String get medReadHeader;
+
+  /// No description provided for @medReadBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة لعلبة الدواء أو المكمل، فيُقرأ ما هو مكتوب عليها: الاسم والجرعة المكتوبة والتحذيرات. القراءة الآلية قد تخطئ، والمرجع نشرة الدواء أو الصيدلي.'**
+  String get medReadBody;
+
+  /// No description provided for @analyzingMed.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ تحليل علبة الدواء...'**
+  String get analyzingMed;
+
+  /// No description provided for @analyzeMed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحليل علبة الدواء 💊'**
+  String get analyzeMed;
+
+  /// No description provided for @medsHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'توقيتات الأدوية والمكملات اليومية'**
+  String get medsHeader;
+
+  /// No description provided for @noMeds.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تُضف أدوية أو مكملات بعد. اضغط + للإضافة.'**
+  String get noMeds;
+
+  /// No description provided for @medDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الدواء'**
+  String get medDelete;
+
+  /// No description provided for @careHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل منتجات الروتين اليومي للبشرة والشعر'**
+  String get careHeader;
+
+  /// No description provided for @noCare.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تُضف منتجات بعد. اضغط + للإضافة.'**
+  String get noCare;
+
+  /// No description provided for @careDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المنتج'**
+  String get careDelete;
+
+  /// No description provided for @workoutLogTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل تمرين اليوم'**
+  String get workoutLogTitle;
+
+  /// No description provided for @logAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل'**
+  String get logAction;
+
+  /// No description provided for @setsField.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجموعات'**
+  String get setsField;
+
+  /// No description provided for @setsError.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل رقمًا من 1 إلى {max}'**
+  String setsError(int max);
+
+  /// No description provided for @repsField.
+  ///
+  /// In ar, this message translates to:
+  /// **'التكرار'**
+  String get repsField;
+
+  /// No description provided for @weightField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوزن (اختياري)'**
+  String get weightField;
+
+  /// No description provided for @weightHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: 40 كجم'**
+  String get weightHint;
+
+  /// No description provided for @noteOptionalField.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظة (اختياري)'**
+  String get noteOptionalField;
+
+  /// No description provided for @workoutLogged.
+  ///
+  /// In ar, this message translates to:
+  /// **'سُجّل تمرين اليوم'**
+  String get workoutLogged;
+
+  /// No description provided for @exerciseDeleteAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف التمرين؟'**
+  String get exerciseDeleteAsk;
+
+  /// No description provided for @exerciseDeleteBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيُحذف «{name}» وصورته. سجل تمارينك السابق يبقى.'**
+  String exerciseDeleteBody(String name);
+
+  /// No description provided for @deleteAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف'**
+  String get deleteAction;
+
+  /// No description provided for @exerciseEdit.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل التمرين'**
+  String get exerciseEdit;
+
+  /// No description provided for @setsRepsLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجموعات والتكرار: {value}'**
+  String setsRepsLine(String value);
+
+  /// No description provided for @logToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل اليوم'**
+  String get logToday;
+
+  /// No description provided for @exerciseLogOf.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل «{name}»'**
+  String exerciseLogOf(String name);
+
+  /// No description provided for @latestLogs.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر التسجيلات'**
+  String get latestLogs;
+
+  /// No description provided for @stepsHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطوات الأداء'**
+  String get stepsHeader;
+
+  /// No description provided for @notesHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظات'**
+  String get notesHeader;
+
+  /// No description provided for @exerciseNameField.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم التمرين'**
+  String get exerciseNameField;
+
+  /// No description provided for @musclesField.
+  ///
+  /// In ar, this message translates to:
+  /// **'العضلات المستهدفة'**
+  String get musclesField;
+
+  /// No description provided for @setsLess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقليل المجموعات'**
+  String get setsLess;
+
+  /// No description provided for @setsMore.
+  ///
+  /// In ar, this message translates to:
+  /// **'زيادة المجموعات'**
+  String get setsMore;
+
+  /// No description provided for @repsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'10 أو 8-12'**
+  String get repsHint;
+
+  /// No description provided for @addStep.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة خطوة'**
+  String get addStep;
+
+  /// No description provided for @notesOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظات (اختياري)'**
+  String get notesOptional;
+
+  /// No description provided for @addImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة صورة'**
+  String get addImage;
+
+  /// No description provided for @changeImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير الصورة'**
+  String get changeImage;
+
+  /// No description provided for @removeImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة الصورة'**
+  String get removeImage;
+
+  /// No description provided for @deleteStep.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الخطوة'**
+  String get deleteStep;
+
+  /// No description provided for @workoutLogDefaultTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل التمارين'**
+  String get workoutLogDefaultTitle;
+
+  /// No description provided for @workoutEntryDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف التسجيل'**
+  String get workoutEntryDeleted;
+
+  /// No description provided for @noWorkouts.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تُسجَّل تمارين بعد. افتح تمرينًا واضغط «سجّل اليوم».'**
+  String get noWorkouts;
+
+  /// No description provided for @exerciseFallbackName.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمرين'**
+  String get exerciseFallbackName;
+
+  /// No description provided for @workoutEntryDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف التسجيل'**
+  String get workoutEntryDelete;
+
+  /// No description provided for @imageSourceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار مصدر الصورة'**
+  String get imageSourceTitle;
+
+  /// No description provided for @camera.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكاميرا'**
+  String get camera;
+
+  /// No description provided for @gallery.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعرض'**
+  String get gallery;
+
+  /// No description provided for @draftExercise.
+  ///
+  /// In ar, this message translates to:
+  /// **'التمرين: {name}'**
+  String draftExercise(String name);
+
+  /// No description provided for @draftMuscles.
+  ///
+  /// In ar, this message translates to:
+  /// **'العضلات: {muscles}'**
+  String draftMuscles(String muscles);
+
+  /// No description provided for @draftSteps.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوات:'**
+  String get draftSteps;
+
+  /// No description provided for @draftNotes.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظات: {notes}'**
+  String draftNotes(String notes);
+
+  /// No description provided for @meditationGammaNotice.
+  ///
+  /// In ar, this message translates to:
+  /// **'نغمة جاما للاستماع أثناء التأمل، بمستوى صوت منخفض. لا تُستعمل أثناء القيادة أو تشغيل الآلات. من لديه صرع أو جهاز طبي مزروع يستشير الطبيب قبل الاستعمال. النوع المزدوج يحتاج سماعات.'**
+  String get meditationGammaNotice;
+
+  /// No description provided for @meditationActiveNotice.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحركة بلطف، في مكان واسع وآمن، والتوقف عند الدوخة أو الألم. من لديه حالة قلبية أو حمل أو إصابة يستشير الطبيب قبل هذه الجلسة.'**
+  String get meditationActiveNotice;
+
+  /// No description provided for @meditationAiVoiceNotice.
+  ///
+  /// In ar, this message translates to:
+  /// **'صوت المرشد مولَّد بالذكاء الاصطناعي.'**
+  String get meditationAiVoiceNotice;
+
+  /// No description provided for @noticeBeforeStart.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظة قبل البدء'**
+  String get noticeBeforeStart;
+
+  /// No description provided for @understoodStart.
+  ///
+  /// In ar, this message translates to:
+  /// **'فهمت، ابدأ'**
+  String get understoodStart;
+
+  /// No description provided for @meditationLoadFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر فتح جلسات التأمل. إعادة المحاولة'**
+  String get meditationLoadFailed;
+
+  /// No description provided for @meditationWeekMinutes.
+  ///
+  /// In ar, this message translates to:
+  /// **'دقائق التأمل في آخر 7 أيام: {count}'**
+  String meditationWeekMinutes(int count);
+
+  /// No description provided for @meditationScreenOffTip.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصوت يستمر والشاشة مطفأة، ويمكن الإيقاف من الإشعار.'**
+  String get meditationScreenOffTip;
+
+  /// No description provided for @withSubscription.
+  ///
+  /// In ar, this message translates to:
+  /// **'مع الاشتراك'**
+  String get withSubscription;
+
+  /// No description provided for @toneNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا نغمة'**
+  String get toneNone;
+
+  /// No description provided for @toneBinauralShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاما مزدوجة (سماعات)'**
+  String get toneBinauralShort;
+
+  /// No description provided for @toneIsochronicShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاما نبضية'**
+  String get toneIsochronicShort;
+
+  /// No description provided for @toneBinaural.
+  ///
+  /// In ar, this message translates to:
+  /// **'مزدوجة (سماعات)'**
+  String get toneBinaural;
+
+  /// No description provided for @toneIsochronic.
+  ///
+  /// In ar, this message translates to:
+  /// **'نبضية (بلا سماعات)'**
+  String get toneIsochronic;
+
+  /// No description provided for @durationLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدة'**
+  String get durationLabel;
+
+  /// No description provided for @backgroundSound.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصوت في الخلفية'**
+  String get backgroundSound;
+
+  /// No description provided for @startSession.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ الجلسة'**
+  String get startSession;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} د'**
+  String minutesShort(int count);
+
+  /// No description provided for @minutesCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{دقيقة واحدة} =2{دقيقتان} few{{count} دقائق} other{{count} دقيقة}}'**
+  String minutesCount(int count);
+
+  /// No description provided for @minutesRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'من {from} إلى {to} {to, plural, few{دقائق} other{دقيقة}}'**
+  String minutesRange(int from, int to);
+
+  /// No description provided for @soundFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر تشغيل الصوت. حاول مرة أخرى.'**
+  String get soundFailed;
+
+  /// No description provided for @endSessionAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنهاء الجلسة؟'**
+  String get endSessionAsk;
+
+  /// No description provided for @endSessionBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُحفظ الدقائق التي مضت إن كانت دقيقة أو أكثر.'**
+  String get endSessionBody;
+
+  /// No description provided for @continueSession.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة الجلسة'**
+  String get continueSession;
+
+  /// No description provided for @endAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنهاء'**
+  String get endAction;
+
+  /// No description provided for @phaseOf.
+  ///
+  /// In ar, this message translates to:
+  /// **'المرحلة {current} من {total}'**
+  String phaseOf(int current, int total);
+
+  /// No description provided for @timeLeft.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوقت المتبقي'**
+  String get timeLeft;
+
+  /// No description provided for @gammaLevel.
+  ///
+  /// In ar, this message translates to:
+  /// **'مستوى نغمة جاما'**
+  String get gammaLevel;
+
+  /// No description provided for @pauseAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيقاف مؤقت'**
+  String get pauseAction;
+
+  /// No description provided for @resumeAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة'**
+  String get resumeAction;
+
+  /// No description provided for @sessionFinished.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت الجلسة'**
+  String get sessionFinished;
+
+  /// No description provided for @sessionMinutes.
+  ///
+  /// In ar, this message translates to:
+  /// **'دقائق هذه الجلسة: {count}'**
+  String sessionMinutes(int count);
+
+  /// No description provided for @sessionUnderMinute.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجلسات الأقصر من دقيقة لا تُحفظ في السجل.'**
+  String get sessionUnderMinute;
+
+  /// No description provided for @meditationChannelName.
+  ///
+  /// In ar, this message translates to:
+  /// **'جلسات التأمل'**
+  String get meditationChannelName;
 }
 
 class _AppLocalizationsDelegate

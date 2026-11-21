@@ -10,6 +10,8 @@ import 'package:eman_life_app/core/ai/ai_settings_service.dart';
 import 'package:eman_life_app/core/config/ai_config.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:eman_life_app/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -181,7 +183,7 @@ void main() {
       expect(prompt, isNot(contains('الموصى بها')));
       expect(prompt, contains('كما هي مكتوبة على العلبة'));
       expect(prompt, contains('لا تقترح جرعة من عندك'));
-      expect(AiService.medicationLabelNotice, contains('الصيدلي'));
+      expect(lookupAppLocalizations(const Locale('ar')).medLabelNotice, contains('الصيدلي'));
     });
   });
 

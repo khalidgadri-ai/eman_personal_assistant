@@ -286,5 +286,236 @@
         "type": "int"
       }
     }
-  }
+  },
+  "healthTitle": "🏋️ الصحة واللياقة والعناية",
+  "awarenessTooltip": "وعي الاستخدام",
+  "tabExercises": "التمارين والعضلات",
+  "tabMeds": "جدول الأدوية",
+  "tabCare": "العناية بالبشرة",
+  "tabMeditation": "التأمل",
+  "exerciseDeleted": "حُذف «{name}»",
+  "@exerciseDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "medAddTitle": "إضافة دواء أو مكمل",
+  "nameField": "الاسم",
+  "medNameHint": "مثال: فيتامين د",
+  "timeOptionalField": "الوقت (اختياري)",
+  "medTimeHint": "مثال: 09:00 صباحاً",
+  "medEditTitle": "تعديل الدواء",
+  "careAddTitle": "إضافة منتج للروتين",
+  "productField": "المنتج",
+  "careProductHint": "مثال: مرطب البشرة",
+  "timeField": "الوقت",
+  "careStepField": "طريقة الاستخدام (اختياري)",
+  "careEditTitle": "تعديل المنتج",
+  "careMorning": "صباحاً",
+  "careEvening": "مساءً",
+  "careBoth": "صباحاً ومساءً",
+  "exerciseAnalysisTitle": "🏋️ تحليل التمرين والعضلات",
+  "saveAsExercise": "حفظ كتمرين",
+  "medReadTitle": "💊 قراءة علبة الدواء",
+  "medLabelNotice": "هذه قراءة آلية لما على العلبة وقد تخطئ. يُرجى الرجوع إلى نشرة الدواء أو الصيدلي أو الطبيب قبل تناول أي جرعة.",
+  "okAction": "حسناً",
+  "addExercise": "إضافة تمرين",
+  "addMedication": "إضافة دواء",
+  "addProduct": "إضافة منتج",
+  "healthLoadFailed": "تعذّر فتح بياناتك الصحية المحفوظة.",
+  "retry": "إعادة المحاولة",
+  "yourExercises": "تمارينك",
+  "analyzingImage": "جارٍ تحليل الصورة بالذكاء الاصطناعي...",
+  "analyzeExerciseImage": "تحليل صورة التمرين بالذكاء الاصطناعي",
+  "exerciseCardsHeader": "بطاقات التمارين بالجولات والتكرارات",
+  "logLabel": "السجل",
+  "noExercises": "لم تُضف تمارين بعد.",
+  "exercisePin": "تثبيت التمرين",
+  "exerciseUnpin": "إلغاء تثبيت التمرين",
+  "exerciseDelete": "حذف التمرين",
+  "medReadHeader": "قراءة علبة الدواء بالذكاء الاصطناعي",
+  "medReadBody": "صورة لعلبة الدواء أو المكمل، فيُقرأ ما هو مكتوب عليها: الاسم والجرعة المكتوبة والتحذيرات. القراءة الآلية قد تخطئ، والمرجع نشرة الدواء أو الصيدلي.",
+  "analyzingMed": "جارٍ تحليل علبة الدواء...",
+  "analyzeMed": "تحليل علبة الدواء 💊",
+  "medsHeader": "توقيتات الأدوية والمكملات اليومية",
+  "noMeds": "لم تُضف أدوية أو مكملات بعد. اضغط + للإضافة.",
+  "medDelete": "حذف الدواء",
+  "careHeader": "سجل منتجات الروتين اليومي للبشرة والشعر",
+  "noCare": "لم تُضف منتجات بعد. اضغط + للإضافة.",
+  "careDelete": "حذف المنتج",
+  "workoutLogTitle": "تسجيل تمرين اليوم",
+  "logAction": "تسجيل",
+  "setsField": "المجموعات",
+  "setsError": "أدخل رقمًا من 1 إلى {max}",
+  "@setsError": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "repsField": "التكرار",
+  "weightField": "الوزن (اختياري)",
+  "weightHint": "مثال: 40 كجم",
+  "noteOptionalField": "ملاحظة (اختياري)",
+  "workoutLogged": "سُجّل تمرين اليوم",
+  "exerciseDeleteAsk": "حذف التمرين؟",
+  "exerciseDeleteBody": "سيُحذف «{name}» وصورته. سجل تمارينك السابق يبقى.",
+  "@exerciseDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAction": "حذف",
+  "exerciseEdit": "تعديل التمرين",
+  "setsRepsLine": "المجموعات والتكرار: {value}",
+  "@setsRepsLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "logToday": "سجّل اليوم",
+  "exerciseLogOf": "سجل «{name}»",
+  "@exerciseLogOf": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "latestLogs": "آخر التسجيلات",
+  "stepsHeader": "خطوات الأداء",
+  "notesHeader": "ملاحظات",
+  "exerciseNameField": "اسم التمرين",
+  "musclesField": "العضلات المستهدفة",
+  "setsLess": "تقليل المجموعات",
+  "setsMore": "زيادة المجموعات",
+  "repsHint": "10 أو 8-12",
+  "addStep": "إضافة خطوة",
+  "notesOptional": "ملاحظات (اختياري)",
+  "addImage": "إضافة صورة",
+  "changeImage": "تغيير الصورة",
+  "removeImage": "إزالة الصورة",
+  "deleteStep": "حذف الخطوة",
+  "workoutLogDefaultTitle": "سجل التمارين",
+  "workoutEntryDeleted": "حُذف التسجيل",
+  "noWorkouts": "لم تُسجَّل تمارين بعد. افتح تمرينًا واضغط «سجّل اليوم».",
+  "exerciseFallbackName": "تمرين",
+  "workoutEntryDelete": "حذف التسجيل",
+  "imageSourceTitle": "اختيار مصدر الصورة",
+  "camera": "الكاميرا",
+  "gallery": "المعرض",
+  "draftExercise": "التمرين: {name}",
+  "@draftExercise": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "draftMuscles": "العضلات: {muscles}",
+  "@draftMuscles": {
+    "placeholders": {
+      "muscles": {
+        "type": "String"
+      }
+    }
+  },
+  "draftSteps": "الخطوات:",
+  "draftNotes": "ملاحظات: {notes}",
+  "@draftNotes": {
+    "placeholders": {
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "meditationGammaNotice": "نغمة جاما للاستماع أثناء التأمل، بمستوى صوت منخفض. لا تُستعمل أثناء القيادة أو تشغيل الآلات. من لديه صرع أو جهاز طبي مزروع يستشير الطبيب قبل الاستعمال. النوع المزدوج يحتاج سماعات.",
+  "meditationActiveNotice": "الحركة بلطف، في مكان واسع وآمن، والتوقف عند الدوخة أو الألم. من لديه حالة قلبية أو حمل أو إصابة يستشير الطبيب قبل هذه الجلسة.",
+  "meditationAiVoiceNotice": "صوت المرشد مولَّد بالذكاء الاصطناعي.",
+  "noticeBeforeStart": "ملاحظة قبل البدء",
+  "understoodStart": "فهمت، ابدأ",
+  "meditationLoadFailed": "تعذّر فتح جلسات التأمل. إعادة المحاولة",
+  "meditationWeekMinutes": "دقائق التأمل في آخر 7 أيام: {count}",
+  "@meditationWeekMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "meditationScreenOffTip": "الصوت يستمر والشاشة مطفأة، ويمكن الإيقاف من الإشعار.",
+  "withSubscription": "مع الاشتراك",
+  "toneNone": "بلا نغمة",
+  "toneBinauralShort": "جاما مزدوجة (سماعات)",
+  "toneIsochronicShort": "جاما نبضية",
+  "toneBinaural": "مزدوجة (سماعات)",
+  "toneIsochronic": "نبضية (بلا سماعات)",
+  "durationLabel": "المدة",
+  "backgroundSound": "الصوت في الخلفية",
+  "startSession": "ابدأ الجلسة",
+  "minutesShort": "{count} د",
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesCount": "{count, plural, =1{دقيقة واحدة} =2{دقيقتان} few{{count} دقائق} other{{count} دقيقة}}",
+  "@minutesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesRange": "من {from} إلى {to} {to, plural, few{دقائق} other{دقيقة}}",
+  "@minutesRange": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "soundFailed": "تعذّر تشغيل الصوت. حاول مرة أخرى.",
+  "endSessionAsk": "إنهاء الجلسة؟",
+  "endSessionBody": "تُحفظ الدقائق التي مضت إن كانت دقيقة أو أكثر.",
+  "continueSession": "متابعة الجلسة",
+  "endAction": "إنهاء",
+  "phaseOf": "المرحلة {current} من {total}",
+  "@phaseOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "timeLeft": "الوقت المتبقي",
+  "gammaLevel": "مستوى نغمة جاما",
+  "pauseAction": "إيقاف مؤقت",
+  "resumeAction": "متابعة",
+  "sessionFinished": "انتهت الجلسة",
+  "sessionMinutes": "دقائق هذه الجلسة: {count}",
+  "@sessionMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sessionUnderMinute": "الجلسات الأقصر من دقيقة لا تُحفظ في السجل.",
+  "meditationChannelName": "جلسات التأمل"
 }

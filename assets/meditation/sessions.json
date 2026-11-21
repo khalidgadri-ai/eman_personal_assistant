@@ -5,10 +5,31 @@
     "description": "جلوس هادئ بلا صوت مرشد. جرس في البداية وجرس في النهاية، ويمكن إضافة نغمة جاما في الخلفية.",
     "kind": "silent",
     "tier": "free",
-    "durations": [5, 10, 15, 20, 30, 45, 60],
+    "durations": [
+      5,
+      10,
+      15,
+      20,
+      30,
+      45,
+      60
+    ],
     "phases": [
-      { "id": "silence", "title": "صمت", "durationSec": 300, "instruction": "جلوس هادئ مع النفَس." }
-    ]
+      {
+        "id": "silence",
+        "title": "صمت",
+        "durationSec": 300,
+        "instruction": "جلوس هادئ مع النفَس.",
+        "en": {
+          "title": "Silence",
+          "instruction": "Quiet sitting with the breath."
+        }
+      }
+    ],
+    "en": {
+      "title": "Silent timer with bells",
+      "description": "Quiet sitting with no guide voice. A bell at the start and one at the end, with an optional gamma tone in the background."
+    }
   },
   {
     "id": "gamma_listening",
@@ -16,16 +37,30 @@
     "description": "نغمة 40 هرتز للاستماع أثناء التأمل. النوع المزدوج يحتاج سماعات، والنبضي يعمل بلا سماعات.",
     "kind": "gamma",
     "tier": "free",
-    "durations": [5, 10, 15, 20, 30],
+    "durations": [
+      5,
+      10,
+      15,
+      20,
+      30
+    ],
     "phases": [
       {
         "id": "listening",
         "title": "استماع",
         "durationSec": 300,
         "background": "gamma_binaural",
-        "instruction": "استماع هادئ للنغمة بصوت منخفض."
+        "instruction": "استماع هادئ للنغمة بصوت منخفض.",
+        "en": {
+          "title": "Listening",
+          "instruction": "Calm listening to the tone at a low volume."
+        }
       }
-    ]
+    ],
+    "en": {
+      "title": "40 Hz gamma waves",
+      "description": "A 40 Hz tone to listen to while meditating. The binaural kind needs headphones; the pulsed kind works without them."
+    }
   },
   {
     "id": "calm_breathing",
@@ -33,16 +68,28 @@
     "description": "تنفّس بطيء بعدّ بسيط: أربعة للشهيق وستة للزفير.",
     "kind": "guided",
     "tier": "free",
-    "durations": [5, 10],
+    "durations": [
+      5,
+      10
+    ],
     "phases": [
       {
         "id": "settle",
         "title": "الاستقرار",
         "durationSec": 60,
         "cues": [
-          { "atSec": 0, "clip": "breathing_01" },
-          { "atSec": 30, "clip": "breathing_02" }
-        ]
+          {
+            "atSec": 0,
+            "clip": "breathing_01"
+          },
+          {
+            "atSec": 30,
+            "clip": "breathing_02"
+          }
+        ],
+        "en": {
+          "title": "Settling"
+        }
       },
       {
         "id": "counted_breath",
@@ -50,20 +97,44 @@
         "durationSec": 180,
         "instruction": "شهيق: 1، 2، 3، 4 — زفير: 1، 2، 3، 4، 5، 6",
         "cues": [
-          { "atSec": 0, "clip": "breathing_03" },
-          { "atSec": 90, "clip": "breathing_04" }
-        ]
+          {
+            "atSec": 0,
+            "clip": "breathing_03"
+          },
+          {
+            "atSec": 90,
+            "clip": "breathing_04"
+          }
+        ],
+        "en": {
+          "title": "Counted breathing",
+          "instruction": "In: 1, 2, 3, 4 — out: 1, 2, 3, 4, 5, 6"
+        }
       },
       {
         "id": "natural_breath",
         "title": "نفَس طبيعي",
         "durationSec": 60,
         "cues": [
-          { "atSec": 0, "clip": "breathing_05" },
-          { "atSec": 20, "clip": "breathing_06", "fromEnd": true }
-        ]
+          {
+            "atSec": 0,
+            "clip": "breathing_05"
+          },
+          {
+            "atSec": 20,
+            "clip": "breathing_06",
+            "fromEnd": true
+          }
+        ],
+        "en": {
+          "title": "Natural breath"
+        }
       }
-    ]
+    ],
+    "en": {
+      "title": "Calm breathing",
+      "description": "Slow breathing with a simple count: four in, six out."
+    }
   },
   {
     "id": "body_scan",
@@ -71,23 +142,105 @@
     "description": "انتباه هادئ ينتقل عبر الجسد من القدمين إلى الرأس.",
     "kind": "guided",
     "tier": "premium",
-    "durations": [10, 15],
+    "durations": [
+      10,
+      15
+    ],
     "phases": [
-      { "id": "settle", "title": "الاستقرار", "durationSec": 60, "cues": [{ "atSec": 0, "clip": "body_scan_01" }] },
-      { "id": "legs", "title": "القدمان والساقان", "durationSec": 120, "cues": [{ "atSec": 0, "clip": "body_scan_02" }] },
-      { "id": "torso", "title": "البطن والصدر والظهر", "durationSec": 120, "cues": [{ "atSec": 0, "clip": "body_scan_03" }] },
-      { "id": "arms", "title": "اليدان والذراعان", "durationSec": 90, "cues": [{ "atSec": 0, "clip": "body_scan_04" }] },
-      { "id": "face", "title": "الرقبة والوجه", "durationSec": 90, "cues": [{ "atSec": 0, "clip": "body_scan_05" }] },
+      {
+        "id": "settle",
+        "title": "الاستقرار",
+        "durationSec": 60,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "body_scan_01"
+          }
+        ],
+        "en": {
+          "title": "Settling"
+        }
+      },
+      {
+        "id": "legs",
+        "title": "القدمان والساقان",
+        "durationSec": 120,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "body_scan_02"
+          }
+        ],
+        "en": {
+          "title": "Feet and legs"
+        }
+      },
+      {
+        "id": "torso",
+        "title": "البطن والصدر والظهر",
+        "durationSec": 120,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "body_scan_03"
+          }
+        ],
+        "en": {
+          "title": "Belly, chest and back"
+        }
+      },
+      {
+        "id": "arms",
+        "title": "اليدان والذراعان",
+        "durationSec": 90,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "body_scan_04"
+          }
+        ],
+        "en": {
+          "title": "Hands and arms"
+        }
+      },
+      {
+        "id": "face",
+        "title": "الرقبة والوجه",
+        "durationSec": 90,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "body_scan_05"
+          }
+        ],
+        "en": {
+          "title": "Neck and face"
+        }
+      },
       {
         "id": "whole",
         "title": "الجسد كله",
         "durationSec": 120,
         "cues": [
-          { "atSec": 0, "clip": "body_scan_06" },
-          { "atSec": 20, "clip": "body_scan_07", "fromEnd": true }
-        ]
+          {
+            "atSec": 0,
+            "clip": "body_scan_06"
+          },
+          {
+            "atSec": 20,
+            "clip": "body_scan_07",
+            "fromEnd": true
+          }
+        ],
+        "en": {
+          "title": "The whole body"
+        }
       }
-    ]
+    ],
+    "en": {
+      "title": "Body scan",
+      "description": "Quiet attention moving through the body from the feet to the head."
+    }
   },
   {
     "id": "present_moment",
@@ -95,22 +248,91 @@
     "description": "الأصوات، ثم الجسد، ثم الأفكار وهي تمرّ، دون حكم عليها.",
     "kind": "guided",
     "tier": "premium",
-    "durations": [10, 20],
+    "durations": [
+      10,
+      20
+    ],
     "phases": [
-      { "id": "arrive", "title": "الوصول", "durationSec": 60, "cues": [{ "atSec": 0, "clip": "present_moment_01" }] },
-      { "id": "sounds", "title": "الأصوات", "durationSec": 150, "cues": [{ "atSec": 0, "clip": "present_moment_02" }] },
-      { "id": "body", "title": "الجسد", "durationSec": 150, "cues": [{ "atSec": 0, "clip": "present_moment_03" }] },
-      { "id": "thoughts", "title": "الأفكار", "durationSec": 150, "cues": [{ "atSec": 0, "clip": "present_moment_04" }] },
+      {
+        "id": "arrive",
+        "title": "الوصول",
+        "durationSec": 60,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "present_moment_01"
+          }
+        ],
+        "en": {
+          "title": "Arriving"
+        }
+      },
+      {
+        "id": "sounds",
+        "title": "الأصوات",
+        "durationSec": 150,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "present_moment_02"
+          }
+        ],
+        "en": {
+          "title": "Sounds"
+        }
+      },
+      {
+        "id": "body",
+        "title": "الجسد",
+        "durationSec": 150,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "present_moment_03"
+          }
+        ],
+        "en": {
+          "title": "The body"
+        }
+      },
+      {
+        "id": "thoughts",
+        "title": "الأفكار",
+        "durationSec": 150,
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "present_moment_04"
+          }
+        ],
+        "en": {
+          "title": "Thoughts"
+        }
+      },
       {
         "id": "open",
         "title": "انتباه مفتوح",
         "durationSec": 90,
         "cues": [
-          { "atSec": 0, "clip": "present_moment_05" },
-          { "atSec": 20, "clip": "present_moment_06", "fromEnd": true }
-        ]
+          {
+            "atSec": 0,
+            "clip": "present_moment_05"
+          },
+          {
+            "atSec": 20,
+            "clip": "present_moment_06",
+            "fromEnd": true
+          }
+        ],
+        "en": {
+          "title": "Open attention"
+        }
       }
-    ]
+    ],
+    "en": {
+      "title": "Present moment",
+      "description": "Sounds, then the body, then thoughts as they pass, without judging them."
+    }
   },
   {
     "id": "move_and_still",
@@ -118,35 +340,73 @@
     "description": "تأمل حركي بخمس مراحل: إحماء، ثم حركة بإيقاع، ثم حركة حرة، ثم جلوس صامت، ثم استلقاء.",
     "kind": "active",
     "tier": "premium",
-    "durations": [20],
+    "durations": [
+      20
+    ],
     "phases": [
       {
         "id": "warm_up",
         "title": "إحماء وتنفّس",
         "durationSec": 180,
         "instruction": "وقوف في مكان واسع، وتنفّس هادئ، وتمدّد خفيف للذراعين والرقبة.",
-        "cues": [{ "atSec": 0, "clip": "move_and_still_01" }]
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "move_and_still_01"
+          }
+        ],
+        "en": {
+          "title": "Warm-up and breathing",
+          "instruction": "Stand in a roomy space, breathe calmly and gently stretch the arms and neck."
+        }
       },
       {
         "id": "rhythm",
         "title": "حركة بإيقاع",
         "durationSec": 300,
         "instruction": "مشي في المكان بإيقاع ثابت، والذراعان تتحركان مع الخطوات.",
-        "cues": [{ "atSec": 0, "clip": "move_and_still_02" }]
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "move_and_still_02"
+          }
+        ],
+        "en": {
+          "title": "Rhythmic movement",
+          "instruction": "Walk on the spot at a steady pace, arms moving with your steps."
+        }
       },
       {
         "id": "free_movement",
         "title": "حركة حرة",
         "durationSec": 300,
         "instruction": "حركة حرة بلطف: الكتفان والذراعان والوركان، كما يريد الجسد.",
-        "cues": [{ "atSec": 0, "clip": "move_and_still_03" }]
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "move_and_still_03"
+          }
+        ],
+        "en": {
+          "title": "Free movement",
+          "instruction": "Move freely and gently: shoulders, arms and hips, as the body wants."
+        }
       },
       {
         "id": "sitting",
         "title": "جلوس صامت",
         "durationSec": 300,
         "instruction": "جلوس هادئ، والنفَس والنبض يعودان إلى الهدوء.",
-        "cues": [{ "atSec": 0, "clip": "move_and_still_04" }]
+        "cues": [
+          {
+            "atSec": 0,
+            "clip": "move_and_still_04"
+          }
+        ],
+        "en": {
+          "title": "Silent sitting",
+          "instruction": "Sit quietly while the breath and pulse settle."
+        }
       },
       {
         "id": "lying",
@@ -154,10 +414,25 @@
         "durationSec": 120,
         "instruction": "استلقاء على الظهر، وثقل الجسد على الأرض.",
         "cues": [
-          { "atSec": 0, "clip": "move_and_still_05" },
-          { "atSec": 15, "clip": "move_and_still_06", "fromEnd": true }
-        ]
+          {
+            "atSec": 0,
+            "clip": "move_and_still_05"
+          },
+          {
+            "atSec": 15,
+            "clip": "move_and_still_06",
+            "fromEnd": true
+          }
+        ],
+        "en": {
+          "title": "Lying down",
+          "instruction": "Lie on your back and let the body rest its weight on the floor."
+        }
       }
-    ]
+    ],
+    "en": {
+      "title": "Move, then be still",
+      "description": "Active meditation in five stages: warm-up, rhythmic movement, free movement, silent sitting, then lying down."
+    }
   }
 ]

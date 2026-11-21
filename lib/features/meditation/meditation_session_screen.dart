@@ -6,6 +6,7 @@ import '../health_and_fitness/health_service.dart';
 import 'meditation_player.dart';
 import 'models/meditation_session.dart';
 import 'session_planner.dart';
+import '../../l10n/l10n.dart';
 
 /// شاشة الجلسة الجارية: المرحلة الحالية، والوقت المتبقي، وإيقاف مؤقت وإنهاء، وشريط جاما.
 /// الصوت يستمر والشاشة مطفأة (الخدمة تعمل في المقدمة)، والتحكم متاح أيضًا من الإشعار.
@@ -52,7 +53,7 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
       await widget.player.start(_plan, toneVolume: _toneVolume);
     } catch (e) {
       debugPrint('MeditationSessionScreen: could not start (${e.runtimeType})');
-      if (mounted) setState(() => _error = 'تعذّر تشغيل الصوت. حاول مرة أخرى.');
+      if (mounted) setState(() => _error = context.l10n.soundFailed);
     }
   }
 
@@ -91,27 +92,24 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
     if (_finished || _error != null) return true;
     final leave = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('إنهاء الجلسة؟', style: TextStyle(color: AppTheme.textColor)),
-          content: const Text(
-            'تُحفظ الدقائق التي مضت إن كانت دقيقة أو أكثر.',
-            style: TextStyle(color: AppTheme.subTextColor, height: 1.6),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('متابعة الجلسة', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('إنهاء', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(context.l10n.endSessionAsk, style: TextStyle(color: AppTheme.textColor)),
+        content: Text(
+          context.l10n.endSessionBody,
+          style: TextStyle(color: AppTheme.subTextColor, height: 1.6),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(context.l10n.continueSession, style: TextStyle(color: AppTheme.subTextColor)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(context.l10n.endAction, style: TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
     if (leave == true) await _end();
@@ -136,15 +134,12 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
         final navigator = Navigator.of(context);
         if (await _confirmLeave() && mounted) navigator.pop();
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: AppBar(title: Text(_plan.session.title)),
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: _finished ? _buildFinished() : _buildRunning(progress, phase, isActive),
-            ),
+      child: Scaffold(
+        appBar: AppBar(title: Text(_plan.session.titleFor(_plan.lang))),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: _finished ? _buildFinished() : _buildRunning(progress, phase, isActive),
           ),
         ),
       ),
@@ -155,7 +150,7 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
     final remaining = progress?.remainingSec ?? _plan.totalSec;
     final elapsed = progress?.elapsedSec ?? 0;
     final playing = progress?.playing ?? true;
-    final instruction = phase.phase.instruction;
+    final instruction = phase.phase.instructionFor(_plan.lang);
     return Column(
       children: [
         Expanded(
@@ -164,12 +159,12 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
               children: [
                 const SizedBox(height: 16),
                 Text(
-                  'المرحلة ${_plan.phases.indexOf(phase) + 1} من ${_plan.phases.length}',
+                  context.l10n.phaseOf(_plan.phases.indexOf(phase) + 1, _plan.phases.length),
                   style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  phase.phase.title,
+                  phase.phase.titleFor(_plan.lang),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: AppTheme.textColor,
@@ -194,7 +189,7 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
                   _clock(remaining),
                   style: const TextStyle(color: AppTheme.accentColor, fontSize: 56, fontWeight: FontWeight.w300),
                 ),
-                const Text('الوقت المتبقي', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                Text(context.l10n.timeLeft, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
                 const SizedBox(height: 16),
                 LinearProgressIndicator(
                   value: _plan.totalSec == 0 ? 0 : elapsed / _plan.totalSec,
@@ -203,7 +198,7 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
                 ),
                 if (_plan.usesGamma) ...[
                   const SizedBox(height: 24),
-                  const Text('مستوى نغمة جاما', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  Text(context.l10n.gammaLevel, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
                   Slider(
                     value: _toneVolume,
                     label: '${(_toneVolume * 100).round()}%',
@@ -230,7 +225,7 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(minimumSize: const Size(0, 52)),
                 onPressed: _error == null ? _confirmLeaveAndPop : null,
-                child: const Text('إنهاء'),
+                child: Text(context.l10n.endAction),
               ),
             ),
             const SizedBox(width: 12),
@@ -242,7 +237,7 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
                 ),
                 onPressed: _error == null ? _togglePause : null,
                 icon: Icon(playing ? Icons.pause_rounded : Icons.play_arrow_rounded, color: Colors.white),
-                label: Text(playing ? 'إيقاف مؤقت' : 'متابعة', style: const TextStyle(color: Colors.white)),
+                label: Text(playing ? context.l10n.pauseAction : context.l10n.resumeAction, style: const TextStyle(color: Colors.white)),
               ),
             ),
           ],
@@ -263,20 +258,20 @@ class _MeditationSessionScreenState extends State<MeditationSessionScreen> {
       children: [
         const Icon(Icons.spa_rounded, size: 72, color: AppTheme.accentColor),
         const SizedBox(height: 16),
-        const Text(
-          'انتهت الجلسة',
+        Text(
+          context.l10n.sessionFinished,
           style: TextStyle(color: AppTheme.textColor, fontSize: 26, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
-          minutes >= 1 ? 'دقائق هذه الجلسة: $minutes' : 'الجلسات الأقصر من دقيقة لا تُحفظ في السجل.',
+          minutes >= 1 ? context.l10n.sessionMinutes(minutes) : context.l10n.sessionUnderMinute,
           style: const TextStyle(color: AppTheme.subTextColor, fontSize: 15),
         ),
         const SizedBox(height: 32),
         ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor, minimumSize: const Size(160, 52)),
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('رجوع', style: TextStyle(color: Colors.white, fontSize: 16)),
+          child: Text(context.l10n.back, style: TextStyle(color: Colors.white, fontSize: 16)),
         ),
       ],
     );

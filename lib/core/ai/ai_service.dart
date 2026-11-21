@@ -176,7 +176,7 @@ class AiService {
 
   /// 💊 Module 10: Medication & Supplement Label Analysis
   /// 💊 قراءة علبة دواء أو مكمل. **قراءة فقط**: ينقل الموديل ما هو مكتوب على العلبة ولا يقترح
-  /// جرعة من عنده، لأن خطأه في الجرعة خطر. الشاشة تعرض بعد الرد [medicationLabelNotice].
+  /// جرعة من عنده، لأن خطأه في الجرعة خطر. الشاشة تعرض بعد الرد تنبيه `medLabelNotice` من ملفات اللغات.
   Future<String> analyzeMedicationLabel(Uint8List imageBytes) async {
     return analyzeImage(
       imageBytes: imageBytes,
@@ -191,9 +191,6 @@ class AiService {
     );
   }
 
-  /// يظهر تحت كل نتيجة لقراءة علبة دواء.
-  static const String medicationLabelNotice =
-      'هذه قراءة آلية لما على العلبة وقد تخطئ. يُرجى الرجوع إلى نشرة الدواء أو الصيدلي أو الطبيب قبل تناول أي جرعة.';
 
   static String _plainNumber(double v) => v == v.roundToDouble() ? v.toInt().toString() : v.toStringAsFixed(2);
 

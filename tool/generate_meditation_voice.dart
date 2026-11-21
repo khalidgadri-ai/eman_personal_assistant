@@ -4,6 +4,8 @@
 // التشغيل (من أي مجلد):
 //   dart tool/generate_meditation_voice.dart --sample          عيّنة من مقطع واحد بعدة أصوات
 //   dart tool/generate_meditation_voice.dart --voice=Achernar  كل المقاطع بصوت واحد
+//   dart tool/generate_meditation_voice.dart --voice=Sulafat --lang=en
+//       النسخة الإنجليزية من docs/meditation_recording_script_en.md إلى build/meditation_voice/wav/en
 //
 // المفتاح: يُنسخ قبل التشغيل فيُقرأ من الحافظة ثم تُفرَّغ (أو من متغير البيئة GEMINI_API_KEY).
 // لا يُطبع ولا يُحفظ، ويسافر في الترويسة x-goog-api-key فقط. النص المرسَل هو نص المقاطع وحده.
@@ -21,8 +23,13 @@ import 'dart:typed_data';
 const String model = 'gemini-3.8-flash-tts';
 const List<String> sampleVoices = ['Achernar', 'Vindemiatrix', 'Sulafat', 'Algieba'];
 const String sampleClip = 'breathing_01';
-const String style = 'Calm, slow, soft and warm meditation guide. Gentle, unhurried delivery '
-    'in Modern Standard Arabic, with relaxed pauses between sentences.';
+const Map<String, String> styles = {
+  'ar': 'Calm, slow, soft and warm meditation guide. Gentle, unhurried delivery '
+      'in Modern Standard Arabic, with relaxed pauses between sentences.',
+  'en': 'Calm, slow, soft and warm meditation guide. Gentle, unhurried delivery '
+      'in clear English, with relaxed pauses between sentences.',
+};
+String style = styles['ar']!;
 
 const int sampleRate = 24000;
 const Duration pauseBetweenRequests = Duration(seconds: 8);
@@ -41,11 +48,18 @@ Future<void> main(List<String> args) async {
   final sample = args.contains('--sample');
   final force = args.contains('--force');
   final voiceArg = args.where((a) => a.startsWith('--voice=')).map((a) => a.substring(8)).firstOrNull;
+  final lang = args.where((a) => a.startsWith('--lang=')).map((a) => a.substring(7)).firstOrNull ?? 'ar';
+  if (!styles.containsKey(lang)) {
+    stderr.writeln('Unknown --lang=$lang (use ar or en).');
+    exit(64);
+  }
+  style = styles[lang]!;
+  final scriptName = lang == 'ar' ? 'meditation_recording_script.md' : 'meditation_recording_script_$lang.md';
 
-  final clips = parseScript(File('${root.path}/docs/meditation_recording_script.md').readAsStringSync());
+  final clips = parseScript(File('${root.path}/docs/$scriptName').readAsStringSync());
   final limits = clipLimits(File('${root.path}/assets/meditation/sessions.json').readAsStringSync());
   if (clips.isEmpty) {
-    stderr.writeln('No clips found in docs/meditation_recording_script.md');
+    stderr.writeln('No clips found in docs/$scriptName');
     exit(1);
   }
   if (args.contains('--list')) {
@@ -71,7 +85,8 @@ Future<void> main(List<String> args) async {
   try {
     if (sample) {
       final clip = clips.firstWhere((c) => c.id == sampleClip);
-      final dir = Directory('${root.path}/build/meditation_voice/samples')..createSync(recursive: true);
+      final dir = Directory('${root.path}/build/meditation_voice/samples${lang == 'ar' ? '' : '/$lang'}')
+        ..createSync(recursive: true);
       for (final (i, voice) in sampleVoices.indexed) {
         if (i > 0) await Future<void>.delayed(pauseBetweenRequests);
         final file = File('${dir.path}/$voice.wav');
@@ -84,7 +99,8 @@ Future<void> main(List<String> args) async {
     }
 
     final voice = voiceArg!;
-    final out = Directory('${root.path}/build/meditation_voice/wav');
+    // العربية في wav/<session>/، وكل لغة أخرى في wav/<lang>/<session>/ (مثل مجلدات التطبيق).
+    final out = Directory('${root.path}/build/meditation_voice/wav${lang == 'ar' ? '' : '/$lang'}');
     var made = 0;
     var warnings = 0;
     for (final clip in clips) {

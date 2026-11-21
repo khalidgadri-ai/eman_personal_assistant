@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../../../l10n/app_localizations.dart';
 
 /// تمرين محفوظ: الاسم والعضلات والخطوات والمجموعات والتكرار والملاحظات. الصورة (إن وُجدت)
 /// تُحفظ مشفّرة في صندوق منفصل بمعرّف التمرين، و[hasImage] علامة وجودها فقط.
@@ -222,13 +223,13 @@ class ExerciseDraft {
   }
 
   /// نص مقروء للعرض في نافذة النتيجة.
-  String toDisplayText() {
+  String toDisplayText(AppLocalizations l10n) {
     final lines = <String>[
-      if (name.isNotEmpty) 'التمرين: $name',
-      if (muscles.isNotEmpty) 'العضلات: $muscles',
-      'المجموعات والتكرار: $sets × $reps',
-      if (steps.isNotEmpty) ...['', 'الخطوات:', for (var i = 0; i < steps.length; i++) '${i + 1}. ${steps[i]}'],
-      if (notes.isNotEmpty) ...['', 'ملاحظات: $notes'],
+      if (name.isNotEmpty) l10n.draftExercise(name),
+      if (muscles.isNotEmpty) l10n.draftMuscles(muscles),
+      l10n.setsRepsLine('$sets × $reps'),
+      if (steps.isNotEmpty) ...['', l10n.draftSteps, for (var i = 0; i < steps.length; i++) '${i + 1}. ${steps[i]}'],
+      if (notes.isNotEmpty) ...['', l10n.draftNotes(notes)],
     ];
     return lines.join('\n');
   }

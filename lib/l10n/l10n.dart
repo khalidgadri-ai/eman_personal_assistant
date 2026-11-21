@@ -10,4 +10,8 @@ extension L10nContext on BuildContext {
   AppLocalizations get l10n =>
       Localizations.of<AppLocalizations>(this, AppLocalizations) ??
       lookupAppLocalizations(AppLocale.arabic);
+
+  /// رمز لغة النصوص الحالية ('ar' أو 'en')، لاختيار محتوى مثل نصوص الجلسات وصوت المرشد.
+  /// من ترجمات التطبيق لا من MaterialApp، فيبقى عربيًا في الاختبارات بلا ترجمات.
+  String get appLang => l10n.localeName.split('_').first;
 }

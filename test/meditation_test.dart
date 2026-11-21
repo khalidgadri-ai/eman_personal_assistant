@@ -14,6 +14,7 @@ import 'package:eman_life_app/features/meditation/timeline_cursor.dart';
 import 'package:eman_life_app/features/meditation/tone_generator.dart';
 import 'package:eman_life_app/features/settings/backup_service.dart';
 import 'package:eman_life_app/features/settings/data_reset_service.dart';
+import 'package:eman_life_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
@@ -83,6 +84,8 @@ int _zeroCrossings(Uint8List wav, int channel) {
   }
   return count;
 }
+
+final AppLocalizations _ar = lookupAppLocalizations(const Locale('ar'));
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -311,6 +314,9 @@ void main() {
       File('docs/meditation_recording_script.md'),
       File('lib/features/coach/coach_paywall_screen.dart'),
       ...Directory('lib/features/meditation').listSync(recursive: true).whereType<File>(),
+      // نصوص الشاشات صارت في ملفات اللغات.
+      File('lib/l10n/app_ar.arb'),
+      File('lib/l10n/app_en.arb'),
     ];
 
     test('no health claim and no other app\'s meditation names in any meditation text', () {
@@ -323,7 +329,7 @@ void main() {
     });
 
     test('every voice file in the app is a clip some session uses, in that session\'s folder', () {
-      final used = {for (final s in sessions) ...s.clipAssets};
+      final used = {for (final s in sessions) ...s.clipAssets, for (final s in sessions) ...s.clipAssetsFor('en')};
       final files = Directory('assets/meditation/voice')
           .listSync(recursive: true)
           .whereType<File>()
@@ -349,6 +355,47 @@ void main() {
           .map((f) => f.path.replaceAll('\\', '/'))
           .toSet();
       expect(MeditationCatalog.available(sessions, onDisk).map((s) => s.id), sessions.map((s) => s.id));
+    });
+
+    test('the English script has every clip, and English voice files go to their own folder', () {
+      final script = File('docs/meditation_recording_script_en.md').readAsStringSync();
+      for (final session in sessions) {
+        for (final phase in session.phases) {
+          for (final cue in phase.cues) {
+            expect(script, contains('${cue.clip}.m4a'), reason: cue.clip);
+          }
+        }
+      }
+      expect(MeditationSession.clipAsset('calm_breathing', 'breathing_01', lang: 'en'),
+          'assets/meditation/voice/en/calm_breathing/breathing_01.m4a');
+      expect(MeditationSession.clipAsset('calm_breathing', 'breathing_01'),
+          'assets/meditation/voice/calm_breathing/breathing_01.m4a');
+    });
+
+    test('every session and phase has English text', () {
+      for (final session in sessions) {
+        expect(session.titleEn, isNotEmpty, reason: session.id);
+        expect(session.descriptionEn, isNotEmpty, reason: session.id);
+        expect(session.titleFor('en'), isNot(session.title));
+        expect(session.titleFor('ar'), session.title);
+        for (final phase in session.phases) {
+          expect(phase.titleEn, isNotEmpty, reason: '${session.id}/${phase.id}');
+          if (phase.instruction.isNotEmpty) {
+            expect(phase.instructionEn, isNotEmpty, reason: '${session.id}/${phase.id}');
+          }
+        }
+      }
+    });
+
+    test('in English a guided session waits for its English voice; the plan uses that folder', () {
+      final arabicOnly = {for (final s in sessions) ...s.clipAssets};
+      final inEnglish = MeditationCatalog.available(sessions, arabicOnly, lang: 'en');
+      expect(inEnglish.where((s) => s.kind == MeditationKind.guided), isEmpty);
+      expect(inEnglish.any((s) => s.kind == MeditationKind.active), isTrue, reason: 'bells and text still work');
+
+      final plan = planSession(byId('calm_breathing'), minutes: 5, lang: 'en');
+      expect(plan.cues.first.asset, startsWith('assets/meditation/voice/en/'));
+      expect(plan.lang, 'en');
     });
 
     test('the recording script has every clip the sessions use', () {
@@ -431,7 +478,7 @@ void main() {
       await tester.tap(find.text('تنفّس هادئ'));
       await settle(tester);
 
-      expect(find.text(aiVoiceNotice), findsOneWidget);
+      expect(find.text(_ar.meditationAiVoiceNotice), findsOneWidget);
     });
 
     testWidgets('a session without a guide voice does not mention one', (tester) async {
@@ -440,7 +487,7 @@ void main() {
       await settle(tester);
 
       expect(find.text('ابدأ الجلسة'), findsOneWidget);
-      expect(find.text(aiVoiceNotice), findsNothing);
+      expect(find.text(_ar.meditationAiVoiceNotice), findsNothing);
     });
 
     testWidgets('a paid session opens the paywall and stops there if nothing is bought', (tester) async {

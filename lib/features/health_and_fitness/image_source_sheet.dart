@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/theme/app_theme.dart';
+import '../../l10n/l10n.dart';
 
 /// يعرض اختيار مصدر الصورة (كاميرا أو معرض). الكاميرا والمعرض عبر image_picker بلا صلاحيات.
 Future<ImageSource?> showImageSourceSheet(BuildContext context) {
@@ -11,28 +12,25 @@ Future<ImageSource?> showImageSourceSheet(BuildContext context) {
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
-    builder: (context) => Directionality(
-      textDirection: TextDirection.rtl,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'اختيار مصدر الصورة',
-              style: TextStyle(color: AppTheme.textColor, fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _option(Icons.camera_alt_rounded, 'الكاميرا', () => Navigator.pop(context, ImageSource.camera)),
-                _option(Icons.photo_library_rounded, 'المعرض', () => Navigator.pop(context, ImageSource.gallery)),
-              ],
-            ),
-            const SizedBox(height: 8),
-          ],
-        ),
+    builder: (context) => Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            context.l10n.imageSourceTitle,
+            style: TextStyle(color: AppTheme.textColor, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _option(Icons.camera_alt_rounded, context.l10n.camera, () => Navigator.pop(context, ImageSource.camera)),
+              _option(Icons.photo_library_rounded, context.l10n.gallery, () => Navigator.pop(context, ImageSource.gallery)),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
       ),
     ),
   );

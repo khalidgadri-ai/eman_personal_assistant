@@ -1,4 +1,6 @@
 import 'package:eman_life_app/features/health_and_fitness/models/exercise.dart';
+import 'package:eman_life_app/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -97,7 +99,10 @@ void main() {
         notes: 'ببطء',
       );
 
-      final text = draft.toDisplayText();
+      final text = draft.toDisplayText(lookupAppLocalizations(const Locale('ar')));
+      final english = draft.toDisplayText(lookupAppLocalizations(const Locale('en')));
+      expect(english, contains('Exercise: سحب'));
+      expect(english, contains('Sets and reps: 3 × 10'));
 
       expect(text, contains('التمرين: سحب'));
       expect(text, contains('العضلات: الظهر'));

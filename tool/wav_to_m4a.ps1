@@ -52,7 +52,11 @@ function Convert-Clip([string]$wavPath, [string]$m4aPath) {
 
 $InputDir = (Resolve-Path $InputDir).Path
 $OutputDir = [System.IO.Path]::GetFullPath($OutputDir)
-$wavs = Get-ChildItem -Path $InputDir -Filter *.wav -Recurse | Sort-Object FullName
+# مستوى واحد فقط: <InputDir>/<session>/<clip>.wav. مجلدات اللغات الأخرى (wav/en/...) تُحوَّل
+# بأمر منفصل إلى assets/meditation/voice/en حتى لا يدخل صوت إنجليزي مجلدات الجلسات العربية.
+$wavs = Get-ChildItem -Path $InputDir -Filter *.wav -Recurse |
+  Where-Object { (Split-Path -Parent $_.DirectoryName) -eq $InputDir } |
+  Sort-Object FullName
 if ($wavs.Count -eq 0) { Write-Output "No WAV files in $InputDir"; exit 1 }
 
 $total = 0

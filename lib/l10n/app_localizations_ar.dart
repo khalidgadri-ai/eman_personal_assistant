@@ -709,4 +709,433 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get healthTitle => '🏋️ الصحة واللياقة والعناية';
+
+  @override
+  String get awarenessTooltip => 'وعي الاستخدام';
+
+  @override
+  String get tabExercises => 'التمارين والعضلات';
+
+  @override
+  String get tabMeds => 'جدول الأدوية';
+
+  @override
+  String get tabCare => 'العناية بالبشرة';
+
+  @override
+  String get tabMeditation => 'التأمل';
+
+  @override
+  String exerciseDeleted(String name) {
+    return 'حُذف «$name»';
+  }
+
+  @override
+  String get medAddTitle => 'إضافة دواء أو مكمل';
+
+  @override
+  String get nameField => 'الاسم';
+
+  @override
+  String get medNameHint => 'مثال: فيتامين د';
+
+  @override
+  String get timeOptionalField => 'الوقت (اختياري)';
+
+  @override
+  String get medTimeHint => 'مثال: 09:00 صباحاً';
+
+  @override
+  String get medEditTitle => 'تعديل الدواء';
+
+  @override
+  String get careAddTitle => 'إضافة منتج للروتين';
+
+  @override
+  String get productField => 'المنتج';
+
+  @override
+  String get careProductHint => 'مثال: مرطب البشرة';
+
+  @override
+  String get timeField => 'الوقت';
+
+  @override
+  String get careStepField => 'طريقة الاستخدام (اختياري)';
+
+  @override
+  String get careEditTitle => 'تعديل المنتج';
+
+  @override
+  String get careMorning => 'صباحاً';
+
+  @override
+  String get careEvening => 'مساءً';
+
+  @override
+  String get careBoth => 'صباحاً ومساءً';
+
+  @override
+  String get exerciseAnalysisTitle => '🏋️ تحليل التمرين والعضلات';
+
+  @override
+  String get saveAsExercise => 'حفظ كتمرين';
+
+  @override
+  String get medReadTitle => '💊 قراءة علبة الدواء';
+
+  @override
+  String get medLabelNotice =>
+      'هذه قراءة آلية لما على العلبة وقد تخطئ. يُرجى الرجوع إلى نشرة الدواء أو الصيدلي أو الطبيب قبل تناول أي جرعة.';
+
+  @override
+  String get okAction => 'حسناً';
+
+  @override
+  String get addExercise => 'إضافة تمرين';
+
+  @override
+  String get addMedication => 'إضافة دواء';
+
+  @override
+  String get addProduct => 'إضافة منتج';
+
+  @override
+  String get healthLoadFailed => 'تعذّر فتح بياناتك الصحية المحفوظة.';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get yourExercises => 'تمارينك';
+
+  @override
+  String get analyzingImage => 'جارٍ تحليل الصورة بالذكاء الاصطناعي...';
+
+  @override
+  String get analyzeExerciseImage => 'تحليل صورة التمرين بالذكاء الاصطناعي';
+
+  @override
+  String get exerciseCardsHeader => 'بطاقات التمارين بالجولات والتكرارات';
+
+  @override
+  String get logLabel => 'السجل';
+
+  @override
+  String get noExercises => 'لم تُضف تمارين بعد.';
+
+  @override
+  String get exercisePin => 'تثبيت التمرين';
+
+  @override
+  String get exerciseUnpin => 'إلغاء تثبيت التمرين';
+
+  @override
+  String get exerciseDelete => 'حذف التمرين';
+
+  @override
+  String get medReadHeader => 'قراءة علبة الدواء بالذكاء الاصطناعي';
+
+  @override
+  String get medReadBody =>
+      'صورة لعلبة الدواء أو المكمل، فيُقرأ ما هو مكتوب عليها: الاسم والجرعة المكتوبة والتحذيرات. القراءة الآلية قد تخطئ، والمرجع نشرة الدواء أو الصيدلي.';
+
+  @override
+  String get analyzingMed => 'جارٍ تحليل علبة الدواء...';
+
+  @override
+  String get analyzeMed => 'تحليل علبة الدواء 💊';
+
+  @override
+  String get medsHeader => 'توقيتات الأدوية والمكملات اليومية';
+
+  @override
+  String get noMeds => 'لم تُضف أدوية أو مكملات بعد. اضغط + للإضافة.';
+
+  @override
+  String get medDelete => 'حذف الدواء';
+
+  @override
+  String get careHeader => 'سجل منتجات الروتين اليومي للبشرة والشعر';
+
+  @override
+  String get noCare => 'لم تُضف منتجات بعد. اضغط + للإضافة.';
+
+  @override
+  String get careDelete => 'حذف المنتج';
+
+  @override
+  String get workoutLogTitle => 'تسجيل تمرين اليوم';
+
+  @override
+  String get logAction => 'تسجيل';
+
+  @override
+  String get setsField => 'المجموعات';
+
+  @override
+  String setsError(int max) {
+    return 'أدخل رقمًا من 1 إلى $max';
+  }
+
+  @override
+  String get repsField => 'التكرار';
+
+  @override
+  String get weightField => 'الوزن (اختياري)';
+
+  @override
+  String get weightHint => 'مثال: 40 كجم';
+
+  @override
+  String get noteOptionalField => 'ملاحظة (اختياري)';
+
+  @override
+  String get workoutLogged => 'سُجّل تمرين اليوم';
+
+  @override
+  String get exerciseDeleteAsk => 'حذف التمرين؟';
+
+  @override
+  String exerciseDeleteBody(String name) {
+    return 'سيُحذف «$name» وصورته. سجل تمارينك السابق يبقى.';
+  }
+
+  @override
+  String get deleteAction => 'حذف';
+
+  @override
+  String get exerciseEdit => 'تعديل التمرين';
+
+  @override
+  String setsRepsLine(String value) {
+    return 'المجموعات والتكرار: $value';
+  }
+
+  @override
+  String get logToday => 'سجّل اليوم';
+
+  @override
+  String exerciseLogOf(String name) {
+    return 'سجل «$name»';
+  }
+
+  @override
+  String get latestLogs => 'آخر التسجيلات';
+
+  @override
+  String get stepsHeader => 'خطوات الأداء';
+
+  @override
+  String get notesHeader => 'ملاحظات';
+
+  @override
+  String get exerciseNameField => 'اسم التمرين';
+
+  @override
+  String get musclesField => 'العضلات المستهدفة';
+
+  @override
+  String get setsLess => 'تقليل المجموعات';
+
+  @override
+  String get setsMore => 'زيادة المجموعات';
+
+  @override
+  String get repsHint => '10 أو 8-12';
+
+  @override
+  String get addStep => 'إضافة خطوة';
+
+  @override
+  String get notesOptional => 'ملاحظات (اختياري)';
+
+  @override
+  String get addImage => 'إضافة صورة';
+
+  @override
+  String get changeImage => 'تغيير الصورة';
+
+  @override
+  String get removeImage => 'إزالة الصورة';
+
+  @override
+  String get deleteStep => 'حذف الخطوة';
+
+  @override
+  String get workoutLogDefaultTitle => 'سجل التمارين';
+
+  @override
+  String get workoutEntryDeleted => 'حُذف التسجيل';
+
+  @override
+  String get noWorkouts =>
+      'لم تُسجَّل تمارين بعد. افتح تمرينًا واضغط «سجّل اليوم».';
+
+  @override
+  String get exerciseFallbackName => 'تمرين';
+
+  @override
+  String get workoutEntryDelete => 'حذف التسجيل';
+
+  @override
+  String get imageSourceTitle => 'اختيار مصدر الصورة';
+
+  @override
+  String get camera => 'الكاميرا';
+
+  @override
+  String get gallery => 'المعرض';
+
+  @override
+  String draftExercise(String name) {
+    return 'التمرين: $name';
+  }
+
+  @override
+  String draftMuscles(String muscles) {
+    return 'العضلات: $muscles';
+  }
+
+  @override
+  String get draftSteps => 'الخطوات:';
+
+  @override
+  String draftNotes(String notes) {
+    return 'ملاحظات: $notes';
+  }
+
+  @override
+  String get meditationGammaNotice =>
+      'نغمة جاما للاستماع أثناء التأمل، بمستوى صوت منخفض. لا تُستعمل أثناء القيادة أو تشغيل الآلات. من لديه صرع أو جهاز طبي مزروع يستشير الطبيب قبل الاستعمال. النوع المزدوج يحتاج سماعات.';
+
+  @override
+  String get meditationActiveNotice =>
+      'الحركة بلطف، في مكان واسع وآمن، والتوقف عند الدوخة أو الألم. من لديه حالة قلبية أو حمل أو إصابة يستشير الطبيب قبل هذه الجلسة.';
+
+  @override
+  String get meditationAiVoiceNotice => 'صوت المرشد مولَّد بالذكاء الاصطناعي.';
+
+  @override
+  String get noticeBeforeStart => 'ملاحظة قبل البدء';
+
+  @override
+  String get understoodStart => 'فهمت، ابدأ';
+
+  @override
+  String get meditationLoadFailed => 'تعذّر فتح جلسات التأمل. إعادة المحاولة';
+
+  @override
+  String meditationWeekMinutes(int count) {
+    return 'دقائق التأمل في آخر 7 أيام: $count';
+  }
+
+  @override
+  String get meditationScreenOffTip =>
+      'الصوت يستمر والشاشة مطفأة، ويمكن الإيقاف من الإشعار.';
+
+  @override
+  String get withSubscription => 'مع الاشتراك';
+
+  @override
+  String get toneNone => 'بلا نغمة';
+
+  @override
+  String get toneBinauralShort => 'جاما مزدوجة (سماعات)';
+
+  @override
+  String get toneIsochronicShort => 'جاما نبضية';
+
+  @override
+  String get toneBinaural => 'مزدوجة (سماعات)';
+
+  @override
+  String get toneIsochronic => 'نبضية (بلا سماعات)';
+
+  @override
+  String get durationLabel => 'المدة';
+
+  @override
+  String get backgroundSound => 'الصوت في الخلفية';
+
+  @override
+  String get startSession => 'ابدأ الجلسة';
+
+  @override
+  String minutesShort(int count) {
+    return '$count د';
+  }
+
+  @override
+  String minutesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقيقة',
+      few: '$count دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String minutesRange(int from, int to) {
+    String _temp0 = intl.Intl.pluralLogic(
+      to,
+      locale: localeName,
+      other: 'دقيقة',
+      few: 'دقائق',
+    );
+    return 'من $from إلى $to $_temp0';
+  }
+
+  @override
+  String get soundFailed => 'تعذّر تشغيل الصوت. حاول مرة أخرى.';
+
+  @override
+  String get endSessionAsk => 'إنهاء الجلسة؟';
+
+  @override
+  String get endSessionBody => 'تُحفظ الدقائق التي مضت إن كانت دقيقة أو أكثر.';
+
+  @override
+  String get continueSession => 'متابعة الجلسة';
+
+  @override
+  String get endAction => 'إنهاء';
+
+  @override
+  String phaseOf(int current, int total) {
+    return 'المرحلة $current من $total';
+  }
+
+  @override
+  String get timeLeft => 'الوقت المتبقي';
+
+  @override
+  String get gammaLevel => 'مستوى نغمة جاما';
+
+  @override
+  String get pauseAction => 'إيقاف مؤقت';
+
+  @override
+  String get resumeAction => 'متابعة';
+
+  @override
+  String get sessionFinished => 'انتهت الجلسة';
+
+  @override
+  String sessionMinutes(int count) {
+    return 'دقائق هذه الجلسة: $count';
+  }
+
+  @override
+  String get sessionUnderMinute => 'الجلسات الأقصر من دقيقة لا تُحفظ في السجل.';
+
+  @override
+  String get meditationChannelName => 'جلسات التأمل';
 }

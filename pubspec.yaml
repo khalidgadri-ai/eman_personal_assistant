@@ -106,6 +106,12 @@ flutter:
     - assets/meditation/voice/body_scan/
     - assets/meditation/voice/present_moment/
     - assets/meditation/voice/move_and_still/
+    # الصوت الإنجليزي (docs/meditation_recording_script_en.md): الجلسة المرشدة تظهر بالإنجليزية
+    # حين تكتمل مقاطعها هنا.
+    - assets/meditation/voice/en/calm_breathing/
+    - assets/meditation/voice/en/body_scan/
+    - assets/meditation/voice/en/present_moment/
+    - assets/meditation/voice/en/move_and_still/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

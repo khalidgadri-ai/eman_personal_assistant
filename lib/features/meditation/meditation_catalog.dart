@@ -34,8 +34,8 @@ abstract final class MeditationCatalog {
 
   /// الجلسة المرشدة تظهر فقط حين تكتمل كل مقاطعها. الحركية تعمل بالأجراس ونص المرحلة
   /// حتى تصل التسجيلات، والمؤقت وجاما لا يحتاجان صوت مرشد.
-  static List<MeditationSession> available(List<MeditationSession> all, Set<String> assets) => [
+  static List<MeditationSession> available(List<MeditationSession> all, Set<String> assets, {String lang = 'ar'}) => [
         for (final session in all)
-          if (session.kind != MeditationKind.guided || session.clipAssets.every(assets.contains)) session,
+          if (session.kind != MeditationKind.guided || session.clipAssetsFor(lang).every(assets.contains)) session,
       ];
 }

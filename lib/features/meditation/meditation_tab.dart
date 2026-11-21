@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/utils/arabic_count.dart';
 import '../coach/coach_paywall_screen.dart';
 import '../health_and_fitness/health_service.dart';
 import 'meditation_catalog.dart';
@@ -10,6 +9,7 @@ import 'meditation_player.dart';
 import 'meditation_session_screen.dart';
 import 'models/meditation_session.dart';
 import 'session_planner.dart';
+import '../../l10n/l10n.dart';
 
 typedef MeditationPlayerBuilder = MeditationPlayer Function();
 
@@ -33,17 +33,9 @@ Future<bool> _openPaywall(BuildContext context) async {
 const String gammaNoticeKind = 'gamma';
 const String activeNoticeKind = 'active';
 
-const String gammaNoticeText =
-    'نغمة جاما للاستماع أثناء التأمل، بمستوى صوت منخفض. لا تُستعمل أثناء القيادة أو تشغيل الآلات. '
-    'من لديه صرع أو جهاز طبي مزروع يستشير الطبيب قبل الاستعمال. النوع المزدوج يحتاج سماعات.';
-
-const String activeNoticeText =
-    'الحركة بلطف، في مكان واسع وآمن، والتوقف عند الدوخة أو الألم. من لديه حالة قلبية أو حمل أو '
-    'إصابة يستشير الطبيب قبل هذه الجلسة.';
-
-/// صوت المرشد صُنع بصوت Gemini الآلي (tool/generate_meditation_voice.dart)، فيُقال ذلك بوضوح
-/// قبل كل جلسة فيها صوت مرشد، ولا يُقدَّم على أنه صوت إنسان.
-const String aiVoiceNotice = 'صوت المرشد مولَّد بالذكاء الاصطناعي.';
+// نصوص الملاحظتين و«صوت المرشد مولَّد بالذكاء الاصطناعي» في ملفات اللغات
+// (meditationGammaNotice، meditationActiveNotice، meditationAiVoiceNotice). الصوت صُنع بصوت
+// Gemini الآلي (tool/generate_meditation_voice.dart)، فيُقال ذلك قبل كل جلسة فيها مرشد.
 
 /// قسم «التأمل» في الصحة واللياقة: قائمة الجلسات ودقائق آخر 7 أيام.
 class MeditationTab extends StatefulWidget {
@@ -73,7 +65,9 @@ class MeditationTab extends StatefulWidget {
 }
 
 class _MeditationTabState extends State<MeditationTab> with AutomaticKeepAliveClientMixin {
-  List<MeditationSession>? _sessions;
+  /// كل الجلسات وملفات التطبيق؛ ما يظهر منها يتبع لغة الشاشة (صوت المرشد لكل لغة).
+  List<MeditationSession>? _allSessions;
+  Set<String> _assets = const {};
   int _weekMinutes = 0;
   bool _failed = false;
 
@@ -93,7 +87,8 @@ class _MeditationTabState extends State<MeditationTab> with AutomaticKeepAliveCl
       final minutes = await _readWeekMinutes();
       if (!mounted) return;
       setState(() {
-        _sessions = MeditationCatalog.available(all, assets);
+        _allSessions = all;
+        _assets = assets;
         _weekMinutes = minutes;
         _failed = false;
       });
@@ -132,9 +127,13 @@ class _MeditationTabState extends State<MeditationTab> with AutomaticKeepAliveCl
       session,
       minutes: choice.minutes,
       background: session.backgroundIsChosen ? choice.background : null,
+      lang: context.appLang,
     );
-    if (plan.usesGamma && !await _ensureNotice(gammaNoticeKind, gammaNoticeText)) return;
-    if (session.kind == MeditationKind.active && !await _ensureNotice(activeNoticeKind, activeNoticeText)) return;
+    if (!mounted) return;
+    final gammaText = context.l10n.meditationGammaNotice;
+    final activeText = context.l10n.meditationActiveNotice;
+    if (plan.usesGamma && !await _ensureNotice(gammaNoticeKind, gammaText)) return;
+    if (session.kind == MeditationKind.active && !await _ensureNotice(activeNoticeKind, activeText)) return;
     if (!mounted) return;
 
     await Navigator.of(context).push(
@@ -158,24 +157,21 @@ class _MeditationTabState extends State<MeditationTab> with AutomaticKeepAliveCl
     if (!mounted) return false;
     final accepted = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('ملاحظة قبل البدء', style: TextStyle(color: AppTheme.textColor)),
-          content: Text(text, style: const TextStyle(color: AppTheme.subTextColor, height: 1.7)),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('رجوع', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('فهمت، ابدأ', style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(context.l10n.noticeBeforeStart, style: TextStyle(color: AppTheme.textColor)),
+        content: Text(text, style: const TextStyle(color: AppTheme.subTextColor, height: 1.7)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(context.l10n.back, style: TextStyle(color: AppTheme.subTextColor)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(context.l10n.understoodStart, style: TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
     if (accepted != true) return false;
@@ -190,12 +186,15 @@ class _MeditationTabState extends State<MeditationTab> with AutomaticKeepAliveCl
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final sessions = _sessions;
+    final all = _allSessions;
+    final sessions = all == null
+        ? null
+        : MeditationCatalog.available(all, _assets, lang: context.appLang);
     if (_failed) {
       return Center(
         child: TextButton(
           onPressed: _load,
-          child: const Text('تعذّر فتح جلسات التأمل. إعادة المحاولة', style: TextStyle(color: AppTheme.accentColor)),
+          child: Text(context.l10n.meditationLoadFailed, style: TextStyle(color: AppTheme.accentColor)),
         ),
       );
     }
@@ -204,12 +203,12 @@ class _MeditationTabState extends State<MeditationTab> with AutomaticKeepAliveCl
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       children: [
         Text(
-          'دقائق التأمل في آخر 7 أيام: $_weekMinutes',
+          context.l10n.meditationWeekMinutes(_weekMinutes),
           style: const TextStyle(color: AppTheme.accentColor, fontSize: 15, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'الصوت يستمر والشاشة مطفأة، ويمكن الإيقاف من الإشعار.',
+        Text(
+          context.l10n.meditationScreenOffTip,
           style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
         ),
         const SizedBox(height: 12),
@@ -232,13 +231,11 @@ class _SessionCard extends StatelessWidget {
         MeditationKind.silent => Icons.notifications_none_rounded,
       };
 
-  String get _durations {
+  String _durations(BuildContext context) {
     final d = session.durations;
     // «من … إلى» بدل الشرطة: الأرقام حول الشرطة تنقلب في سطر عربي.
     // المعدود يتبع الرقم الأخير: «من 5 إلى 10 دقائق»، «من 10 إلى 15 دقيقة».
-    return d.length == 1
-        ? arabicCount(d.first, ArabicNoun.minute)
-        : 'من ${d.first} إلى ${arabicCount(d.last, ArabicNoun.minute)}';
+    return d.length == 1 ? context.l10n.minutesCount(d.first) : context.l10n.minutesRange(d.first, d.last);
   }
 
   @override
@@ -263,7 +260,7 @@ class _SessionCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            session.title,
+                            session.titleFor(context.appLang),
                             style: const TextStyle(
                               color: AppTheme.textColor,
                               fontSize: 16,
@@ -278,12 +275,12 @@ class _SessionCard extends StatelessWidget {
                               color: AppTheme.primaryColor.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(Icons.lock_rounded, size: 12, color: AppTheme.accentColor),
                                 SizedBox(width: 4),
-                                Text('مع الاشتراك', style: TextStyle(color: AppTheme.accentColor, fontSize: 11)),
+                                Text(context.l10n.withSubscription, style: TextStyle(color: AppTheme.accentColor, fontSize: 11)),
                               ],
                             ),
                           ),
@@ -291,11 +288,11 @@ class _SessionCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      session.description,
+                      session.descriptionFor(context.appLang),
                       style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.5),
                     ),
                     const SizedBox(height: 6),
-                    Text(_durations, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                    Text(_durations(context), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
                   ],
                 ),
               ),
@@ -329,91 +326,91 @@ class _SetupSheetState extends State<_SetupSheet> {
   late ToneBackground _background = defaultBackgroundFor(widget.session);
 
   List<(ToneBackground, String)> get _backgrounds => switch (widget.session.kind) {
-        MeditationKind.silent => const [
-            (ToneBackground.none, 'بلا نغمة'),
-            (ToneBackground.gammaBinaural, 'جاما مزدوجة (سماعات)'),
-            (ToneBackground.gammaIsochronic, 'جاما نبضية'),
+        MeditationKind.silent => [
+            (ToneBackground.none, context.l10n.toneNone),
+            (ToneBackground.gammaBinaural, context.l10n.toneBinauralShort),
+            (ToneBackground.gammaIsochronic, context.l10n.toneIsochronicShort),
           ],
-        MeditationKind.gamma => const [
-            (ToneBackground.gammaBinaural, 'مزدوجة (سماعات)'),
-            (ToneBackground.gammaIsochronic, 'نبضية (بلا سماعات)'),
+        MeditationKind.gamma => [
+            (ToneBackground.gammaBinaural, context.l10n.toneBinaural),
+            (ToneBackground.gammaIsochronic, context.l10n.toneIsochronic),
           ],
         _ => const [],
       };
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.session.title,
-                style: const TextStyle(color: AppTheme.textColor, fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.session.titleFor(context.appLang),
+              style: const TextStyle(color: AppTheme.textColor, fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            Text(context.l10n.durationLabel, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final minutes in widget.session.durations)
+                  ChoiceChip(
+                    label: Text(context.l10n.minutesShort(minutes)),
+                    selected: _minutes == minutes,
+                    onSelected: (_) => setState(() => _minutes = minutes),
+                  ),
+              ],
+            ),
+            if (_backgrounds.isNotEmpty) ...[
               const SizedBox(height: 16),
-              const Text('المدة', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+              Text(context.l10n.backgroundSound, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  for (final minutes in widget.session.durations)
+                  for (final (background, label) in _backgrounds)
                     ChoiceChip(
-                      label: Text('$minutes د'),
-                      selected: _minutes == minutes,
-                      onSelected: (_) => setState(() => _minutes = minutes),
+                      label: Text(label),
+                      selected: _background == background,
+                      onSelected: (_) => setState(() => _background = background),
                     ),
                 ],
               ),
-              if (_backgrounds.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                const Text('الصوت في الخلفية', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    for (final (background, label) in _backgrounds)
-                      ChoiceChip(
-                        label: Text(label),
-                        selected: _background == background,
-                        onSelected: (_) => setState(() => _background = background),
-                      ),
-                  ],
-                ),
-              ],
-              if (widget.session.clipAssets.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                const Row(
-                  children: [
-                    Icon(Icons.record_voice_over_rounded, size: 18, color: AppTheme.subTextColor),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: Text(aiVoiceNotice, style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+            ],
+            if (widget.session.clipAssetsFor(context.appLang).isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Icon(Icons.record_voice_over_rounded, size: 18, color: AppTheme.subTextColor),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      context.l10n.meditationAiVoiceNotice,
+                      style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
                     ),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    minimumSize: const Size(0, 52),
                   ),
-                  onPressed: () => Navigator.of(context).pop(_SessionChoice(_minutes, _background)),
-                  child: const Text('ابدأ الجلسة', style: TextStyle(color: Colors.white, fontSize: 16)),
-                ),
+                ],
               ),
             ],
-          ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryColor,
+                  minimumSize: const Size(0, 52),
+                ),
+                onPressed: () => Navigator.of(context).pop(_SessionChoice(_minutes, _background)),
+                child: Text(context.l10n.startSession, style: TextStyle(color: Colors.white, fontSize: 16)),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -710,4 +710,428 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get healthTitle => '🏋️ Health, fitness & care';
+
+  @override
+  String get awarenessTooltip => 'Usage awareness';
+
+  @override
+  String get tabExercises => 'Exercises';
+
+  @override
+  String get tabMeds => 'Medicines';
+
+  @override
+  String get tabCare => 'Skin care';
+
+  @override
+  String get tabMeditation => 'Meditation';
+
+  @override
+  String exerciseDeleted(String name) {
+    return 'Deleted \"$name\"';
+  }
+
+  @override
+  String get medAddTitle => 'Add a medicine or supplement';
+
+  @override
+  String get nameField => 'Name';
+
+  @override
+  String get medNameHint => 'Example: vitamin D';
+
+  @override
+  String get timeOptionalField => 'Time (optional)';
+
+  @override
+  String get medTimeHint => 'Example: 9:00 am';
+
+  @override
+  String get medEditTitle => 'Edit medicine';
+
+  @override
+  String get careAddTitle => 'Add a routine product';
+
+  @override
+  String get productField => 'Product';
+
+  @override
+  String get careProductHint => 'Example: moisturizer';
+
+  @override
+  String get timeField => 'Time';
+
+  @override
+  String get careStepField => 'How to use (optional)';
+
+  @override
+  String get careEditTitle => 'Edit product';
+
+  @override
+  String get careMorning => 'Morning';
+
+  @override
+  String get careEvening => 'Evening';
+
+  @override
+  String get careBoth => 'Morning and evening';
+
+  @override
+  String get exerciseAnalysisTitle => '🏋️ Exercise and muscle analysis';
+
+  @override
+  String get saveAsExercise => 'Save as exercise';
+
+  @override
+  String get medReadTitle => '💊 Medicine box reading';
+
+  @override
+  String get medLabelNotice =>
+      'This is an automatic reading of the box and may be wrong. Check the leaflet, a pharmacist or a doctor before taking any dose.';
+
+  @override
+  String get okAction => 'OK';
+
+  @override
+  String get addExercise => 'Add exercise';
+
+  @override
+  String get addMedication => 'Add medicine';
+
+  @override
+  String get addProduct => 'Add product';
+
+  @override
+  String get healthLoadFailed => 'Your saved health data could not be opened.';
+
+  @override
+  String get retry => 'Try again';
+
+  @override
+  String get yourExercises => 'Your exercises';
+
+  @override
+  String get analyzingImage => 'Analyzing the photo with AI...';
+
+  @override
+  String get analyzeExerciseImage => 'Analyze an exercise photo with AI';
+
+  @override
+  String get exerciseCardsHeader => 'Exercise cards with sets and reps';
+
+  @override
+  String get logLabel => 'Log';
+
+  @override
+  String get noExercises => 'No exercises yet.';
+
+  @override
+  String get exercisePin => 'Pin exercise';
+
+  @override
+  String get exerciseUnpin => 'Unpin exercise';
+
+  @override
+  String get exerciseDelete => 'Delete exercise';
+
+  @override
+  String get medReadHeader => 'Read a medicine box with AI';
+
+  @override
+  String get medReadBody =>
+      'Take a photo of a medicine or supplement box and the app reads what is printed on it: the name, the written dose and the warnings. An automatic reading can be wrong; the leaflet or a pharmacist has the final word.';
+
+  @override
+  String get analyzingMed => 'Reading the medicine box...';
+
+  @override
+  String get analyzeMed => 'Read the medicine box 💊';
+
+  @override
+  String get medsHeader => 'Daily medicine and supplement times';
+
+  @override
+  String get noMeds => 'No medicines or supplements yet. Tap + to add one.';
+
+  @override
+  String get medDelete => 'Delete medicine';
+
+  @override
+  String get careHeader => 'Daily skin and hair routine products';
+
+  @override
+  String get noCare => 'No products yet. Tap + to add one.';
+
+  @override
+  String get careDelete => 'Delete product';
+
+  @override
+  String get workoutLogTitle => 'Log today\'s workout';
+
+  @override
+  String get logAction => 'Log';
+
+  @override
+  String get setsField => 'Sets';
+
+  @override
+  String setsError(int max) {
+    return 'Enter a number from 1 to $max';
+  }
+
+  @override
+  String get repsField => 'Reps';
+
+  @override
+  String get weightField => 'Weight (optional)';
+
+  @override
+  String get weightHint => 'Example: 40 kg';
+
+  @override
+  String get noteOptionalField => 'Note (optional)';
+
+  @override
+  String get workoutLogged => 'Today\'s workout was logged';
+
+  @override
+  String get exerciseDeleteAsk => 'Delete the exercise?';
+
+  @override
+  String exerciseDeleteBody(String name) {
+    return '\"$name\" and its photo will be deleted. Your past workout log stays.';
+  }
+
+  @override
+  String get deleteAction => 'Delete';
+
+  @override
+  String get exerciseEdit => 'Edit exercise';
+
+  @override
+  String setsRepsLine(String value) {
+    return 'Sets and reps: $value';
+  }
+
+  @override
+  String get logToday => 'Log today';
+
+  @override
+  String exerciseLogOf(String name) {
+    return 'Log of \"$name\"';
+  }
+
+  @override
+  String get latestLogs => 'Latest entries';
+
+  @override
+  String get stepsHeader => 'Steps';
+
+  @override
+  String get notesHeader => 'Notes';
+
+  @override
+  String get exerciseNameField => 'Exercise name';
+
+  @override
+  String get musclesField => 'Target muscles';
+
+  @override
+  String get setsLess => 'Fewer sets';
+
+  @override
+  String get setsMore => 'More sets';
+
+  @override
+  String get repsHint => '10 or 8-12';
+
+  @override
+  String get addStep => 'Add step';
+
+  @override
+  String get notesOptional => 'Notes (optional)';
+
+  @override
+  String get addImage => 'Add photo';
+
+  @override
+  String get changeImage => 'Change photo';
+
+  @override
+  String get removeImage => 'Remove photo';
+
+  @override
+  String get deleteStep => 'Delete step';
+
+  @override
+  String get workoutLogDefaultTitle => 'Workout log';
+
+  @override
+  String get workoutEntryDeleted => 'Entry deleted';
+
+  @override
+  String get noWorkouts =>
+      'No workouts logged yet. Open an exercise and tap \"Log today\".';
+
+  @override
+  String get exerciseFallbackName => 'Exercise';
+
+  @override
+  String get workoutEntryDelete => 'Delete entry';
+
+  @override
+  String get imageSourceTitle => 'Choose a photo source';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String draftExercise(String name) {
+    return 'Exercise: $name';
+  }
+
+  @override
+  String draftMuscles(String muscles) {
+    return 'Muscles: $muscles';
+  }
+
+  @override
+  String get draftSteps => 'Steps:';
+
+  @override
+  String draftNotes(String notes) {
+    return 'Notes: $notes';
+  }
+
+  @override
+  String get meditationGammaNotice =>
+      'A gamma tone to listen to while meditating, at a low volume. Do not use it while driving or operating machinery. Anyone with epilepsy or an implanted medical device should ask a doctor before using it. The binaural kind needs headphones.';
+
+  @override
+  String get meditationActiveNotice =>
+      'Move gently, in a roomy and safe place, and stop if you feel dizzy or any pain. Anyone with a heart condition, a pregnancy or an injury should ask a doctor before this session.';
+
+  @override
+  String get meditationAiVoiceNotice => 'The guide voice is generated by AI.';
+
+  @override
+  String get noticeBeforeStart => 'Before you start';
+
+  @override
+  String get understoodStart => 'Got it, start';
+
+  @override
+  String get meditationLoadFailed =>
+      'Could not open the meditation sessions. Try again';
+
+  @override
+  String meditationWeekMinutes(int count) {
+    return 'Meditation minutes in the last 7 days: $count';
+  }
+
+  @override
+  String get meditationScreenOffTip =>
+      'Sound keeps playing with the screen off, and you can stop it from the notification.';
+
+  @override
+  String get withSubscription => 'Subscription';
+
+  @override
+  String get toneNone => 'No tone';
+
+  @override
+  String get toneBinauralShort => 'Binaural gamma (headphones)';
+
+  @override
+  String get toneIsochronicShort => 'Pulsed gamma';
+
+  @override
+  String get toneBinaural => 'Binaural (headphones)';
+
+  @override
+  String get toneIsochronic => 'Pulsed (no headphones)';
+
+  @override
+  String get durationLabel => 'Duration';
+
+  @override
+  String get backgroundSound => 'Background sound';
+
+  @override
+  String get startSession => 'Start session';
+
+  @override
+  String minutesShort(int count) {
+    return '$count min';
+  }
+
+  @override
+  String minutesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String minutesRange(int from, int to) {
+    return '$from to $to minutes';
+  }
+
+  @override
+  String get soundFailed => 'The sound could not start. Please try again.';
+
+  @override
+  String get endSessionAsk => 'End the session?';
+
+  @override
+  String get endSessionBody =>
+      'The minutes so far are saved if they add up to one minute or more.';
+
+  @override
+  String get continueSession => 'Keep going';
+
+  @override
+  String get endAction => 'End';
+
+  @override
+  String phaseOf(int current, int total) {
+    return 'Stage $current of $total';
+  }
+
+  @override
+  String get timeLeft => 'Time left';
+
+  @override
+  String get gammaLevel => 'Gamma tone level';
+
+  @override
+  String get pauseAction => 'Pause';
+
+  @override
+  String get resumeAction => 'Resume';
+
+  @override
+  String get sessionFinished => 'Session complete';
+
+  @override
+  String sessionMinutes(int count) {
+    return 'Minutes in this session: $count';
+  }
+
+  @override
+  String get sessionUnderMinute =>
+      'Sessions shorter than a minute are not saved in the log.';
+
+  @override
+  String get meditationChannelName => 'Meditation sessions';
 }

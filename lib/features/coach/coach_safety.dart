@@ -57,6 +57,20 @@ const List<String> advicePhrases = [
   'عليك ان',
   'ما رايك ان',
   'الا تعتقد ان',
+  // English
+  'you should',
+  'you must',
+  'you need to',
+  'i suggest',
+  'i recommend',
+  'i advise',
+  'my advice',
+  'the solution',
+  'try to',
+  'it is better to',
+  "it's better to",
+  "why don't you",
+  'have you tried',
 ];
 
 /// نصوص نافذة الأزمة بلغة التطبيق (ملفات اللغة: crisis*).

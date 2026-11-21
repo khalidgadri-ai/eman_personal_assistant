@@ -35,21 +35,31 @@ extension CoachDomainLabel on CoachDomain {
 class CoachQuestion {
   final String id;
   final CoachDomain domain;
+
+  /// النص العربي (الأصل). سؤال المتابعة من الذكاء الاصطناعي نصه بلغة الرد نفسها.
   final String text;
+
+  /// ترجمة إنجليزية لسؤال البنك (الحقل "en" في coach_questions.json).
+  final String? textEn;
   final String? followUpPromptHint;
 
   const CoachQuestion({
     required this.id,
     required this.domain,
     required this.text,
+    this.textEn,
     this.followUpPromptHint,
   });
+
+  /// النص بلغة التطبيق [lang]؛ بلا ترجمة يُعرض الأصل.
+  String textFor(String lang) => lang == 'en' ? textEn ?? text : text;
 
   factory CoachQuestion.fromJson(Map<String, dynamic> json) {
     return CoachQuestion(
       id: json['id'] as String,
       domain: CoachDomain.values.byName(json['domain'] as String),
       text: json['text'] as String,
+      textEn: json['en'] as String?,
       followUpPromptHint: json['followUpPromptHint'] as String?,
     );
   }
@@ -58,6 +68,7 @@ class CoachQuestion {
         'id': id,
         'domain': domain.name,
         'text': text,
+        if (textEn != null) 'en': textEn,
         'followUpPromptHint': followUpPromptHint,
       };
 }

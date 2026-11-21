@@ -402,7 +402,7 @@ class _CoachScreenState extends State<CoachScreen> {
             ),
           ),
         Text(
-          _currentQuestion?.text ?? '',
+          _currentQuestion?.textFor(context.appLang) ?? '',
           style: const TextStyle(fontSize: 18, color: AppTheme.textColor),
         ),
         const SizedBox(height: 16),

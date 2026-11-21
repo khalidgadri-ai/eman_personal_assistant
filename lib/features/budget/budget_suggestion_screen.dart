@@ -114,7 +114,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
       fixedTotal: _plan.fixedTotal,
       savings: _plan.savingsAmount,
       available: _plan.available,
-      currencyName: _plan.currency.arabicName,
+      currencyName: _plan.currency.nameFor(context.appLang),
     );
     if (!mounted) return;
     final parsed = BudgetSuggestion.tryParse(reply);

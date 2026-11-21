@@ -1301,5 +1301,15 @@
   "backupRestoreFailedUnsafe": "تعذّرت الاستعادة وقد تكون البيانات ناقصة. يرجى إعادة المحاولة بنفس الملف.",
   "backupSaveDialog": "حفظ النسخة الاحتياطية",
   "backupPickDialog": "اختيار ملف النسخة الاحتياطية",
-  "contactSubject": "تواصل بخصوص التطبيق"
+  "contactSubject": "تواصل بخصوص التطبيق",
+  "assistantHello": "أهلًا بك!",
+  "assistantHelloName": "أهلًا بك يا {name}!",
+  "@assistantHelloName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "assistantGreetingBody": "أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى."
 }

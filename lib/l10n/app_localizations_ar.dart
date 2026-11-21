@@ -2436,4 +2436,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get contactSubject => 'تواصل بخصوص التطبيق';
+
+  @override
+  String get assistantHello => 'أهلًا بك!';
+
+  @override
+  String assistantHelloName(String name) {
+    return 'أهلًا بك يا $name!';
+  }
+
+  @override
+  String get assistantGreetingBody =>
+      'أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى.';
 }

@@ -2421,4 +2421,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactSubject => 'About the app';
+
+  @override
+  String get assistantHello => 'Welcome!';
+
+  @override
+  String assistantHelloName(String name) {
+    return 'Welcome, $name!';
+  }
+
+  @override
+  String get assistantGreetingBody =>
+      'I\'m your AI assistant. How can I help you organise your day, suggest meals, or review your exercises?\n\n🔑 To start, set up the AI provider and your own key from the key icon at the top.';
 }

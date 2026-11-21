@@ -4231,6 +4231,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تواصل بخصوص التطبيق'**
   String get contactSubject;
+
+  /// No description provided for @assistantHello.
+  ///
+  /// In ar, this message translates to:
+  /// **'أهلًا بك!'**
+  String get assistantHello;
+
+  /// No description provided for @assistantHelloName.
+  ///
+  /// In ar, this message translates to:
+  /// **'أهلًا بك يا {name}!'**
+  String assistantHelloName(String name);
+
+  /// No description provided for @assistantGreetingBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى.'**
+  String get assistantGreetingBody;
 }
 
 class _AppLocalizationsDelegate

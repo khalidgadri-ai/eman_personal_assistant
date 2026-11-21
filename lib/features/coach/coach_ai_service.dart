@@ -4,6 +4,8 @@ import '../../core/ai/ai_service.dart';
 import 'coach_safety.dart';
 import 'coach_session_service.dart';
 import 'models/coach_question.dart';
+import '../../core/config/app_locale.dart';
+import '../../l10n/app_localizations.dart';
 
 typedef CoachTextGenerator = Future<String> Function({
   required String systemPrompt,
@@ -32,7 +34,19 @@ class CoachAiService {
   CoachAiService({CoachTextGenerator? generator})
       : _generate = generator ?? _generateWithProvider;
 
-  static String buildSystemPrompt(CoachDomain domain) {
+  /// تعليمات المدرب بلغة التطبيق [lang] (العربية افتراضيًا).
+  static String buildSystemPrompt(CoachDomain domain, {String lang = 'ar'}) {
+    if (lang == 'en') {
+      return 'You are a life coach who uses Socratic questions only. Strictly forbidden: giving '
+          'direct advice, suggesting a solution, psychoanalysing the user, or making any judgement. '
+          "Your only task: read the user's last answer and ask exactly one short follow-up question "
+          'that deepens their reflection on what they said, within the same area of '
+          '${domain.label(lookupAppLocalizations(AppLocale.english))}. '
+          'Reply with nothing but the question itself, in English.\n'
+          "If you notice in the user's answer any sign of acute distress, despair, or possible "
+          "self-harm — even if it doesn't match an obvious keyword — do not ask any question at "
+          'all. Return only this exact word and nothing else: $crisisSentinel';
+    }
     return 'أنت مدرب حياة يستخدم أسلوب الأسئلة السقراطية فقط. ممنوع تمامًا: تقديم '
         'نصيحة مباشرة، اقتراح حل، تحليل نفسي للمستخدم، أو إصدار أي حكم. مهمتك '
         'الوحيدة: اقرأ آخر إجابة من المستخدم واطرح سؤال متابعة واحد فقط، قصير، '
@@ -49,12 +63,15 @@ class CoachAiService {
     required CoachQuestion question,
     required String answer,
   }) async {
-    final userContent = 'السؤال: ${question.text}\nإجابة المستخدم: $answer';
+    final lang = AppLocale.current.languageCode;
+    final userContent = lang == 'en'
+        ? "Question: ${question.textFor(lang)}\nUser's answer: $answer"
+        : 'السؤال: ${question.text}\nإجابة المستخدم: $answer';
     if (containsCrisisSignals(userContent)) return const CrisisDetected();
 
     try {
       final reply = (await _generate(
-        systemPrompt: buildSystemPrompt(question.domain),
+        systemPrompt: buildSystemPrompt(question.domain, lang: lang),
         userContent: userContent,
       ))
           .trim();

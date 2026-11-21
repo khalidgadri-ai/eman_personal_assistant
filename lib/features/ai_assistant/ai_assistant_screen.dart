@@ -22,11 +22,32 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   final List<Map<String, String>> _messages = [];
   bool _isLoading = false;
   bool _isInitialized = false;
+  UserProfile? _profile;
+  String? _promptLang;
 
   @override
   void initState() {
     super.initState();
     _initServices();
+  }
+
+  /// تغيير لغة التطبيق يعيد بناء تعليمات المساعد بلغته الجديدة (المحادثة نفسها تبقى).
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final lang = context.appLang;
+    if (_promptLang != null && _promptLang != lang && _isInitialized) _reloadInstructions(lang);
+    _promptLang = lang;
+  }
+
+  Future<void> _reloadInstructions(String lang) async {
+    final systemPrompt = buildAssistantSystemPrompt(_profile, lang: lang);
+    final service = await AiService.create(systemPrompt: systemPrompt);
+    if (!mounted) return;
+    setState(() {
+      _systemPrompt = systemPrompt;
+      _aiService = service;
+    });
   }
 
   Future<void> _initServices() async {
@@ -41,6 +62,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     final service = await AiService.create(systemPrompt: systemPrompt);
     if (mounted) {
       setState(() {
+        _profile = profile;
         _systemPrompt = systemPrompt;
         _aiService = service;
         _messages.add({'sender': 'assistant', 'text': assistantGreeting(profile?.name ?? '')});

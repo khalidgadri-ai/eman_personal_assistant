@@ -3,1800 +3,2100 @@
     "id": "beliefs_01",
     "domain": "beliefs",
     "text": "ما الدليل الفعلي على هذا الاعتقاد؟ لو صديق قال لك نفس الكلام عن نفسه، وش بترد عليه؟",
+    "en": "What is the real evidence for this belief? If a friend said the same thing about themselves, what would you tell them?",
     "followUpPromptHint": "استكشف الفرق بين حكم الشخص على نفسه وحكمه على صديق في نفس الموقف"
   },
   {
     "id": "beliefs_02",
     "domain": "beliefs",
     "text": "هذا الاعتقاد... من زرعه فيك أول مرة؟ ولسع له نفس القوة اليوم؟",
+    "en": "Who first planted this belief in you? Does it still have the same power today?",
     "followUpPromptHint": "تتبع مصدر الاعتقاد وتاريخ تكوّنه"
   },
   {
     "id": "beliefs_03",
     "domain": "beliefs",
     "text": "لو هذا الاعتقاد غلط بنسبة 10% فقط، وش يكون ذاك الـ10%؟",
+    "en": "If this belief were wrong by just 10%, what would that 10% be?",
     "followUpPromptHint": "فتح باب الشك الجزئي بدون مواجهة مباشرة"
   },
   {
     "id": "beliefs_04",
     "domain": "beliefs",
     "text": "وش أسوأ شي ممكن يصير لو تخليت عن هذا الاعتقاد؟ وهل هذا فعلاً واقعي؟",
+    "en": "What is the worst that could happen if you let go of this belief? Is that really realistic?",
     "followUpPromptHint": "فحص الخوف الكامن خلف التمسك بالاعتقاد"
   },
   {
     "id": "beliefs_05",
     "domain": "beliefs",
     "text": "متى آخر مرة هذا الاعتقاد ساعدك فعليًا، ومتى آخر مرة عطّلك؟",
+    "en": "When did this belief last truly help you, and when did it last hold you back?",
     "followUpPromptHint": "تقييم الوظيفة الحالية للاعتقاد بدلاً من صحته المطلقة"
   },
   {
     "id": "beliefs_06",
     "domain": "beliefs",
     "text": "لو ابنك أو ابنتك قال لك نفس هذا الكلام عن نفسه، وش بتقوله له؟",
+    "en": "If your child said the same thing about themselves, what would you tell them?",
     "followUpPromptHint": "استخدام مسافة الدور الأبوي لتخفيف قسوة الحكم الذاتي"
   },
   {
     "id": "beliefs_07",
     "domain": "beliefs",
     "text": "هل هذا اعتقاد، ولا حقيقة مؤكدة؟ وش الفرق بينهم عندك؟",
+    "en": "Is this a belief, or a proven fact? What is the difference between them for you?",
     "followUpPromptHint": "التمييز بين الفكرة والواقع"
   },
   {
     "id": "beliefs_08",
     "domain": "beliefs",
     "text": "ما الفكرة عن نفسك التي تتكرر في رأسك أكثر من غيرها هذا الأسبوع؟",
+    "en": "Which thought about yourself has repeated in your head the most this week?",
     "followUpPromptHint": "رصد الحديث الذاتي المتكرر"
   },
   {
     "id": "beliefs_09",
     "domain": "beliefs",
     "text": "أي جملة سمعتها في طفولتك ما زالت ترافقك حتى اليوم؟",
+    "en": "Which sentence you heard as a child still stays with you today?",
     "followUpPromptHint": "أثر الرسائل المبكرة على الاعتقادات الحالية"
   },
   {
     "id": "beliefs_10",
     "domain": "beliefs",
     "text": "ما الشيء الذي يبدو مستحيلًا عليك، ومن أين جاء هذا الحكم؟",
+    "en": "What seems impossible for you, and where did that judgement come from?",
     "followUpPromptHint": "فحص حدود الممكن المفروضة ذاتيًا"
   },
   {
     "id": "beliefs_11",
     "domain": "beliefs",
     "text": "لو استيقظت غدًا بلا هذا الاعتقاد، ما أول شيء سيختلف في يومك؟",
+    "en": "If you woke up tomorrow without this belief, what is the first thing that would be different in your day?",
     "followUpPromptHint": "تخيّل الحياة بدون الاعتقاد المقيّد"
   },
   {
     "id": "beliefs_12",
     "domain": "beliefs",
     "text": "ما الدليل الذي يناقض هذه الفكرة، حتى لو كان صغيرًا؟",
+    "en": "What evidence goes against this thought, even if it is small?",
     "followUpPromptHint": "البحث عن الأدلة المعاكسة"
   },
   {
     "id": "beliefs_13",
     "domain": "beliefs",
     "text": "هل هذه الفكرة تخصك أنت، أم هي صوت شخص آخر في حياتك؟",
+    "en": "Is this thought really yours, or is it the voice of someone else in your life?",
     "followUpPromptHint": "فصل الصوت الداخلي عن أصوات الآخرين"
   },
   {
     "id": "beliefs_14",
     "domain": "beliefs",
     "text": "ما القاعدة غير المكتوبة التي تمشي عليها في علاقاتك؟",
+    "en": "What unwritten rule do you follow in your relationships?",
     "followUpPromptHint": "كشف القواعد الضمنية في العلاقات"
   },
   {
     "id": "beliefs_15",
     "domain": "beliefs",
     "text": "ما الكلمة التي تصف بها نفسك عند الخطأ؟ وهل تقولها لغيرك؟",
+    "en": "What word do you use for yourself when you make a mistake? Would you say it to someone else?",
     "followUpPromptHint": "مقارنة لغة النقد الذاتي بلغة الحديث مع الآخرين"
   },
   {
     "id": "beliefs_16",
     "domain": "beliefs",
     "text": "أي اعتقاد عن المال ورثته من بيتك؟",
+    "en": "Which belief about money did you inherit from your home?",
     "followUpPromptHint": "جذور الاعتقادات المالية الأسرية"
   },
   {
     "id": "beliefs_17",
     "domain": "beliefs",
     "text": "ما الذي يعنيه النجاح لك أنت، بعيدًا عن تعريف الناس له؟",
+    "en": "What does success mean to you, apart from how other people define it?",
     "followUpPromptHint": "إعادة تعريف النجاح بمعايير شخصية"
   },
   {
     "id": "beliefs_18",
     "domain": "beliefs",
     "text": "ما الشيء الذي تظنه عن نفسك ولم تختبره فعليًا أبدًا؟",
+    "en": "What do you believe about yourself but have never actually tested?",
     "followUpPromptHint": "التمييز بين الافتراض والتجربة"
   },
   {
     "id": "beliefs_19",
     "domain": "beliefs",
     "text": "لو كانت هذه الفكرة صديقًا، هل كنت ستبقيه قريبًا منك؟",
+    "en": "If this thought were a friend, would you keep it close to you?",
     "followUpPromptHint": "تقييم أثر الفكرة كأنها علاقة"
   },
   {
     "id": "beliefs_20",
     "domain": "beliefs",
     "text": "متى بدأت تصدّق هذه الفكرة، وكم كان عمرك حينها؟",
+    "en": "When did you start believing this thought, and how old were you then?",
     "followUpPromptHint": "ربط الاعتقاد بمرحلته العمرية"
   },
   {
     "id": "beliefs_21",
     "domain": "beliefs",
     "text": "ما الاعتقاد الذي غيّرته في السنوات الأخيرة؟ وما الذي غيّره؟",
+    "en": "Which belief have you changed in recent years? What changed it?",
     "followUpPromptHint": "استحضار تجارب سابقة في تغيير القناعات"
   },
   {
     "id": "beliefs_22",
     "domain": "beliefs",
     "text": "ما الذي تخاف أن يقوله الناس لو عرفوا حقيقة ما في داخلك؟",
+    "en": "What are you afraid people would say if they knew what is really inside you?",
     "followUpPromptHint": "الخوف من الحكم الاجتماعي"
   },
   {
     "id": "beliefs_23",
     "domain": "beliefs",
     "text": "أي «لازم» في حياتك يمكن أن يصبح «أفضّل»؟",
+    "en": "Which \"I must\" in your life could become \"I would prefer\"?",
     "followUpPromptHint": "تخفيف صرامة الواجبات الذاتية"
   },
   {
     "id": "beliefs_24",
     "domain": "beliefs",
     "text": "ما الصفة التي يمدحك بها الآخرون ولا تصدقها أنت؟",
+    "en": "Which quality do others praise in you that you don't believe yourself?",
     "followUpPromptHint": "الفجوة بين صورة الذات ونظرة الآخرين"
   },
   {
     "id": "beliefs_25",
     "domain": "beliefs",
     "text": "ما القصة التي ترويها لنفسك عن تجربة قديمة لم تنجح؟",
+    "en": "What story do you tell yourself about an old experience that didn't work out?",
     "followUpPromptHint": "إعادة قراءة السرد الذاتي للتجارب السابقة"
   },
   {
     "id": "beliefs_26",
     "domain": "beliefs",
     "text": "لو كتبت هذه الفكرة على ورقة وقرأتها بصوت عالٍ، كيف ستبدو لك؟",
+    "en": "If you wrote this thought on paper and read it out loud, how would it sound to you?",
     "followUpPromptHint": "خلق مسافة بين الشخص وفكرته"
   },
   {
     "id": "beliefs_27",
     "domain": "beliefs",
     "text": "ما الذي يجعل هذه الفكرة مريحة رغم أنها تؤلم؟",
+    "en": "What makes this thought comfortable even though it hurts?",
     "followUpPromptHint": "المكسب الخفي من التمسك بالاعتقاد"
   },
   {
     "id": "beliefs_28",
     "domain": "beliefs",
     "text": "ما الحكم الذي تطلقه على نفسك بسرعة قبل أن تفكر؟",
+    "en": "What judgement do you pass on yourself quickly, before you even think?",
     "followUpPromptHint": "رصد الأحكام التلقائية"
   },
   {
     "id": "beliefs_29",
     "domain": "beliefs",
     "text": "هل تعامل نفسك بالرحمة نفسها التي تعامل بها من تحب؟",
+    "en": "Do you treat yourself with the same kindness you show the people you love?",
     "followUpPromptHint": "التعاطف مع الذات مقارنة بالآخرين"
   },
   {
     "id": "beliefs_30",
     "domain": "beliefs",
     "text": "ما الشيء الذي تستحقه لكنك تتردد في طلبه؟",
+    "en": "What do you deserve but hesitate to ask for?",
     "followUpPromptHint": "فحص الشعور بالاستحقاق"
   },
   {
     "id": "beliefs_31",
     "domain": "beliefs",
     "text": "ما الفكرة التي تمنعك من البدء، لا من الاستمرار؟",
+    "en": "Which thought stops you from starting, rather than from continuing?",
     "followUpPromptHint": "التمييز بين عوائق البدء وعوائق الاستمرار"
   },
   {
     "id": "beliefs_32",
     "domain": "beliefs",
     "text": "لو قال لك شخص تثق به إن هذه الفكرة غير دقيقة، ماذا سيكون دليله؟",
+    "en": "If someone you trust told you this thought is not accurate, what would their evidence be?",
     "followUpPromptHint": "تبنّي منظور شخص موثوق"
   },
   {
     "id": "beliefs_33",
     "domain": "beliefs",
     "text": "ما الأمر الذي تراه في نفسك عيبًا، ويراه غيرك ميزة؟",
+    "en": "What do you see as a flaw in yourself that others see as a strength?",
     "followUpPromptHint": "إعادة تأطير الصفات الشخصية"
   },
   {
     "id": "beliefs_34",
     "domain": "beliefs",
     "text": "ما القناعة التي تجعلك تقول «نعم» وفي داخلك «لا»؟",
+    "en": "Which conviction makes you say \"yes\" while inside you mean \"no\"?",
     "followUpPromptHint": "جذور صعوبة الرفض"
   },
   {
     "id": "beliefs_35",
     "domain": "beliefs",
     "text": "ما الذي تؤمن به عن الراحة: هل هي مكافأة أم حق؟",
+    "en": "What do you believe about rest: is it a reward or a right?",
     "followUpPromptHint": "العلاقة بين الراحة والاستحقاق"
   },
   {
     "id": "beliefs_36",
     "domain": "beliefs",
     "text": "ما أكثر «دائمًا» أو «أبدًا» تقولها عن نفسك؟",
+    "en": "What \"always\" or \"never\" do you say about yourself most often?",
     "followUpPromptHint": "كشف التعميمات المطلقة"
   },
   {
     "id": "beliefs_37",
     "domain": "beliefs",
     "text": "ما الذي يتغير في جسدك حين تعود إليك هذه الفكرة؟",
+    "en": "What changes in your body when this thought comes back?",
     "followUpPromptHint": "الربط بين الفكرة والإحساس الجسدي"
   },
   {
     "id": "beliefs_38",
     "domain": "beliefs",
     "text": "لو زادت ثقتك بنفسك قليلًا فقط، ما أول شيء ستفعله؟",
+    "en": "If your self-confidence grew just a little, what is the first thing you would do?",
     "followUpPromptHint": "خطوة صغيرة نحو صورة ذاتية أوسع"
   },
   {
     "id": "beliefs_39",
     "domain": "beliefs",
     "text": "ما الذي تعلمته عن الخطأ في المدرسة، وهل ما زال صحيحًا اليوم؟",
+    "en": "What did you learn about mistakes at school, and is it still true today?",
     "followUpPromptHint": "مراجعة قناعات التعلم المبكرة"
   },
   {
     "id": "beliefs_40",
     "domain": "beliefs",
     "text": "ما الفكرة التي تحرسها بقوة وكأن هويتك تعتمد عليها؟",
+    "en": "Which thought do you guard fiercely, as if your identity depended on it?",
     "followUpPromptHint": "الاعتقادات المرتبطة بالهوية"
   },
   {
     "id": "beliefs_41",
     "domain": "beliefs",
     "text": "لو كانت هذه الفكرة صحيحة جزئيًا فقط، ما الجزء الصحيح منها؟",
+    "en": "If this thought were only partly true, which part would be true?",
     "followUpPromptHint": "الاعتراف بالجزء الواقعي دون تعميم"
   },
   {
     "id": "beliefs_42",
     "domain": "beliefs",
     "text": "ما الذي تراه في الآخرين ويزعجك، وهل له صدى في داخلك؟",
+    "en": "What do you see in others that bothers you, and does it echo something inside you?",
     "followUpPromptHint": "الإسقاط ومرآة العلاقات"
   },
   {
     "id": "beliefs_43",
     "domain": "beliefs",
     "text": "ما القرار الذي تؤجله لأنك تنتظر الجاهزية الكاملة؟",
+    "en": "Which decision are you putting off because you are waiting to feel completely ready?",
     "followUpPromptHint": "الكمالية وانتظار الاستعداد التام"
   },
   {
     "id": "beliefs_44",
     "domain": "beliefs",
     "text": "ما الشيء الذي كنت تظنه عن نفسك قبل خمس سنوات وتغيّر الآن؟",
+    "en": "What did you believe about yourself five years ago that has changed now?",
     "followUpPromptHint": "ملاحظة تطور صورة الذات"
   },
   {
     "id": "beliefs_45",
     "domain": "beliefs",
     "text": "ما الموقف الذي تصبح فيه أكثر قسوة على نفسك؟",
+    "en": "In which situation are you hardest on yourself?",
     "followUpPromptHint": "تحديد سياقات النقد الذاتي"
   },
   {
     "id": "beliefs_46",
     "domain": "beliefs",
     "text": "ما الذي سيحدث لو سمحت لنفسك بالمستوى العادي في أمر واحد؟",
+    "en": "What would happen if you allowed yourself to be just ordinary at one thing?",
     "followUpPromptHint": "تخفيف ضغط التميز الدائم"
   },
   {
     "id": "beliefs_47",
     "domain": "beliefs",
     "text": "أي فكرة عن العمر تؤثر في قراراتك الآن؟",
+    "en": "Which idea about age is affecting your decisions right now?",
     "followUpPromptHint": "الاعتقادات المرتبطة بالعمر والتوقيت"
   },
   {
     "id": "beliefs_48",
     "domain": "beliefs",
     "text": "ما الذي تقوله لنفسك قبل موقف صعب مباشرة؟",
+    "en": "What do you tell yourself right before a difficult situation?",
     "followUpPromptHint": "الحديث الذاتي قبل التحديات"
   },
   {
     "id": "beliefs_49",
     "domain": "beliefs",
     "text": "لو حكيت هذه الفكرة لطفل، كيف ستشرحها له بكلمات بسيطة؟",
+    "en": "If you told this thought to a child, how would you explain it in simple words?",
     "followUpPromptHint": "تبسيط الفكرة لكشف منطقها"
   },
   {
     "id": "beliefs_50",
     "domain": "beliefs",
     "text": "ما القناعة التي تحميك، وما القناعة التي تحبسك؟",
+    "en": "Which conviction protects you, and which one keeps you stuck?",
     "followUpPromptHint": "التمييز بين القناعات الواقية والمقيدة"
   },
   {
     "id": "emotions_01",
     "domain": "emotions",
     "text": "وش بالضبط اسم هذا الشعور لو أردت تحديده بكلمة واحدة؟ وين تحسه بجسمك؟",
+    "en": "What exactly is the name of this feeling, if you had to pick one word? Where do you feel it in your body?",
     "followUpPromptHint": "التسمية العاطفية الدقيقة + الربط الجسدي"
   },
   {
     "id": "emotions_02",
     "domain": "emotions",
     "text": "لو هذا الشعور له صوت، وش بيقول لك الحين؟",
+    "en": "If this feeling had a voice, what would it be telling you right now?",
     "followUpPromptHint": "تجسيد الشعور كرسالة لها محتوى"
   },
   {
     "id": "emotions_03",
     "domain": "emotions",
     "text": "من متى بدأ هذا الشعور يكبر؟ وش كان أول شي لاحظته؟",
+    "en": "Since when has this feeling been growing? What was the first thing you noticed?",
     "followUpPromptHint": "تتبع الخط الزمني لتطور الشعور"
   },
   {
     "id": "emotions_04",
     "domain": "emotions",
     "text": "لو قيّمت شدة هذا الشعور من 1 إلى 10، وين كان بالأسبوع الماضي، وين هو الحين؟",
+    "en": "If you rated how strong this feeling is from 1 to 10, where was it last week, and where is it now?",
     "followUpPromptHint": "قياس التغير بدل الحكم المطلق على الشعور"
   },
   {
     "id": "emotions_05",
     "domain": "emotions",
     "text": "هذا الشعور، جاك من موقف محدد، ولا من تراكم أشياء صغيرة؟",
+    "en": "Did this feeling come from one specific situation, or from small things piling up?",
     "followUpPromptHint": "تحديد المصدر المباشر مقابل التراكمي"
   },
   {
     "id": "emotions_06",
     "domain": "emotions",
     "text": "لو تقدر تسمي الشعور اللي تحته (تحت الغضب مثلًا)، وش بيكون؟",
+    "en": "If you could name the feeling underneath it (under the anger, for example), what would it be?",
     "followUpPromptHint": "استكشاف الشعور الثانوي خلف الشعور الظاهر"
   },
   {
     "id": "emotions_07",
     "domain": "emotions",
     "text": "وش اللي هذا الشعور يحاول يحميك منه؟",
+    "en": "What is this feeling trying to protect you from?",
     "followUpPromptHint": "إعادة تأطير الشعور كوظيفة وقائية لا كخلل"
   },
   {
     "id": "emotions_08",
     "domain": "emotions",
     "text": "ما الشعور الذي رافقك أكثر من غيره اليوم؟",
+    "en": "Which feeling stayed with you more than any other today?",
     "followUpPromptHint": "رصد الحالة الشعورية الغالبة"
   },
   {
     "id": "emotions_09",
     "domain": "emotions",
     "text": "أين يسكن هذا الشعور في جسدك الآن: الصدر، البطن، الكتفين؟",
+    "en": "Where does this feeling live in your body right now: the chest, the stomach, the shoulders?",
     "followUpPromptHint": "الوعي الجسدي بالمشاعر"
   },
   {
     "id": "emotions_10",
     "domain": "emotions",
     "text": "ما الذي حدث قبل أن يبدأ هذا الشعور مباشرة؟",
+    "en": "What happened just before this feeling started?",
     "followUpPromptHint": "تحديد المحفز المباشر للشعور"
   },
   {
     "id": "emotions_11",
     "domain": "emotions",
     "text": "لو كان لهذا الشعور لون، فما لونه؟ ولماذا هذا اللون؟",
+    "en": "If this feeling had a color, what would it be? Why that color?",
     "followUpPromptHint": "التعبير الرمزي عن الشعور"
   },
   {
     "id": "emotions_12",
     "domain": "emotions",
     "text": "ما الشعور الذي تخفيه عن الآخرين أكثر من غيره؟",
+    "en": "Which feeling do you hide from others the most?",
     "followUpPromptHint": "المشاعر المخفية اجتماعيًا"
   },
   {
     "id": "emotions_13",
     "domain": "emotions",
     "text": "ما الذي يحتاجه هذا الشعور منك الآن: الانتباه، أم الراحة، أم الكلام؟",
+    "en": "What does this feeling need from you now: attention, rest, or talking?",
     "followUpPromptHint": "الاحتياج الكامن خلف الشعور"
   },
   {
     "id": "emotions_14",
     "domain": "emotions",
     "text": "متى آخر مرة شعرت بفرح صافٍ؟ وما الذي كان يحدث حينها؟",
+    "en": "When did you last feel pure joy? What was happening then?",
     "followUpPromptHint": "استحضار لحظات الفرح ومصادرها"
   },
   {
     "id": "emotions_15",
     "domain": "emotions",
     "text": "ما الذي يهدّئك عادة حين يرتفع التوتر؟",
+    "en": "What usually calms you when stress rises?",
     "followUpPromptHint": "استكشاف وسائل التهدئة الذاتية"
   },
   {
     "id": "emotions_16",
     "domain": "emotions",
     "text": "هل هذا الشعور جديد عليك، أم زائر قديم يعود؟",
+    "en": "Is this feeling new to you, or an old visitor coming back?",
     "followUpPromptHint": "الأنماط الشعورية المتكررة"
   },
   {
     "id": "emotions_17",
     "domain": "emotions",
     "text": "ما الكلمة التي لم تقلها لشخص ما وما زالت معك؟",
+    "en": "What word did you never say to someone that is still with you?",
     "followUpPromptHint": "المشاعر غير المعبَّر عنها"
   },
   {
     "id": "emotions_18",
     "domain": "emotions",
     "text": "إذا كان هذا الشعور يحمل رسالة، فما عنوانها؟",
+    "en": "If this feeling carried a message, what would its title be?",
     "followUpPromptHint": "الشعور كرسالة لها محتوى"
   },
   {
     "id": "emotions_19",
     "domain": "emotions",
     "text": "ما المواقف التي تمنحك شعور الأمان؟",
+    "en": "Which situations give you a feeling of safety?",
     "followUpPromptHint": "مصادر الأمان العاطفي"
   },
   {
     "id": "emotions_20",
     "domain": "emotions",
     "text": "ما الذي يثير غضبك بسرعة، وما الذي يقف خلفه عادة؟",
+    "en": "What makes you angry quickly, and what usually lies behind it?",
     "followUpPromptHint": "ما يختبئ تحت الغضب"
   },
   {
     "id": "emotions_21",
     "domain": "emotions",
     "text": "ما الذي يظهر في داخلك حين تكون وحدك في هدوء تام؟",
+    "en": "What comes up inside you when you are alone in complete quiet?",
     "followUpPromptHint": "العلاقة مع العزلة والهدوء"
   },
   {
     "id": "emotions_22",
     "domain": "emotions",
     "text": "ما الشعور الذي تحكم عليه بأنه «غير مقبول» عندك؟",
+    "en": "Which feeling do you judge as \"not acceptable\" for yourself?",
     "followUpPromptHint": "المشاعر المرفوضة ذاتيًا"
   },
   {
     "id": "emotions_23",
     "domain": "emotions",
     "text": "من الشخص الذي يتغير مزاجك بوجوده، وفي أي اتجاه؟",
+    "en": "Whose presence changes your mood, and in which direction?",
     "followUpPromptHint": "أثر العلاقات على المزاج"
   },
   {
     "id": "emotions_24",
     "domain": "emotions",
     "text": "ما الذي يرسم الابتسامة على وجهك دون سبب واضح؟",
+    "en": "What brings a smile to your face for no clear reason?",
     "followUpPromptHint": "مصادر البهجة الصغيرة"
   },
   {
     "id": "emotions_25",
     "domain": "emotions",
     "text": "هل تسمح لنفسك بالحزن، أم تسرع للخروج منه؟",
+    "en": "Do you allow yourself to feel sad, or do you rush to get out of it?",
     "followUpPromptHint": "العلاقة مع الحزن"
   },
   {
     "id": "emotions_26",
     "domain": "emotions",
     "text": "ما الشعور الذي يسبق قرارًا تندم عليه غالبًا؟",
+    "en": "Which feeling usually comes before a decision you regret?",
     "followUpPromptHint": "الربط بين المشاعر والقرارات"
   },
   {
     "id": "emotions_27",
     "domain": "emotions",
     "text": "كيف تعرف أن التعب وصل إليك قبل أن يخبرك جسدك بقوة؟",
+    "en": "How do you know tiredness has reached you before your body tells you loudly?",
     "followUpPromptHint": "إشارات الإنهاك المبكرة"
   },
   {
     "id": "emotions_28",
     "domain": "emotions",
     "text": "ما الشعور الذي تتمنى أن يزيد في حياتك؟",
+    "en": "Which feeling do you wish there were more of in your life?",
     "followUpPromptHint": "تحديد المشاعر المرغوبة"
   },
   {
     "id": "emotions_29",
     "domain": "emotions",
     "text": "ما الذي يحدث لأنفاسك حين يزيد التوتر؟",
+    "en": "What happens to your breathing when stress increases?",
     "followUpPromptHint": "ملاحظة التنفس أثناء التوتر"
   },
   {
     "id": "emotions_30",
     "domain": "emotions",
     "text": "لو جلست مع هذا الشعور دقيقة كاملة دون أن تغيّره، ماذا تلاحظ؟",
+    "en": "If you sat with this feeling for a whole minute without changing it, what would you notice?",
     "followUpPromptHint": "تقبّل الشعور ومراقبته"
   },
   {
     "id": "emotions_31",
     "domain": "emotions",
     "text": "ما الذكرى التي تعيد إليك شعور الطمأنينة؟",
+    "en": "Which memory brings back a feeling of calm and reassurance?",
     "followUpPromptHint": "الذكريات كمصدر للطمأنينة"
   },
   {
     "id": "emotions_32",
     "domain": "emotions",
     "text": "ما الموقف الذي شعرت فيه بالفخر بنفسك مؤخرًا؟",
+    "en": "When did you recently feel proud of yourself?",
     "followUpPromptHint": "الاعتراف بلحظات الفخر"
   },
   {
     "id": "emotions_33",
     "domain": "emotions",
     "text": "ما الشعور الذي يظهر عندما يتجاهلك أحد؟",
+    "en": "What feeling shows up when someone ignores you?",
     "followUpPromptHint": "الحساسية للتجاهل والرفض"
   },
   {
     "id": "emotions_34",
     "domain": "emotions",
     "text": "هل غضبك هذه المرة يتعلق بالموقف نفسه، أم بشيء أقدم منه؟",
+    "en": "Is your anger this time about the situation itself, or about something older?",
     "followUpPromptHint": "الغضب المتراكم مقابل الغضب الحالي"
   },
   {
     "id": "emotions_35",
     "domain": "emotions",
     "text": "ما الذي تحتاج أن تسمعه الآن من شخص يهتم بك؟",
+    "en": "What do you need to hear right now from someone who cares about you?",
     "followUpPromptHint": "الاحتياج للدعم"
   },
   {
     "id": "emotions_36",
     "domain": "emotions",
     "text": "ما الذي يجعل يومك ثقيلًا حتى لو لم يحدث شيء كبير؟",
+    "en": "What makes your day feel heavy even when nothing big happens?",
     "followUpPromptHint": "الثقل العاطفي اليومي"
   },
   {
     "id": "emotions_37",
     "domain": "emotions",
     "text": "ما شعورك تجاه نفسك في هذه اللحظة بالذات؟",
+    "en": "How do you feel about yourself at this very moment?",
     "followUpPromptHint": "العلاقة الشعورية مع الذات"
   },
   {
     "id": "emotions_38",
     "domain": "emotions",
     "text": "لو كان هذا الشعور موجة، هل هي في صعود أم في هبوط الآن؟",
+    "en": "If this feeling were a wave, is it rising or falling right now?",
     "followUpPromptHint": "ملاحظة تغيّر شدة الشعور"
   },
   {
     "id": "emotions_39",
     "domain": "emotions",
     "text": "ما الذي يسرق هدوءك في الصباح؟",
+    "en": "What steals your calm in the morning?",
     "followUpPromptHint": "مصادر التوتر الصباحي"
   },
   {
     "id": "emotions_40",
     "domain": "emotions",
     "text": "ما الشعور الذي تخلطه أحيانًا بشعور آخر؟",
+    "en": "Which feeling do you sometimes mix up with another one?",
     "followUpPromptHint": "التمييز بين المشاعر المتشابهة"
   },
   {
     "id": "emotions_41",
     "domain": "emotions",
     "text": "متى بكيت آخر مرة، وكيف كان شعورك بعدها؟",
+    "en": "When did you last cry, and how did you feel afterwards?",
     "followUpPromptHint": "العلاقة مع البكاء والتنفيس"
   },
   {
     "id": "emotions_42",
     "domain": "emotions",
     "text": "ما الشيء الذي تشكر نفسك عليه اليوم، ولو كان صغيرًا؟",
+    "en": "What can you thank yourself for today, even if it is small?",
     "followUpPromptHint": "الامتنان للذات"
   },
   {
     "id": "emotions_43",
     "domain": "emotions",
     "text": "ما الشعور الذي يتكرر عندك في نهاية الأسبوع؟",
+    "en": "Which feeling keeps coming back for you at the end of the week?",
     "followUpPromptHint": "الأنماط الأسبوعية للمزاج"
   },
   {
     "id": "emotions_44",
     "domain": "emotions",
     "text": "كيف يبدو الإحباط عندك: صمت، أم انشغال، أم كلام كثير؟",
+    "en": "What does frustration look like for you: silence, keeping busy, or talking a lot?",
     "followUpPromptHint": "التعبير السلوكي عن الإحباط"
   },
   {
     "id": "emotions_45",
     "domain": "emotions",
     "text": "ما الذي تخشى أن يظهر لو توقف انشغالك قليلًا؟",
+    "en": "What are you afraid would show up if you stopped being busy for a while?",
     "followUpPromptHint": "الانشغال كطريقة للهروب"
   },
   {
     "id": "emotions_46",
     "domain": "emotions",
     "text": "ما الذي يمنحك شعور الانتماء؟",
+    "en": "What gives you a feeling of belonging?",
     "followUpPromptHint": "مصادر الانتماء"
   },
   {
     "id": "emotions_47",
     "domain": "emotions",
     "text": "أي شعور تحمله نيابة عن شخص آخر؟",
+    "en": "Which feeling are you carrying on behalf of someone else?",
     "followUpPromptHint": "المشاعر المستعارة من الآخرين"
   },
   {
     "id": "emotions_48",
     "domain": "emotions",
     "text": "ما الذي تغيّر في مزاجك بعد آخر نوم جيد؟",
+    "en": "What changed in your mood after your last good night's sleep?",
     "followUpPromptHint": "علاقة النوم بالمشاعر"
   },
   {
     "id": "emotions_49",
     "domain": "emotions",
     "text": "ما الشعور الذي يصاحب كلمة «غدًا» عندك الآن؟",
+    "en": "What feeling comes with the word \"tomorrow\" for you right now?",
     "followUpPromptHint": "المشاعر تجاه المستقبل القريب"
   },
   {
     "id": "emotions_50",
     "domain": "emotions",
     "text": "لو منحت هذا الشعور مساحة آمنة، ماذا سيقول؟",
+    "en": "If you gave this feeling a safe space, what would it say?",
     "followUpPromptHint": "إعطاء الشعور صوتًا آمنًا"
   },
   {
     "id": "goals_01",
     "domain": "goals",
     "text": "لو نجحت 100% في هذا الهدف، وش بيكون مختلف فعليًا بعد 3 أشهر؟",
+    "en": "If you succeeded 100% at this goal, what would actually be different three months from now?",
     "followUpPromptHint": "GROW - Goal: تحديد صورة واضحة للنجاح"
   },
   {
     "id": "goals_02",
     "domain": "goals",
     "text": "وين أنت الحين بالضبط من هذا الهدف، بصراحة كاملة مع نفسك؟",
+    "en": "Where exactly are you right now with this goal, being completely honest with yourself?",
     "followUpPromptHint": "GROW - Reality: تقييم الواقع الحالي بدون تجميل"
   },
   {
     "id": "goals_03",
     "domain": "goals",
     "text": "وش الخيارات المتاحة قدامك الحين، حتى لو بعضها مب مثالي؟",
+    "en": "What options do you have in front of you right now, even if some of them aren't ideal?",
     "followUpPromptHint": "GROW - Options: توليد بدائل بدون تصفية مبكرة"
   },
   {
     "id": "goals_04",
     "domain": "goals",
     "text": "من 1 إلى 10، قد وش أنت ملتزم فعليًا بهذا الهدف الأسبوع الجاي؟",
+    "en": "From 1 to 10, how committed are you really to this goal next week?",
     "followUpPromptHint": "GROW - Will: قياس الالتزام الفعلي لا النظري"
   },
   {
     "id": "goals_05",
     "domain": "goals",
     "text": "وش أصغر خطوة ممكن تسويها بأول 24 ساعة بعد هذا السؤال؟",
+    "en": "What is the smallest step you could take within 24 hours of this question?",
     "followUpPromptHint": "تحويل النية إلى فعل صغير وقابل للتنفيذ فورًا"
   },
   {
     "id": "goals_06",
     "domain": "goals",
     "text": "لو ما تحرك شي خلال 3 أشهر الجاية، وش راح يكون السبب الحقيقي؟",
+    "en": "If nothing moves in the next three months, what would the real reason be?",
     "followUpPromptHint": "استباق العائق الحقيقي بدل التخطيط المثالي فقط"
   },
   {
     "id": "goals_07",
     "domain": "goals",
     "text": "هذا الهدف، هدفك أنت، ولا هدف توقعته منك جهة ثانية؟",
+    "en": "Is this goal really yours, or a goal someone else expected of you?",
     "followUpPromptHint": "فحص ملكية الهدف ومصدر الدافع"
   },
   {
     "id": "goals_08",
     "domain": "goals",
     "text": "ما الهدف الذي تفكر فيه كثيرًا ولم تكتبه بعد؟",
+    "en": "Which goal do you think about often but haven't written down yet?",
     "followUpPromptHint": "إخراج الهدف من الذهن إلى الوضوح"
   },
   {
     "id": "goals_09",
     "domain": "goals",
     "text": "لماذا يهمك هذا الهدف؟ وما الذي يقف خلف هذا السبب؟",
+    "en": "Why does this goal matter to you? And what lies behind that reason?",
     "followUpPromptHint": "التعمق في الدافع الحقيقي"
   },
   {
     "id": "goals_10",
     "domain": "goals",
     "text": "كيف ستعرف أنك وصلت؟ ما العلامة الواضحة؟",
+    "en": "How will you know you have arrived? What is the clear sign?",
     "followUpPromptHint": "تحديد معيار نجاح ملموس"
   },
   {
     "id": "goals_11",
     "domain": "goals",
     "text": "ما الجزء من هذا الهدف الذي يمكن إنجازه هذا الأسبوع؟",
+    "en": "Which part of this goal could be done this week?",
     "followUpPromptHint": "تقسيم الهدف إلى جزء أسبوعي"
   },
   {
     "id": "goals_12",
     "domain": "goals",
     "text": "ما الذي أوقفك في المرة السابقة؟",
+    "en": "What stopped you last time?",
     "followUpPromptHint": "فهم العوائق السابقة"
   },
   {
     "id": "goals_13",
     "domain": "goals",
     "text": "من الشخص الذي يمكنه أن يساعدك في هذا الهدف؟",
+    "en": "Who could help you with this goal?",
     "followUpPromptHint": "تحديد مصادر الدعم"
   },
   {
     "id": "goals_14",
     "domain": "goals",
     "text": "ما الموارد التي تملكها الآن ولم تستعملها بعد؟",
+    "en": "What resources do you have now that you haven't used yet?",
     "followUpPromptHint": "اكتشاف الموارد المتاحة"
   },
   {
     "id": "goals_15",
     "domain": "goals",
     "text": "لو كان لديك نصف الوقت فقط، ما الجزء الأهم الذي ستحتفظ به؟",
+    "en": "If you had only half the time, which most important part would you keep?",
     "followUpPromptHint": "تحديد جوهر الهدف"
   },
   {
     "id": "goals_16",
     "domain": "goals",
     "text": "ما الشيء الذي ستتخلى عنه لتفسح مكانًا لهذا الهدف؟",
+    "en": "What would you give up to make room for this goal?",
     "followUpPromptHint": "تكلفة الفرصة والتنازلات"
   },
   {
     "id": "goals_17",
     "domain": "goals",
     "text": "هل هذا الهدف واضح بما يكفي لتشرحه لطفل في جملة؟",
+    "en": "Is this goal clear enough to explain to a child in one sentence?",
     "followUpPromptHint": "وضوح صياغة الهدف"
   },
   {
     "id": "goals_18",
     "domain": "goals",
     "text": "ما الهدف الذي حققته سابقًا، وما الذي ساعدك عليه؟",
+    "en": "Which goal have you reached before, and what helped you get there?",
     "followUpPromptHint": "الاستفادة من نجاحات سابقة"
   },
   {
     "id": "goals_19",
     "domain": "goals",
     "text": "ما أول عقبة تتوقع ظهورها؟ وكيف تبدو؟",
+    "en": "What is the first obstacle you expect to appear? What does it look like?",
     "followUpPromptHint": "استباق العقبات"
   },
   {
     "id": "goals_20",
     "domain": "goals",
     "text": "أين يمكنك أن تضع تذكيرًا بهذا الهدف تراه كل يوم؟",
+    "en": "Where could you put a reminder of this goal that you will see every day?",
     "followUpPromptHint": "البيئة الداعمة للهدف"
   },
   {
     "id": "goals_21",
     "domain": "goals",
     "text": "ما الذي سيحدث لو أجّلت هذا الهدف سنة كاملة؟",
+    "en": "What would happen if you postponed this goal for a whole year?",
     "followUpPromptHint": "ثمن التأجيل"
   },
   {
     "id": "goals_22",
     "domain": "goals",
     "text": "ما حجم الخطوة التي لا تخيفك، لكنها تحرّكك؟",
+    "en": "How big is a step that doesn't scare you but still moves you forward?",
     "followUpPromptHint": "اختيار خطوة مناسبة الحجم"
   },
   {
     "id": "goals_23",
     "domain": "goals",
     "text": "ما الهدف الذي تلاحقه لإرضاء الآخرين أكثر من نفسك؟",
+    "en": "Which goal are you chasing more to please others than yourself?",
     "followUpPromptHint": "فحص الأهداف المستعارة"
   },
   {
     "id": "goals_24",
     "domain": "goals",
     "text": "ما العادة اليومية التي تقرّبك من هذا الهدف؟",
+    "en": "Which daily habit brings you closer to this goal?",
     "followUpPromptHint": "ربط الهدف بعادة يومية"
   },
   {
     "id": "goals_25",
     "domain": "goals",
     "text": "كيف ستكافئ نفسك عند إنجاز أول جزء؟",
+    "en": "How will you reward yourself when you finish the first part?",
     "followUpPromptHint": "التعزيز الذاتي"
   },
   {
     "id": "goals_26",
     "domain": "goals",
     "text": "ما الهدف الذي تتحرج من قوله بصوت عالٍ؟",
+    "en": "Which goal do you feel shy about saying out loud?",
     "followUpPromptHint": "الأهداف المخفية"
   },
   {
     "id": "goals_27",
     "domain": "goals",
     "text": "لو نظرت لهذا الهدف بعد عشر سنوات، هل سيبقى مهمًا؟",
+    "en": "If you looked at this goal ten years from now, would it still matter?",
     "followUpPromptHint": "قياس الأهمية بعيدة المدى"
   },
   {
     "id": "goals_28",
     "domain": "goals",
     "text": "ما المهارة التي تنقصك لهذا الهدف، ومن أين تتعلمها؟",
+    "en": "Which skill are you missing for this goal, and where could you learn it?",
     "followUpPromptHint": "تحديد فجوة المهارات"
   },
   {
     "id": "goals_29",
     "domain": "goals",
     "text": "ما أنسب وقت في يومك للعمل على هذا الهدف؟",
+    "en": "What is the best time in your day to work on this goal?",
     "followUpPromptHint": "ربط الهدف بأوقات الطاقة"
   },
   {
     "id": "goals_30",
     "domain": "goals",
     "text": "ما الذي يجعل هذا الهدف ممتعًا، لا مجرد واجب؟",
+    "en": "What makes this goal enjoyable, not just a duty?",
     "followUpPromptHint": "إيجاد المتعة في الطريق"
   },
   {
     "id": "goals_31",
     "domain": "goals",
     "text": "كم مرة غيّرت هذا الهدف، وما الذي يكشفه ذلك؟",
+    "en": "How many times have you changed this goal, and what does that reveal?",
     "followUpPromptHint": "فحص ثبات الهدف"
   },
   {
     "id": "goals_32",
     "domain": "goals",
     "text": "ما الإنجاز الصغير الذي حققته هذا الشهر ولم تحتفل به؟",
+    "en": "What small achievement did you reach this month without celebrating it?",
     "followUpPromptHint": "الاعتراف بالتقدم الصغير"
   },
   {
     "id": "goals_33",
     "domain": "goals",
     "text": "ما الذي تحتاج أن تقول له «لا» لتقول «نعم» لهذا الهدف؟",
+    "en": "What do you need to say \"no\" to so you can say \"yes\" to this goal?",
     "followUpPromptHint": "الحدود من أجل الأولويات"
   },
   {
     "id": "goals_34",
     "domain": "goals",
     "text": "ما أصعب جزء في هذا الهدف؟ هل يمكن تقسيمه أكثر؟",
+    "en": "What is the hardest part of this goal? Could it be broken down further?",
     "followUpPromptHint": "تفكيك الجزء الصعب"
   },
   {
     "id": "goals_35",
     "domain": "goals",
     "text": "ما الهدف الذي تخلّيت عنه وما زلت تفكر فيه؟",
+    "en": "Which goal did you give up on but still think about?",
     "followUpPromptHint": "مراجعة الأهداف المتروكة"
   },
   {
     "id": "goals_36",
     "domain": "goals",
     "text": "لو كان هناك من يتابع تقدمك كل أسبوع، ماذا سيتغير؟",
+    "en": "If someone followed your progress every week, what would change?",
     "followUpPromptHint": "أثر المتابعة والمساءلة"
   },
   {
     "id": "goals_37",
     "domain": "goals",
     "text": "ما الذي يعنيه «التقدم» في هذا الهدف إذا لم يكن الكمال؟",
+    "en": "What does \"progress\" mean for this goal if it isn't perfection?",
     "followUpPromptHint": "تعريف التقدم دون كمالية"
   },
   {
     "id": "goals_38",
     "domain": "goals",
     "text": "ما القرار الصغير الذي يمكنك اتخاذه اليوم من أجل هذا الهدف؟",
+    "en": "What small decision could you make today for this goal?",
     "followUpPromptHint": "تحويل الهدف إلى قرار يومي"
   },
   {
     "id": "goals_39",
     "domain": "goals",
     "text": "ما الذي يجعلك تؤجل البدء في هذا الأمر بالذات؟",
+    "en": "What makes you put off starting this particular thing?",
     "followUpPromptHint": "فهم التسويف"
   },
   {
     "id": "goals_40",
     "domain": "goals",
     "text": "أي هدف من أهدافك يتعارض مع هدف آخر؟",
+    "en": "Which of your goals conflicts with another one?",
     "followUpPromptHint": "تعارض الأهداف"
   },
   {
     "id": "goals_41",
     "domain": "goals",
     "text": "ما الشعور الذي تتوقعه عند الوصول؟ وهل يمكن تذوّق جزء منه الآن؟",
+    "en": "What feeling do you expect when you get there? Could you taste a little of it now?",
     "followUpPromptHint": "الشعور المستهدف خلف الهدف"
   },
   {
     "id": "goals_42",
     "domain": "goals",
     "text": "ما الذي تعلمته من آخر خطة لم تكتمل؟",
+    "en": "What did you learn from the last plan that wasn't finished?",
     "followUpPromptHint": "التعلم من الخطط غير المكتملة"
   },
   {
     "id": "goals_43",
     "domain": "goals",
     "text": "ما الخطوة التي تبدو مملة لكنها ضرورية؟",
+    "en": "Which step seems boring but is necessary?",
     "followUpPromptHint": "قبول الخطوات المملة"
   },
   {
     "id": "goals_44",
     "domain": "goals",
     "text": "لو كان الهدف جبلًا، فأين أنت الآن على الطريق؟",
+    "en": "If the goal were a mountain, where are you on the path right now?",
     "followUpPromptHint": "تصور موقع التقدم"
   },
   {
     "id": "goals_45",
     "domain": "goals",
     "text": "ما الذي تحتاجه حتى يبدأ صباح الغد بخطوة نحو هدفك؟",
+    "en": "What do you need so that tomorrow morning starts with a step toward your goal?",
     "followUpPromptHint": "التحضير لبداية الغد"
   },
   {
     "id": "goals_46",
     "domain": "goals",
     "text": "ما الهدف الذي يشعل حماسك بمجرد التفكير فيه؟",
+    "en": "Which goal sparks your enthusiasm just by thinking about it?",
     "followUpPromptHint": "الأهداف المحفّزة"
   },
   {
     "id": "goals_47",
     "domain": "goals",
     "text": "من المستفيد من إنجازك لهذا الهدف غيرك؟",
+    "en": "Who besides you benefits when you reach this goal?",
     "followUpPromptHint": "الأثر على الآخرين"
   },
   {
     "id": "goals_48",
     "domain": "goals",
     "text": "ما العادة التي تبعدك عن هدفك كلما تكررت؟",
+    "en": "Which habit takes you further from your goal each time it repeats?",
     "followUpPromptHint": "العادات المعيقة"
   },
   {
     "id": "goals_49",
     "domain": "goals",
     "text": "لو لم تنجح محاولة واحدة، ما خطتك للمحاولة التالية؟",
+    "en": "If one attempt doesn't work, what is your plan for the next one?",
     "followUpPromptHint": "المرونة بعد التعثر"
   },
   {
     "id": "goals_50",
     "domain": "goals",
     "text": "ما الهدف الذي يناسب هذه المرحلة من حياتك تحديدًا؟",
+    "en": "Which goal fits this particular stage of your life?",
     "followUpPromptHint": "ملاءمة الهدف للمرحلة الحالية"
   },
   {
     "id": "organization_01",
     "domain": "organization",
     "text": "أي مجال في حياتك الحين ياخذ وقت أكثر من قيمته الحقيقية عندك؟",
+    "en": "Which area of your life is taking more time right now than it is really worth to you?",
     "followUpPromptHint": "Wheel of Life - فحص التفاوت بين الوقت والقيمة"
   },
   {
     "id": "organization_02",
     "domain": "organization",
     "text": "لو رسمت عجلة حياتك الحين (صحة، عمل، أسرة، نفسك)، أي جزء أصغر من اللي تتمناه؟",
+    "en": "If you drew the wheel of your life now (health, work, family, yourself), which part is smaller than you would like?",
     "followUpPromptHint": "Wheel of Life - تحديد المجال الأكثر نقصًا"
   },
   {
     "id": "organization_03",
     "domain": "organization",
     "text": "آخر أسبوع، وين راح أغلب وقتك فعليًا، مقابل وين كنت تحب يروح؟",
+    "en": "Last week, where did most of your time actually go, compared with where you wanted it to go?",
     "followUpPromptHint": "مقارنة الوقت الفعلي بالوقت المرغوب"
   },
   {
     "id": "organization_04",
     "domain": "organization",
     "text": "وش الشي اللي لو توقفت عنه بالكامل، ما راح يتأثر أي شخص تقريبًا؟",
+    "en": "What could you stop completely without almost anyone being affected?",
     "followUpPromptHint": "تحديد الأعباء منخفضة القيمة الحقيقية"
   },
   {
     "id": "organization_05",
     "domain": "organization",
     "text": "متى آخر مرة قلت 'لا' لشي، بس كان قلبك يقول 'نعم'؟",
+    "en": "When did you last say \"no\" to something while your heart was saying \"yes\"?",
     "followUpPromptHint": "فحص حدود الأولويات مقابل الضغط الخارجي"
   },
   {
     "id": "organization_06",
     "domain": "organization",
     "text": "لو عندك ساعة زيادة كل يوم، لأي مجال بتعطيها؟",
+    "en": "If you had one extra hour every day, which area would you give it to?",
     "followUpPromptHint": "استكشاف الأولوية الحقيقية عند توفر موارد إضافية"
   },
   {
     "id": "organization_07",
     "domain": "organization",
     "text": "وش الشي اللي يسحب طاقتك أكثر من وقتك؟",
+    "en": "What drains your energy more than your time?",
     "followUpPromptHint": "التمييز بين استنزاف الوقت واستنزاف الطاقة"
   },
   {
     "id": "organization_08",
     "domain": "organization",
     "text": "ما أول شيء تفعله عادة عندما تستيقظ؟ وهل يخدم يومك؟",
+    "en": "What is the first thing you usually do when you wake up? Does it serve your day?",
     "followUpPromptHint": "تقييم روتين الصباح"
   },
   {
     "id": "organization_09",
     "domain": "organization",
     "text": "ما المهمة التي تعود إلى قائمتك كل يوم ولا تنتهي؟",
+    "en": "Which task comes back to your list every day and never gets finished?",
     "followUpPromptHint": "المهام المتكررة غير المنجزة"
   },
   {
     "id": "organization_10",
     "domain": "organization",
     "text": "أي وقت في اليوم تكون فيه طاقتك في أعلاها؟",
+    "en": "At what time of day is your energy at its highest?",
     "followUpPromptHint": "معرفة أوقات الذروة"
   },
   {
     "id": "organization_11",
     "domain": "organization",
     "text": "ما الذي يستهلك وقتك دون أن تلاحظ؟",
+    "en": "What uses up your time without you noticing?",
     "followUpPromptHint": "مصادر الهدر الخفي"
   },
   {
     "id": "organization_12",
     "domain": "organization",
     "text": "ما الشيء الذي يمكن أن يتولاه غيرك هذا الأسبوع؟",
+    "en": "What could someone else take on for you this week?",
     "followUpPromptHint": "فرص التفويض"
   },
   {
     "id": "organization_13",
     "domain": "organization",
     "text": "كيف يبدو اليوم المتوازن بالنسبة لك؟",
+    "en": "What does a balanced day look like for you?",
     "followUpPromptHint": "تعريف التوازن الشخصي"
   },
   {
     "id": "organization_14",
     "domain": "organization",
     "text": "ما المكان في بيتك الذي يربكك كلما رأيته؟",
+    "en": "Which spot in your home unsettles you every time you see it?",
     "followUpPromptHint": "أثر الفوضى المكانية"
   },
   {
     "id": "organization_15",
     "domain": "organization",
     "text": "كم ساعة نوم حصلت عليها هذا الأسبوع مقارنة بما تحتاجه؟",
+    "en": "How many hours of sleep did you get this week compared with what you need?",
     "followUpPromptHint": "النوم كأساس للتنظيم"
   },
   {
     "id": "organization_16",
     "domain": "organization",
     "text": "ما الالتزام الذي قبلته ويتعبك مجرد التفكير فيه؟",
+    "en": "Which commitment did you accept that tires you just thinking about it?",
     "followUpPromptHint": "الالتزامات المرهقة"
   },
   {
     "id": "organization_17",
     "domain": "organization",
     "text": "ما الذي يحدث لخططك عندما يأتي يوم غير متوقع؟",
+    "en": "What happens to your plans when an unexpected day comes?",
     "followUpPromptHint": "المرونة في التخطيط"
   },
   {
     "id": "organization_18",
     "domain": "organization",
     "text": "ما المهمة التي تبدو كبيرة، وما أصغر جزء منها؟",
+    "en": "Which task looks big, and what is its smallest part?",
     "followUpPromptHint": "تقسيم المهام الكبيرة"
   },
   {
     "id": "organization_19",
     "domain": "organization",
     "text": "ما الشيء الذي تفعله لتهرب من مهمة أهم؟",
+    "en": "What do you do to escape a more important task?",
     "followUpPromptHint": "الانشغال البديل"
   },
   {
     "id": "organization_20",
     "domain": "organization",
     "text": "متى آخر مرة أخذت وقتًا لنفسك دون شعور بالتقصير؟",
+    "en": "When did you last take time for yourself without feeling you were falling short?",
     "followUpPromptHint": "الوقت الشخصي والشعور بالذنب"
   },
   {
     "id": "organization_21",
     "domain": "organization",
     "text": "ما الذي يجعل نهاية يومك فوضوية؟",
+    "en": "What makes the end of your day chaotic?",
     "followUpPromptHint": "تنظيم المساء"
   },
   {
     "id": "organization_22",
     "domain": "organization",
     "text": "ما المهمة التي لو أنجزتها أولًا ستجعل بقية اليوم أسهل؟",
+    "en": "Which task, if you did it first, would make the rest of the day easier?",
     "followUpPromptHint": "تحديد المهمة الأهم"
   },
   {
     "id": "organization_23",
     "domain": "organization",
     "text": "كم مرة تنظر إلى الجوال قبل أن تبدأ أول مهمة؟",
+    "en": "How many times do you look at your phone before starting your first task?",
     "followUpPromptHint": "المشتتات الرقمية"
   },
   {
     "id": "organization_24",
     "domain": "organization",
     "text": "ما المجال الذي أهملته أكثر هذا الشهر؟",
+    "en": "Which area did you neglect the most this month?",
     "followUpPromptHint": "فحص المجالات المهملة"
   },
   {
     "id": "organization_25",
     "domain": "organization",
     "text": "أي علاقة تحتاج وقتًا أكثر منك الآن؟",
+    "en": "Which relationship needs more of your time right now?",
     "followUpPromptHint": "التوازن في العلاقات"
   },
   {
     "id": "organization_26",
     "domain": "organization",
     "text": "ما الذي يمنحك شعور أن اليوم كان «مكتملًا»؟",
+    "en": "What gives you the feeling that the day was \"complete\"?",
     "followUpPromptHint": "معايير الرضا اليومي"
   },
   {
     "id": "organization_27",
     "domain": "organization",
     "text": "ما العادة الصغيرة التي لو أضفتها ستريح أسبوعك؟",
+    "en": "Which small habit, if you added it, would make your week easier?",
     "followUpPromptHint": "عادات داعمة للتنظيم"
   },
   {
     "id": "organization_28",
     "domain": "organization",
     "text": "ما الشيء الذي تحمله في ذهنك ويحتاج أن يُكتب؟",
+    "en": "What are you carrying in your head that needs to be written down?",
     "followUpPromptHint": "تفريغ الذهن بالكتابة"
   },
   {
     "id": "organization_29",
     "domain": "organization",
     "text": "كيف تقرر ما المهم وما العاجل في يومك؟",
+    "en": "How do you decide what is important and what is urgent in your day?",
     "followUpPromptHint": "التمييز بين المهم والعاجل"
   },
   {
     "id": "organization_30",
     "domain": "organization",
     "text": "ما الوقت الذي تمنحه للراحة الحقيقية، لا للتصفح؟",
+    "en": "How much time do you give to real rest, not scrolling?",
     "followUpPromptHint": "الراحة الحقيقية مقابل الاستهلاك"
   },
   {
     "id": "organization_31",
     "domain": "organization",
     "text": "ما الذي يتكرر تأجيله في بيتك منذ أسابيع؟",
+    "en": "What has kept being postponed in your home for weeks?",
     "followUpPromptHint": "المهام المنزلية المؤجلة"
   },
   {
     "id": "organization_32",
     "domain": "organization",
     "text": "لو كان أسبوعك القادم إناءً، ما الحجارة الكبيرة التي تضعها فيه أولًا؟",
+    "en": "If next week were a jar, which big stones would you put in it first?",
     "followUpPromptHint": "ترتيب الأولويات الكبرى"
   },
   {
     "id": "organization_33",
     "domain": "organization",
     "text": "ما الذي تقول له «نعم» تلقائيًا دون أن تفكر؟",
+    "en": "What do you say \"yes\" to automatically, without thinking?",
     "followUpPromptHint": "الموافقات التلقائية"
   },
   {
     "id": "organization_34",
     "domain": "organization",
     "text": "أي جزء من يومك يمر دون أن تتذكره؟",
+    "en": "Which part of your day passes without you remembering it?",
     "followUpPromptHint": "الوعي بالوقت"
   },
   {
     "id": "organization_35",
     "domain": "organization",
     "text": "ما الذي تنتظره من الآخرين لتبدأ أنت؟",
+    "en": "What are you waiting for others to do before you start?",
     "followUpPromptHint": "الاعتماد على الآخرين في البدء"
   },
   {
     "id": "organization_36",
     "domain": "organization",
     "text": "ما الروتين الذي كان يريحك ثم توقف؟",
+    "en": "Which routine used to make things easier for you and then stopped?",
     "followUpPromptHint": "استعادة روتين مفيد"
   },
   {
     "id": "organization_37",
     "domain": "organization",
     "text": "ما المهمة التي تأخذ طاقة أكبر من حجمها الحقيقي؟",
+    "en": "Which task takes more energy than its real size?",
     "followUpPromptHint": "الثقل النفسي للمهام"
   },
   {
     "id": "organization_38",
     "domain": "organization",
     "text": "هل في أسبوعك وقت فارغ بلا خطة؟ وما شعورك تجاهه؟",
+    "en": "Is there free, unplanned time in your week? How do you feel about it?",
     "followUpPromptHint": "قيمة المساحات الفارغة"
   },
   {
     "id": "organization_39",
     "domain": "organization",
     "text": "ما الذي يمكن أن يبقى «جيدًا بما يكفي» بدل أن يكون كاملًا؟",
+    "en": "What could stay \"good enough\" instead of being perfect?",
     "followUpPromptHint": "تخفيف الكمالية في المهام"
   },
   {
     "id": "organization_40",
     "domain": "organization",
     "text": "ما الوقت الذي تقضيه مع أسرتك فعلًا دون انشغال؟",
+    "en": "How much time do you really spend with your family without distractions?",
     "followUpPromptHint": "الحضور مع الأسرة"
   },
   {
     "id": "organization_41",
     "domain": "organization",
     "text": "ما أكثر شيء يقاطعك أثناء العمل؟",
+    "en": "What interrupts you the most while you work?",
     "followUpPromptHint": "مصادر المقاطعة"
   },
   {
     "id": "organization_42",
     "domain": "organization",
     "text": "لو حذفت مهمة واحدة من قائمة الغد، أيها ستختار؟",
+    "en": "If you removed one task from tomorrow's list, which would you choose?",
     "followUpPromptHint": "التقليص الواعي"
   },
   {
     "id": "organization_43",
     "domain": "organization",
     "text": "ما الذي تحتاجه ليبدأ يومك بهدوء بدل العجلة؟",
+    "en": "What do you need so your day starts calmly instead of in a rush?",
     "followUpPromptHint": "تحضير بداية هادئة"
   },
   {
     "id": "organization_44",
     "domain": "organization",
     "text": "ما الشيء الذي تؤجله لأنه غير واضح، لا لأنه صعب؟",
+    "en": "What are you putting off because it is unclear, not because it is hard?",
     "followUpPromptHint": "الغموض كسبب للتأجيل"
   },
   {
     "id": "organization_45",
     "domain": "organization",
     "text": "كيف تتوزع طاقتك هذا الأسبوع بين العمل والبيت ونفسك؟",
+    "en": "How is your energy split this week between work, home and yourself?",
     "followUpPromptHint": "توزيع الطاقة"
   },
   {
     "id": "organization_46",
     "domain": "organization",
     "text": "متى آخر مرة راجعت فيها أسبوعك قبل أن يبدأ؟",
+    "en": "When did you last review your week before it began?",
     "followUpPromptHint": "المراجعة الأسبوعية"
   },
   {
     "id": "organization_47",
     "domain": "organization",
     "text": "ما الذي يعطيك شعورًا دائمًا بالتأخر؟",
+    "en": "What gives you a constant feeling of running late?",
     "followUpPromptHint": "الشعور الدائم بالتأخر"
   },
   {
     "id": "organization_48",
     "domain": "organization",
     "text": "ما النشاط الذي يعيد شحن طاقتك بسرعة؟",
+    "en": "Which activity recharges your energy quickly?",
     "followUpPromptHint": "مصادر استعادة الطاقة"
   },
   {
     "id": "organization_49",
     "domain": "organization",
     "text": "ما الشيء الذي ستتركه ناقصًا اليوم بسلام؟",
+    "en": "What will you leave unfinished today, at peace?",
     "followUpPromptHint": "قبول عدم الإنجاز الكامل"
   },
   {
     "id": "organization_50",
     "domain": "organization",
     "text": "ما الحد الذي تحتاج أن تضعه لوقتك هذا الشهر؟",
+    "en": "What limit do you need to set on your time this month?",
     "followUpPromptHint": "وضع حدود للوقت"
   },
   {
     "id": "budget_01",
     "domain": "budget",
     "text": "هذا المصروف، كان قرار واعي ولا رد فعل لحظة معينة؟",
+    "en": "Was this expense a conscious decision, or a reaction to a particular moment?",
     "followUpPromptHint": "التمييز بين الشراء الواعي والشراء الانفعالي"
   },
   {
     "id": "budget_02",
     "domain": "budget",
     "text": "لو تتذكر آخر 3 مصاريف غير متوقعة، وش كان الشعور قبلها مباشرة؟",
+    "en": "If you recall your last three unexpected expenses, what was the feeling just before each one?",
     "followUpPromptHint": "ربط المحفزات العاطفية بأنماط الصرف"
   },
   {
     "id": "budget_03",
     "domain": "budget",
     "text": "وش الفرق بين الشي اللي تشتريه عشان تحتاجه، والشي اللي تشتريه عشان تحس بشي؟",
+    "en": "What is the difference between what you buy because you need it and what you buy to feel something?",
     "followUpPromptHint": "فحص الحاجة الحقيقية مقابل الحاجة العاطفية"
   },
   {
     "id": "budget_04",
     "domain": "budget",
     "text": "لو شفت كشف حسابك بعد سنة من الحين، وش بتحب تشوفه يقول عنك؟",
+    "en": "If you saw your bank statement a year from now, what would you like it to say about you?",
     "followUpPromptHint": "ربط السلوك المالي الحالي بهوية مستقبلية مرغوبة"
   },
   {
     "id": "budget_05",
     "domain": "budget",
     "text": "أي مصروف ثابت عندك اليوم، لو سألت نفسك بصراحة، ما يسوى قيمته الحقيقية؟",
+    "en": "Which fixed expense you have today, if you ask yourself honestly, isn't worth what it costs?",
     "followUpPromptHint": "مراجعة الالتزامات المالية المعتادة دون نقد مباشر"
   },
   {
     "id": "budget_06",
     "domain": "budget",
     "text": "متى آخر مرة صرفت على نفسك بدون أي شعور بالذنب بعدها؟",
+    "en": "When did you last spend on yourself without feeling any guilt afterwards?",
     "followUpPromptHint": "فحص العلاقة بين الصرف والشعور بالذنب"
   },
   {
     "id": "budget_07",
     "domain": "budget",
     "text": "ما المصروف الذي يمنحك سعادة حقيقية تستحق ثمنها؟",
+    "en": "Which expense gives you real happiness that is worth its price?",
     "followUpPromptHint": "الصرف المتوافق مع القيم"
   },
   {
     "id": "budget_08",
     "domain": "budget",
     "text": "ما الشراء الذي ندمت عليه مؤخرًا، وما الذي دفعك إليه؟",
+    "en": "Which purchase did you regret recently, and what pushed you to make it?",
     "followUpPromptHint": "فهم دوافع الشراء النادم"
   },
   {
     "id": "budget_09",
     "domain": "budget",
     "text": "ما الشعور الذي يرافقك عند النظر إلى رصيدك؟",
+    "en": "What feeling comes with looking at your balance?",
     "followUpPromptHint": "العلاقة العاطفية مع المال"
   },
   {
     "id": "budget_10",
     "domain": "budget",
     "text": "ما الذي تعنيه لك كلمة «ادخار»؟",
+    "en": "What does the word \"saving\" mean to you?",
     "followUpPromptHint": "المعنى الشخصي للادخار"
   },
   {
     "id": "budget_11",
     "domain": "budget",
     "text": "ما الهدف المالي الذي يحمّسك أكثر من غيره؟",
+    "en": "Which financial goal excites you the most?",
     "followUpPromptHint": "الأهداف المالية المحفّزة"
   },
   {
     "id": "budget_12",
     "domain": "budget",
     "text": "هل تشتري أحيانًا لتتحسن حالتك؟ ومتى يحدث ذلك غالبًا؟",
+    "en": "Do you sometimes buy things to feel better? When does that usually happen?",
     "followUpPromptHint": "الشراء العاطفي"
   },
   {
     "id": "budget_13",
     "domain": "budget",
     "text": "ما المصروف الصغير المتكرر الذي لا تلاحظه؟",
+    "en": "Which small, repeated expense do you not notice?",
     "followUpPromptHint": "المصاريف الصغيرة المتراكمة"
   },
   {
     "id": "budget_14",
     "domain": "budget",
     "text": "كيف كان المال يُناقَش في بيت طفولتك؟",
+    "en": "How was money talked about in the home you grew up in?",
     "followUpPromptHint": "الجذور الأسرية للعادات المالية"
   },
   {
     "id": "budget_15",
     "domain": "budget",
     "text": "ما الشيء الذي تؤجل شراءه رغم حاجتك إليه؟",
+    "en": "What do you keep putting off buying even though you need it?",
     "followUpPromptHint": "التقتير المفرط"
   },
   {
     "id": "budget_16",
     "domain": "budget",
     "text": "ما الذي يمنحك شعور الأمان المالي، بعيدًا عن الأرقام؟",
+    "en": "What gives you a feeling of financial security, apart from the numbers?",
     "followUpPromptHint": "تعريف الأمان المالي"
   },
   {
     "id": "budget_17",
     "domain": "budget",
     "text": "ما المصروف الذي تخفيه عن نفسك أو عن غيرك؟",
+    "en": "Which expense do you hide from yourself or from others?",
     "followUpPromptHint": "المصاريف المخفية"
   },
   {
     "id": "budget_18",
     "domain": "budget",
     "text": "لو جاءك مبلغ إضافي هذا الشهر، أين سيذهب أولًا؟",
+    "en": "If some extra money came to you this month, where would it go first?",
     "followUpPromptHint": "الأولويات المالية"
   },
   {
     "id": "budget_19",
     "domain": "budget",
     "text": "ما العادة المالية التي تفخر بها؟",
+    "en": "Which money habit are you proud of?",
     "followUpPromptHint": "الاعتراف بالعادات المالية الجيدة"
   },
   {
     "id": "budget_20",
     "domain": "budget",
     "text": "ما الذي يجعل الالتزام بالميزانية صعبًا عليك؟",
+    "en": "What makes sticking to a budget hard for you?",
     "followUpPromptHint": "عوائق الالتزام بالميزانية"
   },
   {
     "id": "budget_21",
     "domain": "budget",
     "text": "متى تكون قراراتك المالية أهدأ: في الصباح أم في المساء؟",
+    "en": "When are your money decisions calmer: in the morning or in the evening?",
     "followUpPromptHint": "توقيت القرارات المالية"
   },
   {
     "id": "budget_22",
     "domain": "budget",
     "text": "ما الشيء الذي تدفع ثمنه شهريًا ولم تستعمله منذ مدة؟",
+    "en": "What do you pay for every month but haven't used in a while?",
     "followUpPromptHint": "الاشتراكات غير المستعملة"
   },
   {
     "id": "budget_23",
     "domain": "budget",
     "text": "ما الفرق بين ما تحتاجه وما تريده في مشترياتك الأخيرة؟",
+    "en": "In your recent purchases, what was the difference between what you need and what you want?",
     "followUpPromptHint": "الحاجة مقابل الرغبة"
   },
   {
     "id": "budget_24",
     "domain": "budget",
     "text": "ما الذي يظهر في داخلك عند إقراض المال أو اقتراضه؟",
+    "en": "What comes up inside you when you lend or borrow money?",
     "followUpPromptHint": "العلاقة مع الديون والإقراض"
   },
   {
     "id": "budget_25",
     "domain": "budget",
     "text": "ما التجربة التي تستحق عندك أكثر من الأشياء؟",
+    "en": "Which experience is worth more to you than things?",
     "followUpPromptHint": "قيمة التجارب مقابل الممتلكات"
   },
   {
     "id": "budget_26",
     "domain": "budget",
     "text": "ما الذي يحدث لميزانيتك في نهاية الشهر عادة؟",
+    "en": "What usually happens to your budget at the end of the month?",
     "followUpPromptHint": "أنماط نهاية الشهر"
   },
   {
     "id": "budget_27",
     "domain": "budget",
     "text": "ما أكثر إعلان أو عرض يغريك بالشراء؟",
+    "en": "Which kind of ad or offer tempts you to buy the most?",
     "followUpPromptHint": "المؤثرات التسويقية"
   },
   {
     "id": "budget_28",
     "domain": "budget",
     "text": "ما الذي تتمنى أن تعرفه عن المال لو رجعت عشر سنوات؟",
+    "en": "What do you wish you had known about money ten years ago?",
     "followUpPromptHint": "الدروس المالية المتأخرة"
   },
   {
     "id": "budget_29",
     "domain": "budget",
     "text": "هل يتغير صرفك في أوقات التعب أو الجوع؟",
+    "en": "Does your spending change when you are tired or hungry?",
     "followUpPromptHint": "الحالة الجسدية والصرف"
   },
   {
     "id": "budget_30",
     "domain": "budget",
     "text": "ما الهدية التي قدمتها ومنحتك سعادة أكبر من ثمنها؟",
+    "en": "Which gift you gave brought you more happiness than its price?",
     "followUpPromptHint": "الصرف على الآخرين"
   },
   {
     "id": "budget_31",
     "domain": "budget",
     "text": "ما الشيء الذي لا تتردد في الصرف عليه أبدًا؟",
+    "en": "What do you never hesitate to spend on?",
     "followUpPromptHint": "الأولويات الثابتة في الصرف"
   },
   {
     "id": "budget_32",
     "domain": "budget",
     "text": "في أي شيء تقارن نفسك بالآخرين ماليًا؟",
+    "en": "In what way do you compare yourself with others financially?",
     "followUpPromptHint": "المقارنة المالية"
   },
   {
     "id": "budget_33",
     "domain": "budget",
     "text": "ما الذي تعنيه «الكفاية» لك؟ وكيف تعرف أنك وصلت إليها؟",
+    "en": "What does \"enough\" mean to you? How will you know you have reached it?",
     "followUpPromptHint": "مفهوم الكفاية"
   },
   {
     "id": "budget_34",
     "domain": "budget",
     "text": "ما القرار المالي الذي تتجنب التفكير فيه؟",
+    "en": "Which money decision do you avoid thinking about?",
     "followUpPromptHint": "التجنب المالي"
   },
   {
     "id": "budget_35",
     "domain": "budget",
     "text": "ما شعورك بعد يوم لم تصرف فيه شيئًا؟",
+    "en": "How do you feel after a day when you spent nothing?",
     "followUpPromptHint": "أيام بلا صرف"
   },
   {
     "id": "budget_36",
     "domain": "budget",
     "text": "ما الذي تشتريه بسرعة ثم تنساه؟",
+    "en": "What do you buy quickly and then forget about?",
     "followUpPromptHint": "الشراء الاندفاعي"
   },
   {
     "id": "budget_37",
     "domain": "budget",
     "text": "ما الشيء الذي يستحق أن تدخر له ببطء؟",
+    "en": "What is worth saving for slowly?",
     "followUpPromptHint": "الادخار الهادف"
   },
   {
     "id": "budget_38",
     "domain": "budget",
     "text": "ما الذي يؤخرك عن مراجعة مصاريفك؟",
+    "en": "What keeps you from reviewing your expenses?",
     "followUpPromptHint": "تجنب المراجعة المالية"
   },
   {
     "id": "budget_39",
     "domain": "budget",
     "text": "ما المناسبة التي تتجاوز مصاريفها ما خططت له في كل مرة؟",
+    "en": "Which occasion goes over what you planned to spend every single time?",
     "followUpPromptHint": "المناسبات والضغط المالي"
   },
   {
     "id": "budget_40",
     "domain": "budget",
     "text": "ما الذي ستشكر نفسك عليه ماليًا بعد سنة؟",
+    "en": "What will you thank yourself for, financially, a year from now?",
     "followUpPromptHint": "الذات المستقبلية والمال"
   },
   {
     "id": "budget_41",
     "domain": "budget",
     "text": "ما الفكرة عن الأغنياء أو الفقراء التي تؤثر في قراراتك؟",
+    "en": "Which idea about rich or poor people affects your decisions?",
     "followUpPromptHint": "المعتقدات عن الثروة"
   },
   {
     "id": "budget_42",
     "domain": "budget",
     "text": "ما الشيء الذي تشتريه لتظهر بصورة معينة أمام الناس؟",
+    "en": "What do you buy to look a certain way in front of people?",
     "followUpPromptHint": "الصرف من أجل الصورة الاجتماعية"
   },
   {
     "id": "budget_43",
     "domain": "budget",
     "text": "كم من وقتك تستهلكه مشتريات صغيرة لا تحتاجها؟",
+    "en": "How much of your time do small purchases you don't need take up?",
     "followUpPromptHint": "الوقت المرتبط بالشراء"
   },
   {
     "id": "budget_44",
     "domain": "budget",
     "text": "ما الذي يجعل يوم الراتب مختلفًا عن بقية الشهر؟",
+    "en": "What makes payday different from the rest of the month?",
     "followUpPromptHint": "سلوك يوم الراتب"
   },
   {
     "id": "budget_45",
     "domain": "budget",
     "text": "ما المصروف الذي يتعارض مع هدف تهتم به؟",
+    "en": "Which expense conflicts with a goal you care about?",
     "followUpPromptHint": "تعارض الصرف مع الأهداف"
   },
   {
     "id": "budget_46",
     "domain": "budget",
     "text": "ما الذي تحتاج أن تعرفه عن مصاريفك ولم تنظر إليه بعد؟",
+    "en": "What do you need to know about your spending that you haven't looked at yet?",
     "followUpPromptHint": "الوعي بالأرقام الشخصية"
   },
   {
     "id": "budget_47",
     "domain": "budget",
     "text": "ما العطاء الذي يمنح حياتك معنى، ولو كان صغيرًا؟",
+    "en": "Which act of giving brings meaning to your life, even if it is small?",
     "followUpPromptHint": "العطاء والمعنى"
   },
   {
     "id": "budget_48",
     "domain": "budget",
     "text": "ما الذي يغريك بالشراء عبر الإنترنت في وقت متأخر من الليل؟",
+    "en": "What tempts you to buy online late at night?",
     "followUpPromptHint": "الشراء الليلي"
   },
   {
     "id": "budget_49",
     "domain": "budget",
     "text": "لو كان للمال صوت في حياتك، هل هو صوت توتر أم صوت هدوء؟",
+    "en": "If money had a voice in your life, would it sound tense or calm?",
     "followUpPromptHint": "العلاقة الشعورية العامة مع المال"
   },
   {
     "id": "budget_50",
     "domain": "budget",
     "text": "ما الخطوة المالية الصغيرة التي تمنحك راحة هذا الأسبوع؟",
+    "en": "Which small money step would bring you some ease this week?",
     "followUpPromptHint": "خطوة مالية صغيرة ومريحة"
   },
   {
     "id": "skills_01",
     "domain": "skills",
     "text": "وش جربته هذا الأسبوع ولقيت إنه يشتغل أكثر من غيره؟",
+    "en": "What did you try this week that turned out to work better than anything else?",
     "followUpPromptHint": "التعلم التأملي - استخلاص الدرس من التجربة الأخيرة"
   },
   {
     "id": "skills_02",
     "domain": "skills",
     "text": "لو تعلّم شخص آخر منك هذي المهارة اليوم، وش أهم شي بتقوله له؟",
+    "en": "If someone learned this skill from you today, what is the most important thing you would tell them?",
     "followUpPromptHint": "تحويل الخبرة الضمنية إلى معرفة واضحة"
   },
   {
     "id": "skills_03",
     "domain": "skills",
     "text": "وين تحس إنك توقفت عن التطور بهذا المجال، ووش ممكن يكون السبب؟",
+    "en": "Where do you feel you have stopped improving in this area, and what might the reason be?",
     "followUpPromptHint": "تحديد نقطة الركود وسببها المحتمل"
   },
   {
     "id": "skills_04",
     "domain": "skills",
     "text": "آخر مرة فشلت بمحاولة شي جديد، وش تعلمته من ذاك الفشل بالضبط؟",
+    "en": "The last time you failed at trying something new, what exactly did you learn from that failure?",
     "followUpPromptHint": "استخراج تعلم محدد من تجربة فشل"
   },
   {
     "id": "skills_05",
     "domain": "skills",
     "text": "لو تقارن نفسك قبل سنة بنفسك الحين بهذي المهارة، وش الفرق الحقيقي؟",
+    "en": "If you compare yourself a year ago with yourself now at this skill, what is the real difference?",
     "followUpPromptHint": "قياس التطور عبر الزمن بدل اللحظة الحالية فقط"
   },
   {
     "id": "skills_06",
     "domain": "skills",
     "text": "وش الجزء اللي تتجنبه بالتمرين أو التعلم، مع إنك تعرف إنه مهم؟",
+    "en": "Which part of practising or learning do you avoid, even though you know it matters?",
     "followUpPromptHint": "كشف التجنب المتعمد في مسار التعلم"
   },
   {
     "id": "skills_07",
     "domain": "skills",
     "text": "ما المهارة التي تتمنى إتقانها هذا العام؟",
+    "en": "Which skill do you wish you could master this year?",
     "followUpPromptHint": "تحديد المهارة المستهدفة"
   },
   {
     "id": "skills_08",
     "domain": "skills",
     "text": "ما الشيء الذي يطلبه منك الناس لأنك تجيده؟",
+    "en": "What do people ask you for because you are good at it?",
     "followUpPromptHint": "اكتشاف نقاط القوة"
   },
   {
     "id": "skills_09",
     "domain": "skills",
     "text": "كيف تتعلم أفضل: بالقراءة أم بالمشاهدة أم بالتطبيق؟",
+    "en": "How do you learn best: by reading, by watching, or by doing?",
     "followUpPromptHint": "أسلوب التعلم الشخصي"
   },
   {
     "id": "skills_10",
     "domain": "skills",
     "text": "ما المهارة التي تعلمتها في الصغر وما زالت تفيدك؟",
+    "en": "Which skill did you learn when you were young that still helps you?",
     "followUpPromptHint": "المهارات المبكرة الدائمة"
   },
   {
     "id": "skills_11",
     "domain": "skills",
     "text": "ما الذي يمنعك من التدرّب بانتظام؟",
+    "en": "What keeps you from practising regularly?",
     "followUpPromptHint": "عوائق التدريب المنتظم"
   },
   {
     "id": "skills_12",
     "domain": "skills",
     "text": "ما الخطأ الذي يتكرر عندك في هذه المهارة؟",
+    "en": "Which mistake keeps repeating for you in this skill?",
     "followUpPromptHint": "الأخطاء المتكررة"
   },
   {
     "id": "skills_13",
     "domain": "skills",
     "text": "ما الذي يظهر في داخلك حين تتعلم شيئًا جديدًا تمامًا؟",
+    "en": "What comes up inside you when you learn something completely new?",
     "followUpPromptHint": "مشاعر البدايات"
   },
   {
     "id": "skills_14",
     "domain": "skills",
     "text": "من الشخص الذي تتعلم منه دون أن يعلم؟",
+    "en": "Who do you learn from without them knowing?",
     "followUpPromptHint": "القدوات غير المباشرة"
   },
   {
     "id": "skills_15",
     "domain": "skills",
     "text": "ما المهارة التي تحتاجها في عملك ولم تبدأ بها بعد؟",
+    "en": "Which skill do you need at work that you haven't started on yet?",
     "followUpPromptHint": "فجوات المهارة المهنية"
   },
   {
     "id": "skills_16",
     "domain": "skills",
     "text": "كم دقيقة يمكنك أن تمنحها لهذه المهارة يوميًا بواقعية؟",
+    "en": "Realistically, how many minutes a day could you give to this skill?",
     "followUpPromptHint": "الالتزام الواقعي بالوقت"
   },
   {
     "id": "skills_17",
     "domain": "skills",
     "text": "ما اللحظة التي لاحظت فيها أن مستواك تحسّن فعلًا؟",
+    "en": "When did you notice that your level had really improved?",
     "followUpPromptHint": "ملاحظة لحظات التقدم"
   },
   {
     "id": "skills_18",
     "domain": "skills",
     "text": "ما الجزء الممل في التعلم الذي تتجاوزه عادة؟",
+    "en": "Which boring part of learning do you usually skip?",
     "followUpPromptHint": "المراحل المملة في التعلم"
   },
   {
     "id": "skills_19",
     "domain": "skills",
     "text": "ما المهارة التي تراها في غيرك وتعجبك؟",
+    "en": "Which skill do you see in others and admire?",
     "followUpPromptHint": "الإلهام من الآخرين"
   },
   {
     "id": "skills_20",
     "domain": "skills",
     "text": "كيف تتعامل مع الملل عندما يتوقف التقدم؟",
+    "en": "How do you deal with boredom when progress stalls?",
     "followUpPromptHint": "التعامل مع مرحلة الركود"
   },
   {
     "id": "skills_21",
     "domain": "skills",
     "text": "ما الذي تعلمته من شخص أصغر منك سنًا؟",
+    "en": "What have you learned from someone younger than you?",
     "followUpPromptHint": "التعلم العكسي"
   },
   {
     "id": "skills_22",
     "domain": "skills",
     "text": "ما المهارة التي توقفت عنها وتشتاق إليها؟",
+    "en": "Which skill did you stop practising that you miss?",
     "followUpPromptHint": "المهارات المهجورة"
   },
   {
     "id": "skills_23",
     "domain": "skills",
     "text": "كيف تقيس تقدمك في هذه المهارة؟",
+    "en": "How do you measure your progress in this skill?",
     "followUpPromptHint": "مقاييس التقدم"
   },
   {
     "id": "skills_24",
     "domain": "skills",
     "text": "ما الملاحظة التي تلقيتها عن عملك وغيّرت طريقتك؟",
+    "en": "What feedback about your work changed the way you do it?",
     "followUpPromptHint": "أثر الملاحظات"
   },
   {
     "id": "skills_25",
     "domain": "skills",
     "text": "ما المهارة الصغيرة التي توفر عليك وقتًا كل يوم؟",
+    "en": "Which small skill saves you time every day?",
     "followUpPromptHint": "المهارات العملية اليومية"
   },
   {
     "id": "skills_26",
     "domain": "skills",
     "text": "ما الذي يخيفك في الظهور بمستوى المبتدئ أمام الناس؟",
+    "en": "What scares you about looking like a beginner in front of people?",
     "followUpPromptHint": "الخوف من البدايات أمام الآخرين"
   },
   {
     "id": "skills_27",
     "domain": "skills",
     "text": "ما الذي تعرفه الآن وكنت تتمنى لو عرفته من قبل؟",
+    "en": "What do you know now that you wish you had known earlier?",
     "followUpPromptHint": "الحكمة المكتسبة"
   },
   {
     "id": "skills_28",
     "domain": "skills",
     "text": "أي مهارة تساعدك على التعامل مع الناس بشكل أفضل؟",
+    "en": "Which skill helps you deal with people better?",
     "followUpPromptHint": "المهارات الاجتماعية"
   },
   {
     "id": "skills_29",
     "domain": "skills",
     "text": "ما الذي يبقيك في طريق التعلم حين يصعب الأمر؟",
+    "en": "What keeps you on the learning path when things get hard?",
     "followUpPromptHint": "الدافع للاستمرار"
   },
   {
     "id": "skills_30",
     "domain": "skills",
     "text": "ما الأداة أو التقنية التي غيّرت طريقة عملك؟",
+    "en": "Which tool or technique changed the way you work?",
     "followUpPromptHint": "أثر الأدوات والتقنيات"
   },
   {
     "id": "skills_31",
     "domain": "skills",
     "text": "لو علّمت هذه المهارة لشخص آخر، من أين ستبدأ؟",
+    "en": "If you taught this skill to someone else, where would you start?",
     "followUpPromptHint": "التعليم كوسيلة للفهم"
   },
   {
     "id": "skills_32",
     "domain": "skills",
     "text": "ما العادة التي تبطئ تقدمك في هذه المهارة؟",
+    "en": "Which habit slows your progress in this skill?",
     "followUpPromptHint": "إزالة العادات المعيقة للتعلم"
   },
   {
     "id": "skills_33",
     "domain": "skills",
     "text": "ما المهارة التي تظن أنها «ليست لك»، ولماذا؟",
+    "en": "Which skill do you think is \"not for you\", and why?",
     "followUpPromptHint": "المعتقدات المقيدة عن القدرات"
   },
   {
     "id": "skills_34",
     "domain": "skills",
     "text": "متى يصل تركيزك إلى أعلى درجاته أثناء العمل؟",
+    "en": "When does your focus reach its peak while you work?",
     "followUpPromptHint": "حالات التدفق والتركيز"
   },
   {
     "id": "skills_35",
     "domain": "skills",
     "text": "ما الشيء الذي تتقنه ولا تقدّره حق قدره؟",
+    "en": "What are you good at that you don't value as much as it deserves?",
     "followUpPromptHint": "تقدير المهارات الذاتية"
   },
   {
     "id": "skills_36",
     "domain": "skills",
     "text": "ما السؤال الذي تتحرج من طرحه في مجال تتعلمه؟",
+    "en": "Which question do you feel shy about asking in an area you are learning?",
     "followUpPromptHint": "التحرج من السؤال"
   },
   {
     "id": "skills_37",
     "domain": "skills",
     "text": "ما المهارة التي ستجعل حياتك اليومية أسهل؟",
+    "en": "Which skill would make your daily life easier?",
     "followUpPromptHint": "المهارات الحياتية"
   },
   {
     "id": "skills_38",
     "domain": "skills",
     "text": "ما الطريقة التي تساعدك على تذكّر ما تتعلمه؟",
+    "en": "Which method helps you remember what you learn?",
     "followUpPromptHint": "استراتيجيات التذكر"
   },
   {
     "id": "skills_39",
     "domain": "skills",
     "text": "ما التحدي الذي تجاوزته بفضل مهارة اكتسبتها؟",
+    "en": "Which challenge did you get past thanks to a skill you gained?",
     "followUpPromptHint": "المهارات كأدوات لتجاوز التحديات"
   },
   {
     "id": "skills_40",
     "domain": "skills",
     "text": "ما المهارة التي تحتاج صبرًا أكثر من الموهبة؟",
+    "en": "Which skill needs more patience than talent?",
     "followUpPromptHint": "الصبر مقابل الموهبة"
   },
   {
     "id": "skills_41",
     "domain": "skills",
     "text": "كيف تحتفل بتقدمك الصغير في التعلم؟",
+    "en": "How do you celebrate small progress in your learning?",
     "followUpPromptHint": "الاحتفاء بالتقدم الصغير"
   },
   {
     "id": "skills_42",
     "domain": "skills",
     "text": "ما الذي يعلّمك أكثر عند الخطأ: التكرار أم التأمل؟",
+    "en": "What teaches you more after a mistake: repetition or reflection?",
     "followUpPromptHint": "التعلم من الخطأ"
   },
   {
     "id": "skills_43",
     "domain": "skills",
     "text": "ما المجال الذي تتمنى أن تصبح فيه مرجعًا لغيرك؟",
+    "en": "In which area would you like to become someone others turn to?",
     "followUpPromptHint": "الخبرة العميقة"
   },
   {
     "id": "skills_44",
     "domain": "skills",
     "text": "ما الذي يشتت انتباهك أثناء التعلم؟",
+    "en": "What distracts you while you are learning?",
     "followUpPromptHint": "مشتتات التعلم"
   },
   {
     "id": "skills_45",
     "domain": "skills",
     "text": "ما المهارة التي تعلمتها بالصدفة؟",
+    "en": "Which skill did you learn by chance?",
     "followUpPromptHint": "التعلم غير المخطط"
   },
   {
     "id": "skills_46",
     "domain": "skills",
     "text": "ما الذي يحدث لثقتك عندما تتقن شيئًا جديدًا؟",
+    "en": "What happens to your confidence when you master something new?",
     "followUpPromptHint": "أثر الإتقان على الثقة"
   },
   {
     "id": "skills_47",
     "domain": "skills",
     "text": "ما المهارة التي تتمنى أن تتعلمها مع شخص آخر؟",
+    "en": "Which skill would you like to learn together with someone else?",
     "followUpPromptHint": "التعلم المشترك"
   },
   {
     "id": "skills_48",
     "domain": "skills",
     "text": "كيف يبدو المستوى الذي تريده في هذه المهارة بعد ستة أشهر؟",
+    "en": "What does the level you want in this skill look like six months from now?",
     "followUpPromptHint": "تصور المستوى المستقبلي"
   },
   {
     "id": "skills_49",
     "domain": "skills",
     "text": "ما الذي اكتشفته عن نفسك أثناء تعلم مهارة صعبة؟",
+    "en": "What did you discover about yourself while learning a difficult skill?",
     "followUpPromptHint": "معرفة الذات عبر التعلم"
   },
   {
     "id": "skills_50",
     "domain": "skills",
     "text": "ما التمرين القصير الذي يمكنك تكراره كل يوم في هذه المهارة؟",
+    "en": "Which short exercise could you repeat every day for this skill?",
     "followUpPromptHint": "التمرين اليومي القصير"
   }
 ]

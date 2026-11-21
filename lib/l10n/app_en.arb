@@ -687,5 +687,8 @@
   "backupRestoreFailedUnsafe": "The restore failed and some data may be missing. Please try again with the same file.",
   "backupSaveDialog": "Save the backup",
   "backupPickDialog": "Choose the backup file",
-  "contactSubject": "About the app"
+  "contactSubject": "About the app",
+  "assistantHello": "Welcome!",
+  "assistantHelloName": "Welcome, {name}!",
+  "assistantGreetingBody": "I'm your AI assistant. How can I help you organise your day, suggest meals, or review your exercises?\n\n🔑 To start, set up the AI provider and your own key from the key icon at the top."
 }

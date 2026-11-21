@@ -7,6 +7,7 @@ import '../../core/services/database_service.dart';
 import '../../core/services/encrypted_boxes.dart';
 import 'models/coach_question.dart';
 import 'models/coach_signals.dart';
+import '../../core/config/app_locale.dart';
 
 class CoachSessionService {
   static const String _boxName = 'coach_sessions';
@@ -220,7 +221,7 @@ class CoachSessionService {
     await _box?.add({
       'questionId': question.id,
       'domain': question.domain.name,
-      'questionText': question.text,
+      'questionText': question.textFor(AppLocale.current.languageCode),
       'answerText': answerText,
       'date': date ?? DateTime.now(),
     });

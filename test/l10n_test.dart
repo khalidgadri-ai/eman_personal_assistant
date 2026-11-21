@@ -5,7 +5,11 @@ import 'package:eman_life_app/core/ai/ai_errors.dart';
 import 'package:eman_life_app/core/ai/ai_service.dart';
 import 'package:eman_life_app/core/ai/provider_presets.dart';
 import 'package:eman_life_app/core/config/app_locale.dart';
+import 'package:eman_life_app/core/services/assistant_prompt.dart';
 import 'package:eman_life_app/core/widgets/ai_provider_screen.dart';
+import 'package:eman_life_app/features/coach/coach_ai_service.dart';
+import 'package:eman_life_app/features/coach/coach_safety.dart';
+import 'package:eman_life_app/features/coach/models/coach_question.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
 import 'package:eman_life_app/features/awareness/models/social_app.dart';
@@ -120,6 +124,55 @@ void main() {
     final en = lookupAppLocalizations(AppLocale.english);
     expect(en.daysLeft(1), '1 day left');
     expect(en.daysLeft(9), '9 days left');
+  });
+
+  group('AI requests and the coach bank follow the language', () {
+    tearDown(() => AppLocale.choice.value = AppLanguage.system);
+
+    test('every coach question has an English text with no Arabic in it', () {
+      final bank = jsonDecode(File('assets/coach_questions.json').readAsStringSync()) as List;
+      expect(bank, hasLength(300));
+      for (final raw in bank) {
+        final q = CoachQuestion.fromJson(Map<String, dynamic>.from(raw as Map));
+        expect(q.textEn, isNotNull, reason: q.id);
+        expect(q.textEn!.trim(), isNotEmpty, reason: q.id);
+        expect(q.textEn, isNot(contains(_arabicLetter)), reason: q.id);
+        expect(q.textFor('en'), q.textEn);
+        expect(q.textFor('ar'), q.text);
+      }
+    });
+
+    test('a follow-up question from the model has no translation and shows as it came', () {
+      const q = CoachQuestion(id: 'ai_followup', domain: CoachDomain.goals, text: 'What matters most here?');
+      expect(q.textFor('en'), 'What matters most here?');
+      expect(q.textFor('ar'), 'What matters most here?');
+    });
+
+    test('in English the prompts ask for English replies; in Arabic they stay Arabic', () {
+      expect(AiService.exerciseAnalysisPrompt, contains('بالعربية'));
+      expect(buildAssistantSystemPrompt(null), contains('بالعربية'));
+      expect(assistantGreeting(''), startsWith('أهلًا بك!'));
+      expect(CoachAiService.buildSystemPrompt(CoachDomain.goals), contains('الأهداف والتخطيط'));
+
+      AppLocale.choice.value = AppLanguage.en;
+      expect(AiService.exerciseAnalysisPrompt, contains('in English'));
+      expect(AiService.exerciseAnalysisPrompt, isNot(contains(_arabicLetter)));
+      final prompt = buildAssistantSystemPrompt(null);
+      expect(prompt, contains('Answer in clear English'));
+      expect(prompt, isNot(contains(_arabicLetter)));
+      expect(assistantGreeting('Sam'), startsWith('Welcome, Sam!'));
+      final coach = CoachAiService.buildSystemPrompt(CoachDomain.goals, lang: 'en');
+      expect(coach, contains('Goals & planning'));
+      expect(coach, contains(CoachAiService.crisisSentinel));
+      expect(coach, isNot(contains(_arabicLetter)));
+    });
+
+    test('English advice in a coach reply is caught like Arabic advice', () {
+      expect(containsAdviceLanguage('You should write it down.'), isTrue);
+      expect(containsAdviceLanguage('I suggest a short walk.'), isTrue);
+      expect(containsAdviceLanguage('What would change if you wrote it down?'), isFalse);
+      expect(containsAdviceLanguage('ما الذي سيتغير لو كتبته؟'), isFalse);
+    });
   });
 
   group('choosing the language', () {

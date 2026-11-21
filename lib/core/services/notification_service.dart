@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../config/app_locale.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -107,14 +108,15 @@ class NotificationService {
     required bool repeatsDaily,
   }) async {
     try {
-      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      final texts = AppLocale.texts;
+      final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
         'life_reminders_channel',
-        'تذكيرات الحياة والمنزل',
-        channelDescription: 'تذكيرات الأدوية وروتين العناية والمهام التي تضبطها بنفسك',
+        texts.notificationChannelName,
+        channelDescription: texts.notificationChannelDescription,
         importance: Importance.high,
         priority: Priority.high,
       );
-      const NotificationDetails details = NotificationDetails(android: androidDetails);
+      final NotificationDetails details = NotificationDetails(android: androidDetails);
 
       final location = locationFor(firstFire);
       final when = tz.TZDateTime(

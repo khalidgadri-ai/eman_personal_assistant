@@ -470,4 +470,244 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get keyGuideLinkCopied => 'Link copied. Paste it in your browser.';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
+  String get fieldRequired => 'This field is required';
+
+  @override
+  String get reminderNone => 'No reminder';
+
+  @override
+  String reminderAt(String time) {
+    return 'Daily at $time';
+  }
+
+  @override
+  String get reminderSet => 'Set reminder';
+
+  @override
+  String get reminderChange => 'Change time';
+
+  @override
+  String get reminderRemove => 'Remove reminder';
+
+  @override
+  String get reminderMedicationTitle => 'Medicine reminder';
+
+  @override
+  String get reminderRoutineTitle => 'Care reminder';
+
+  @override
+  String get reminderTaskTitle => 'Task reminder';
+
+  @override
+  String get reminderNotScheduled =>
+      'The reminder was not set. Turn on notifications for this app in the phone settings, then try again.';
+
+  @override
+  String get notificationChannelName => 'Life and home reminders';
+
+  @override
+  String get notificationChannelDescription =>
+      'Reminders for the medicines, care routine and tasks you set yourself';
+
+  @override
+  String get tasksTitle => '🎯 Goals & daily tasks';
+
+  @override
+  String get voiceImportTooltip => 'Import tasks from a voice note';
+
+  @override
+  String get tabDailyTasks => 'Daily tasks';
+
+  @override
+  String get tabGoals => 'Goal ladder';
+
+  @override
+  String get tabWird => 'Quran reading';
+
+  @override
+  String get taskAddTitle => 'New task';
+
+  @override
+  String get taskField => 'Task';
+
+  @override
+  String get taskHint => 'Write the task...';
+
+  @override
+  String get categoryField => 'Category';
+
+  @override
+  String get reminderField => 'Reminder';
+
+  @override
+  String get taskEditTitle => 'Edit task';
+
+  @override
+  String taskDeleted(String title) {
+    return 'Deleted \"$title\"';
+  }
+
+  @override
+  String get addTask => 'Add task';
+
+  @override
+  String get taskPin => 'Pin task';
+
+  @override
+  String get taskUnpin => 'Unpin task';
+
+  @override
+  String get taskDelete => 'Delete task';
+
+  @override
+  String get tasksHeader => 'Task center';
+
+  @override
+  String get tasksVoiceTip =>
+      'Tap the microphone icon 🎙️ at the top to import tasks from a voice note';
+
+  @override
+  String get tasksEmpty =>
+      'No tasks yet. Tap + to add one, or use a voice note.';
+
+  @override
+  String get catPersonal => 'Personal';
+
+  @override
+  String get catHome => 'Home';
+
+  @override
+  String get catWork => 'Work';
+
+  @override
+  String get catFamily => 'Family';
+
+  @override
+  String get goalAdd => 'Add goal';
+
+  @override
+  String get goalField => 'Goal';
+
+  @override
+  String get goalTypeField => 'Type';
+
+  @override
+  String get goalEditTitle => 'Edit goal';
+
+  @override
+  String goalDeleted(String title) {
+    return 'Deleted goal \"$title\"';
+  }
+
+  @override
+  String get goalPin => 'Pin goal';
+
+  @override
+  String get goalUnpin => 'Unpin goal';
+
+  @override
+  String get goalDelete => 'Delete goal';
+
+  @override
+  String get goalsHeader => 'Goal ladder (yearly ➡️ monthly ➡️ weekly)';
+
+  @override
+  String get goalsEmpty => 'No goals yet. Tap + to add your first goal.';
+
+  @override
+  String get goalTypeGeneral => 'General goal';
+
+  @override
+  String get goalTypeYearly => 'Yearly goal';
+
+  @override
+  String get goalTypeMonthly => 'Monthly goal';
+
+  @override
+  String get goalTypeWeekly => 'Weekly goal';
+
+  @override
+  String get wirdTitle => 'Daily Quran reading tracker';
+
+  @override
+  String wirdCurrentPage(int page) {
+    return 'Current page: $page';
+  }
+
+  @override
+  String get wirdFinished =>
+      'You have finished the whole Quran 🎉 May God bless you';
+
+  @override
+  String wirdRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pages',
+      one: '1 page',
+    );
+    return 'Left to finish: $_temp0';
+  }
+
+  @override
+  String get wirdReadOne => 'Read one page (+1)';
+
+  @override
+  String get wirdSetPage => 'Set page';
+
+  @override
+  String get wirdSetTitle => 'Set the current page';
+
+  @override
+  String wirdPageField(int max) {
+    return 'Page number (0 - $max)';
+  }
+
+  @override
+  String wirdPageError(int max) {
+    return 'Enter a number from 0 to $max';
+  }
+
+  @override
+  String get voiceTitle => '🎙️ Import from a voice note';
+
+  @override
+  String get voicePrompt =>
+      'Type the voice note, or whatever you want to turn into tasks:';
+
+  @override
+  String get voiceHint =>
+      'Example: today I want to finish the report, go to the market and tidy the wardrobe...';
+
+  @override
+  String get voiceExtracted => 'Tasks found:';
+
+  @override
+  String get voiceExtracting => 'Finding tasks...';
+
+  @override
+  String get voiceExtract => 'Find tasks 🧠';
+
+  @override
+  String get voiceImport => 'Add the tasks to the list ✅';
+
+  @override
+  String voiceImported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '✅ $count tasks imported',
+      one: '✅ 1 task imported',
+      zero: 'No tasks were imported',
+    );
+    return '$_temp0';
+  }
 }

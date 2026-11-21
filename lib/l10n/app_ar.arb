@@ -1,6 +1,5 @@
 {
   "@@locale": "ar",
-
   "navGoals": "الأهداف والمهام",
   "navHealth": "الصحة واللياقة",
   "navKitchen": "المطبخ والمنزل",
@@ -12,7 +11,6 @@
   "close": "إغلاق",
   "copyAddress": "نسخ العنوان",
   "cancel": "إلغاء",
-
   "settingsTitle": "الإعدادات",
   "settingsAiProvider": "مزوّد الذكاء الاصطناعي",
   "settingsAiProviderHint": "لتفعيل ميزات الذكاء الاصطناعي بمفتاحك الخاص",
@@ -22,11 +20,9 @@
   "languageSystem": "لغة الجوال",
   "languageArabic": "العربية",
   "languageEnglish": "English",
-
   "profileNoName": "بدون اسم",
   "profileEdit": "تعديل ملفي",
   "profileEmpty": "لم تُضف اسمًا أو اهتمامات بعد. تُحفظ مشفّرة على جهازك فقط.",
-
   "backupSaveTitle": "حفظ نسخة احتياطية مشفّرة",
   "backupSaveHint": "ملف محميّ بكلمة مرور يُحفظ خارج التطبيق",
   "backupSaving": "جارٍ التشفير، قد يستغرق ذلك عدة ثوانٍ...",
@@ -40,13 +36,14 @@
   "backupChooseFile": "اختيار الملف",
   "backupRestored": "تمت استعادة النسخة الاحتياطية.",
   "backupGenericError": "تعذّر إتمام العملية. لم تتغير البيانات.",
-
   "passwordTitle": "كلمة مرور النسخة",
   "passwordNoRecovery": "لا توجد طريقة لاسترجاع كلمة المرور. بدونها لا يمكن فتح النسخة أبدًا.",
   "passwordHintNew": "كلمة المرور ({count, plural, =1{حرف واحد على الأقل} =2{حرفان على الأقل} few{{count} أحرف على الأقل} many{{count} حرفًا على الأقل} other{{count} حرف على الأقل}})",
   "@passwordHintNew": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "passwordHint": "كلمة المرور",
@@ -57,20 +54,17 @@
   "hide": "إخفاء",
   "continueAction": "متابعة",
   "restoreAction": "استعادة",
-
   "eraseTitle": "مسح كل بياناتي",
   "eraseHint": "يحذف كل ما أدخلته من هذا الجهاز ويعيد التطبيق كأول تشغيل",
   "eraseAsk": "مسح كل بياناتي؟",
   "eraseBody": "سيُحذف نهائيًا من هذا الجهاز كل ما أدخلته: الملف الشخصي والمهام والأهداف والصحة والمطبخ والمصاريف وجلسات المدرب ومفاتيح الذكاء الاصطناعي. لا يمكن التراجع.",
   "eraseConfirm": "مسح كل شيء",
   "eraseFailed": "تعذّر مسح البيانات. لم يُحذف شيء، حاول مرة أخرى.",
-
   "back": "رجوع",
   "next": "التالي",
   "skip": "تخطي",
   "save": "حفظ",
   "start": "ابدأ",
-
   "interestHealth": "الصحة واللياقة",
   "interestGrowth": "التنمية الذاتية",
   "interestReading": "القراءة",
@@ -81,7 +75,6 @@
   "interestSkills": "تعلّم مهارات جديدة",
   "interestWork": "العمل والإنتاجية",
   "interestFamily": "الأسرة",
-
   "onboardingWelcome": "أهلًا بك في إيمان",
   "onboardingIntro": "مساعدك الشخصي للمهام والصحة والمطبخ والميزانية. كل ما تدخله يبقى على جهازك.",
   "onboardingNameQuestion": "ما اسمك؟",
@@ -95,12 +88,15 @@
   "onboardingRemoveGoal": "حذف الهدف",
   "onboardingPrivacy": "تُحفظ هذه المعلومات مشفّرة على جهازك. وإن فعّلت المساعد الذكي بمفتاحك، تُرسل مع طلباته إلى مزوّد الذكاء الاصطناعي الذي تختاره لتخصيص الردود.",
   "onboardingSaveFailed": "تعذّر الحفظ على جهازك. حاول مرة أخرى.",
-
   "tourPageOf": "صفحة {page} من {total}",
   "@tourPageOf": {
     "placeholders": {
-      "page": {"type": "int"},
-      "total": {"type": "int"}
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "tourIntroTitle": "جولة قصيرة",
@@ -142,13 +138,14 @@
   "tourAddKeyLater": "سأضيفه لاحقًا",
   "tourFinishFirstRun": "ابدأ استعمال التطبيق",
   "tourFinish": "إنهاء",
-
   "keyGuideTitle": "كيف أحصل على مفتاح؟",
   "keyGuideIntro": "المفتاح مثل كلمة سرّ خاصة بك من المزوّد، يسمح للتطبيق أن يسأل الذكاء الاصطناعي باسمك.",
   "keyGuideStepsWith": "الخطوات مع {provider}:",
   "@keyGuideStepsWith": {
     "placeholders": {
-      "provider": {"type": "String"}
+      "provider": {
+        "type": "String"
+      }
     }
   },
   "keyGuideGemini1": "اضغط «افتح صفحة المفاتيح».",
@@ -165,5 +162,129 @@
   "keyGuidePaymentNote": "قد يطلب بعض المزوّدين إضافة وسيلة دفع قبل أن يعمل المفتاح.",
   "keyGuideDontShare": "لا تشارك مفتاحك مع أحد ولا تنشره. يُحفظ على جوالك فقط.",
   "keyGuideOpenPage": "افتح صفحة المفاتيح",
-  "keyGuideLinkCopied": "تم نسخ الرابط. الصقه في المتصفح."
+  "keyGuideLinkCopied": "تم نسخ الرابط. الصقه في المتصفح.",
+  "add": "إضافة",
+  "undo": "تراجع",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "reminderNone": "بدون تذكير",
+  "reminderAt": "يوميًا عند {time}",
+  "@reminderAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSet": "ضبط تذكير",
+  "reminderChange": "تغيير الوقت",
+  "reminderRemove": "إزالة التذكير",
+  "reminderMedicationTitle": "تذكير بالدواء",
+  "reminderRoutineTitle": "تذكير بالعناية",
+  "reminderTaskTitle": "تذكير بمهمة",
+  "reminderNotScheduled": "لم يُضبط التذكير. يلزم تفعيل إشعارات هذا التطبيق من إعدادات الجوال ثم إعادة المحاولة.",
+  "notificationChannelName": "تذكيرات الحياة والمنزل",
+  "notificationChannelDescription": "تذكيرات الأدوية وروتين العناية والمهام التي تضبطها بنفسك",
+  "tasksTitle": "🎯 الأهداف والمهام اليومية",
+  "voiceImportTooltip": "استيراد مهام من المذكرة الصوتية",
+  "tabDailyTasks": "المهام اليومية",
+  "tabGoals": "الأهداف الهرمية",
+  "tabWird": "الورد والتتبع",
+  "taskAddTitle": "إضافة مهمة جديدة",
+  "taskField": "المهمة",
+  "taskHint": "اكتب نص المهمة...",
+  "categoryField": "التصنيف",
+  "reminderField": "تذكير",
+  "taskEditTitle": "تعديل المهمة",
+  "taskDeleted": "حُذفت «{title}»",
+  "@taskDeleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "addTask": "إضافة مهمة",
+  "taskPin": "تثبيت المهمة",
+  "taskUnpin": "إلغاء تثبيت المهمة",
+  "taskDelete": "حذف المهمة",
+  "tasksHeader": "مركز إدارة المهام المقسمة",
+  "tasksVoiceTip": "اضغط على أيقونة الميكروفون 🎙️ في الأعلى لاستيراد مهام من مذكرتك الصوتية",
+  "tasksEmpty": "لا توجد مهام بعد. اضغط + لإضافة مهمة أو استخدم المذكرة الصوتية.",
+  "catPersonal": "شخصي",
+  "catHome": "المنزل",
+  "catWork": "العمل",
+  "catFamily": "العائلة",
+  "goalAdd": "إضافة هدف",
+  "goalField": "الهدف",
+  "goalTypeField": "النوع",
+  "goalEditTitle": "تعديل الهدف",
+  "goalDeleted": "حُذف الهدف «{title}»",
+  "@goalDeleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "goalPin": "تثبيت الهدف",
+  "goalUnpin": "إلغاء تثبيت الهدف",
+  "goalDelete": "حذف الهدف",
+  "goalsHeader": "محرك الأهداف الهرمية (السنوية ⬅️ الشهرية ⬅️ الأسبوعية)",
+  "goalsEmpty": "لا توجد أهداف بعد. اضغط + لإضافة هدفك الأول.",
+  "goalTypeGeneral": "هدف عام",
+  "goalTypeYearly": "هدف سنوي",
+  "goalTypeMonthly": "هدف شهري",
+  "goalTypeWeekly": "هدف أسبوعي",
+  "wirdTitle": "متتبع الورد اليومي والقرآن الكريم",
+  "wirdCurrentPage": "الصفحة الحالية: {page}",
+  "@wirdCurrentPage": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "wirdFinished": "أتممت الختمة 🎉 بارك الله فيك",
+  "wirdRemaining": "المتبقي لإتمام الختمة: {count, plural, =1{صفحة واحدة} =2{صفحتان} few{{count} صفحات} many{{count} صفحة} other{{count} صفحة}}",
+  "@wirdRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "wirdReadOne": "تم قراءة صفحة (+1)",
+  "wirdSetPage": "تحديد الصفحة",
+  "wirdSetTitle": "تحديد الصفحة الحالية",
+  "wirdPageField": "رقم الصفحة (0 - {max})",
+  "@wirdPageField": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "wirdPageError": "أدخل رقمًا من 0 إلى {max}",
+  "@wirdPageError": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceTitle": "🎙️ استيراد من المذكرة الصوتية",
+  "voicePrompt": "اكتب نص المذكرة الصوتية أو ما تريد تحويله لمهام:",
+  "voiceHint": "مثال: أريد اليوم إنهاء التقرير، والذهاب للسوق، وترتيب الخزانة...",
+  "voiceExtracted": "المهام المستخرجة:",
+  "voiceExtracting": "جارٍ الاستخراج...",
+  "voiceExtract": "استخرج المهام 🧠",
+  "voiceImport": "استورد المهام للقائمة ✅",
+  "voiceImported": "{count, plural, =0{لم تُستورد أي مهمة} =1{✅ تم استيراد مهمة واحدة بنجاح} =2{✅ تم استيراد مهمتين بنجاح} few{✅ تم استيراد {count} مهام بنجاح} many{✅ تم استيراد {count} مهمة بنجاح} other{✅ تم استيراد {count} مهمة بنجاح}}",
+  "@voiceImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

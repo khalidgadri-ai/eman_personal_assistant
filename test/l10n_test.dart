@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:eman_life_app/core/config/app_locale.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
+import 'package:eman_life_app/features/goals_and_tasks/goals_tasks_screen.dart';
 import 'package:eman_life_app/features/onboarding/app_tour_screen.dart';
 import 'package:eman_life_app/features/onboarding/onboarding_screen.dart';
 import 'package:eman_life_app/features/settings/settings_screen.dart';
@@ -71,6 +72,27 @@ void main() {
       expect(interestLabel(en, stored), isNot(stored), reason: '$stored has an English label');
     }
     expect(interestLabel(en, 'هواية قديمة'), 'هواية قديمة', reason: 'an unknown old value shows as saved');
+  });
+
+  test('task categories and goal types saved in Arabic show in the app language', () {
+    final ar = lookupAppLocalizations(AppLocale.arabic);
+    final en = lookupAppLocalizations(AppLocale.english);
+    for (final stored in ['شخصي', 'المنزل', 'العمل', 'العائلة']) {
+      expect(taskCategoryLabel(ar, stored), stored);
+      expect(taskCategoryLabel(en, stored), isNot(stored));
+    }
+    for (final stored in ['هدف عام', 'هدف سنوي', 'هدف شهري', 'هدف أسبوعي']) {
+      expect(goalTypeLabel(ar, stored), stored);
+      expect(goalTypeLabel(en, stored), isNot(stored));
+    }
+  });
+
+  test('Arabic page counts follow the number rules in the text files too', () {
+    final ar = lookupAppLocalizations(AppLocale.arabic);
+    expect(ar.wirdRemaining(604), 'المتبقي لإتمام الختمة: 604 صفحات');
+    expect(ar.wirdRemaining(11), 'المتبقي لإتمام الختمة: 11 صفحة');
+    expect(ar.wirdRemaining(2), 'المتبقي لإتمام الختمة: صفحتان');
+    expect(ar.wirdRemaining(1), 'المتبقي لإتمام الختمة: صفحة واحدة');
   });
 
   group('choosing the language', () {
@@ -160,6 +182,28 @@ void main() {
       expect(find.text('AI key'), findsOneWidget);
       expect(find.text('Steps with Google Gemini:'), findsOneWidget);
       expect(find.text('Open the keys page'), findsOneWidget);
+    });
+
+    testWidgets('goals & tasks speaks English, and a task saved with an Arabic category shows it in English',
+        (tester) async {
+      await tester.runAsync(() async {
+        final db = await DatabaseService.getInstance();
+        await db.saveDailyTasks([
+          {'id': 't1', 'title': 'Buy bread', 'category': 'شخصي', 'done': false},
+        ]);
+      });
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(const GoalsTasksScreen()));
+      await settle(tester);
+
+      expect(find.text('Daily tasks'), findsOneWidget);
+      expect(find.text('Buy bread'), findsOneWidget);
+      expect(find.text('Personal'), findsOneWidget);
+      expect(find.text('شخصي'), findsNothing);
+
+      await tester.tap(find.text('Quran reading'));
+      await tester.pumpAndSettle();
+      expect(find.text('Left to finish: 604 pages'), findsOneWidget);
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

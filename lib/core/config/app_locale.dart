@@ -43,6 +43,12 @@ abstract final class AppLocale {
       englishReady && device?.languageCode != 'ar' ? english : arabic,
   };
 
+  /// اللغة الحالية خارج الشاشات (نصوص التذكيرات مثلًا)، حيث لا يوجد BuildContext.
+  static Locale get current => resolve(choice.value, PlatformDispatcher.instance.locale);
+
+  /// نصوص اللغة الحالية خارج الشاشات.
+  static AppLocalizations get texts => lookupAppLocalizations(current);
+
   static AppLanguage parse(String? raw) =>
       AppLanguage.values.where((l) => l.name == raw).firstOrNull ??
       AppLanguage.system;

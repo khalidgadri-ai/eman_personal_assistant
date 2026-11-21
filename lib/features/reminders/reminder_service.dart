@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../../core/config/app_locale.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/notification_service.dart';
 import '../health_and_fitness/health_service.dart';
@@ -67,9 +68,10 @@ class PlatformReminderGateway implements ReminderGateway {
 
 /// يحوّل بيانات المستخدم إلى قائمة تذكيرات (دالة نقية، قابلة للاختبار بلا نظام).
 abstract final class ReminderPlanner {
-  static const String medicationTitle = 'تذكير بالدواء';
-  static const String routineTitle = 'تذكير بالعناية';
-  static const String taskTitle = 'تذكير بمهمة';
+  // بلغة التطبيق وقت الجدولة؛ تغيير اللغة يعيد الجدولة فتتبدل العناوين.
+  static String get medicationTitle => AppLocale.texts.reminderMedicationTitle;
+  static String get routineTitle => AppLocale.texts.reminderRoutineTitle;
+  static String get taskTitle => AppLocale.texts.reminderTaskTitle;
 
   /// معرّف إشعار ثابت بين التشغيلات (FNV-1a)؛ `String.hashCode` غير مضمون الثبات.
   static int stableId(String kind, String id) {
@@ -166,8 +168,7 @@ class ReminderService {
   ReminderService._();
 
   /// رسالة للمستخدم حين لا يُضمن أن يرن تذكيره. صيغة لا تخاطب جنسًا بعينه.
-  static const String notScheduledMessage =
-      'لم يُضبط التذكير. يلزم تفعيل إشعارات هذا التطبيق من إعدادات الجوال ثم إعادة المحاولة.';
+  static String get notScheduledMessage => AppLocale.texts.reminderNotScheduled;
 
   @visibleForTesting
   static ReminderGateway? gatewayOverride;

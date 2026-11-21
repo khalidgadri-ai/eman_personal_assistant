@@ -464,4 +464,249 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get keyGuideLinkCopied => 'تم نسخ الرابط. الصقه في المتصفح.';
+
+  @override
+  String get add => 'إضافة';
+
+  @override
+  String get undo => 'تراجع';
+
+  @override
+  String get fieldRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get reminderNone => 'بدون تذكير';
+
+  @override
+  String reminderAt(String time) {
+    return 'يوميًا عند $time';
+  }
+
+  @override
+  String get reminderSet => 'ضبط تذكير';
+
+  @override
+  String get reminderChange => 'تغيير الوقت';
+
+  @override
+  String get reminderRemove => 'إزالة التذكير';
+
+  @override
+  String get reminderMedicationTitle => 'تذكير بالدواء';
+
+  @override
+  String get reminderRoutineTitle => 'تذكير بالعناية';
+
+  @override
+  String get reminderTaskTitle => 'تذكير بمهمة';
+
+  @override
+  String get reminderNotScheduled =>
+      'لم يُضبط التذكير. يلزم تفعيل إشعارات هذا التطبيق من إعدادات الجوال ثم إعادة المحاولة.';
+
+  @override
+  String get notificationChannelName => 'تذكيرات الحياة والمنزل';
+
+  @override
+  String get notificationChannelDescription =>
+      'تذكيرات الأدوية وروتين العناية والمهام التي تضبطها بنفسك';
+
+  @override
+  String get tasksTitle => '🎯 الأهداف والمهام اليومية';
+
+  @override
+  String get voiceImportTooltip => 'استيراد مهام من المذكرة الصوتية';
+
+  @override
+  String get tabDailyTasks => 'المهام اليومية';
+
+  @override
+  String get tabGoals => 'الأهداف الهرمية';
+
+  @override
+  String get tabWird => 'الورد والتتبع';
+
+  @override
+  String get taskAddTitle => 'إضافة مهمة جديدة';
+
+  @override
+  String get taskField => 'المهمة';
+
+  @override
+  String get taskHint => 'اكتب نص المهمة...';
+
+  @override
+  String get categoryField => 'التصنيف';
+
+  @override
+  String get reminderField => 'تذكير';
+
+  @override
+  String get taskEditTitle => 'تعديل المهمة';
+
+  @override
+  String taskDeleted(String title) {
+    return 'حُذفت «$title»';
+  }
+
+  @override
+  String get addTask => 'إضافة مهمة';
+
+  @override
+  String get taskPin => 'تثبيت المهمة';
+
+  @override
+  String get taskUnpin => 'إلغاء تثبيت المهمة';
+
+  @override
+  String get taskDelete => 'حذف المهمة';
+
+  @override
+  String get tasksHeader => 'مركز إدارة المهام المقسمة';
+
+  @override
+  String get tasksVoiceTip =>
+      'اضغط على أيقونة الميكروفون 🎙️ في الأعلى لاستيراد مهام من مذكرتك الصوتية';
+
+  @override
+  String get tasksEmpty =>
+      'لا توجد مهام بعد. اضغط + لإضافة مهمة أو استخدم المذكرة الصوتية.';
+
+  @override
+  String get catPersonal => 'شخصي';
+
+  @override
+  String get catHome => 'المنزل';
+
+  @override
+  String get catWork => 'العمل';
+
+  @override
+  String get catFamily => 'العائلة';
+
+  @override
+  String get goalAdd => 'إضافة هدف';
+
+  @override
+  String get goalField => 'الهدف';
+
+  @override
+  String get goalTypeField => 'النوع';
+
+  @override
+  String get goalEditTitle => 'تعديل الهدف';
+
+  @override
+  String goalDeleted(String title) {
+    return 'حُذف الهدف «$title»';
+  }
+
+  @override
+  String get goalPin => 'تثبيت الهدف';
+
+  @override
+  String get goalUnpin => 'إلغاء تثبيت الهدف';
+
+  @override
+  String get goalDelete => 'حذف الهدف';
+
+  @override
+  String get goalsHeader =>
+      'محرك الأهداف الهرمية (السنوية ⬅️ الشهرية ⬅️ الأسبوعية)';
+
+  @override
+  String get goalsEmpty => 'لا توجد أهداف بعد. اضغط + لإضافة هدفك الأول.';
+
+  @override
+  String get goalTypeGeneral => 'هدف عام';
+
+  @override
+  String get goalTypeYearly => 'هدف سنوي';
+
+  @override
+  String get goalTypeMonthly => 'هدف شهري';
+
+  @override
+  String get goalTypeWeekly => 'هدف أسبوعي';
+
+  @override
+  String get wirdTitle => 'متتبع الورد اليومي والقرآن الكريم';
+
+  @override
+  String wirdCurrentPage(int page) {
+    return 'الصفحة الحالية: $page';
+  }
+
+  @override
+  String get wirdFinished => 'أتممت الختمة 🎉 بارك الله فيك';
+
+  @override
+  String wirdRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صفحة',
+      many: '$count صفحة',
+      few: '$count صفحات',
+      two: 'صفحتان',
+      one: 'صفحة واحدة',
+    );
+    return 'المتبقي لإتمام الختمة: $_temp0';
+  }
+
+  @override
+  String get wirdReadOne => 'تم قراءة صفحة (+1)';
+
+  @override
+  String get wirdSetPage => 'تحديد الصفحة';
+
+  @override
+  String get wirdSetTitle => 'تحديد الصفحة الحالية';
+
+  @override
+  String wirdPageField(int max) {
+    return 'رقم الصفحة (0 - $max)';
+  }
+
+  @override
+  String wirdPageError(int max) {
+    return 'أدخل رقمًا من 0 إلى $max';
+  }
+
+  @override
+  String get voiceTitle => '🎙️ استيراد من المذكرة الصوتية';
+
+  @override
+  String get voicePrompt => 'اكتب نص المذكرة الصوتية أو ما تريد تحويله لمهام:';
+
+  @override
+  String get voiceHint =>
+      'مثال: أريد اليوم إنهاء التقرير، والذهاب للسوق، وترتيب الخزانة...';
+
+  @override
+  String get voiceExtracted => 'المهام المستخرجة:';
+
+  @override
+  String get voiceExtracting => 'جارٍ الاستخراج...';
+
+  @override
+  String get voiceExtract => 'استخرج المهام 🧠';
+
+  @override
+  String get voiceImport => 'استورد المهام للقائمة ✅';
+
+  @override
+  String voiceImported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '✅ تم استيراد $count مهمة بنجاح',
+      many: '✅ تم استيراد $count مهمة بنجاح',
+      few: '✅ تم استيراد $count مهام بنجاح',
+      two: '✅ تم استيراد مهمتين بنجاح',
+      one: '✅ تم استيراد مهمة واحدة بنجاح',
+      zero: 'لم تُستورد أي مهمة',
+    );
+    return '$_temp0';
+  }
 }

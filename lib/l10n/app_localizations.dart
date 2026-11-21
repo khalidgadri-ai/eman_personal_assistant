@@ -931,6 +931,414 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم نسخ الرابط. الصقه في المتصفح.'**
   String get keyGuideLinkCopied;
+
+  /// No description provided for @add.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة'**
+  String get add;
+
+  /// No description provided for @undo.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get undo;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الحقل مطلوب'**
+  String get fieldRequired;
+
+  /// No description provided for @reminderNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدون تذكير'**
+  String get reminderNone;
+
+  /// No description provided for @reminderAt.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوميًا عند {time}'**
+  String reminderAt(String time);
+
+  /// No description provided for @reminderSet.
+  ///
+  /// In ar, this message translates to:
+  /// **'ضبط تذكير'**
+  String get reminderSet;
+
+  /// No description provided for @reminderChange.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير الوقت'**
+  String get reminderChange;
+
+  /// No description provided for @reminderRemove.
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة التذكير'**
+  String get reminderRemove;
+
+  /// No description provided for @reminderMedicationTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير بالدواء'**
+  String get reminderMedicationTitle;
+
+  /// No description provided for @reminderRoutineTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير بالعناية'**
+  String get reminderRoutineTitle;
+
+  /// No description provided for @reminderTaskTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير بمهمة'**
+  String get reminderTaskTitle;
+
+  /// No description provided for @reminderNotScheduled.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يُضبط التذكير. يلزم تفعيل إشعارات هذا التطبيق من إعدادات الجوال ثم إعادة المحاولة.'**
+  String get reminderNotScheduled;
+
+  /// No description provided for @notificationChannelName.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكيرات الحياة والمنزل'**
+  String get notificationChannelName;
+
+  /// No description provided for @notificationChannelDescription.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكيرات الأدوية وروتين العناية والمهام التي تضبطها بنفسك'**
+  String get notificationChannelDescription;
+
+  /// No description provided for @tasksTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'🎯 الأهداف والمهام اليومية'**
+  String get tasksTitle;
+
+  /// No description provided for @voiceImportTooltip.
+  ///
+  /// In ar, this message translates to:
+  /// **'استيراد مهام من المذكرة الصوتية'**
+  String get voiceImportTooltip;
+
+  /// No description provided for @tabDailyTasks.
+  ///
+  /// In ar, this message translates to:
+  /// **'المهام اليومية'**
+  String get tabDailyTasks;
+
+  /// No description provided for @tabGoals.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأهداف الهرمية'**
+  String get tabGoals;
+
+  /// No description provided for @tabWird.
+  ///
+  /// In ar, this message translates to:
+  /// **'الورد والتتبع'**
+  String get tabWird;
+
+  /// No description provided for @taskAddTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة مهمة جديدة'**
+  String get taskAddTitle;
+
+  /// No description provided for @taskField.
+  ///
+  /// In ar, this message translates to:
+  /// **'المهمة'**
+  String get taskField;
+
+  /// No description provided for @taskHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب نص المهمة...'**
+  String get taskHint;
+
+  /// No description provided for @categoryField.
+  ///
+  /// In ar, this message translates to:
+  /// **'التصنيف'**
+  String get categoryField;
+
+  /// No description provided for @reminderField.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير'**
+  String get reminderField;
+
+  /// No description provided for @taskEditTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل المهمة'**
+  String get taskEditTitle;
+
+  /// No description provided for @taskDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذفت «{title}»'**
+  String taskDeleted(String title);
+
+  /// No description provided for @addTask.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة مهمة'**
+  String get addTask;
+
+  /// No description provided for @taskPin.
+  ///
+  /// In ar, this message translates to:
+  /// **'تثبيت المهمة'**
+  String get taskPin;
+
+  /// No description provided for @taskUnpin.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء تثبيت المهمة'**
+  String get taskUnpin;
+
+  /// No description provided for @taskDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المهمة'**
+  String get taskDelete;
+
+  /// No description provided for @tasksHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'مركز إدارة المهام المقسمة'**
+  String get tasksHeader;
+
+  /// No description provided for @tasksVoiceTip.
+  ///
+  /// In ar, this message translates to:
+  /// **'اضغط على أيقونة الميكروفون 🎙️ في الأعلى لاستيراد مهام من مذكرتك الصوتية'**
+  String get tasksVoiceTip;
+
+  /// No description provided for @tasksEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد مهام بعد. اضغط + لإضافة مهمة أو استخدم المذكرة الصوتية.'**
+  String get tasksEmpty;
+
+  /// No description provided for @catPersonal.
+  ///
+  /// In ar, this message translates to:
+  /// **'شخصي'**
+  String get catPersonal;
+
+  /// No description provided for @catHome.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنزل'**
+  String get catHome;
+
+  /// No description provided for @catWork.
+  ///
+  /// In ar, this message translates to:
+  /// **'العمل'**
+  String get catWork;
+
+  /// No description provided for @catFamily.
+  ///
+  /// In ar, this message translates to:
+  /// **'العائلة'**
+  String get catFamily;
+
+  /// No description provided for @goalAdd.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة هدف'**
+  String get goalAdd;
+
+  /// No description provided for @goalField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الهدف'**
+  String get goalField;
+
+  /// No description provided for @goalTypeField.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع'**
+  String get goalTypeField;
+
+  /// No description provided for @goalEditTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الهدف'**
+  String get goalEditTitle;
+
+  /// No description provided for @goalDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف الهدف «{title}»'**
+  String goalDeleted(String title);
+
+  /// No description provided for @goalPin.
+  ///
+  /// In ar, this message translates to:
+  /// **'تثبيت الهدف'**
+  String get goalPin;
+
+  /// No description provided for @goalUnpin.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء تثبيت الهدف'**
+  String get goalUnpin;
+
+  /// No description provided for @goalDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الهدف'**
+  String get goalDelete;
+
+  /// No description provided for @goalsHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'محرك الأهداف الهرمية (السنوية ⬅️ الشهرية ⬅️ الأسبوعية)'**
+  String get goalsHeader;
+
+  /// No description provided for @goalsEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد أهداف بعد. اضغط + لإضافة هدفك الأول.'**
+  String get goalsEmpty;
+
+  /// No description provided for @goalTypeGeneral.
+  ///
+  /// In ar, this message translates to:
+  /// **'هدف عام'**
+  String get goalTypeGeneral;
+
+  /// No description provided for @goalTypeYearly.
+  ///
+  /// In ar, this message translates to:
+  /// **'هدف سنوي'**
+  String get goalTypeYearly;
+
+  /// No description provided for @goalTypeMonthly.
+  ///
+  /// In ar, this message translates to:
+  /// **'هدف شهري'**
+  String get goalTypeMonthly;
+
+  /// No description provided for @goalTypeWeekly.
+  ///
+  /// In ar, this message translates to:
+  /// **'هدف أسبوعي'**
+  String get goalTypeWeekly;
+
+  /// No description provided for @wirdTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'متتبع الورد اليومي والقرآن الكريم'**
+  String get wirdTitle;
+
+  /// No description provided for @wirdCurrentPage.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة الحالية: {page}'**
+  String wirdCurrentPage(int page);
+
+  /// No description provided for @wirdFinished.
+  ///
+  /// In ar, this message translates to:
+  /// **'أتممت الختمة 🎉 بارك الله فيك'**
+  String get wirdFinished;
+
+  /// No description provided for @wirdRemaining.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتبقي لإتمام الختمة: {count, plural, =1{صفحة واحدة} =2{صفحتان} few{{count} صفحات} many{{count} صفحة} other{{count} صفحة}}'**
+  String wirdRemaining(int count);
+
+  /// No description provided for @wirdReadOne.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم قراءة صفحة (+1)'**
+  String get wirdReadOne;
+
+  /// No description provided for @wirdSetPage.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديد الصفحة'**
+  String get wirdSetPage;
+
+  /// No description provided for @wirdSetTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديد الصفحة الحالية'**
+  String get wirdSetTitle;
+
+  /// No description provided for @wirdPageField.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الصفحة (0 - {max})'**
+  String wirdPageField(int max);
+
+  /// No description provided for @wirdPageError.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل رقمًا من 0 إلى {max}'**
+  String wirdPageError(int max);
+
+  /// No description provided for @voiceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'🎙️ استيراد من المذكرة الصوتية'**
+  String get voiceTitle;
+
+  /// No description provided for @voicePrompt.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب نص المذكرة الصوتية أو ما تريد تحويله لمهام:'**
+  String get voicePrompt;
+
+  /// No description provided for @voiceHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: أريد اليوم إنهاء التقرير، والذهاب للسوق، وترتيب الخزانة...'**
+  String get voiceHint;
+
+  /// No description provided for @voiceExtracted.
+  ///
+  /// In ar, this message translates to:
+  /// **'المهام المستخرجة:'**
+  String get voiceExtracted;
+
+  /// No description provided for @voiceExtracting.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ الاستخراج...'**
+  String get voiceExtracting;
+
+  /// No description provided for @voiceExtract.
+  ///
+  /// In ar, this message translates to:
+  /// **'استخرج المهام 🧠'**
+  String get voiceExtract;
+
+  /// No description provided for @voiceImport.
+  ///
+  /// In ar, this message translates to:
+  /// **'استورد المهام للقائمة ✅'**
+  String get voiceImport;
+
+  /// No description provided for @voiceImported.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{لم تُستورد أي مهمة} =1{✅ تم استيراد مهمة واحدة بنجاح} =2{✅ تم استيراد مهمتين بنجاح} few{✅ تم استيراد {count} مهام بنجاح} many{✅ تم استيراد {count} مهمة بنجاح} other{✅ تم استيراد {count} مهمة بنجاح}}'**
+  String voiceImported(int count);
 }
 
 class _AppLocalizationsDelegate

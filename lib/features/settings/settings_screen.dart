@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import '../../core/widgets/ai_provider_screen.dart';
 import '../../l10n/l10n.dart';
 import '../onboarding/app_tour_screen.dart';
 import '../onboarding/onboarding_screen.dart';
+import '../reminders/reminder_service.dart';
 import 'backup_file_gateway.dart';
 import 'backup_service.dart';
 import 'data_reset_service.dart';
@@ -349,6 +351,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       debugPrint('SettingsScreen: could not save the language (${e.runtimeType})');
     }
     AppLocale.choice.value = chosen;
+    // عناوين التذكيرات بلغة التطبيق: تُعاد جدولتها باللغة الجديدة.
+    unawaited(ReminderService.syncAll());
     if (mounted) setState(() {});
   }
 

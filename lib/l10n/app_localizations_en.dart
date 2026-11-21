@@ -1134,4 +1134,452 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meditationChannelName => 'Meditation sessions';
+
+  @override
+  String get kitchenTitle => '🥗 Kitchen, pantry & laundry';
+
+  @override
+  String get tabRecipes => 'Recipes';
+
+  @override
+  String get tabPantry => 'Pantry & supplies';
+
+  @override
+  String get tabShopping => 'Shopping';
+
+  @override
+  String get tabLaundry => 'Laundry';
+
+  @override
+  String get addRecipe => 'Add recipe';
+
+  @override
+  String get addPantryItem => 'Add item';
+
+  @override
+  String get addShoppingItem => 'Add to shopping';
+
+  @override
+  String get addLaundry => 'Add laundry day';
+
+  @override
+  String get recipeBreakfast => 'Breakfast';
+
+  @override
+  String get recipeLunch => 'Lunch';
+
+  @override
+  String get recipeDinner => 'Dinner';
+
+  @override
+  String get recipeSnack => 'Snack';
+
+  @override
+  String get recipeDessert => 'Dessert';
+
+  @override
+  String get recipeAi => 'AI';
+
+  @override
+  String get otherCategory => 'Other';
+
+  @override
+  String get pantryOils => 'Oils & spices';
+
+  @override
+  String get pantryGrains => 'Grains & legumes';
+
+  @override
+  String get pantryProduce => 'Fruit & vegetables';
+
+  @override
+  String get pantryDairyMeat => 'Dairy & meat';
+
+  @override
+  String get pantryNuts => 'Nuts';
+
+  @override
+  String get pantryCleaning => 'Cleaning supplies';
+
+  @override
+  String get daySat => 'Saturday';
+
+  @override
+  String get daySun => 'Sunday';
+
+  @override
+  String get dayMon => 'Monday';
+
+  @override
+  String get dayTue => 'Tuesday';
+
+  @override
+  String get dayWed => 'Wednesday';
+
+  @override
+  String get dayThu => 'Thursday';
+
+  @override
+  String get dayFri => 'Friday';
+
+  @override
+  String get sourceOutOfStock => 'Ran out in the pantry';
+
+  @override
+  String get recipeNeedIngredients => '⚠️ Please write the ingredients first';
+
+  @override
+  String get recipeSuggested => 'Suggested recipe 🍽️';
+
+  @override
+  String get saveToRecipes => 'Save to recipes';
+
+  @override
+  String aiRecipeFallbackTitle(String first) {
+    return 'Smart recipe: $first';
+  }
+
+  @override
+  String get recipeAdded => '✅ Recipe added';
+
+  @override
+  String recipeDeleted(String title) {
+    return 'Deleted \"$title\"';
+  }
+
+  @override
+  String get recipesHeader => 'Your recipes and their ingredients';
+
+  @override
+  String get recipesEmpty =>
+      'No recipes yet. Tap + to add one, or let the AI suggest one.';
+
+  @override
+  String servingsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count servings',
+      one: '1 serving',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ingredientsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ingredients',
+      one: '1 ingredient',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String stepsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steps',
+      one: '1 step',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recipePin => 'Pin recipe';
+
+  @override
+  String get recipeUnpin => 'Unpin recipe';
+
+  @override
+  String get recipeDelete => 'Delete recipe';
+
+  @override
+  String ingredientsLine(String text) {
+    return 'Ingredients: $text';
+  }
+
+  @override
+  String get aiRecipeTitle => '🧑‍🍳 Create a recipe with AI';
+
+  @override
+  String get aiRecipePrompt =>
+      'Write the ingredients you have (separated by commas):';
+
+  @override
+  String get aiRecipeHint =>
+      'Example: chicken, rice, tomatoes, onion, spices...';
+
+  @override
+  String get aiRecipeWorking => 'Creating the recipe...';
+
+  @override
+  String get aiRecipeSuggest => 'Suggest a recipe ✨';
+
+  @override
+  String get pantryAddTitle => 'Add a pantry item';
+
+  @override
+  String get itemField => 'Item';
+
+  @override
+  String get qtyOptionalField => 'Quantity (optional)';
+
+  @override
+  String get pantryQtyHint => 'Example: 2 litres';
+
+  @override
+  String get pantryEditTitle => 'Edit item';
+
+  @override
+  String itemDeleted(String name) {
+    return 'Deleted \"$name\"';
+  }
+
+  @override
+  String movedToShopping(String name) {
+    return 'Moved \"$name\" to shopping';
+  }
+
+  @override
+  String get pantryHeader => 'Kitchen stock and home supplies';
+
+  @override
+  String get pantryEmpty => 'The pantry is empty. Tap + to add the first item.';
+
+  @override
+  String get pantrySearchHint => 'Search the pantry and supplies';
+
+  @override
+  String get clearSearch => 'Clear search';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get noSearchResults => 'Nothing matches the search.';
+
+  @override
+  String get pinnedSection => '📌 Pinned';
+
+  @override
+  String get qtyLess => 'Less';
+
+  @override
+  String get qtyMore => 'More';
+
+  @override
+  String get moreActions => 'More';
+
+  @override
+  String get editAction => 'Edit';
+
+  @override
+  String get pinAction => 'Pin';
+
+  @override
+  String get unpinAction => 'Unpin';
+
+  @override
+  String get outToShopping => 'Ran out: to shopping';
+
+  @override
+  String get shoppingAddTitle => 'Add a shopping item';
+
+  @override
+  String get shoppingItemField => 'Item';
+
+  @override
+  String get shoppingQtyHint => 'Example: 2 kg';
+
+  @override
+  String get shoppingEditTitle => 'Edit item';
+
+  @override
+  String get shoppingHeader => 'Shopping list';
+
+  @override
+  String get shoppingEmpty =>
+      'The shopping list is empty. Tap + to add an item, or add a recipe\'s ingredients from its page.';
+
+  @override
+  String movedToPantry(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items moved to the pantry',
+      one: '1 item moved to the pantry',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get moveBoughtToPantry => 'Move bought items to the pantry';
+
+  @override
+  String get clearBought => 'Clear bought items';
+
+  @override
+  String shoppingFrom(String source) {
+    return 'From: $source';
+  }
+
+  @override
+  String get shoppingDelete => 'Delete item';
+
+  @override
+  String get laundryAddTitle => 'Add a laundry day';
+
+  @override
+  String get dayField => 'Day';
+
+  @override
+  String get laundryTypeField => 'Laundry type';
+
+  @override
+  String get laundryTypeHint => 'Example: coloured clothes';
+
+  @override
+  String get instructionsOptional => 'Instructions (optional)';
+
+  @override
+  String get laundryEditTitle => 'Edit laundry day';
+
+  @override
+  String laundryDeleted(String type) {
+    return 'Deleted \"$type\"';
+  }
+
+  @override
+  String get laundryHeader => 'Weekly laundry and fabric care';
+
+  @override
+  String get laundryEmpty => 'No laundry days yet. Tap + to add one.';
+
+  @override
+  String instructionsLine(String text) {
+    return 'Instructions: $text';
+  }
+
+  @override
+  String get laundryDelete => 'Delete';
+
+  @override
+  String get recipeDeleteAsk => 'Delete the recipe?';
+
+  @override
+  String recipeDeleteBody(String title) {
+    return '\"$title\" will be deleted from your recipes.';
+  }
+
+  @override
+  String addedToShopping(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items added to shopping',
+      one: '1 item added to shopping',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInList(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count were already on the list',
+      one: '1 was already on the list',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recipeEdit => 'Edit recipe';
+
+  @override
+  String get ingredientsHeader => 'Ingredients';
+
+  @override
+  String get noIngredients => 'No ingredients yet.';
+
+  @override
+  String get addIngredientsToShopping => 'Add the ingredients to shopping';
+
+  @override
+  String get prepSteps => 'Method';
+
+  @override
+  String servingsScaled(int servings, int original) {
+    String _temp0 = intl.Intl.pluralLogic(
+      servings,
+      locale: localeName,
+      other: '$servings servings',
+      one: '1 serving',
+    );
+    return '$_temp0 (originally $original)';
+  }
+
+  @override
+  String get servingsLess => 'Fewer servings';
+
+  @override
+  String get servingsMore => 'More servings';
+
+  @override
+  String get whatToShopping => 'What do you want to add to shopping?';
+
+  @override
+  String get inPantry => 'In the pantry';
+
+  @override
+  String addCount(int count) {
+    return 'Add ($count)';
+  }
+
+  @override
+  String get ingredientNameRequired => 'The ingredient name is required';
+
+  @override
+  String get invalidAmount => 'Not a valid amount';
+
+  @override
+  String get mealNameField => 'Dish name';
+
+  @override
+  String get servingsField => 'Servings';
+
+  @override
+  String get freeTextIngredients => 'Ingredients written as free text:';
+
+  @override
+  String get convertIngredients => 'Turn into a structured list';
+
+  @override
+  String get addIngredient => 'Add ingredient';
+
+  @override
+  String get ingredientField => 'Ingredient';
+
+  @override
+  String get amountField => 'Amount';
+
+  @override
+  String get unitField => 'Unit';
+
+  @override
+  String get unitHint => 'cup';
+
+  @override
+  String get deleteIngredient => 'Delete ingredient';
+
+  @override
+  String stepNumber(int number) {
+    return 'Step $number';
+  }
+
+  @override
+  String get recipeTypeField => 'Type';
 }

@@ -5,14 +5,15 @@ import '../../core/widgets/undo_snackbar.dart';
 import 'kitchen_constants.dart';
 import 'kitchen_store.dart';
 import 'models/shopping_item.dart';
+import '../../l10n/l10n.dart';
 
 Future<void> startAddShoppingItem(BuildContext context, KitchenStore store) async {
   final values = await showEntryDialog(
     context,
-    title: 'إضافة بند للمشتريات',
-    fields: const [
-      EntryField(key: 'name', label: 'البند', required: true),
-      EntryField(key: 'qty', label: 'الكمية (اختياري)', hint: 'مثال: 2 كجم'),
+    title: context.l10n.shoppingAddTitle,
+    fields: [
+      EntryField(key: 'name', label: context.l10n.shoppingItemField, required: true),
+      EntryField(key: 'qty', label: context.l10n.qtyOptionalField, hint: context.l10n.shoppingQtyHint),
     ],
   );
   if (values == null) return;
@@ -29,11 +30,11 @@ class ShoppingTab extends StatelessWidget {
   Future<void> _edit(BuildContext context, ShoppingItem item) async {
     final values = await showEntryDialog(
       context,
-      title: 'تعديل البند',
-      confirmLabel: 'حفظ',
+      title: context.l10n.shoppingEditTitle,
+      confirmLabel: context.l10n.save,
       fields: [
-        EntryField(key: 'name', label: 'البند', required: true, initial: item.name),
-        EntryField(key: 'qty', label: 'الكمية (اختياري)', initial: item.qty),
+        EntryField(key: 'name', label: context.l10n.shoppingItemField, required: true, initial: item.name),
+        EntryField(key: 'qty', label: context.l10n.qtyOptionalField, initial: item.qty),
       ],
     );
     if (values == null) return;
@@ -43,7 +44,7 @@ class ShoppingTab extends StatelessWidget {
   Future<void> _delete(BuildContext context, ShoppingItem item) async {
     final removed = await store.removeShoppingItem(item.id);
     if (removed == null || !context.mounted) return;
-    showUndoSnackBar(context, 'حُذف «${item.name}»', () => store.restoreShoppingItem(removed));
+    showUndoSnackBar(context, context.l10n.itemDeleted(item.name), () => store.restoreShoppingItem(removed));
   }
 
   @override
@@ -56,10 +57,10 @@ class ShoppingTab extends StatelessWidget {
         return ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
           children: [
-            const KitchenSectionTitle('قائمة المشتريات'),
+            KitchenSectionTitle(context.l10n.shoppingHeader),
             const SizedBox(height: 12),
             if (items.isEmpty)
-              const KitchenEmptyNote('قائمة المشتريات فارغة. اضغط + لإضافة بند، أو أضف مقادير وصفة من صفحتها.')
+              KitchenEmptyNote(context.l10n.shoppingEmpty)
             else ...[
               if (doneCount > 0)
                 Wrap(
@@ -68,14 +69,14 @@ class ShoppingTab extends StatelessWidget {
                     OutlinedButton.icon(
                       onPressed: () async {
                         final moved = await store.moveBoughtToPantry();
-                        if (context.mounted) showInfoSnackBar(context, 'نُقل $moved إلى المؤونة');
+                        if (context.mounted) showInfoSnackBar(context, context.l10n.movedToPantry(moved));
                       },
                       icon: const Icon(Icons.kitchen_rounded, size: 18),
-                      label: const Text('نقل المشتراة إلى المؤونة'),
+                      label: Text(context.l10n.moveBoughtToPantry),
                     ),
                     TextButton(
                       onPressed: store.clearDoneShopping,
-                      child: const Text('مسح المشتراة'),
+                      child: Text(context.l10n.clearBought),
                     ),
                   ],
                 ),
@@ -99,7 +100,7 @@ class ShoppingTab extends StatelessWidget {
                     ),
                     subtitle: item.source.isEmpty
                         ? null
-                        : Text('من: ${item.source}', style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                        : Text(context.l10n.shoppingFrom(shoppingSourceLabel(context.l10n, item.source)), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
                     onTap: () => _edit(context, item),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -107,7 +108,7 @@ class ShoppingTab extends StatelessWidget {
                         if (item.qty.isNotEmpty)
                           Text(item.qty, style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
                         IconButton(
-                          tooltip: 'حذف البند',
+                          tooltip: context.l10n.shoppingDelete,
                           icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                           onPressed: () => _delete(context, item),
                         ),

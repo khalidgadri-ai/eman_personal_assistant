@@ -323,7 +323,13 @@ void main() {
       for (final file in files) {
         final text = file.readAsStringSync().toLowerCase();
         for (final word in banned) {
-          expect(text.contains(word.toLowerCase()), isFalse, reason: '"$word" in ${file.path}');
+          // الكلمة اللاتينية تُطابَق من بداية كلمة فقط: «cures» ممنوعة، و«secure» أو مفتاح مثل
+          // «movedToShopping» (فيه o-s-h-o) ليسا منها. العربية تبقى مطابقة جزئية.
+          final latin = RegExp(r'^[a-z ]+$').hasMatch(word);
+          final found = latin
+              ? RegExp('(?<![a-z])${RegExp.escape(word)}').hasMatch(text)
+              : text.contains(word);
+          expect(found, isFalse, reason: '"$word" in ${file.path}');
         }
       }
     });

@@ -5,6 +5,7 @@ import 'package:eman_life_app/core/config/app_locale.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
 import 'package:eman_life_app/features/goals_and_tasks/goals_tasks_screen.dart';
+import 'package:eman_life_app/features/kitchen_and_home/kitchen_home_screen.dart';
 import 'package:eman_life_app/features/onboarding/app_tour_screen.dart';
 import 'package:eman_life_app/features/onboarding/onboarding_screen.dart';
 import 'package:eman_life_app/features/settings/settings_screen.dart';
@@ -204,6 +205,66 @@ void main() {
       await tester.tap(find.text('Quran reading'));
       await tester.pumpAndSettle();
       expect(find.text('Left to finish: 604 pages'), findsOneWidget);
+    });
+
+    testWidgets('the kitchen speaks English, and sections, days and sources saved in Arabic show in English',
+        (tester) async {
+      tester.view.physicalSize = const Size(900, 2400);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.runAsync(() async {
+        final db = await DatabaseService.getInstance();
+        await db.saveRecipes([
+          {
+            'id': 'r1',
+            'title': 'Dough',
+            'category': 'فطور',
+            'servings': 4,
+            'ingredients': [
+              {'name': 'Flour', 'amount': 2.0, 'unit': 'cup'},
+            ],
+            'steps': ['Knead'],
+          },
+        ]);
+        await db.savePantry([
+          {'id': 'p1', 'name': 'Lentils', 'qty': '1 kg', 'category': 'الحبوب والبقوليات'},
+        ]);
+        await db.saveShopping([
+          {'id': 's1', 'name': 'Milk', 'qty': '', 'done': false, 'source': 'نفد من المؤونة'},
+        ]);
+        await db.saveLaundrySchedule([
+          {'id': 'l1', 'day': 'السبت', 'type': 'Whites', 'care': ''},
+        ]);
+      });
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(const KitchenHomeScreen()));
+      await settle(tester);
+
+      expect(find.widgetWithText(Tab, 'Recipes'), findsOneWidget);
+      expect(find.text('Dough'), findsOneWidget);
+      expect(find.text('Breakfast'), findsOneWidget);
+      expect(find.text('4 servings · 1 ingredient · 1 step'), findsOneWidget);
+      expect(find.text('فطور'), findsNothing);
+
+      await tester.tap(find.widgetWithText(Tab, 'Pantry & supplies'));
+      await settle(tester);
+      expect(find.text('Lentils'), findsOneWidget);
+      expect(find.text('Grains & legumes'), findsWidgets);
+      expect(find.text('الحبوب والبقوليات'), findsNothing);
+
+      await tester.tap(find.byTooltip('Add item'));
+      await tester.pumpAndSettle();
+      expect(find.text('Other'), findsOneWidget, reason: 'a new item starts in "Other", shown in English');
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.widgetWithText(Tab, 'Shopping'));
+      await settle(tester);
+      expect(find.text('From: Ran out in the pantry'), findsOneWidget);
+
+      await tester.tap(find.widgetWithText(Tab, 'Laundry'));
+      await settle(tester);
+      expect(find.text('Saturday: Whites'), findsOneWidget);
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

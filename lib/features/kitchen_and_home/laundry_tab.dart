@@ -5,15 +5,16 @@ import '../../core/widgets/undo_snackbar.dart';
 import 'kitchen_constants.dart';
 import 'kitchen_store.dart';
 import 'models/laundry_entry.dart';
+import '../../l10n/l10n.dart';
 
 Future<void> startAddLaundry(BuildContext context, KitchenStore store) async {
   final values = await showEntryDialog(
     context,
-    title: 'إضافة موعد غسيل',
-    fields: const [
-      EntryField(key: 'day', label: 'اليوم', options: weekDays),
-      EntryField(key: 'type', label: 'نوع الغسيل', hint: 'مثال: الملابس الملونة', required: true),
-      EntryField(key: 'care', label: 'التعليمات (اختياري)', maxLength: 200),
+    title: context.l10n.laundryAddTitle,
+    fields: [
+      EntryField(key: 'day', label: context.l10n.dayField, options: weekDays, optionLabel: (d) => weekDayLabel(context.l10n, d)),
+      EntryField(key: 'type', label: context.l10n.laundryTypeField, hint: context.l10n.laundryTypeHint, required: true),
+      EntryField(key: 'care', label: context.l10n.instructionsOptional, maxLength: 200),
     ],
   );
   if (values == null) return;
@@ -30,12 +31,12 @@ class LaundryTab extends StatelessWidget {
     final days = weekDays.contains(entry.day) ? weekDays : [...weekDays, entry.day];
     final values = await showEntryDialog(
       context,
-      title: 'تعديل موعد الغسيل',
-      confirmLabel: 'حفظ',
+      title: context.l10n.laundryEditTitle,
+      confirmLabel: context.l10n.save,
       fields: [
-        EntryField(key: 'day', label: 'اليوم', options: days, initial: entry.day),
-        EntryField(key: 'type', label: 'نوع الغسيل', required: true, initial: entry.type),
-        EntryField(key: 'care', label: 'التعليمات (اختياري)', maxLength: 200, initial: entry.care),
+        EntryField(key: 'day', label: context.l10n.dayField, options: days, initial: entry.day, optionLabel: (d) => weekDayLabel(context.l10n, d)),
+        EntryField(key: 'type', label: context.l10n.laundryTypeField, required: true, initial: entry.type),
+        EntryField(key: 'care', label: context.l10n.instructionsOptional, maxLength: 200, initial: entry.care),
       ],
     );
     if (values == null) return;
@@ -45,7 +46,7 @@ class LaundryTab extends StatelessWidget {
   Future<void> _delete(BuildContext context, LaundryEntry entry) async {
     final removed = await store.removeLaundry(entry.id);
     if (removed == null || !context.mounted) return;
-    showUndoSnackBar(context, 'حُذف موعد «${entry.type}»', () => store.restoreLaundry(removed));
+    showUndoSnackBar(context, context.l10n.laundryDeleted(entry.type), () => store.restoreLaundry(removed));
   }
 
   @override
@@ -57,9 +58,9 @@ class LaundryTab extends StatelessWidget {
         return ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
           children: [
-            const KitchenSectionTitle('جدول العناية بالأقمشة والغسيل الأسبوعي'),
+            KitchenSectionTitle(context.l10n.laundryHeader),
             const SizedBox(height: 12),
-            if (entries.isEmpty) const KitchenEmptyNote('لا توجد مواعيد غسيل بعد. اضغط + لإضافة موعد.'),
+            if (entries.isEmpty) KitchenEmptyNote(context.l10n.laundryEmpty),
             for (final entry in entries)
               Card(
                 key: ValueKey('laundry_${entry.id}'),
@@ -67,15 +68,15 @@ class LaundryTab extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.local_laundry_service_rounded, color: AppTheme.accentColor),
                   title: Text(
-                    '${entry.day}: ${entry.type}',
+                    '${weekDayLabel(context.l10n, entry.day)}: ${entry.type}',
                     style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold),
                   ),
                   subtitle: entry.care.isEmpty
                       ? null
-                      : Text('التعليمات: ${entry.care}', style: const TextStyle(color: AppTheme.subTextColor)),
+                      : Text(context.l10n.instructionsLine(entry.care), style: const TextStyle(color: AppTheme.subTextColor)),
                   onTap: () => _edit(context, entry),
                   trailing: IconButton(
-                    tooltip: 'حذف الموعد',
+                    tooltip: context.l10n.laundryDelete,
                     icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                     onPressed: () => _delete(context, entry),
                   ),

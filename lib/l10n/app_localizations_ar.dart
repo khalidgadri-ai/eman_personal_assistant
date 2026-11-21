@@ -1138,4 +1138,468 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get meditationChannelName => 'جلسات التأمل';
+
+  @override
+  String get kitchenTitle => '🥗 المطبخ والمؤونة والغسيل';
+
+  @override
+  String get tabRecipes => 'الوصفات والوجبات';
+
+  @override
+  String get tabPantry => 'المؤونة والمستلزمات';
+
+  @override
+  String get tabShopping => 'المشتريات';
+
+  @override
+  String get tabLaundry => 'جدول الغسيل';
+
+  @override
+  String get addRecipe => 'إضافة وصفة';
+
+  @override
+  String get addPantryItem => 'إضافة صنف';
+
+  @override
+  String get addShoppingItem => 'إضافة بند للمشتريات';
+
+  @override
+  String get addLaundry => 'إضافة موعد غسيل';
+
+  @override
+  String get recipeBreakfast => 'فطور';
+
+  @override
+  String get recipeLunch => 'غداء';
+
+  @override
+  String get recipeDinner => 'عشاء';
+
+  @override
+  String get recipeSnack => 'وجبة خفيفة';
+
+  @override
+  String get recipeDessert => 'حلويات';
+
+  @override
+  String get recipeAi => 'ذكاء اصطناعي';
+
+  @override
+  String get otherCategory => 'أخرى';
+
+  @override
+  String get pantryOils => 'الزيوت والبهارات';
+
+  @override
+  String get pantryGrains => 'الحبوب والبقوليات';
+
+  @override
+  String get pantryProduce => 'الخضار والفواكه';
+
+  @override
+  String get pantryDairyMeat => 'الألبان واللحوم';
+
+  @override
+  String get pantryNuts => 'المكسرات';
+
+  @override
+  String get pantryCleaning => 'مستلزمات التنظيف';
+
+  @override
+  String get daySat => 'السبت';
+
+  @override
+  String get daySun => 'الأحد';
+
+  @override
+  String get dayMon => 'الاثنين';
+
+  @override
+  String get dayTue => 'الثلاثاء';
+
+  @override
+  String get dayWed => 'الأربعاء';
+
+  @override
+  String get dayThu => 'الخميس';
+
+  @override
+  String get dayFri => 'الجمعة';
+
+  @override
+  String get sourceOutOfStock => 'نفد من المؤونة';
+
+  @override
+  String get recipeNeedIngredients => '⚠️ يرجى كتابة المكونات أولاً';
+
+  @override
+  String get recipeSuggested => 'وصفة مقترحة 🍽️';
+
+  @override
+  String get saveToRecipes => 'حفظ في الوصفات';
+
+  @override
+  String aiRecipeFallbackTitle(String first) {
+    return 'وصفة ذكية: $first';
+  }
+
+  @override
+  String get recipeAdded => '✅ تمت إضافة الوصفة';
+
+  @override
+  String recipeDeleted(String title) {
+    return 'حُذفت «$title»';
+  }
+
+  @override
+  String get recipesHeader => 'موسوعة الوصفات وتفاصيل المقادير';
+
+  @override
+  String get recipesEmpty =>
+      'لا توجد وصفات بعد. اضغط + لإضافة وصفة، أو دع الذكاء الاصطناعي يقترح لك.';
+
+  @override
+  String servingsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count حصة',
+      few: '$count حصص',
+      two: 'حصتان',
+      one: 'حصة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ingredientsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مكوّن',
+      few: '$count مكوّنات',
+      two: 'مكوّنان',
+      one: 'مكوّن واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String stepsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count خطوة',
+      few: '$count خطوات',
+      two: 'خطوتان',
+      one: 'خطوة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recipePin => 'تثبيت الوصفة';
+
+  @override
+  String get recipeUnpin => 'إلغاء تثبيت الوصفة';
+
+  @override
+  String get recipeDelete => 'حذف الوصفة';
+
+  @override
+  String ingredientsLine(String text) {
+    return 'المقادير: $text';
+  }
+
+  @override
+  String get aiRecipeTitle => '🧑‍🍳 توليد وصفة بالذكاء الاصطناعي';
+
+  @override
+  String get aiRecipePrompt =>
+      'اكتب المكونات المتاحة في مطبخك (مفصولة بفواصل):';
+
+  @override
+  String get aiRecipeHint => 'مثال: دجاج، أرز، طماطم، بصل، بهارات...';
+
+  @override
+  String get aiRecipeWorking => 'جارٍ توليد الوصفة...';
+
+  @override
+  String get aiRecipeSuggest => 'اقترح وصفة الآن ✨';
+
+  @override
+  String get pantryAddTitle => 'إضافة صنف للمؤونة';
+
+  @override
+  String get itemField => 'الصنف';
+
+  @override
+  String get qtyOptionalField => 'الكمية (اختياري)';
+
+  @override
+  String get pantryQtyHint => 'مثال: 2 لتر';
+
+  @override
+  String get pantryEditTitle => 'تعديل الصنف';
+
+  @override
+  String itemDeleted(String name) {
+    return 'حُذف «$name»';
+  }
+
+  @override
+  String movedToShopping(String name) {
+    return 'نُقل «$name» إلى المشتريات';
+  }
+
+  @override
+  String get pantryHeader => 'مخزون المطبخ واحتياجات المنزل';
+
+  @override
+  String get pantryEmpty => 'المؤونة فارغة. اضغط + لإضافة أول صنف.';
+
+  @override
+  String get pantrySearchHint => 'بحث في المؤونة والمستلزمات';
+
+  @override
+  String get clearSearch => 'مسح البحث';
+
+  @override
+  String get filterAll => 'الكل';
+
+  @override
+  String get noSearchResults => 'لا نتائج مطابقة للبحث.';
+
+  @override
+  String get pinnedSection => '📌 المثبّتة';
+
+  @override
+  String get qtyLess => 'نقصان الكمية';
+
+  @override
+  String get qtyMore => 'زيادة الكمية';
+
+  @override
+  String get moreActions => 'المزيد';
+
+  @override
+  String get editAction => 'تعديل';
+
+  @override
+  String get pinAction => 'تثبيت';
+
+  @override
+  String get unpinAction => 'إلغاء التثبيت';
+
+  @override
+  String get outToShopping => 'نفد: إلى المشتريات';
+
+  @override
+  String get shoppingAddTitle => 'إضافة بند للمشتريات';
+
+  @override
+  String get shoppingItemField => 'البند';
+
+  @override
+  String get shoppingQtyHint => 'مثال: 2 كجم';
+
+  @override
+  String get shoppingEditTitle => 'تعديل البند';
+
+  @override
+  String get shoppingHeader => 'قائمة المشتريات';
+
+  @override
+  String get shoppingEmpty =>
+      'قائمة المشتريات فارغة. اضغط + لإضافة بند، أو أضف مقادير وصفة من صفحتها.';
+
+  @override
+  String movedToPantry(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقل $count بند إلى المؤونة',
+      many: 'نُقل $count بندًا إلى المؤونة',
+      few: 'نُقلت $count بنود إلى المؤونة',
+      two: 'نُقل بندان إلى المؤونة',
+      one: 'نُقل بند واحد إلى المؤونة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get moveBoughtToPantry => 'نقل المشتراة إلى المؤونة';
+
+  @override
+  String get clearBought => 'مسح المشتراة';
+
+  @override
+  String shoppingFrom(String source) {
+    return 'من: $source';
+  }
+
+  @override
+  String get shoppingDelete => 'حذف البند';
+
+  @override
+  String get laundryAddTitle => 'إضافة موعد غسيل';
+
+  @override
+  String get dayField => 'اليوم';
+
+  @override
+  String get laundryTypeField => 'نوع الغسيل';
+
+  @override
+  String get laundryTypeHint => 'مثال: الملابس الملونة';
+
+  @override
+  String get instructionsOptional => 'التعليمات (اختياري)';
+
+  @override
+  String get laundryEditTitle => 'تعديل موعد الغسيل';
+
+  @override
+  String laundryDeleted(String type) {
+    return 'حُذف موعد «$type»';
+  }
+
+  @override
+  String get laundryHeader => 'جدول العناية بالأقمشة والغسيل الأسبوعي';
+
+  @override
+  String get laundryEmpty => 'لا توجد مواعيد غسيل بعد. اضغط + لإضافة موعد.';
+
+  @override
+  String instructionsLine(String text) {
+    return 'التعليمات: $text';
+  }
+
+  @override
+  String get laundryDelete => 'حذف الموعد';
+
+  @override
+  String get recipeDeleteAsk => 'حذف الوصفة؟';
+
+  @override
+  String recipeDeleteBody(String title) {
+    return 'ستُحذف «$title» من وصفاتك.';
+  }
+
+  @override
+  String addedToShopping(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أُضيف $count بند إلى المشتريات',
+      many: 'أُضيف $count بندًا إلى المشتريات',
+      few: 'أُضيفت $count بنود إلى المشتريات',
+      two: 'أُضيف بندان إلى المشتريات',
+      one: 'أُضيف بند واحد إلى المشتريات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInList(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count بند موجود في القائمة أصلًا',
+      many: '$count بندًا موجودًا في القائمة أصلًا',
+      few: '$count بنود موجودة في القائمة أصلًا',
+      two: 'بندان موجودان في القائمة أصلًا',
+      one: 'بند واحد موجود في القائمة أصلًا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recipeEdit => 'تعديل الوصفة';
+
+  @override
+  String get ingredientsHeader => 'المقادير';
+
+  @override
+  String get noIngredients => 'لم تُضف مقادير بعد.';
+
+  @override
+  String get addIngredientsToShopping => 'أضف المقادير إلى المشتريات';
+
+  @override
+  String get prepSteps => 'خطوات التحضير';
+
+  @override
+  String servingsScaled(int servings, int original) {
+    String _temp0 = intl.Intl.pluralLogic(
+      servings,
+      locale: localeName,
+      other: '$servings حصة',
+      few: '$servings حصص',
+      two: 'حصتان',
+      one: 'حصة واحدة',
+    );
+    return '$_temp0 (الأصل $original)';
+  }
+
+  @override
+  String get servingsLess => 'تقليل الحصص';
+
+  @override
+  String get servingsMore => 'زيادة الحصص';
+
+  @override
+  String get whatToShopping => 'ما الذي تريد إضافته للمشتريات؟';
+
+  @override
+  String get inPantry => 'موجود في المؤونة';
+
+  @override
+  String addCount(int count) {
+    return 'إضافة ($count)';
+  }
+
+  @override
+  String get ingredientNameRequired => 'اسم المكوّن مطلوب';
+
+  @override
+  String get invalidAmount => 'كمية غير صالحة';
+
+  @override
+  String get mealNameField => 'اسم الوجبة';
+
+  @override
+  String get servingsField => 'عدد الحصص';
+
+  @override
+  String get freeTextIngredients => 'مقادير مكتوبة كنص حر:';
+
+  @override
+  String get convertIngredients => 'تحويل إلى مقادير منظّمة';
+
+  @override
+  String get addIngredient => 'إضافة مكوّن';
+
+  @override
+  String get ingredientField => 'المكوّن';
+
+  @override
+  String get amountField => 'الكمية';
+
+  @override
+  String get unitField => 'الوحدة';
+
+  @override
+  String get unitHint => 'كوب';
+
+  @override
+  String get deleteIngredient => 'حذف المكوّن';
+
+  @override
+  String stepNumber(int number) {
+    return 'الخطوة $number';
+  }
+
+  @override
+  String get recipeTypeField => 'النوع';
 }

@@ -517,5 +517,256 @@
     }
   },
   "sessionUnderMinute": "الجلسات الأقصر من دقيقة لا تُحفظ في السجل.",
-  "meditationChannelName": "جلسات التأمل"
+  "meditationChannelName": "جلسات التأمل",
+  "kitchenTitle": "🥗 المطبخ والمؤونة والغسيل",
+  "tabRecipes": "الوصفات والوجبات",
+  "tabPantry": "المؤونة والمستلزمات",
+  "tabShopping": "المشتريات",
+  "tabLaundry": "جدول الغسيل",
+  "addRecipe": "إضافة وصفة",
+  "addPantryItem": "إضافة صنف",
+  "addShoppingItem": "إضافة بند للمشتريات",
+  "addLaundry": "إضافة موعد غسيل",
+  "recipeBreakfast": "فطور",
+  "recipeLunch": "غداء",
+  "recipeDinner": "عشاء",
+  "recipeSnack": "وجبة خفيفة",
+  "recipeDessert": "حلويات",
+  "recipeAi": "ذكاء اصطناعي",
+  "otherCategory": "أخرى",
+  "pantryOils": "الزيوت والبهارات",
+  "pantryGrains": "الحبوب والبقوليات",
+  "pantryProduce": "الخضار والفواكه",
+  "pantryDairyMeat": "الألبان واللحوم",
+  "pantryNuts": "المكسرات",
+  "pantryCleaning": "مستلزمات التنظيف",
+  "daySat": "السبت",
+  "daySun": "الأحد",
+  "dayMon": "الاثنين",
+  "dayTue": "الثلاثاء",
+  "dayWed": "الأربعاء",
+  "dayThu": "الخميس",
+  "dayFri": "الجمعة",
+  "sourceOutOfStock": "نفد من المؤونة",
+  "recipeNeedIngredients": "⚠️ يرجى كتابة المكونات أولاً",
+  "recipeSuggested": "وصفة مقترحة 🍽️",
+  "saveToRecipes": "حفظ في الوصفات",
+  "aiRecipeFallbackTitle": "وصفة ذكية: {first}",
+  "@aiRecipeFallbackTitle": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      }
+    }
+  },
+  "recipeAdded": "✅ تمت إضافة الوصفة",
+  "recipeDeleted": "حُذفت «{title}»",
+  "@recipeDeleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "recipesHeader": "موسوعة الوصفات وتفاصيل المقادير",
+  "recipesEmpty": "لا توجد وصفات بعد. اضغط + لإضافة وصفة، أو دع الذكاء الاصطناعي يقترح لك.",
+  "servingsCount": "{count, plural, =1{حصة واحدة} =2{حصتان} few{{count} حصص} other{{count} حصة}}",
+  "@servingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ingredientsCount": "{count, plural, =1{مكوّن واحد} =2{مكوّنان} few{{count} مكوّنات} other{{count} مكوّن}}",
+  "@ingredientsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "stepsCount": "{count, plural, =1{خطوة واحدة} =2{خطوتان} few{{count} خطوات} other{{count} خطوة}}",
+  "@stepsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipePin": "تثبيت الوصفة",
+  "recipeUnpin": "إلغاء تثبيت الوصفة",
+  "recipeDelete": "حذف الوصفة",
+  "ingredientsLine": "المقادير: {text}",
+  "@ingredientsLine": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "aiRecipeTitle": "🧑‍🍳 توليد وصفة بالذكاء الاصطناعي",
+  "aiRecipePrompt": "اكتب المكونات المتاحة في مطبخك (مفصولة بفواصل):",
+  "aiRecipeHint": "مثال: دجاج، أرز، طماطم، بصل، بهارات...",
+  "aiRecipeWorking": "جارٍ توليد الوصفة...",
+  "aiRecipeSuggest": "اقترح وصفة الآن ✨",
+  "pantryAddTitle": "إضافة صنف للمؤونة",
+  "itemField": "الصنف",
+  "qtyOptionalField": "الكمية (اختياري)",
+  "pantryQtyHint": "مثال: 2 لتر",
+  "pantryEditTitle": "تعديل الصنف",
+  "itemDeleted": "حُذف «{name}»",
+  "@itemDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "movedToShopping": "نُقل «{name}» إلى المشتريات",
+  "@movedToShopping": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pantryHeader": "مخزون المطبخ واحتياجات المنزل",
+  "pantryEmpty": "المؤونة فارغة. اضغط + لإضافة أول صنف.",
+  "pantrySearchHint": "بحث في المؤونة والمستلزمات",
+  "clearSearch": "مسح البحث",
+  "filterAll": "الكل",
+  "noSearchResults": "لا نتائج مطابقة للبحث.",
+  "pinnedSection": "📌 المثبّتة",
+  "qtyLess": "نقصان الكمية",
+  "qtyMore": "زيادة الكمية",
+  "moreActions": "المزيد",
+  "editAction": "تعديل",
+  "pinAction": "تثبيت",
+  "unpinAction": "إلغاء التثبيت",
+  "outToShopping": "نفد: إلى المشتريات",
+  "shoppingAddTitle": "إضافة بند للمشتريات",
+  "shoppingItemField": "البند",
+  "shoppingQtyHint": "مثال: 2 كجم",
+  "shoppingEditTitle": "تعديل البند",
+  "shoppingHeader": "قائمة المشتريات",
+  "shoppingEmpty": "قائمة المشتريات فارغة. اضغط + لإضافة بند، أو أضف مقادير وصفة من صفحتها.",
+  "movedToPantry": "{count, plural, =1{نُقل بند واحد إلى المؤونة} =2{نُقل بندان إلى المؤونة} few{نُقلت {count} بنود إلى المؤونة} many{نُقل {count} بندًا إلى المؤونة} other{نُقل {count} بند إلى المؤونة}}",
+  "@movedToPantry": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moveBoughtToPantry": "نقل المشتراة إلى المؤونة",
+  "clearBought": "مسح المشتراة",
+  "shoppingFrom": "من: {source}",
+  "@shoppingFrom": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "shoppingDelete": "حذف البند",
+  "laundryAddTitle": "إضافة موعد غسيل",
+  "dayField": "اليوم",
+  "laundryTypeField": "نوع الغسيل",
+  "laundryTypeHint": "مثال: الملابس الملونة",
+  "instructionsOptional": "التعليمات (اختياري)",
+  "laundryEditTitle": "تعديل موعد الغسيل",
+  "laundryDeleted": "حُذف موعد «{type}»",
+  "@laundryDeleted": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "laundryHeader": "جدول العناية بالأقمشة والغسيل الأسبوعي",
+  "laundryEmpty": "لا توجد مواعيد غسيل بعد. اضغط + لإضافة موعد.",
+  "instructionsLine": "التعليمات: {text}",
+  "@instructionsLine": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "laundryDelete": "حذف الموعد",
+  "recipeDeleteAsk": "حذف الوصفة؟",
+  "recipeDeleteBody": "ستُحذف «{title}» من وصفاتك.",
+  "@recipeDeleteBody": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToShopping": "{count, plural, =1{أُضيف بند واحد إلى المشتريات} =2{أُضيف بندان إلى المشتريات} few{أُضيفت {count} بنود إلى المشتريات} many{أُضيف {count} بندًا إلى المشتريات} other{أُضيف {count} بند إلى المشتريات}}",
+  "@addedToShopping": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyInList": "{count, plural, =1{بند واحد موجود في القائمة أصلًا} =2{بندان موجودان في القائمة أصلًا} few{{count} بنود موجودة في القائمة أصلًا} many{{count} بندًا موجودًا في القائمة أصلًا} other{{count} بند موجود في القائمة أصلًا}}",
+  "@alreadyInList": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeEdit": "تعديل الوصفة",
+  "ingredientsHeader": "المقادير",
+  "noIngredients": "لم تُضف مقادير بعد.",
+  "addIngredientsToShopping": "أضف المقادير إلى المشتريات",
+  "prepSteps": "خطوات التحضير",
+  "servingsScaled": "{servings, plural, =1{حصة واحدة} =2{حصتان} few{{servings} حصص} other{{servings} حصة}} (الأصل {original})",
+  "@servingsScaled": {
+    "placeholders": {
+      "servings": {
+        "type": "int"
+      },
+      "original": {
+        "type": "int"
+      }
+    }
+  },
+  "servingsLess": "تقليل الحصص",
+  "servingsMore": "زيادة الحصص",
+  "whatToShopping": "ما الذي تريد إضافته للمشتريات؟",
+  "inPantry": "موجود في المؤونة",
+  "addCount": "إضافة ({count})",
+  "@addCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ingredientNameRequired": "اسم المكوّن مطلوب",
+  "invalidAmount": "كمية غير صالحة",
+  "mealNameField": "اسم الوجبة",
+  "servingsField": "عدد الحصص",
+  "freeTextIngredients": "مقادير مكتوبة كنص حر:",
+  "convertIngredients": "تحويل إلى مقادير منظّمة",
+  "addIngredient": "إضافة مكوّن",
+  "ingredientField": "المكوّن",
+  "amountField": "الكمية",
+  "unitField": "الوحدة",
+  "unitHint": "كوب",
+  "deleteIngredient": "حذف المكوّن",
+  "stepNumber": "الخطوة {number}",
+  "@stepNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeTypeField": "النوع"
 }

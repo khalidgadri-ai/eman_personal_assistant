@@ -267,7 +267,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
 
   // --- تحليل الصور بالذكاء الاصطناعي ---
 
-  /// يلتقط صورة تمرين ويحلّلها بالمزوّد المختار، ثم يعرض النتيجة مع context.l10n.saveAsExercise.
+  /// يلتقط صورة تمرين ويحلّلها بالمزوّد المختار، ثم يعرض النتيجة مع «حفظ كتمرين».
   Future<void> _analyzeExerciseImage() async {
     final ai = await requireAiService(context, builder: widget.aiProviderBuilder);
     if (ai == null || !mounted) return;
@@ -303,7 +303,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     );
   }
 
-  /// نتيجة تحليل التمرين: عرض ثم زر context.l10n.saveAsExercise يفتح نموذجًا معبّأ للمراجعة.
+  /// نتيجة تحليل التمرين: عرض ثم زر «حفظ كتمرين» يفتح نموذجًا معبّأ للمراجعة.
   Future<void> _showExerciseResult(String shown, ExerciseDraft draft, Uint8List image) async {
     final save = await showDialog<bool>(
       context: context,

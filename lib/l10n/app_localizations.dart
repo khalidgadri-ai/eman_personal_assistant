@@ -2101,6 +2101,738 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'جلسات التأمل'**
   String get meditationChannelName;
+
+  /// No description provided for @kitchenTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'🥗 المطبخ والمؤونة والغسيل'**
+  String get kitchenTitle;
+
+  /// No description provided for @tabRecipes.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوصفات والوجبات'**
+  String get tabRecipes;
+
+  /// No description provided for @tabPantry.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤونة والمستلزمات'**
+  String get tabPantry;
+
+  /// No description provided for @tabShopping.
+  ///
+  /// In ar, this message translates to:
+  /// **'المشتريات'**
+  String get tabShopping;
+
+  /// No description provided for @tabLaundry.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدول الغسيل'**
+  String get tabLaundry;
+
+  /// No description provided for @addRecipe.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة وصفة'**
+  String get addRecipe;
+
+  /// No description provided for @addPantryItem.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة صنف'**
+  String get addPantryItem;
+
+  /// No description provided for @addShoppingItem.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة بند للمشتريات'**
+  String get addShoppingItem;
+
+  /// No description provided for @addLaundry.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة موعد غسيل'**
+  String get addLaundry;
+
+  /// No description provided for @recipeBreakfast.
+  ///
+  /// In ar, this message translates to:
+  /// **'فطور'**
+  String get recipeBreakfast;
+
+  /// No description provided for @recipeLunch.
+  ///
+  /// In ar, this message translates to:
+  /// **'غداء'**
+  String get recipeLunch;
+
+  /// No description provided for @recipeDinner.
+  ///
+  /// In ar, this message translates to:
+  /// **'عشاء'**
+  String get recipeDinner;
+
+  /// No description provided for @recipeSnack.
+  ///
+  /// In ar, this message translates to:
+  /// **'وجبة خفيفة'**
+  String get recipeSnack;
+
+  /// No description provided for @recipeDessert.
+  ///
+  /// In ar, this message translates to:
+  /// **'حلويات'**
+  String get recipeDessert;
+
+  /// No description provided for @recipeAi.
+  ///
+  /// In ar, this message translates to:
+  /// **'ذكاء اصطناعي'**
+  String get recipeAi;
+
+  /// No description provided for @otherCategory.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى'**
+  String get otherCategory;
+
+  /// No description provided for @pantryOils.
+  ///
+  /// In ar, this message translates to:
+  /// **'الزيوت والبهارات'**
+  String get pantryOils;
+
+  /// No description provided for @pantryGrains.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحبوب والبقوليات'**
+  String get pantryGrains;
+
+  /// No description provided for @pantryProduce.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخضار والفواكه'**
+  String get pantryProduce;
+
+  /// No description provided for @pantryDairyMeat.
+  ///
+  /// In ar, this message translates to:
+  /// **'الألبان واللحوم'**
+  String get pantryDairyMeat;
+
+  /// No description provided for @pantryNuts.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكسرات'**
+  String get pantryNuts;
+
+  /// No description provided for @pantryCleaning.
+  ///
+  /// In ar, this message translates to:
+  /// **'مستلزمات التنظيف'**
+  String get pantryCleaning;
+
+  /// No description provided for @daySat.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبت'**
+  String get daySat;
+
+  /// No description provided for @daySun.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأحد'**
+  String get daySun;
+
+  /// No description provided for @dayMon.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاثنين'**
+  String get dayMon;
+
+  /// No description provided for @dayTue.
+  ///
+  /// In ar, this message translates to:
+  /// **'الثلاثاء'**
+  String get dayTue;
+
+  /// No description provided for @dayWed.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأربعاء'**
+  String get dayWed;
+
+  /// No description provided for @dayThu.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخميس'**
+  String get dayThu;
+
+  /// No description provided for @dayFri.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمعة'**
+  String get dayFri;
+
+  /// No description provided for @sourceOutOfStock.
+  ///
+  /// In ar, this message translates to:
+  /// **'نفد من المؤونة'**
+  String get sourceOutOfStock;
+
+  /// No description provided for @recipeNeedIngredients.
+  ///
+  /// In ar, this message translates to:
+  /// **'⚠️ يرجى كتابة المكونات أولاً'**
+  String get recipeNeedIngredients;
+
+  /// No description provided for @recipeSuggested.
+  ///
+  /// In ar, this message translates to:
+  /// **'وصفة مقترحة 🍽️'**
+  String get recipeSuggested;
+
+  /// No description provided for @saveToRecipes.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ في الوصفات'**
+  String get saveToRecipes;
+
+  /// No description provided for @aiRecipeFallbackTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'وصفة ذكية: {first}'**
+  String aiRecipeFallbackTitle(String first);
+
+  /// No description provided for @recipeAdded.
+  ///
+  /// In ar, this message translates to:
+  /// **'✅ تمت إضافة الوصفة'**
+  String get recipeAdded;
+
+  /// No description provided for @recipeDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذفت «{title}»'**
+  String recipeDeleted(String title);
+
+  /// No description provided for @recipesHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'موسوعة الوصفات وتفاصيل المقادير'**
+  String get recipesHeader;
+
+  /// No description provided for @recipesEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد وصفات بعد. اضغط + لإضافة وصفة، أو دع الذكاء الاصطناعي يقترح لك.'**
+  String get recipesEmpty;
+
+  /// No description provided for @servingsCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{حصة واحدة} =2{حصتان} few{{count} حصص} other{{count} حصة}}'**
+  String servingsCount(int count);
+
+  /// No description provided for @ingredientsCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{مكوّن واحد} =2{مكوّنان} few{{count} مكوّنات} other{{count} مكوّن}}'**
+  String ingredientsCount(int count);
+
+  /// No description provided for @stepsCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{خطوة واحدة} =2{خطوتان} few{{count} خطوات} other{{count} خطوة}}'**
+  String stepsCount(int count);
+
+  /// No description provided for @recipePin.
+  ///
+  /// In ar, this message translates to:
+  /// **'تثبيت الوصفة'**
+  String get recipePin;
+
+  /// No description provided for @recipeUnpin.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء تثبيت الوصفة'**
+  String get recipeUnpin;
+
+  /// No description provided for @recipeDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الوصفة'**
+  String get recipeDelete;
+
+  /// No description provided for @ingredientsLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'المقادير: {text}'**
+  String ingredientsLine(String text);
+
+  /// No description provided for @aiRecipeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'🧑‍🍳 توليد وصفة بالذكاء الاصطناعي'**
+  String get aiRecipeTitle;
+
+  /// No description provided for @aiRecipePrompt.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب المكونات المتاحة في مطبخك (مفصولة بفواصل):'**
+  String get aiRecipePrompt;
+
+  /// No description provided for @aiRecipeHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: دجاج، أرز، طماطم، بصل، بهارات...'**
+  String get aiRecipeHint;
+
+  /// No description provided for @aiRecipeWorking.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ توليد الوصفة...'**
+  String get aiRecipeWorking;
+
+  /// No description provided for @aiRecipeSuggest.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقترح وصفة الآن ✨'**
+  String get aiRecipeSuggest;
+
+  /// No description provided for @pantryAddTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة صنف للمؤونة'**
+  String get pantryAddTitle;
+
+  /// No description provided for @itemField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصنف'**
+  String get itemField;
+
+  /// No description provided for @qtyOptionalField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية (اختياري)'**
+  String get qtyOptionalField;
+
+  /// No description provided for @pantryQtyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: 2 لتر'**
+  String get pantryQtyHint;
+
+  /// No description provided for @pantryEditTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الصنف'**
+  String get pantryEditTitle;
+
+  /// No description provided for @itemDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف «{name}»'**
+  String itemDeleted(String name);
+
+  /// No description provided for @movedToShopping.
+  ///
+  /// In ar, this message translates to:
+  /// **'نُقل «{name}» إلى المشتريات'**
+  String movedToShopping(String name);
+
+  /// No description provided for @pantryHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'مخزون المطبخ واحتياجات المنزل'**
+  String get pantryHeader;
+
+  /// No description provided for @pantryEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤونة فارغة. اضغط + لإضافة أول صنف.'**
+  String get pantryEmpty;
+
+  /// No description provided for @pantrySearchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث في المؤونة والمستلزمات'**
+  String get pantrySearchHint;
+
+  /// No description provided for @clearSearch.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح البحث'**
+  String get clearSearch;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكل'**
+  String get filterAll;
+
+  /// No description provided for @noSearchResults.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا نتائج مطابقة للبحث.'**
+  String get noSearchResults;
+
+  /// No description provided for @pinnedSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'📌 المثبّتة'**
+  String get pinnedSection;
+
+  /// No description provided for @qtyLess.
+  ///
+  /// In ar, this message translates to:
+  /// **'نقصان الكمية'**
+  String get qtyLess;
+
+  /// No description provided for @qtyMore.
+  ///
+  /// In ar, this message translates to:
+  /// **'زيادة الكمية'**
+  String get qtyMore;
+
+  /// No description provided for @moreActions.
+  ///
+  /// In ar, this message translates to:
+  /// **'المزيد'**
+  String get moreActions;
+
+  /// No description provided for @editAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل'**
+  String get editAction;
+
+  /// No description provided for @pinAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'تثبيت'**
+  String get pinAction;
+
+  /// No description provided for @unpinAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء التثبيت'**
+  String get unpinAction;
+
+  /// No description provided for @outToShopping.
+  ///
+  /// In ar, this message translates to:
+  /// **'نفد: إلى المشتريات'**
+  String get outToShopping;
+
+  /// No description provided for @shoppingAddTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة بند للمشتريات'**
+  String get shoppingAddTitle;
+
+  /// No description provided for @shoppingItemField.
+  ///
+  /// In ar, this message translates to:
+  /// **'البند'**
+  String get shoppingItemField;
+
+  /// No description provided for @shoppingQtyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: 2 كجم'**
+  String get shoppingQtyHint;
+
+  /// No description provided for @shoppingEditTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل البند'**
+  String get shoppingEditTitle;
+
+  /// No description provided for @shoppingHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'قائمة المشتريات'**
+  String get shoppingHeader;
+
+  /// No description provided for @shoppingEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'قائمة المشتريات فارغة. اضغط + لإضافة بند، أو أضف مقادير وصفة من صفحتها.'**
+  String get shoppingEmpty;
+
+  /// No description provided for @movedToPantry.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{نُقل بند واحد إلى المؤونة} =2{نُقل بندان إلى المؤونة} few{نُقلت {count} بنود إلى المؤونة} many{نُقل {count} بندًا إلى المؤونة} other{نُقل {count} بند إلى المؤونة}}'**
+  String movedToPantry(int count);
+
+  /// No description provided for @moveBoughtToPantry.
+  ///
+  /// In ar, this message translates to:
+  /// **'نقل المشتراة إلى المؤونة'**
+  String get moveBoughtToPantry;
+
+  /// No description provided for @clearBought.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح المشتراة'**
+  String get clearBought;
+
+  /// No description provided for @shoppingFrom.
+  ///
+  /// In ar, this message translates to:
+  /// **'من: {source}'**
+  String shoppingFrom(String source);
+
+  /// No description provided for @shoppingDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف البند'**
+  String get shoppingDelete;
+
+  /// No description provided for @laundryAddTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة موعد غسيل'**
+  String get laundryAddTitle;
+
+  /// No description provided for @dayField.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get dayField;
+
+  /// No description provided for @laundryTypeField.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع الغسيل'**
+  String get laundryTypeField;
+
+  /// No description provided for @laundryTypeHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: الملابس الملونة'**
+  String get laundryTypeHint;
+
+  /// No description provided for @instructionsOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'التعليمات (اختياري)'**
+  String get instructionsOptional;
+
+  /// No description provided for @laundryEditTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل موعد الغسيل'**
+  String get laundryEditTitle;
+
+  /// No description provided for @laundryDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف موعد «{type}»'**
+  String laundryDeleted(String type);
+
+  /// No description provided for @laundryHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدول العناية بالأقمشة والغسيل الأسبوعي'**
+  String get laundryHeader;
+
+  /// No description provided for @laundryEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد مواعيد غسيل بعد. اضغط + لإضافة موعد.'**
+  String get laundryEmpty;
+
+  /// No description provided for @instructionsLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'التعليمات: {text}'**
+  String instructionsLine(String text);
+
+  /// No description provided for @laundryDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الموعد'**
+  String get laundryDelete;
+
+  /// No description provided for @recipeDeleteAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الوصفة؟'**
+  String get recipeDeleteAsk;
+
+  /// No description provided for @recipeDeleteBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'ستُحذف «{title}» من وصفاتك.'**
+  String recipeDeleteBody(String title);
+
+  /// No description provided for @addedToShopping.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{أُضيف بند واحد إلى المشتريات} =2{أُضيف بندان إلى المشتريات} few{أُضيفت {count} بنود إلى المشتريات} many{أُضيف {count} بندًا إلى المشتريات} other{أُضيف {count} بند إلى المشتريات}}'**
+  String addedToShopping(int count);
+
+  /// No description provided for @alreadyInList.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{بند واحد موجود في القائمة أصلًا} =2{بندان موجودان في القائمة أصلًا} few{{count} بنود موجودة في القائمة أصلًا} many{{count} بندًا موجودًا في القائمة أصلًا} other{{count} بند موجود في القائمة أصلًا}}'**
+  String alreadyInList(int count);
+
+  /// No description provided for @recipeEdit.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الوصفة'**
+  String get recipeEdit;
+
+  /// No description provided for @ingredientsHeader.
+  ///
+  /// In ar, this message translates to:
+  /// **'المقادير'**
+  String get ingredientsHeader;
+
+  /// No description provided for @noIngredients.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تُضف مقادير بعد.'**
+  String get noIngredients;
+
+  /// No description provided for @addIngredientsToShopping.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف المقادير إلى المشتريات'**
+  String get addIngredientsToShopping;
+
+  /// No description provided for @prepSteps.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطوات التحضير'**
+  String get prepSteps;
+
+  /// No description provided for @servingsScaled.
+  ///
+  /// In ar, this message translates to:
+  /// **'{servings, plural, =1{حصة واحدة} =2{حصتان} few{{servings} حصص} other{{servings} حصة}} (الأصل {original})'**
+  String servingsScaled(int servings, int original);
+
+  /// No description provided for @servingsLess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقليل الحصص'**
+  String get servingsLess;
+
+  /// No description provided for @servingsMore.
+  ///
+  /// In ar, this message translates to:
+  /// **'زيادة الحصص'**
+  String get servingsMore;
+
+  /// No description provided for @whatToShopping.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي تريد إضافته للمشتريات؟'**
+  String get whatToShopping;
+
+  /// No description provided for @inPantry.
+  ///
+  /// In ar, this message translates to:
+  /// **'موجود في المؤونة'**
+  String get inPantry;
+
+  /// No description provided for @addCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة ({count})'**
+  String addCount(int count);
+
+  /// No description provided for @ingredientNameRequired.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المكوّن مطلوب'**
+  String get ingredientNameRequired;
+
+  /// No description provided for @invalidAmount.
+  ///
+  /// In ar, this message translates to:
+  /// **'كمية غير صالحة'**
+  String get invalidAmount;
+
+  /// No description provided for @mealNameField.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم الوجبة'**
+  String get mealNameField;
+
+  /// No description provided for @servingsField.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد الحصص'**
+  String get servingsField;
+
+  /// No description provided for @freeTextIngredients.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقادير مكتوبة كنص حر:'**
+  String get freeTextIngredients;
+
+  /// No description provided for @convertIngredients.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحويل إلى مقادير منظّمة'**
+  String get convertIngredients;
+
+  /// No description provided for @addIngredient.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة مكوّن'**
+  String get addIngredient;
+
+  /// No description provided for @ingredientField.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكوّن'**
+  String get ingredientField;
+
+  /// No description provided for @amountField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية'**
+  String get amountField;
+
+  /// No description provided for @unitField.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة'**
+  String get unitField;
+
+  /// No description provided for @unitHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'كوب'**
+  String get unitHint;
+
+  /// No description provided for @deleteIngredient.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المكوّن'**
+  String get deleteIngredient;
+
+  /// No description provided for @stepNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوة {number}'**
+  String stepNumber(int number);
+
+  /// No description provided for @recipeTypeField.
+  ///
+  /// In ar, this message translates to:
+  /// **'النوع'**
+  String get recipeTypeField;
 }
 
 class _AppLocalizationsDelegate

@@ -288,7 +288,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('شوربة عدس'), findsOneWidget);
-      expect(find.text('4 حصة · 1 مكوّن · 1 خطوة'), findsOneWidget);
+      expect(find.text('4 حصص · مكوّن واحد · خطوة واحدة'), findsOneWidget);
       final saved = (await db()).getRecipes().single;
       expect(saved['title'], 'شوربة عدس');
       expect((saved['ingredients'] as List).single, {'name': 'عدس', 'amount': 0.5, 'unit': 'كوب'});
@@ -333,14 +333,14 @@ void main() {
       await tester.tap(find.text('عجين'));
       await tester.pumpAndSettle();
       expect(find.text('2 كوب'), findsOneWidget);
-      expect(find.text('4 حصة'), findsOneWidget);
+      expect(find.text('4 حصص'), findsOneWidget);
 
       await tester.tap(find.byTooltip('زيادة الحصص'));
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('زيادة الحصص'));
       await tester.pumpAndSettle();
 
-      expect(find.text('6 حصة (الأصل 4)'), findsOneWidget);
+      expect(find.text('6 حصص (الأصل 4)'), findsOneWidget);
       expect(find.text('3 كوب'), findsOneWidget);
       expect(find.text('حسب الذوق'), findsOneWidget);
       expect((await db()).getRecipes().single['servings'], 4, reason: 'viewing does not change the saved recipe');

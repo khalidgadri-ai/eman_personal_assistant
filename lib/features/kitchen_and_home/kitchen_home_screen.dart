@@ -6,6 +6,7 @@ import 'laundry_tab.dart';
 import 'pantry_tab.dart';
 import 'recipes_tab.dart';
 import 'shopping_tab.dart';
+import '../../l10n/l10n.dart';
 
 /// المطبخ والمنزل: الوصفات، والمؤونة والمستلزمات المنزلية، وقائمة المشتريات، وجدول الغسيل.
 /// كل بياناتها في [KitchenStore] الذي تقرؤه التبويبات الأربعة، فنقل صنف من المؤونة إلى
@@ -55,10 +56,10 @@ class _KitchenHomeScreenState extends State<KitchenHomeScreen> with SingleTicker
     final store = _store;
     if (store == null) return null;
     final (String tooltip, Future<void> Function() onPressed) = switch (_tabController.index) {
-      0 => ('إضافة وصفة', () => startAddRecipe(context, store)),
-      1 => ('إضافة صنف', () => startAddPantryItem(context, store)),
-      2 => ('إضافة بند للمشتريات', () => startAddShoppingItem(context, store)),
-      _ => ('إضافة موعد غسيل', () => startAddLaundry(context, store)),
+      0 => (context.l10n.addRecipe, () => startAddRecipe(context, store)),
+      1 => (context.l10n.addPantryItem, () => startAddPantryItem(context, store)),
+      2 => (context.l10n.addShoppingItem, () => startAddShoppingItem(context, store)),
+      _ => (context.l10n.addLaundry, () => startAddLaundry(context, store)),
     };
     return FloatingActionButton(
       heroTag: 'add_kitchen_fab',
@@ -74,7 +75,7 @@ class _KitchenHomeScreenState extends State<KitchenHomeScreen> with SingleTicker
     final store = _store;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🥗 المطبخ والمؤونة والغسيل'),
+        title: Text(context.l10n.kitchenTitle),
         actions: const [SettingsButton()],
         bottom: TabBar(
           controller: _tabController,
@@ -83,11 +84,11 @@ class _KitchenHomeScreenState extends State<KitchenHomeScreen> with SingleTicker
           indicatorColor: AppTheme.accentColor,
           labelColor: AppTheme.accentColor,
           unselectedLabelColor: AppTheme.subTextColor,
-          tabs: const [
-            Tab(text: 'الوصفات والوجبات'),
-            Tab(text: 'المؤونة والمستلزمات'),
-            Tab(text: 'المشتريات'),
-            Tab(text: 'جدول الغسيل'),
+          tabs: [
+            Tab(text: context.l10n.tabRecipes),
+            Tab(text: context.l10n.tabPantry),
+            Tab(text: context.l10n.tabShopping),
+            Tab(text: context.l10n.tabLaundry),
           ],
         ),
       ),

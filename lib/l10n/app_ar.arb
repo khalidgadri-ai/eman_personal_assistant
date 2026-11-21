@@ -1,0 +1,67 @@
+{
+  "@@locale": "ar",
+
+  "navGoals": "الأهداف والمهام",
+  "navHealth": "الصحة واللياقة",
+  "navKitchen": "المطبخ والمنزل",
+  "navBudget": "الميزانية",
+  "navAssistant": "المساعد الذكي",
+  "coachTooltip": "مدرب الحياة",
+  "contactUs": "تواصل معنا",
+  "contactMailFailed": "لم يُفتح تطبيق البريد. يمكنك مراسلتنا على هذا العنوان:",
+  "close": "إغلاق",
+  "copyAddress": "نسخ العنوان",
+  "cancel": "إلغاء",
+
+  "settingsTitle": "الإعدادات",
+  "settingsAiProvider": "مزوّد الذكاء الاصطناعي",
+  "settingsAiProviderHint": "لتفعيل ميزات الذكاء الاصطناعي بمفتاحك الخاص",
+  "settingsTour": "جولة التعريف بالتطبيق",
+  "settingsTourHint": "شرح قصير لكل أقسام التطبيق وطريقة الحصول على مفتاح",
+  "settingsLanguage": "اللغة",
+  "languageSystem": "لغة الجوال",
+  "languageArabic": "العربية",
+  "languageEnglish": "English",
+
+  "profileNoName": "بدون اسم",
+  "profileEdit": "تعديل ملفي",
+  "profileEmpty": "لم تُضف اسمًا أو اهتمامات بعد. تُحفظ مشفّرة على جهازك فقط.",
+
+  "backupSaveTitle": "حفظ نسخة احتياطية مشفّرة",
+  "backupSaveHint": "ملف محميّ بكلمة مرور يُحفظ خارج التطبيق",
+  "backupSaving": "جارٍ التشفير، قد يستغرق ذلك عدة ثوانٍ...",
+  "backupRestoreTitle": "استعادة من نسخة احتياطية",
+  "backupRestoreHint": "استبدال بيانات هذا الجهاز بما في ملف النسخة",
+  "backupRestoring": "جارٍ فتح النسخة، قد يستغرق ذلك عدة ثوانٍ...",
+  "backupSaved": "حُفظت النسخة الاحتياطية. كلمة المرور لا تُسترجع، فيجب الاحتفاظ بها.",
+  "backupNotSaved": "لم تُحفظ النسخة الاحتياطية.",
+  "backupRestoreAsk": "استعادة نسخة احتياطية؟",
+  "backupRestoreBody": "ستُستبدل بيانات هذا الجهاز كلها (الملف الشخصي والمهام والأهداف والصحة والمطبخ والمصاريف وجلسات المدرب) بما في النسخة. مفاتيح الذكاء الاصطناعي لا تتأثر.",
+  "backupChooseFile": "اختيار الملف",
+  "backupRestored": "تمت استعادة النسخة الاحتياطية.",
+  "backupGenericError": "تعذّر إتمام العملية. لم تتغير البيانات.",
+
+  "passwordTitle": "كلمة مرور النسخة",
+  "passwordNoRecovery": "لا توجد طريقة لاسترجاع كلمة المرور. بدونها لا يمكن فتح النسخة أبدًا.",
+  "passwordHintNew": "كلمة المرور ({count, plural, =1{حرف واحد على الأقل} =2{حرفان على الأقل} few{{count} أحرف على الأقل} many{{count} حرفًا على الأقل} other{{count} حرف على الأقل}})",
+  "@passwordHintNew": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "passwordHint": "كلمة المرور",
+  "passwordConfirmHint": "تأكيد كلمة المرور",
+  "passwordMismatch": "كلمتا المرور غير متطابقتين.",
+  "passwordRequired": "يرجى كتابة كلمة المرور.",
+  "show": "إظهار",
+  "hide": "إخفاء",
+  "continueAction": "متابعة",
+  "restoreAction": "استعادة",
+
+  "eraseTitle": "مسح كل بياناتي",
+  "eraseHint": "يحذف كل ما أدخلته من هذا الجهاز ويعيد التطبيق كأول تشغيل",
+  "eraseAsk": "مسح كل بياناتي؟",
+  "eraseBody": "سيُحذف نهائيًا من هذا الجهاز كل ما أدخلته: الملف الشخصي والمهام والأهداف والصحة والمطبخ والمصاريف وجلسات المدرب ومفاتيح الذكاء الاصطناعي. لا يمكن التراجع.",
+  "eraseConfirm": "مسح كل شيء",
+  "eraseFailed": "تعذّر مسح البيانات. لم يُحذف شيء، حاول مرة أخرى."
+}

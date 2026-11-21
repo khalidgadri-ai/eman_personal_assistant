@@ -94,6 +94,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # نصوص الواجهة بعدة لغات: ملفات lib/l10n/app_*.arb تتحول إلى AppLocalizations (انظر l10n.yaml).
+  generate: true
+
   assets:
     - assets/coach_questions.json
     - assets/meditation/sessions.json

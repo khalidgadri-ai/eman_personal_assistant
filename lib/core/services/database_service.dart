@@ -148,6 +148,16 @@ class DatabaseService {
     await _prefs?.setStringList(meditationNoticesKey, seen);
   }
 
+  // --- لغة التطبيق (AppLocale) ---
+  // إعداد خاص بهذا الجهاز، خارج [backupListKeys] مثل جولة التعريف. «مسح كل بياناتي» يعيده للغة الجوال.
+  static const String appLanguageKey = 'app_language';
+
+  String? getAppLanguage() => _prefs?.getString(appLanguageKey);
+
+  Future<void> saveAppLanguage(String language) async {
+    await _prefs?.setString(appLanguageKey, language);
+  }
+
   // --- جولة التعريف (AppTour) ---
   // إعداد خاص بهذا الجهاز لا من بيانات المستخدم، فهو خارج [backupListKeys] عمدًا.
   // «مسح كل بياناتي» يمسحه مع SharedPreferences كلها، فتعود الجولة بعد المسح.

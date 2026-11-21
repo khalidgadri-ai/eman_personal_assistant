@@ -36,7 +36,7 @@ void main() {
   test('the app itself uses the Arabic locale and its delegates', () {
     final main = File('lib/main.dart').readAsStringSync();
 
-    expect(main, contains('locale: AppLocale.locale'));
+    expect(main, contains('locale: AppLocale.resolve('));
     expect(main, contains('supportedLocales: AppLocale.supported'));
     expect(main, contains('localizationsDelegates: AppLocale.delegates'));
   });

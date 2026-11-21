@@ -14,6 +14,10 @@ void main() {
   tearDown(() => storage.dispose());
 
   Future<void> pumpSettings(WidgetTester tester, Future<void> Function() eraser) async {
+    // شاشة طويلة حتى تُبنى كل البطاقات (القائمة لا تبني ما خارج الشاشة).
+    tester.view.physicalSize = const Size(900, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
     await tester.pumpWidget(
       MaterialApp(theme: AppTheme.darkTheme, home: SettingsScreen(eraser: eraser)),
     );

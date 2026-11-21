@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import '../../core/ai/ai_settings_service.dart';
 import '../../core/ai/provider_presets.dart';
 import '../../core/app_events.dart';
+import '../../core/config/app_locale.dart';
+import '../../core/services/database_service.dart';
 import '../../core/services/profile_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/ai_provider_screen.dart';
+import '../../l10n/l10n.dart';
 import '../onboarding/app_tour_screen.dart';
 import '../onboarding/onboarding_screen.dart';
 import 'backup_file_gateway.dart';
@@ -98,14 +101,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (password == null || !mounted) return;
 
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = context.l10n;
     setState(() => _backupTask = _BackupTask.saving);
     String message;
     try {
       final bytes = await widget.createBackup(password);
       final saved = await widget.backupFiles.save(BackupService.suggestedFileName(), bytes);
-      message = saved
-          ? 'حُفظت النسخة الاحتياطية. كلمة المرور لا تُسترجع، فيجب الاحتفاظ بها.'
-          : 'لم تُحفظ النسخة الاحتياطية.';
+      message = saved ? l10n.backupSaved : l10n.backupNotSaved;
     } catch (e) {
       message = _backupErrorMessage(e);
     }
@@ -114,30 +116,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _restoreBackup() async {
+    final l10n = context.l10n;
     final proceed = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('استعادة نسخة احتياطية؟', style: TextStyle(color: AppTheme.textColor)),
-          content: const Text(
-            'ستُستبدل بيانات هذا الجهاز كلها (الملف الشخصي والمهام والأهداف والصحة والمطبخ '
-            'والمصاريف وجلسات المدرب) بما في النسخة. مفاتيح الذكاء الاصطناعي لا تتأثر.',
-            style: TextStyle(color: AppTheme.subTextColor, height: 1.7),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('إلغاء', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('اختيار الملف', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(l10n.backupRestoreAsk, style: const TextStyle(color: AppTheme.textColor)),
+        content: Text(
+          l10n.backupRestoreBody,
+          style: const TextStyle(color: AppTheme.subTextColor, height: 1.7),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.cancel, style: const TextStyle(color: AppTheme.subTextColor)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(l10n.backupChooseFile, style: const TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
     if (proceed != true || !mounted) return;
@@ -167,41 +166,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // البوابة تسمع الإشارة وتعيد بناء الشاشات ببيانات النسخة؛ نعود لجذر التطبيق فقط.
     AppEvents.dataRestored.value++;
     navigator.popUntil((route) => route.isFirst);
-    messenger.showSnackBar(const SnackBar(content: Text('تمت استعادة النسخة الاحتياطية.')));
+    messenger.showSnackBar(SnackBar(content: Text(l10n.backupRestored)));
   }
 
-  /// رسالة ثابتة بالعربية: لا نص خطأ خام ولا مسارات.
+  /// رسالة ثابتة: لا نص خطأ خام ولا مسارات.
   String _backupErrorMessage(Object error) {
     if (error is BackupException) return error.message;
     debugPrint('Backup failed: ${error.runtimeType}');
-    return 'تعذّر إتمام العملية. لم تتغير البيانات.';
+    return context.l10n.backupGenericError;
   }
 
   Future<void> _confirmErase() async {
+    final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('مسح كل بياناتي؟', style: TextStyle(color: AppTheme.textColor)),
-          content: const Text(
-            'سيُحذف نهائيًا من هذا الجهاز كل ما أدخلته: الملف الشخصي والمهام والأهداف '
-            'والصحة والمطبخ والمصاريف وجلسات المدرب ومفاتيح الذكاء الاصطناعي. لا يمكن التراجع.',
-            style: TextStyle(color: AppTheme.subTextColor, height: 1.7),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('إلغاء', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('مسح كل شيء', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(l10n.eraseAsk, style: const TextStyle(color: AppTheme.textColor)),
+        content: Text(
+          l10n.eraseBody,
+          style: const TextStyle(color: AppTheme.subTextColor, height: 1.7),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.cancel, style: const TextStyle(color: AppTheme.subTextColor)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(l10n.eraseConfirm, style: const TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
     if (confirmed != true || !mounted) return;
@@ -215,9 +211,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       debugPrint('Erase failed: ${e.runtimeType}');
       if (!mounted) return;
       setState(() => _erasing = false);
-      messenger.showSnackBar(
-        const SnackBar(content: Text('تعذّر مسح البيانات. لم يُحذف شيء، حاول مرة أخرى.')),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.eraseFailed)));
       return;
     }
     // البوابة تسمع إشارة المسح وتعرض الترحيب؛ نعود لجذر التطبيق فقط.
@@ -227,76 +221,135 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('الإعدادات')),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  _buildProfileCard(),
-                  const SizedBox(height: 16),
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.vpn_key_rounded, color: AppTheme.accentColor),
-                      title: const Text('مزوّد الذكاء الاصطناعي', style: TextStyle(color: AppTheme.textColor)),
-                      subtitle: Text(
-                        _aiSummary.isEmpty ? 'لتفعيل ميزات الذكاء الاصطناعي بمفتاحك الخاص' : _aiSummary,
-                        textDirection: _aiSummary.isEmpty ? null : TextDirection.ltr,
-                        style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                      ),
-                      onTap: () async {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<void>(builder: (_) => const AiProviderScreen()),
-                        );
-                        final summary = await _readAiSummary();
-                        if (mounted) setState(() => _aiSummary = summary);
-                      },
+    final l10n = context.l10n;
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildProfileCard(),
+                const SizedBox(height: 16),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.vpn_key_rounded, color: AppTheme.accentColor),
+                    title: Text(l10n.settingsAiProvider, style: const TextStyle(color: AppTheme.textColor)),
+                    subtitle: Text(
+                      _aiSummary.isEmpty ? l10n.settingsAiProviderHint : _aiSummary,
+                      textDirection: _aiSummary.isEmpty ? null : TextDirection.ltr,
+                      style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                    ),
+                    onTap: () async {
+                      await Navigator.of(context).push(
+                        MaterialPageRoute<void>(builder: (_) => const AiProviderScreen()),
+                      );
+                      final summary = await _readAiSummary();
+                      if (mounted) setState(() => _aiSummary = summary);
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.tour_rounded, color: AppTheme.accentColor),
+                    title: Text(l10n.settingsTour, style: const TextStyle(color: AppTheme.textColor)),
+                    subtitle: Text(
+                      l10n.settingsTourHint,
+                      style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                    ),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(builder: (_) => const AppTourScreen(mandatory: false)),
                     ),
                   ),
+                ),
+                if (AppLocale.languagePickerVisible) ...[
                   const SizedBox(height: 16),
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.tour_rounded, color: AppTheme.accentColor),
-                      title: const Text('جولة التعريف بالتطبيق', style: TextStyle(color: AppTheme.textColor)),
-                      subtitle: const Text(
-                        'شرح قصير لكل أقسام التطبيق وطريقة الحصول على مفتاح',
-                        style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                      ),
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute<void>(builder: (_) => const AppTourScreen(mandatory: false)),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  _buildBackupCard(),
-                  const SizedBox(height: 16),
-                  Card(
-                    child: ListTile(
-                      leading: _erasing
-                          ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.delete_forever_rounded, color: Colors.redAccent),
-                      title: const Text(
-                        'مسح كل بياناتي',
-                        style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: const Text(
-                        'يحذف كل ما أدخلته من هذا الجهاز ويعيد التطبيق كأول تشغيل',
-                        style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                      ),
-                      onTap: _erasing ? null : _confirmErase,
-                    ),
-                  ),
+                  _buildLanguageCard(),
                 ],
-              ),
+                const SizedBox(height: 16),
+                _buildBackupCard(),
+                const SizedBox(height: 16),
+                Card(
+                  child: ListTile(
+                    leading: _erasing
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.delete_forever_rounded, color: Colors.redAccent),
+                    title: Text(
+                      l10n.eraseTitle,
+                      style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      l10n.eraseHint,
+                      style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                    ),
+                    onTap: _erasing ? null : _confirmErase,
+                  ),
+                ),
+              ],
+            ),
+    );
+  }
+
+  String _languageLabel(AppLanguage language) => switch (language) {
+        AppLanguage.system => context.l10n.languageSystem,
+        AppLanguage.ar => context.l10n.languageArabic,
+        AppLanguage.en => context.l10n.languageEnglish,
+      };
+
+  Widget _buildLanguageCard() {
+    return Card(
+      child: ListTile(
+        leading: const Icon(Icons.language_rounded, color: AppTheme.accentColor),
+        title: Text(context.l10n.settingsLanguage, style: const TextStyle(color: AppTheme.textColor)),
+        subtitle: Text(
+          _languageLabel(AppLocale.choice.value),
+          style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+        ),
+        onTap: _chooseLanguage,
       ),
     );
+  }
+
+  Future<void> _chooseLanguage() async {
+    final chosen = await showDialog<AppLanguage>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(context.l10n.settingsLanguage, style: const TextStyle(color: AppTheme.textColor)),
+        children: [
+          for (final language in AppLanguage.values)
+            SimpleDialogOption(
+              onPressed: () => Navigator.of(dialogContext).pop(language),
+              child: Row(
+                children: [
+                  Icon(
+                    language == AppLocale.choice.value
+                        ? Icons.radio_button_checked_rounded
+                        : Icons.radio_button_unchecked_rounded,
+                    color: AppTheme.accentColor,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(_languageLabel(language), style: const TextStyle(color: AppTheme.textColor)),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+    if (chosen == null || chosen == AppLocale.choice.value) return;
+    try {
+      await (await DatabaseService.getInstance()).saveAppLanguage(chosen.name);
+    } catch (e) {
+      debugPrint('SettingsScreen: could not save the language (${e.runtimeType})');
+    }
+    AppLocale.choice.value = chosen;
+    if (mounted) setState(() {});
   }
 
   Widget _buildBackupCard() {
@@ -313,11 +366,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           ListTile(
             leading: leading(_BackupTask.saving, Icons.lock_rounded),
-            title: const Text('حفظ نسخة احتياطية مشفّرة', style: TextStyle(color: AppTheme.textColor)),
+            title: Text(context.l10n.backupSaveTitle, style: const TextStyle(color: AppTheme.textColor)),
             subtitle: Text(
-              _backupTask == _BackupTask.saving
-                  ? 'جارٍ التشفير، قد يستغرق ذلك عدة ثوانٍ...'
-                  : 'ملف محميّ بكلمة مرور يُحفظ خارج التطبيق',
+              _backupTask == _BackupTask.saving ? context.l10n.backupSaving : context.l10n.backupSaveHint,
               style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
             ),
             onTap: busy ? null : _saveBackup,
@@ -325,11 +376,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Divider(height: 1),
           ListTile(
             leading: leading(_BackupTask.restoring, Icons.settings_backup_restore_rounded),
-            title: const Text('استعادة من نسخة احتياطية', style: TextStyle(color: AppTheme.textColor)),
+            title: Text(context.l10n.backupRestoreTitle, style: const TextStyle(color: AppTheme.textColor)),
             subtitle: Text(
-              _backupTask == _BackupTask.restoring
-                  ? 'جارٍ فتح النسخة، قد يستغرق ذلك عدة ثوانٍ...'
-                  : 'استبدال بيانات هذا الجهاز بما في ملف النسخة',
+              _backupTask == _BackupTask.restoring ? context.l10n.backupRestoring : context.l10n.backupRestoreHint,
               style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
             ),
             onTap: busy ? null : _restoreBackup,
@@ -354,7 +403,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    name.isEmpty ? 'بدون اسم' : name,
+                    name.isEmpty ? context.l10n.profileNoName : name,
                     style: const TextStyle(
                       color: AppTheme.textColor,
                       fontSize: 18,
@@ -364,7 +413,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 TextButton(
                   onPressed: _editProfile,
-                  child: const Text('تعديل ملفي', style: TextStyle(color: AppTheme.accentColor)),
+                  child: Text(context.l10n.profileEdit, style: const TextStyle(color: AppTheme.accentColor)),
                 ),
               ],
             ),
@@ -394,11 +443,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
             ],
             if (profile == null || profile.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(top: 8),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  'لم تُضف اسمًا أو اهتمامات بعد. تُحفظ مشفّرة على جهازك فقط.',
-                  style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                  context.l10n.profileEmpty,
+                  style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
                 ),
               ),
           ],
@@ -439,11 +488,11 @@ class _PasswordDialogState extends State<_PasswordDialog> {
         return;
       }
       if (password != _repeat.text) {
-        setState(() => _error = 'كلمتا المرور غير متطابقتين.');
+        setState(() => _error = context.l10n.passwordMismatch);
         return;
       }
     } else if (password.isEmpty) {
-      setState(() => _error = 'يرجى كتابة كلمة المرور.');
+      setState(() => _error = context.l10n.passwordRequired);
       return;
     }
     Navigator.of(context).pop(password);
@@ -451,80 +500,78 @@ class _PasswordDialogState extends State<_PasswordDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: AlertDialog(
+    final l10n = context.l10n;
+    return AlertDialog(
         backgroundColor: AppTheme.cardColor,
-        title: const Text('كلمة مرور النسخة', style: TextStyle(color: AppTheme.textColor)),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (widget.confirm)
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    'لا توجد طريقة لاسترجاع كلمة المرور. بدونها لا يمكن فتح النسخة أبدًا.',
-                    style: TextStyle(color: AppTheme.subTextColor, height: 1.7, fontSize: 13),
-                  ),
+        title: Text(l10n.passwordTitle, style: const TextStyle(color: AppTheme.textColor)),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (widget.confirm)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(
+                  l10n.passwordNoRecovery,
+                  style: const TextStyle(color: AppTheme.subTextColor, height: 1.7, fontSize: 13),
                 ),
+              ),
+            TextField(
+              controller: _password,
+              obscureText: _hidden,
+              autofocus: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              style: const TextStyle(color: AppTheme.textColor),
+              decoration: InputDecoration(
+                hintText: widget.confirm
+                    ? l10n.passwordHintNew(BackupService.minPasswordLength)
+                    : l10n.passwordHint,
+                hintStyle: const TextStyle(color: AppTheme.subTextColor),
+                suffixIcon: IconButton(
+                  tooltip: _hidden ? l10n.show : l10n.hide,
+                  icon: Icon(_hidden ? Icons.visibility_rounded : Icons.visibility_off_rounded),
+                  onPressed: () => setState(() => _hidden = !_hidden),
+                ),
+              ),
+              onSubmitted: (_) => widget.confirm ? null : _submit(),
+            ),
+            if (widget.confirm)
               TextField(
-                controller: _password,
+                controller: _repeat,
                 obscureText: _hidden,
-                autofocus: true,
                 enableSuggestions: false,
                 autocorrect: false,
                 style: const TextStyle(color: AppTheme.textColor),
                 decoration: InputDecoration(
-                  hintText: widget.confirm
-                      ? 'كلمة المرور (${BackupService.minPasswordLength} أحرف على الأقل)'
-                      : 'كلمة المرور',
+                  hintText: l10n.passwordConfirmHint,
                   hintStyle: const TextStyle(color: AppTheme.subTextColor),
-                  suffixIcon: IconButton(
-                    tooltip: _hidden ? 'إظهار' : 'إخفاء',
-                    icon: Icon(_hidden ? Icons.visibility_rounded : Icons.visibility_off_rounded),
-                    onPressed: () => setState(() => _hidden = !_hidden),
-                  ),
                 ),
-                onSubmitted: (_) => widget.confirm ? null : _submit(),
+                onSubmitted: (_) => _submit(),
               ),
-              if (widget.confirm)
-                TextField(
-                  controller: _repeat,
-                  obscureText: _hidden,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  style: const TextStyle(color: AppTheme.textColor),
-                  decoration: const InputDecoration(
-                    hintText: 'تأكيد كلمة المرور',
-                    hintStyle: TextStyle(color: AppTheme.subTextColor),
-                  ),
-                  onSubmitted: (_) => _submit(),
-                ),
-              if (_error != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Text(_error!, style: const TextStyle(color: Colors.redAccent, fontSize: 13)),
-                ),
-            ],
+            if (_error != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Text(_error!, style: const TextStyle(color: Colors.redAccent, fontSize: 13)),
+              ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel, style: const TextStyle(color: AppTheme.subTextColor)),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+          onPressed: _submit,
+          child: Text(
+            widget.confirm ? l10n.continueAction : l10n.restoreAction,
+            style: const TextStyle(color: Colors.white),
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('إلغاء', style: TextStyle(color: AppTheme.subTextColor)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-            onPressed: _submit,
-            child: Text(
-              widget.confirm ? 'متابعة' : 'استعادة',
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

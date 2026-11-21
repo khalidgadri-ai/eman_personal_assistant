@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../core/ai/ai_settings_service.dart';
 import '../../core/app_events.dart';
+import '../../core/config/app_locale.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/encrypted_boxes.dart';
 import '../../core/services/profile_service.dart';
@@ -58,6 +59,8 @@ class DataResetService {
     ProfileService.reset();
     HealthService.reset();
     UsageService.reset();
+    // اللغة إعداد في SharedPreferences الممسوحة: تعود للغة الجوال الآن، لا بعد إعادة التشغيل.
+    AppLocale.choice.value = AppLanguage.system;
     AppEvents.dataErased.value++;
   }
 

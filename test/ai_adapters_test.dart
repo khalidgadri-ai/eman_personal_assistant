@@ -353,6 +353,7 @@ void main() {
           _config(AiProviderKind.gemini, 'https://generativelanguage.googleapis.com', 'older-model'),
           _key,
           client: client,
+          busyRetryDelay: Duration.zero,
         );
       }
 
@@ -402,11 +403,10 @@ void main() {
         expect(log.requests, hasLength(2));
       });
 
-      test('an unrelated 400, or any other status, is never retried', () async {
+      test('an unrelated 400, or a quota error, is never retried', () async {
         for (final (status, body) in <(int, Object)>[
           (400, {'error': {'message': 'Invalid JSON payload received.', 'status': 'INVALID_ARGUMENT'}}),
           (429, {'error': {'message': 'Quota exceeded', 'status': 'RESOURCE_EXHAUSTED'}}),
-          (500, {'error': {'message': 'thinking service failed', 'status': 'INTERNAL'}}),
         ]) {
           final log = _Log();
 
@@ -414,6 +414,18 @@ void main() {
 
           expect(log.requests, hasLength(1), reason: '$status');
         }
+      });
+
+      test('a 500 that mentions thinking gets only the busy retry, with thinking kept', () async {
+        final log = _Log();
+
+        final failure = await _failureOf(() => sequence(log, [
+              (500, {'error': {'message': 'thinking service failed', 'status': 'INTERNAL'}}),
+            ]).send(const AiRequest(messages: [AiMessage.user('س')])));
+
+        expect(failure, AiFailure.busy);
+        expect(log.requests, hasLength(2));
+        expect(log.bodyOf(1), log.bodyOf(0), reason: 'the same request again, not the no-thinking variant');
       });
     });
 
@@ -491,16 +503,19 @@ void main() {
             _config(AiProviderKind.openAiCompatible, 'https://api.example.com/v1', 'm'),
             _key,
             client: c,
+            busyRetryDelay: Duration.zero,
           ),
       'anthropic': (c) => AnthropicProvider(
             _config(AiProviderKind.anthropic, 'https://api.anthropic.com', 'm'),
             _key,
             client: c,
+            busyRetryDelay: Duration.zero,
           ),
       'gemini': (c) => GeminiProvider(
             _config(AiProviderKind.gemini, 'https://generativelanguage.googleapis.com', 'm'),
             _key,
             client: c,
+            busyRetryDelay: Duration.zero,
           ),
     };
 
@@ -639,6 +654,157 @@ void main() {
 
       await tester.pump(const Duration(seconds: 2));
       expect(outcome, AiFailure.timeout);
+    });
+
+    group('a busy provider is asked once more', () {
+      const overloaded = {
+        'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'},
+      };
+
+      /// يردّ بالقائمة بالترتيب (الأخير يتكرر)، وكل رد بعد [delay] على ساعة الاختبار.
+      MockClient replies(_Log log, List<(int, Object)> list, {Duration delay = Duration.zero}) {
+        var i = 0;
+        return MockClient((request) async {
+          log.requests.add(request);
+          final (status, body) = list[i < list.length ? i++ : list.length - 1];
+          if (delay > Duration.zero) await Future<void>.delayed(delay);
+          return http.Response.bytes(
+            utf8.encode(jsonEncode(body)),
+            status,
+            headers: {'content-type': 'application/json; charset=utf-8'},
+          );
+        });
+      }
+
+      Map<String, Object?> okFor(String name) => switch (name) {
+            'openai' => {
+                'choices': [
+                  {'message': {'role': 'assistant', 'content': 'تم'}, 'finish_reason': 'stop'},
+                ],
+              },
+            'anthropic' => {
+                'content': [
+                  {'type': 'text', 'text': 'تم'},
+                ],
+                'stop_reason': 'end_turn',
+              },
+            _ => {
+                'candidates': [
+                  {
+                    'content': {'role': 'model', 'parts': [{'text': 'تم'}]},
+                    'finishReason': 'STOP',
+                  },
+                ],
+              },
+          };
+
+      test('one overload and then an answer: the user gets the answer', () async {
+        for (final name in builders.keys) {
+          final log = _Log();
+
+          final reply = await builders[name]!(replies(log, [(503, overloaded), (200, okFor(name))]))
+              .send(const AiRequest(messages: [AiMessage.user('س')]));
+
+          expect(reply.text, 'تم', reason: name);
+          expect(log.requests, hasLength(2), reason: name);
+          expect(log.requests[1].body, log.requests[0].body, reason: '$name: the same request again');
+        }
+      });
+
+      test('still busy after the retry: busy is reported, after exactly two requests', () async {
+        for (final name in builders.keys) {
+          final log = _Log();
+
+          final failure = await _failureOf(() => builders[name]!(replies(log, [(503, overloaded)]))
+              .send(const AiRequest(messages: [AiMessage.user('س')])));
+
+          expect(failure, AiFailure.busy, reason: name);
+          expect(log.requests, hasLength(2), reason: '$name: one retry, never a loop');
+        }
+      });
+
+      test('only "busy" is retried: a wrong key, a quota or a bad request is reported at once', () async {
+        for (final (status, body) in <(int, Object)>[
+          (401, {'error': {'message': 'Incorrect API key provided'}}),
+          (429, {'error': {'message': 'Rate limit reached'}}),
+          (400, {'error': {'message': 'Invalid request'}}),
+        ]) {
+          final log = _Log();
+
+          await _failureOf(() => builders['openai']!(replies(log, [(status, body), (200, okFor('openai'))]))
+              .send(const AiRequest(messages: [AiMessage.user('س')])));
+
+          expect(log.requests, hasLength(1), reason: '$status');
+        }
+      });
+
+      testWidgets('the retry waits two seconds by default', (tester) async {
+        final log = _Log();
+        final provider = OpenAiCompatibleProvider(
+          _config(AiProviderKind.openAiCompatible, 'https://api.example.com/v1', 'm'),
+          _key,
+          client: replies(log, [(503, overloaded), (200, okFor('openai'))]),
+        );
+        String? text;
+        unawaited(provider.send(const AiRequest(messages: [AiMessage.user('س')])).then((r) => text = r.text));
+
+        await tester.pump(const Duration(seconds: 1));
+        expect(log.requests, hasLength(1), reason: 'still waiting before asking again');
+
+        await tester.pump(const Duration(seconds: 2));
+        expect(log.requests, hasLength(2));
+        expect(text, 'تم');
+      });
+
+      testWidgets('an overload that comes too close to the limit is reported, not retried', (tester) async {
+        final log = _Log();
+        final provider = OpenAiCompatibleProvider(
+          _config(AiProviderKind.openAiCompatible, 'https://api.example.com/v1', 'm'),
+          _key,
+          client: replies(log, [(503, overloaded)], delay: AiProvider.chatTimeout - const Duration(seconds: 10)),
+        );
+        AiFailure? outcome;
+        unawaited(_failureOf(() => provider.send(const AiRequest(messages: [AiMessage.user('س')]))).then((f) => outcome = f));
+
+        await tester.pump(AiProvider.chatTimeout - const Duration(seconds: 9));
+
+        expect(outcome, AiFailure.busy);
+        expect(log.requests, hasLength(1));
+      });
+
+      testWidgets('both requests together never wait longer than the chat timeout', (tester) async {
+        final log = _Log();
+        var calls = 0;
+        final provider = OpenAiCompatibleProvider(
+          _config(AiProviderKind.openAiCompatible, 'https://api.example.com/v1', 'm'),
+          _key,
+          client: MockClient((request) async {
+            log.requests.add(request);
+            if (calls++ > 0) return Completer<http.Response>().future;
+            await Future<void>.delayed(const Duration(seconds: 60));
+            return http.Response(jsonEncode(overloaded), 503);
+          }),
+        );
+        AiFailure? outcome;
+        unawaited(_failureOf(() => provider.send(const AiRequest(messages: [AiMessage.user('س')]))).then((f) => outcome = f));
+
+        await tester.pump(AiProvider.chatTimeout - const Duration(seconds: 1));
+        expect(log.requests, hasLength(2), reason: 'the busy reply came at 60 s, so it was retried');
+        expect(outcome, isNull);
+
+        await tester.pump(const Duration(seconds: 2));
+        expect(outcome, AiFailure.timeout);
+      });
+    });
+
+    test('busy and timeout say the trouble is at the provider and point to a lighter model', () {
+      for (final failure in [AiFailure.busy, AiFailure.timeout]) {
+        expect(failure.message, contains('المزوّد'), reason: failure.name);
+        expect(failure.message, contains('موديل أخفّ'), reason: failure.name);
+        expect(failure.message, contains('lite'), reason: failure.name);
+      }
+      expect(AiFailure.busy.message, contains('لا في التطبيق'));
+      expect(AiFailure.busy.message, isNot(AiFailure.timeout.message));
     });
 
     test('only a 400 that names the thinking setting is flagged as a thinking rejection', () {

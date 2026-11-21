@@ -322,6 +322,35 @@ void main() {
       }
     });
 
+    test('every voice file in the app is a clip some session uses, in that session\'s folder', () {
+      final used = {for (final s in sessions) ...s.clipAssets};
+      final files = Directory('assets/meditation/voice')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .map((f) => f.path.replaceAll('\\', '/'))
+          .where((p) => !p.endsWith('.gitkeep'))
+          .toList();
+
+      expect(files, isNotEmpty);
+      for (final path in files) {
+        expect(used, contains(path), reason: '$path is not a clip any session uses');
+      }
+    });
+
+    test('every session with a guide voice has all its clips in the app, so none is hidden', () {
+      for (final session in sessions.where((s) => s.clipAssets.isNotEmpty)) {
+        for (final clip in session.clipAssets) {
+          expect(File(clip).existsSync(), isTrue, reason: '${session.id}: $clip is missing');
+        }
+      }
+      final onDisk = Directory('assets/meditation/voice')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .map((f) => f.path.replaceAll('\\', '/'))
+          .toSet();
+      expect(MeditationCatalog.available(sessions, onDisk).map((s) => s.id), sessions.map((s) => s.id));
+    });
+
     test('the recording script has every clip the sessions use', () {
       final script = File('docs/meditation_recording_script.md').readAsStringSync();
       for (final session in sessions) {
@@ -395,6 +424,23 @@ void main() {
       expect(find.byType(MeditationSessionScreen), findsOneWidget);
       expect(player.started!.session.id, 'calm_breathing');
       expect(player.toneVolume, defaultToneVolume);
+    });
+
+    testWidgets('a session with a guide voice says the voice is AI-generated', (tester) async {
+      await openTab(tester);
+      await tester.tap(find.text('تنفّس هادئ'));
+      await settle(tester);
+
+      expect(find.text(aiVoiceNotice), findsOneWidget);
+    });
+
+    testWidgets('a session without a guide voice does not mention one', (tester) async {
+      await openTab(tester);
+      await tester.tap(find.text('مؤقت صامت بأجراس'));
+      await settle(tester);
+
+      expect(find.text('ابدأ الجلسة'), findsOneWidget);
+      expect(find.text(aiVoiceNotice), findsNothing);
     });
 
     testWidgets('a paid session opens the paywall and stops there if nothing is bought', (tester) async {

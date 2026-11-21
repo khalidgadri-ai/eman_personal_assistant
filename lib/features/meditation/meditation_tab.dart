@@ -40,6 +40,10 @@ const String activeNoticeText =
     'الحركة بلطف، في مكان واسع وآمن، والتوقف عند الدوخة أو الألم. من لديه حالة قلبية أو حمل أو '
     'إصابة يستشير الطبيب قبل هذه الجلسة.';
 
+/// صوت المرشد صُنع بصوت Gemini الآلي (tool/generate_meditation_voice.dart)، فيُقال ذلك بوضوح
+/// قبل كل جلسة فيها صوت مرشد، ولا يُقدَّم على أنه صوت إنسان.
+const String aiVoiceNotice = 'صوت المرشد مولَّد بالذكاء الاصطناعي.';
+
 /// قسم «التأمل» في الصحة واللياقة: قائمة الجلسات ودقائق آخر 7 أيام.
 class MeditationTab extends StatefulWidget {
   /// كلها تُستبدل في الاختبارات فقط؛ الأصل هو المشغّل الحقيقي والاشتراك الحقيقي.
@@ -377,6 +381,18 @@ class _SetupSheetState extends State<_SetupSheet> {
                         selected: _background == background,
                         onSelected: (_) => setState(() => _background = background),
                       ),
+                  ],
+                ),
+              ],
+              if (widget.session.clipAssets.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                const Row(
+                  children: [
+                    Icon(Icons.record_voice_over_rounded, size: 18, color: AppTheme.subTextColor),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(aiVoiceNotice, style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                    ),
                   ],
                 ),
               ],

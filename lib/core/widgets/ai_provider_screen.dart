@@ -8,6 +8,7 @@ import '../ai/ai_settings_service.dart';
 import '../ai/provider_presets.dart';
 import '../theme/app_theme.dart';
 import 'api_key_guide.dart';
+import '../../l10n/l10n.dart';
 
 /// يرجّع [AiService] بمزوّد ومفتاح المستخدم، وإن لم يكن مُعدًّا يعرض شاشة الإعداد أولًا.
 /// يرجّع null إذا رجع المستخدم دون إعداد.
@@ -154,7 +155,7 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
       final key = await _effectiveKey();
       if (key.isEmpty) throw const AiException(AiFailure.missingKey);
       await widget.providerBuilder(config, key).testConnection();
-      if (mounted) setState(() => _outcome = const _Outcome.success('الاتصال سليم والموديل يرد.'));
+      if (mounted) setState(() => _outcome = _Outcome.success(context.l10n.providerConnectionOk));
     });
   }
 
@@ -178,7 +179,7 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
           if (mounted) {
             setState(() {
               _images = AiSupport.no;
-              _outcome = _Outcome.failure('الموديل لم يقبل الصورة، فعُلّم بأنه لا يدعم الصور.');
+              _outcome = _Outcome.failure(context.l10n.providerImageRejected);
             });
           }
           return;
@@ -189,7 +190,7 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
       if (mounted) {
         setState(() {
           _images = AiSupport.yes;
-          _outcome = const _Outcome.success('الموديل يدعم الصور.');
+          _outcome = _Outcome.success(context.l10n.providerImagesOk);
         });
       }
     });
@@ -207,7 +208,7 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
     final list = models;
     if (list == null || !mounted) return;
     if (list.isEmpty) {
-      setState(() => _outcome = _Outcome.failure('لم يُرجع المزوّد أي موديل.'));
+      setState(() => _outcome = _Outcome.failure(context.l10n.providerNoModels));
       return;
     }
     final picked = await showModalBottomSheet<AiModelInfo>(
@@ -236,7 +237,7 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
       if (typed.isNotEmpty) await settings.saveKey(_presetId, typed);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('تم حفظ إعداد الذكاء الاصطناعي.')),
+        SnackBar(content: Text(context.l10n.providerSaved)),
       );
       Navigator.of(context).pop();
     });
@@ -252,7 +253,7 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
       if (mounted) {
         setState(() {
           _savedKeyPreview = preview;
-          _outcome = const _Outcome.success('حُذف المفتاح من هذا الجهاز.');
+          _outcome = _Outcome.success(context.l10n.providerKeyDeleted);
         });
       }
     });
@@ -261,7 +262,7 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
   Future<void> _copyKeyLink() async {
     await Clipboard.setData(ClipboardData(text: _preset.keyUrl));
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('تم نسخ الرابط')));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.linkCopied)));
   }
 
   InputDecoration _decoration(String hint, {Widget? suffix}) {
@@ -277,183 +278,178 @@ class _AiProviderScreenState extends State<AiProviderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('مزوّد الذكاء الاصطناعي')),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppTheme.cardColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        'اختر المزوّد الذي تريد استعماله وأدخل مفتاحك الخاص منه.\n'
-                        'المفتاح يُحفظ على جهازك فقط في تخزين آمن، ويُرسل إلى المزوّد الذي تختاره وحده مع طلباتك، '
-                        'بلا خادم وسيط. ما تُرسله يخضع لسياسة الخصوصية لدى ذلك المزوّد.',
-                        style: TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.8),
-                      ),
+    return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.settingsAiProvider)),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppTheme.cardColor,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: 20),
-                    const Text('المزوّد', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
-                    const SizedBox(height: 6),
-                    DropdownButtonFormField<String>(
-                      key: ValueKey(_presetId),
-                      initialValue: _presetId,
-                      isExpanded: true,
-                      dropdownColor: AppTheme.cardColor,
-                      decoration: _decoration(''),
-                      style: const TextStyle(color: AppTheme.textColor),
-                      items: [
-                        for (final p in AiPresets.all)
-                          DropdownMenuItem(value: p.id, child: Text(p.label)),
-                      ],
-                      onChanged: _busy ? null : (id) => id == null ? null : _selectPreset(id),
+                    child: Text(
+                      context.l10n.providerIntro,
+                      style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.8),
                     ),
-                    const SizedBox(height: 16),
-                    const Text('عنوان المزوّد', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
-                    const SizedBox(height: 6),
-                    TextField(
-                      controller: _urlController,
-                      readOnly: !_preset.editableUrl,
-                      textDirection: TextDirection.ltr,
-                      keyboardType: TextInputType.url,
-                      style: TextStyle(
-                        color: _preset.editableUrl ? AppTheme.textColor : AppTheme.subTextColor,
-                        fontSize: 13,
-                      ),
-                      decoration: _decoration('https://example.com/v1'),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(context.l10n.providerField, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  const SizedBox(height: 6),
+                  DropdownButtonFormField<String>(
+                    key: ValueKey(_presetId),
+                    initialValue: _presetId,
+                    isExpanded: true,
+                    dropdownColor: AppTheme.cardColor,
+                    decoration: _decoration(''),
+                    style: const TextStyle(color: AppTheme.textColor),
+                    items: [
+                      for (final p in AiPresets.all)
+                        DropdownMenuItem(value: p.id, child: Text(p.displayLabel)),
+                    ],
+                    onChanged: _busy ? null : (id) => id == null ? null : _selectPreset(id),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(context.l10n.providerUrlField, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  const SizedBox(height: 6),
+                  TextField(
+                    controller: _urlController,
+                    readOnly: !_preset.editableUrl,
+                    textDirection: TextDirection.ltr,
+                    keyboardType: TextInputType.url,
+                    style: TextStyle(
+                      color: _preset.editableUrl ? AppTheme.textColor : AppTheme.subTextColor,
+                      fontSize: 13,
                     ),
-                    const SizedBox(height: 16),
-                    const Text('اسم الموديل', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
-                    const SizedBox(height: 6),
-                    TextField(
-                      controller: _modelController,
-                      textDirection: TextDirection.ltr,
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      style: const TextStyle(color: AppTheme.textColor, fontSize: 13),
-                      decoration: _decoration('اكتب الاسم أو اجلبه من المزوّد'),
-                    ),
-                    const SizedBox(height: 8),
-                    OutlinedButton.icon(
-                      onPressed: _busy ? null : _fetchModels,
-                      icon: const Icon(Icons.cloud_download_rounded, size: 18),
-                      label: const Text('جلب الموديلات المتاحة'),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text('المفتاح', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
-                    if (_preset.keyUrl.isNotEmpty)
-                      Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: TextButton.icon(
-                          onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute<void>(builder: (_) => ApiKeyGuideScreen(preset: _preset)),
-                          ),
-                          icon: const Icon(Icons.help_outline_rounded, size: 18),
-                          label: const Text('كيف أحصل على مفتاح؟'),
+                    decoration: _decoration('https://example.com/v1'),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(context.l10n.modelNameField, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  const SizedBox(height: 6),
+                  TextField(
+                    controller: _modelController,
+                    textDirection: TextDirection.ltr,
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    style: const TextStyle(color: AppTheme.textColor, fontSize: 13),
+                    decoration: _decoration(context.l10n.modelNameHint),
+                  ),
+                  const SizedBox(height: 8),
+                  OutlinedButton.icon(
+                    onPressed: _busy ? null : _fetchModels,
+                    icon: const Icon(Icons.cloud_download_rounded, size: 18),
+                    label: Text(context.l10n.fetchModels),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(context.l10n.keyField, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  if (_preset.keyUrl.isNotEmpty)
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: TextButton.icon(
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(builder: (_) => ApiKeyGuideScreen(preset: _preset)),
                         ),
-                      ),
-                    if (_preset.keyUrl.isNotEmpty)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SelectableText(
-                              _preset.keyUrl,
-                              textDirection: TextDirection.ltr,
-                              style: const TextStyle(color: AppTheme.accentColor, fontSize: 12),
-                            ),
-                          ),
-                          IconButton(
-                            tooltip: 'نسخ الرابط',
-                            icon: const Icon(Icons.copy_rounded, color: AppTheme.accentColor),
-                            onPressed: _copyKeyLink,
-                          ),
-                        ],
-                      ),
-                    const SizedBox(height: 4),
-                    TextField(
-                      controller: _keyController,
-                      obscureText: _obscured,
-                      textDirection: TextDirection.ltr,
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      style: const TextStyle(color: AppTheme.textColor, fontSize: 13),
-                      decoration: _decoration(
-                        _savedKeyPreview.isEmpty ? 'الصق مفتاحك هنا' : 'محفوظ: $_savedKeyPreview (اتركه فارغًا للإبقاء عليه)',
-                        suffix: IconButton(
-                          tooltip: _obscured ? 'إظهار المفتاح' : 'إخفاء المفتاح',
-                          icon: Icon(
-                            _obscured ? Icons.visibility_off : Icons.visibility,
-                            color: AppTheme.subTextColor,
-                          ),
-                          onPressed: () => setState(() => _obscured = !_obscured),
-                        ),
+                        icon: const Icon(Icons.help_outline_rounded, size: 18),
+                        label: Text(context.l10n.keyGuideTitle),
                       ),
                     ),
-                    if (_savedKeyPreview.isNotEmpty)
-                      Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: TextButton(
-                          onPressed: _busy ? null : _deleteKey,
-                          child: const Text('حذف المفتاح المحفوظ', style: TextStyle(color: Colors.redAccent)),
-                        ),
-                      ),
-                    const SizedBox(height: 12),
-                    const Text('هل يدعم الموديل الصور؟', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
-                    const SizedBox(height: 6),
-                    SegmentedButton<AiSupport>(
-                      showSelectedIcon: false,
-                      segments: const [
-                        ButtonSegment(value: AiSupport.yes, label: Text('نعم')),
-                        ButtonSegment(value: AiSupport.no, label: Text('لا')),
-                        ButtonSegment(value: AiSupport.unknown, label: Text('غير معروف')),
-                      ],
-                      selected: {_images},
-                      onSelectionChanged: _busy ? null : (s) => setState(() => _images = s.first),
-                    ),
-                    TextButton(
-                      onPressed: _busy ? null : _testImages,
-                      child: const Text('اختبار دعم الصور تلقائيًا'),
-                    ),
-                    const SizedBox(height: 8),
+                  if (_preset.keyUrl.isNotEmpty)
                     Row(
                       children: [
                         Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: _busy ? null : _testConnection,
-                            icon: const Icon(Icons.wifi_tethering_rounded, size: 18),
-                            label: const Text('اختبار الاتصال'),
+                          child: SelectableText(
+                            _preset.keyUrl,
+                            textDirection: TextDirection.ltr,
+                            style: const TextStyle(color: AppTheme.accentColor, fontSize: 12),
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-                            onPressed: _busy ? null : _save,
-                            icon: const Icon(Icons.save_rounded, color: Colors.white, size: 18),
-                            label: const Text('حفظ وتفعيل', style: TextStyle(color: Colors.white)),
-                          ),
+                        IconButton(
+                          tooltip: context.l10n.copyLink,
+                          icon: const Icon(Icons.copy_rounded, color: AppTheme.accentColor),
+                          onPressed: _copyKeyLink,
                         ),
                       ],
                     ),
-                    if (_busy)
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Center(child: CircularProgressIndicator()),
+                  const SizedBox(height: 4),
+                  TextField(
+                    controller: _keyController,
+                    obscureText: _obscured,
+                    textDirection: TextDirection.ltr,
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    style: const TextStyle(color: AppTheme.textColor, fontSize: 13),
+                    decoration: _decoration(
+                      _savedKeyPreview.isEmpty ? context.l10n.pasteKeyHint : context.l10n.savedKeyHint(_savedKeyPreview),
+                      suffix: IconButton(
+                        tooltip: _obscured ? context.l10n.showKey : context.l10n.hideKey,
+                        icon: Icon(
+                          _obscured ? Icons.visibility_off : Icons.visibility,
+                          color: AppTheme.subTextColor,
+                        ),
+                        onPressed: () => setState(() => _obscured = !_obscured),
                       ),
-                    if (_outcome != null) _OutcomeCard(outcome: _outcome!),
-                  ],
-                ),
+                    ),
+                  ),
+                  if (_savedKeyPreview.isNotEmpty)
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: TextButton(
+                        onPressed: _busy ? null : _deleteKey,
+                        child: Text(context.l10n.deleteSavedKey, style: TextStyle(color: Colors.redAccent)),
+                      ),
+                    ),
+                  const SizedBox(height: 12),
+                  Text(context.l10n.modelImagesQuestion, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  const SizedBox(height: 6),
+                  SegmentedButton<AiSupport>(
+                    showSelectedIcon: false,
+                    segments: [
+                      ButtonSegment(value: AiSupport.yes, label: Text(context.l10n.yes)),
+                      ButtonSegment(value: AiSupport.no, label: Text(context.l10n.no)),
+                      ButtonSegment(value: AiSupport.unknown, label: Text(context.l10n.unknownSupport)),
+                    ],
+                    selected: {_images},
+                    onSelectionChanged: _busy ? null : (s) => setState(() => _images = s.first),
+                  ),
+                  TextButton(
+                    onPressed: _busy ? null : _testImages,
+                    child: Text(context.l10n.testImagesAuto),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: _busy ? null : _testConnection,
+                          icon: const Icon(Icons.wifi_tethering_rounded, size: 18),
+                          label: Text(context.l10n.testConnection),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+                          onPressed: _busy ? null : _save,
+                          icon: const Icon(Icons.save_rounded, color: Colors.white, size: 18),
+                          label: Text(context.l10n.saveAndActivate, style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (_busy)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  if (_outcome != null) _OutcomeCard(outcome: _outcome!),
+                ],
               ),
-      ),
+            ),
     );
   }
 }
@@ -514,53 +510,50 @@ class _ModelPickerState extends State<_ModelPicker> {
     final shown = widget.models
         .where((m) => query.isEmpty || m.id.toLowerCase().contains(query) || (m.label ?? '').toLowerCase().contains(query))
         .toList();
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.7,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: TextField(
-                  autofocus: false,
-                  textDirection: TextDirection.ltr,
-                  style: const TextStyle(color: AppTheme.textColor),
-                  decoration: InputDecoration(
-                    hintText: 'بحث في ${widget.models.length} موديل',
-                    hintStyle: const TextStyle(color: AppTheme.subTextColor),
-                    prefixIcon: const Icon(Icons.search_rounded),
-                  ),
-                  onChanged: (v) => setState(() => _query = v),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: TextField(
+                autofocus: false,
+                textDirection: TextDirection.ltr,
+                style: const TextStyle(color: AppTheme.textColor),
+                decoration: InputDecoration(
+                  hintText: context.l10n.searchModels(widget.models.length),
+                  hintStyle: const TextStyle(color: AppTheme.subTextColor),
+                  prefixIcon: const Icon(Icons.search_rounded),
                 ),
+                onChanged: (v) => setState(() => _query = v),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: shown.length,
-                  itemBuilder: (context, index) {
-                    final model = shown[index];
-                    return ListTile(
-                      title: Text(
-                        model.id,
-                        textDirection: TextDirection.ltr,
-                        style: const TextStyle(color: AppTheme.textColor, fontSize: 14),
-                      ),
-                      subtitle: model.label == null || model.label == model.id
-                          ? null
-                          : Text(model.label!, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
-                      trailing: switch (model.supportsImages) {
-                        AiSupport.yes => const Icon(Icons.image_rounded, size: 18, color: AppTheme.accentColor),
-                        _ => null,
-                      },
-                      onTap: () => Navigator.of(context).pop(model),
-                    );
-                  },
-                ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: shown.length,
+                itemBuilder: (context, index) {
+                  final model = shown[index];
+                  return ListTile(
+                    title: Text(
+                      model.id,
+                      textDirection: TextDirection.ltr,
+                      style: const TextStyle(color: AppTheme.textColor, fontSize: 14),
+                    ),
+                    subtitle: model.label == null || model.label == model.id
+                        ? null
+                        : Text(model.label!, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                    trailing: switch (model.supportsImages) {
+                      AiSupport.yes => const Icon(Icons.image_rounded, size: 18, color: AppTheme.accentColor),
+                      _ => null,
+                    },
+                    onTap: () => Navigator.of(context).pop(model),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

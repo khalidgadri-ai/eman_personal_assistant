@@ -3,6 +3,7 @@ import 'ai_errors.dart';
 import 'ai_models.dart';
 import 'ai_provider.dart';
 import 'ai_settings_service.dart';
+import '../config/app_locale.dart';
 import 'provider_presets.dart';
 
 /// واجهة الذكاء الاصطناعي التي تستعملها الشاشات، فوق أي مزوّد (Gemini أو Claude أو أي خدمة
@@ -28,9 +29,9 @@ class AiService {
   final String? _systemPrompt;
   final AiProviderBuilder _builder;
 
-  static final String missingKeyMessage = AiFailure.missingKey.message;
-  static final String emptyReplyMessage = AiFailure.emptyReply.message;
-  static const String emptyImageReplyMessage = 'لم أتمكن من تحليل الصورة.';
+  static String get missingKeyMessage => AiFailure.missingKey.message;
+  static String get emptyReplyMessage => AiFailure.emptyReply.message;
+  static String get emptyImageReplyMessage => AppLocale.texts.aiEmptyImageReply;
 
   /// [systemPrompt] تعليمات اختيارية تُرسل مع كل طلب (مثل تعليمات المساعد العام).
   static Future<AiService> create({String? systemPrompt, AiProviderBuilder? builder}) async {
@@ -76,7 +77,7 @@ class AiService {
     final settings = await AiSettingsService.getInstance();
     final id = settings.selectedId;
     final preview = id == null ? '' : await settings.keyPreview(id);
-    return preview.isEmpty ? 'لم يُضبط مفتاح' : preview;
+    return preview.isEmpty ? AppLocale.texts.aiNoKeySet : preview;
   }
 
   /// طلب خام يرمي [AiException]؛ للمدرب الذي يحتاج تعليمات نظام وأخطاء حقيقية.

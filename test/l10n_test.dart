@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:eman_life_app/core/ai/ai_errors.dart';
+import 'package:eman_life_app/core/ai/ai_service.dart';
+import 'package:eman_life_app/core/ai/provider_presets.dart';
 import 'package:eman_life_app/core/config/app_locale.dart';
+import 'package:eman_life_app/core/widgets/ai_provider_screen.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
 import 'package:eman_life_app/features/budget/budget_plan_service.dart';
@@ -309,6 +313,31 @@ void main() {
       await settle(tester);
       expect(find.text('October 2026'), findsOneWidget);
       expect(find.text('Breakdown by category'), findsOneWidget);
+    });
+
+    testWidgets('the AI provider screen speaks English, with the labels the key guide quotes', (tester) async {
+      tester.view.physicalSize = const Size(900, 3200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(const AiProviderScreen()));
+      await settle(tester);
+
+      expect(find.text('AI provider'), findsWidgets);
+      // دليل المفتاح بالإنجليزية يقول: «Key» ثم «Save and activate».
+      expect(find.text('Key'), findsOneWidget);
+      expect(find.text('Save and activate'), findsOneWidget);
+      expect(find.textContaining(_arabicLetter), findsNothing);
+    });
+
+    test('AI failure messages and the custom provider follow the app language', () {
+      expect(AiFailure.network.message, contains('الإنترنت'));
+      expect(AiPresets.byId(AiPresets.customId).displayLabel, 'مخصص (متوافق مع OpenAI)');
+      AppLocale.choice.value = AppLanguage.en;
+      expect(AiFailure.network.message, "Couldn't connect to the internet. Check your connection, then try again.");
+      expect(AiService.missingKeyMessage, 'Set up the AI provider and its key in Settings first.');
+      expect(AiPresets.byId(AiPresets.customId).displayLabel, 'Custom (OpenAI-compatible)');
+      expect(AiPresets.byId(AiPresets.geminiId).displayLabel, AiPresets.byId(AiPresets.geminiId).label);
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

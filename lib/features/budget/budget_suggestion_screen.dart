@@ -61,7 +61,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
       final settings = await AiSettingsService.getInstance();
       final id = settings.selectedId;
       final preset = AiPresets.all.where((p) => p.id == id).firstOrNull;
-      if (preset != null) return preset.label;
+      if (preset != null) return preset.displayLabel;
     } catch (_) {}
     return fallback;
   }

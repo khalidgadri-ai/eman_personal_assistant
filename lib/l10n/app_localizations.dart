@@ -3499,6 +3499,324 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تغيير التاريخ'**
   String get changeDate;
+
+  /// No description provided for @aiMissingKey.
+  ///
+  /// In ar, this message translates to:
+  /// **'يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحه من الإعدادات أولًا.'**
+  String get aiMissingKey;
+
+  /// No description provided for @aiInvalidKey.
+  ///
+  /// In ar, this message translates to:
+  /// **'المفتاح غير صالح أو منتهي. يرجى تحديثه من إعدادات مزوّد الذكاء الاصطناعي ثم إعادة المحاولة.'**
+  String get aiInvalidKey;
+
+  /// No description provided for @aiModelNotFound.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموديل المختار غير موجود أو أُوقف. يرجى تحديث قائمة الموديلات من الإعدادات واختيار موديل آخر.'**
+  String get aiModelNotFound;
+
+  /// No description provided for @aiRateLimited.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم بلوغ حد الاستخدام أو الرصيد لدى المزوّد. يرجى الانتظار قليلًا أو مراجعة الحساب لديه ثم إعادة المحاولة.'**
+  String get aiRateLimited;
+
+  /// No description provided for @aiBusy.
+  ///
+  /// In ar, this message translates to:
+  /// **'خوادم المزوّد مزدحمة الآن، والمشكلة عنده لا في التطبيق. يرجى المحاولة بعد قليل، أو اختيار موديل أخفّ من إعدادات الذكاء الاصطناعي (مثل الموديلات التي في اسمها lite أو mini أو haiku).'**
+  String get aiBusy;
+
+  /// No description provided for @aiNetwork.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر الاتصال بالإنترنت. يرجى التحقق من الشبكة ثم إعادة المحاولة.'**
+  String get aiNetwork;
+
+  /// No description provided for @aiTimeout.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يصل رد من المزوّد في الوقت المحدد، وغالبًا خوادمه مزدحمة. يرجى المحاولة مرة أخرى، أو اختيار موديل أخفّ وأسرع من إعدادات الذكاء الاصطناعي (مثل الموديلات التي في اسمها lite أو mini أو haiku).'**
+  String get aiTimeout;
+
+  /// No description provided for @aiBadRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفض المزوّد الطلب. قد لا يدعم الموديل هذا النوع من الطلبات، فجرّب موديلًا آخر.'**
+  String get aiBadRequest;
+
+  /// No description provided for @aiImageUnsupported.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموديل المختار لا يدعم الصور. يرجى اختيار موديل يدعمها من إعدادات مزوّد الذكاء الاصطناعي.'**
+  String get aiImageUnsupported;
+
+  /// No description provided for @aiBlocked.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر تكوين رد لهذا الطلب. جرّب صياغة مختلفة.'**
+  String get aiBlocked;
+
+  /// No description provided for @aiUnsupportedLocation.
+  ///
+  /// In ar, this message translates to:
+  /// **'خدمة المزوّد غير متاحة في بلدك حاليًا.'**
+  String get aiUnsupportedLocation;
+
+  /// No description provided for @aiInsecureUrl.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان المزوّد يجب أن يبدأ بـ https:// ويكون عنوانًا صحيحًا.'**
+  String get aiInsecureUrl;
+
+  /// No description provided for @aiInvalidModelName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم الموديل غير صالح. يُسمح بالحروف والأرقام والرموز - _ . : / @ فقط.'**
+  String get aiInvalidModelName;
+
+  /// No description provided for @aiEmptyReply.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم استلام رد من المساعد الذكي.'**
+  String get aiEmptyReply;
+
+  /// No description provided for @aiUnknown.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدث خطأ غير متوقع مع المساعد الذكي. يرجى المحاولة مرة أخرى بعد قليل.'**
+  String get aiUnknown;
+
+  /// No description provided for @aiEmptyImageReply.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم أتمكن من تحليل الصورة.'**
+  String get aiEmptyImageReply;
+
+  /// No description provided for @aiNoKeySet.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يُضبط مفتاح'**
+  String get aiNoKeySet;
+
+  /// No description provided for @customProviderLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'مخصص (متوافق مع OpenAI)'**
+  String get customProviderLabel;
+
+  /// No description provided for @providerConnectionOk.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاتصال سليم والموديل يرد.'**
+  String get providerConnectionOk;
+
+  /// No description provided for @providerImageRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموديل لم يقبل الصورة، فعُلّم بأنه لا يدعم الصور.'**
+  String get providerImageRejected;
+
+  /// No description provided for @providerImagesOk.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموديل يدعم الصور.'**
+  String get providerImagesOk;
+
+  /// No description provided for @providerNoModels.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يُرجع المزوّد أي موديل.'**
+  String get providerNoModels;
+
+  /// No description provided for @providerSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم حفظ إعداد الذكاء الاصطناعي.'**
+  String get providerSaved;
+
+  /// No description provided for @providerKeyDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف المفتاح من هذا الجهاز.'**
+  String get providerKeyDeleted;
+
+  /// No description provided for @linkCopied.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم نسخ الرابط'**
+  String get linkCopied;
+
+  /// No description provided for @providerIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر المزوّد الذي تريد استعماله وأدخل مفتاحك الخاص منه.\nالمفتاح يُحفظ على جهازك فقط في تخزين آمن، ويُرسل إلى المزوّد الذي تختاره وحده مع طلباتك، بلا خادم وسيط. ما تُرسله يخضع لسياسة الخصوصية لدى ذلك المزوّد.'**
+  String get providerIntro;
+
+  /// No description provided for @providerField.
+  ///
+  /// In ar, this message translates to:
+  /// **'المزوّد'**
+  String get providerField;
+
+  /// No description provided for @providerUrlField.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان المزوّد'**
+  String get providerUrlField;
+
+  /// No description provided for @modelNameField.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم الموديل'**
+  String get modelNameField;
+
+  /// No description provided for @modelNameHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب الاسم أو اجلبه من المزوّد'**
+  String get modelNameHint;
+
+  /// No description provided for @fetchModels.
+  ///
+  /// In ar, this message translates to:
+  /// **'جلب الموديلات المتاحة'**
+  String get fetchModels;
+
+  /// No description provided for @keyField.
+  ///
+  /// In ar, this message translates to:
+  /// **'المفتاح'**
+  String get keyField;
+
+  /// No description provided for @copyLink.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخ الرابط'**
+  String get copyLink;
+
+  /// No description provided for @pasteKeyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصق مفتاحك هنا'**
+  String get pasteKeyHint;
+
+  /// No description provided for @savedKeyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'محفوظ: {preview} (اتركه فارغًا للإبقاء عليه)'**
+  String savedKeyHint(String preview);
+
+  /// No description provided for @showKey.
+  ///
+  /// In ar, this message translates to:
+  /// **'إظهار المفتاح'**
+  String get showKey;
+
+  /// No description provided for @hideKey.
+  ///
+  /// In ar, this message translates to:
+  /// **'إخفاء المفتاح'**
+  String get hideKey;
+
+  /// No description provided for @deleteSavedKey.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المفتاح المحفوظ'**
+  String get deleteSavedKey;
+
+  /// No description provided for @modelImagesQuestion.
+  ///
+  /// In ar, this message translates to:
+  /// **'هل يدعم الموديل الصور؟'**
+  String get modelImagesQuestion;
+
+  /// No description provided for @yes.
+  ///
+  /// In ar, this message translates to:
+  /// **'نعم'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا'**
+  String get no;
+
+  /// No description provided for @unknownSupport.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير معروف'**
+  String get unknownSupport;
+
+  /// No description provided for @testImagesAuto.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختبار دعم الصور تلقائيًا'**
+  String get testImagesAuto;
+
+  /// No description provided for @testConnection.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختبار الاتصال'**
+  String get testConnection;
+
+  /// No description provided for @saveAndActivate.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ وتفعيل'**
+  String get saveAndActivate;
+
+  /// No description provided for @searchModels.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث في {count} موديل'**
+  String searchModels(int count);
+
+  /// No description provided for @assistantActivated.
+  ///
+  /// In ar, this message translates to:
+  /// **'✅ تم تفعيل المزوّد بنجاح! يمكنك الآن استخدام جميع ميزات الذكاء الاصطناعي.'**
+  String get assistantActivated;
+
+  /// No description provided for @assistantTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'🤖 المساعد الذكي'**
+  String get assistantTitle;
+
+  /// No description provided for @assistantProviderSetup.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد مزوّد الذكاء الاصطناعي'**
+  String get assistantProviderSetup;
+
+  /// No description provided for @assistantStarting.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ تهيئة المساعد الذكي...'**
+  String get assistantStarting;
+
+  /// No description provided for @assistantThinking.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ التفكير...'**
+  String get assistantThinking;
+
+  /// No description provided for @assistantHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسأل المساعد الذكي أو اطلب اقتراحاً...'**
+  String get assistantHint;
+
+  /// No description provided for @send.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال'**
+  String get send;
 }
 
 class _AppLocalizationsDelegate

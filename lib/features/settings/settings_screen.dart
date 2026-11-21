@@ -75,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final settings = await AiSettingsService.getInstance();
       final config = settings.selected;
       if (config == null || !await settings.hasKey(config.id)) return '';
-      final label = AiPresets.byId(config.id).label;
+      final label = AiPresets.byId(config.id).displayLabel;
       return config.model.isEmpty ? label : '$label — ${config.model}';
     } catch (e) {
       debugPrint('SettingsScreen: could not read AI settings (${e.runtimeType})');

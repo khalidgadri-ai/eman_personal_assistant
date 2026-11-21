@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import '../config/ai_config.dart';
+import '../config/app_locale.dart';
 import 'adapters/anthropic_provider.dart';
 import 'adapters/gemini_provider.dart';
 import 'adapters/openai_compatible_provider.dart';
@@ -23,6 +24,9 @@ class AiProviderPreset {
 
   final String id;
   final String label;
+
+  /// الاسم المعروض: أسماء المزوّدين كما هي، و«مخصص» بلغة التطبيق.
+  String get displayLabel => id == AiPresets.customId ? AppLocale.texts.customProviderLabel : label;
   final AiProviderKind kind;
   final String baseUrl;
   final String keyUrl;
@@ -109,7 +113,7 @@ abstract final class AiPresets {
     ),
     AiProviderPreset(
       id: customId,
-      label: 'مخصص (متوافق مع OpenAI)',
+      label: 'Custom (OpenAI-compatible)',
       kind: AiProviderKind.openAiCompatible,
       baseUrl: '',
       keyUrl: '',

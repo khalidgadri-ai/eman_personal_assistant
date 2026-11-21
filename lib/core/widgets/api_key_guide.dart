@@ -69,7 +69,7 @@ class ApiKeyGuide extends StatelessWidget {
       children: [
         Text(l10n.keyGuideIntro, style: body),
         const SizedBox(height: 12),
-        Text(l10n.keyGuideStepsWith(preset.label), style: note),
+        Text(l10n.keyGuideStepsWith(preset.displayLabel), style: note),
         const SizedBox(height: 4),
         for (var i = 0; i < steps.length; i++)
           Padding(

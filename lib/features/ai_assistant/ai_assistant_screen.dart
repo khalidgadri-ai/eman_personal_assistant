@@ -5,6 +5,7 @@ import '../../core/services/profile_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/ai_provider_screen.dart';
 import '../settings/settings_button.dart';
+import '../../l10n/l10n.dart';
 
 class AIAssistantScreen extends StatefulWidget {
   const AIAssistantScreen({super.key});
@@ -61,7 +62,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
       if (service.isConfigured && !wasConfigured) {
         _messages.add({
           'sender': 'assistant',
-          'text': '✅ تم تفعيل المزوّد بنجاح! يمكنك الآن استخدام جميع ميزات الذكاء الاصطناعي.',
+          'text': context.l10n.assistantActivated,
         });
       }
     });
@@ -119,11 +120,11 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🤖 المساعد الذكي'),
+        title: Text(context.l10n.assistantTitle),
         actions: [
           // زر إعداد مزوّد الذكاء الاصطناعي ومفتاحه
           IconButton(
-            tooltip: 'إعداد مزوّد الذكاء الاصطناعي',
+            tooltip: context.l10n.assistantProviderSetup,
             icon: const Icon(Icons.vpn_key_rounded, color: AppTheme.accentColor),
             onPressed: _isInitialized ? _openProviderSettings : null,
           ),
@@ -137,11 +138,11 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               color: AppTheme.surfaceColor,
-              child: const Row(
+              child: Row(
                 children: [
                   SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.accentColor)),
                   SizedBox(width: 10),
-                  Text('جارٍ تهيئة المساعد الذكي...', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  Text(context.l10n.assistantStarting, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
                 ],
               ),
             ),
@@ -176,14 +177,14 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
             ),
           ),
           if (_isLoading)
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.accentColor, strokeWidth: 2)),
                   SizedBox(width: 10),
-                  Text('جارٍ التفكير...', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+                  Text(context.l10n.assistantThinking, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
                 ],
               ),
             ),
@@ -198,8 +199,8 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                     enabled: _isInitialized,
                     maxLines: null,
                     maxLength: 4000,
-                    decoration: const InputDecoration(
-                      hintText: 'اسأل المساعد الذكي أو اطلب اقتراحاً...',
+                    decoration: InputDecoration(
+                      hintText: context.l10n.assistantHint,
                       hintStyle: TextStyle(color: AppTheme.subTextColor),
                       border: InputBorder.none,
                       counterText: '',
@@ -208,7 +209,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                   ),
                 ),
                 IconButton(
-                  tooltip: 'إرسال',
+                  tooltip: context.l10n.send,
                   icon: const Icon(Icons.send_rounded, color: AppTheme.accentColor),
                   onPressed: _isInitialized && !_isLoading ? _sendMessage : null,
                 ),

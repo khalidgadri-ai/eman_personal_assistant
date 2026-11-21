@@ -2002,4 +2002,182 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get changeDate => 'تغيير التاريخ';
+
+  @override
+  String get aiMissingKey =>
+      'يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحه من الإعدادات أولًا.';
+
+  @override
+  String get aiInvalidKey =>
+      'المفتاح غير صالح أو منتهي. يرجى تحديثه من إعدادات مزوّد الذكاء الاصطناعي ثم إعادة المحاولة.';
+
+  @override
+  String get aiModelNotFound =>
+      'الموديل المختار غير موجود أو أُوقف. يرجى تحديث قائمة الموديلات من الإعدادات واختيار موديل آخر.';
+
+  @override
+  String get aiRateLimited =>
+      'تم بلوغ حد الاستخدام أو الرصيد لدى المزوّد. يرجى الانتظار قليلًا أو مراجعة الحساب لديه ثم إعادة المحاولة.';
+
+  @override
+  String get aiBusy =>
+      'خوادم المزوّد مزدحمة الآن، والمشكلة عنده لا في التطبيق. يرجى المحاولة بعد قليل، أو اختيار موديل أخفّ من إعدادات الذكاء الاصطناعي (مثل الموديلات التي في اسمها lite أو mini أو haiku).';
+
+  @override
+  String get aiNetwork =>
+      'تعذّر الاتصال بالإنترنت. يرجى التحقق من الشبكة ثم إعادة المحاولة.';
+
+  @override
+  String get aiTimeout =>
+      'لم يصل رد من المزوّد في الوقت المحدد، وغالبًا خوادمه مزدحمة. يرجى المحاولة مرة أخرى، أو اختيار موديل أخفّ وأسرع من إعدادات الذكاء الاصطناعي (مثل الموديلات التي في اسمها lite أو mini أو haiku).';
+
+  @override
+  String get aiBadRequest =>
+      'رفض المزوّد الطلب. قد لا يدعم الموديل هذا النوع من الطلبات، فجرّب موديلًا آخر.';
+
+  @override
+  String get aiImageUnsupported =>
+      'الموديل المختار لا يدعم الصور. يرجى اختيار موديل يدعمها من إعدادات مزوّد الذكاء الاصطناعي.';
+
+  @override
+  String get aiBlocked => 'تعذّر تكوين رد لهذا الطلب. جرّب صياغة مختلفة.';
+
+  @override
+  String get aiUnsupportedLocation => 'خدمة المزوّد غير متاحة في بلدك حاليًا.';
+
+  @override
+  String get aiInsecureUrl =>
+      'عنوان المزوّد يجب أن يبدأ بـ https:// ويكون عنوانًا صحيحًا.';
+
+  @override
+  String get aiInvalidModelName =>
+      'اسم الموديل غير صالح. يُسمح بالحروف والأرقام والرموز - _ . : / @ فقط.';
+
+  @override
+  String get aiEmptyReply => 'لم يتم استلام رد من المساعد الذكي.';
+
+  @override
+  String get aiUnknown =>
+      'حدث خطأ غير متوقع مع المساعد الذكي. يرجى المحاولة مرة أخرى بعد قليل.';
+
+  @override
+  String get aiEmptyImageReply => 'لم أتمكن من تحليل الصورة.';
+
+  @override
+  String get aiNoKeySet => 'لم يُضبط مفتاح';
+
+  @override
+  String get customProviderLabel => 'مخصص (متوافق مع OpenAI)';
+
+  @override
+  String get providerConnectionOk => 'الاتصال سليم والموديل يرد.';
+
+  @override
+  String get providerImageRejected =>
+      'الموديل لم يقبل الصورة، فعُلّم بأنه لا يدعم الصور.';
+
+  @override
+  String get providerImagesOk => 'الموديل يدعم الصور.';
+
+  @override
+  String get providerNoModels => 'لم يُرجع المزوّد أي موديل.';
+
+  @override
+  String get providerSaved => 'تم حفظ إعداد الذكاء الاصطناعي.';
+
+  @override
+  String get providerKeyDeleted => 'حُذف المفتاح من هذا الجهاز.';
+
+  @override
+  String get linkCopied => 'تم نسخ الرابط';
+
+  @override
+  String get providerIntro =>
+      'اختر المزوّد الذي تريد استعماله وأدخل مفتاحك الخاص منه.\nالمفتاح يُحفظ على جهازك فقط في تخزين آمن، ويُرسل إلى المزوّد الذي تختاره وحده مع طلباتك، بلا خادم وسيط. ما تُرسله يخضع لسياسة الخصوصية لدى ذلك المزوّد.';
+
+  @override
+  String get providerField => 'المزوّد';
+
+  @override
+  String get providerUrlField => 'عنوان المزوّد';
+
+  @override
+  String get modelNameField => 'اسم الموديل';
+
+  @override
+  String get modelNameHint => 'اكتب الاسم أو اجلبه من المزوّد';
+
+  @override
+  String get fetchModels => 'جلب الموديلات المتاحة';
+
+  @override
+  String get keyField => 'المفتاح';
+
+  @override
+  String get copyLink => 'نسخ الرابط';
+
+  @override
+  String get pasteKeyHint => 'الصق مفتاحك هنا';
+
+  @override
+  String savedKeyHint(String preview) {
+    return 'محفوظ: $preview (اتركه فارغًا للإبقاء عليه)';
+  }
+
+  @override
+  String get showKey => 'إظهار المفتاح';
+
+  @override
+  String get hideKey => 'إخفاء المفتاح';
+
+  @override
+  String get deleteSavedKey => 'حذف المفتاح المحفوظ';
+
+  @override
+  String get modelImagesQuestion => 'هل يدعم الموديل الصور؟';
+
+  @override
+  String get yes => 'نعم';
+
+  @override
+  String get no => 'لا';
+
+  @override
+  String get unknownSupport => 'غير معروف';
+
+  @override
+  String get testImagesAuto => 'اختبار دعم الصور تلقائيًا';
+
+  @override
+  String get testConnection => 'اختبار الاتصال';
+
+  @override
+  String get saveAndActivate => 'حفظ وتفعيل';
+
+  @override
+  String searchModels(int count) {
+    return 'بحث في $count موديل';
+  }
+
+  @override
+  String get assistantActivated =>
+      '✅ تم تفعيل المزوّد بنجاح! يمكنك الآن استخدام جميع ميزات الذكاء الاصطناعي.';
+
+  @override
+  String get assistantTitle => '🤖 المساعد الذكي';
+
+  @override
+  String get assistantProviderSetup => 'إعداد مزوّد الذكاء الاصطناعي';
+
+  @override
+  String get assistantStarting => 'جارٍ تهيئة المساعد الذكي...';
+
+  @override
+  String get assistantThinking => 'جارٍ التفكير...';
+
+  @override
+  String get assistantHint => 'اسأل المساعد الذكي أو اطلب اقتراحاً...';
+
+  @override
+  String get send => 'إرسال';
 }

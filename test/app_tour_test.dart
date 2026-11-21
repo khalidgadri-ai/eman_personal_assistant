@@ -287,7 +287,7 @@ void main() {
 
       await tester.tap(find.byType(DropdownButtonFormField<String>));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(AiPresets.byId(AiPresets.customId).label).last);
+      await tester.tap(find.text(AiPresets.byId(AiPresets.customId).displayLabel).last);
       await tester.pumpAndSettle();
 
       expect(find.text('كيف أحصل على مفتاح؟'), findsNothing);

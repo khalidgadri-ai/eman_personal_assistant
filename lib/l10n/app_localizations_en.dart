@@ -1980,4 +1980,185 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changeDate => 'Change date';
+
+  @override
+  String get aiMissingKey =>
+      'Set up the AI provider and its key in Settings first.';
+
+  @override
+  String get aiInvalidKey =>
+      'The key is invalid or expired. Update it in the AI provider settings, then try again.';
+
+  @override
+  String get aiModelNotFound =>
+      'The chosen model doesn\'t exist or was shut down. Refresh the model list in Settings and pick another model.';
+
+  @override
+  String get aiRateLimited =>
+      'The provider\'s usage limit or credit has been reached. Wait a little or check your account with them, then try again.';
+
+  @override
+  String get aiBusy =>
+      'The provider\'s servers are busy right now; the problem is on their side, not in the app. Try again shortly, or choose a lighter model in the AI settings (such as models with lite, mini or haiku in their name).';
+
+  @override
+  String get aiNetwork =>
+      'Couldn\'t connect to the internet. Check your connection, then try again.';
+
+  @override
+  String get aiTimeout =>
+      'The provider didn\'t reply in time; its servers are probably busy. Try again, or choose a lighter, faster model in the AI settings (such as models with lite, mini or haiku in their name).';
+
+  @override
+  String get aiBadRequest =>
+      'The provider refused the request. The model may not support this kind of request, so try another model.';
+
+  @override
+  String get aiImageUnsupported =>
+      'The chosen model doesn\'t support images. Choose a model that does in the AI provider settings.';
+
+  @override
+  String get aiBlocked =>
+      'Couldn\'t produce a reply to this request. Try wording it differently.';
+
+  @override
+  String get aiUnsupportedLocation =>
+      'The provider\'s service isn\'t available in your country right now.';
+
+  @override
+  String get aiInsecureUrl =>
+      'The provider address must start with https:// and be a valid address.';
+
+  @override
+  String get aiInvalidModelName =>
+      'The model name isn\'t valid. Only letters, digits and - _ . : / @ are allowed.';
+
+  @override
+  String get aiEmptyReply => 'No reply was received from the AI assistant.';
+
+  @override
+  String get aiUnknown =>
+      'Something unexpected went wrong with the AI assistant. Please try again shortly.';
+
+  @override
+  String get aiEmptyImageReply => 'I couldn\'t analyse the image.';
+
+  @override
+  String get aiNoKeySet => 'No key set';
+
+  @override
+  String get customProviderLabel => 'Custom (OpenAI-compatible)';
+
+  @override
+  String get providerConnectionOk =>
+      'The connection works and the model replies.';
+
+  @override
+  String get providerImageRejected =>
+      'The model didn\'t accept the image, so it is marked as not supporting images.';
+
+  @override
+  String get providerImagesOk => 'The model supports images.';
+
+  @override
+  String get providerNoModels => 'The provider returned no models.';
+
+  @override
+  String get providerSaved => 'AI settings saved.';
+
+  @override
+  String get providerKeyDeleted => 'The key was deleted from this device.';
+
+  @override
+  String get linkCopied => 'Link copied';
+
+  @override
+  String get providerIntro =>
+      'Choose the provider you want to use and enter your own key from it.\nThe key is kept only on your device in secure storage and is sent only to the provider you choose, with your requests, without any server in between. What you send is subject to that provider\'s privacy policy.';
+
+  @override
+  String get providerField => 'Provider';
+
+  @override
+  String get providerUrlField => 'Provider address';
+
+  @override
+  String get modelNameField => 'Model name';
+
+  @override
+  String get modelNameHint => 'Type the name or fetch it from the provider';
+
+  @override
+  String get fetchModels => 'Fetch available models';
+
+  @override
+  String get keyField => 'Key';
+
+  @override
+  String get copyLink => 'Copy link';
+
+  @override
+  String get pasteKeyHint => 'Paste your key here';
+
+  @override
+  String savedKeyHint(String preview) {
+    return 'Saved: $preview (leave empty to keep it)';
+  }
+
+  @override
+  String get showKey => 'Show key';
+
+  @override
+  String get hideKey => 'Hide key';
+
+  @override
+  String get deleteSavedKey => 'Delete the saved key';
+
+  @override
+  String get modelImagesQuestion => 'Does the model support images?';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get unknownSupport => 'Unknown';
+
+  @override
+  String get testImagesAuto => 'Test image support automatically';
+
+  @override
+  String get testConnection => 'Test connection';
+
+  @override
+  String get saveAndActivate => 'Save and activate';
+
+  @override
+  String searchModels(int count) {
+    return 'Search $count models';
+  }
+
+  @override
+  String get assistantActivated =>
+      '✅ The provider is active! You can now use all the AI features.';
+
+  @override
+  String get assistantTitle => '🤖 AI assistant';
+
+  @override
+  String get assistantProviderSetup => 'Set up the AI provider';
+
+  @override
+  String get assistantStarting => 'Starting the AI assistant...';
+
+  @override
+  String get assistantThinking => 'Thinking...';
+
+  @override
+  String get assistantHint => 'Ask the assistant or request a suggestion...';
+
+  @override
+  String get send => 'Send';
 }

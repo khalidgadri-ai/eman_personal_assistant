@@ -53,7 +53,7 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: const Text('سجل جلسات التأمل')),
+        appBar: AppBar(title: const Text('سجل جلسات المدرب')),
         body: _loading
             ? const Center(child: CircularProgressIndicator())
             : _grouped.isEmpty

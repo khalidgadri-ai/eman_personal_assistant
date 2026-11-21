@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../core/services/database_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/arabic_count.dart';
 import '../../core/utils/arabic_numbers.dart';
 import '../../core/utils/ids.dart';
 import '../../core/widgets/ai_provider_screen.dart';
@@ -643,7 +644,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
               Text(
                 finished
                     ? 'أتممت الختمة 🎉 بارك الله فيك'
-                    : 'المتبقي لإتمام الختمة: ${DatabaseService.quranPages - _quranPage} صفحة',
+                    : 'المتبقي لإتمام الختمة: ${arabicCount(DatabaseService.quranPages - _quranPage, ArabicNoun.page)}',
                 style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
               ),
               const SizedBox(height: 15),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/arabic_count.dart';
 import '../../core/widgets/ai_provider_screen.dart';
 import '../../core/widgets/undo_snackbar.dart';
 import '../budget/budget_calculator.dart';
@@ -251,7 +252,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
           const Expanded(
             child: Text('ميزانية الدورة الحالية', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
           ),
-          Text('باقي ${s.daysLeft} يوم', key: const Key('days_left'), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+          Text('باقي ${arabicCount(s.daysLeft, ArabicNoun.day)}', key: const Key('days_left'), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
         ],
       ),
       const SizedBox(height: 2),

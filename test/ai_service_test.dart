@@ -170,6 +170,19 @@ void main() {
       expect(fake.sent[0].messages.single.text, contains('التمرين'));
       expect(fake.sent[1].messages.single.text, contains('الدواء'));
     });
+
+    test('the medicine label is only read, never given a dose by the model', () async {
+      final fake = _FakeProvider((_) => const AiReply('x'));
+      final service = AiService.withProvider(fake);
+
+      await service.analyzeMedicationLabel(Uint8List(1));
+
+      final prompt = fake.sent.single.messages.single.text;
+      expect(prompt, isNot(contains('الموصى بها')));
+      expect(prompt, contains('كما هي مكتوبة على العلبة'));
+      expect(prompt, contains('لا تقترح جرعة من عندك'));
+      expect(AiService.medicationLabelNotice, contains('الصيدلي'));
+    });
   });
 
   test('capability prompts carry the user input', () async {

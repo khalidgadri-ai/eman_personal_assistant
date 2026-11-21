@@ -129,7 +129,7 @@ void main() {
       expect(valueOf(tester, 'spent_value'), '0 ر.س');
       expect(valueOf(tester, 'remaining_value'), '5,000 ر.س');
       expect(valueOf(tester, 'daily_value'), '555.56 ر.س', reason: '5000 ÷ 9 days left');
-      expect(valueOf(tester, 'days_left'), 'باقي 9 يوم');
+      expect(valueOf(tester, 'days_left'), 'باقي 9 أيام');
 
       // ما ظهر مكتوب فعلًا في الصندوق المشفّر، لا في ذاكرة الشاشة فقط.
       final stored = (await BudgetPlanService.getInstance()).plan;
@@ -394,7 +394,7 @@ void main() {
       expect(find.text('دُفع 0 من 1'), findsOneWidget);
       expect(tester.widget<CheckboxListTile>(find.byKey(const ValueKey('paid_f1'))).value, isFalse);
       expect(valueOf(tester, 'income_value'), '9,000 ر.س', reason: 'the plan stays');
-      expect(valueOf(tester, 'days_left'), 'باقي 31 يوم');
+      expect(valueOf(tester, 'days_left'), 'باقي 31 يومًا');
       expect(find.text('من 27 أكتوبر إلى 26 نوفمبر'), findsOneWidget);
     });
   });

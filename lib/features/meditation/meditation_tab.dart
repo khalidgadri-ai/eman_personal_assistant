@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/arabic_count.dart';
 import '../coach/coach_paywall_screen.dart';
 import '../health_and_fitness/health_service.dart';
 import 'meditation_catalog.dart';
@@ -234,7 +235,10 @@ class _SessionCard extends StatelessWidget {
   String get _durations {
     final d = session.durations;
     // «من … إلى» بدل الشرطة: الأرقام حول الشرطة تنقلب في سطر عربي.
-    return d.length == 1 ? '${d.first} دقيقة' : 'من ${d.first} إلى ${d.last} دقيقة';
+    // المعدود يتبع الرقم الأخير: «من 5 إلى 10 دقائق»، «من 10 إلى 15 دقيقة».
+    return d.length == 1
+        ? arabicCount(d.first, ArabicNoun.minute)
+        : 'من ${d.first} إلى ${arabicCount(d.last, ArabicNoun.minute)}';
   }
 
   @override

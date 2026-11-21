@@ -147,7 +147,7 @@ void main() {
       await openQuranTab(tester);
 
       expect(find.text('الصفحة الحالية: 0'), findsOneWidget);
-      expect(find.text('المتبقي لإتمام الختمة: 604 صفحة'), findsOneWidget);
+      expect(find.text('المتبقي لإتمام الختمة: 604 صفحات'), findsOneWidget);
     });
 
     testWidgets('+1 moves forward and is saved', (tester) async {

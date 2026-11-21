@@ -297,7 +297,7 @@ class _CoachScreenState extends State<CoachScreen> {
           title: const Text('مدرب الحياة'),
           actions: [
             IconButton(
-              tooltip: 'سجل جلسات التأمل',
+              tooltip: 'سجل جلسات المدرب',
               icon: const Icon(Icons.history_rounded, color: AppTheme.accentColor),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(builder: (_) => const CoachHistoryScreen()),
@@ -340,7 +340,7 @@ class _CoachScreenState extends State<CoachScreen> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Text(
-            'هذا أداة تأمل ذاتي، وليس بديلاً عن معالج نفسي مرخّص.',
+            'هذه أداة تأمل ذاتي، وليست بديلًا عن معالج نفسي مرخّص.',
             style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
           ),
         ),

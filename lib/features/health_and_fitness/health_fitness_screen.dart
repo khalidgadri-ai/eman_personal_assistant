@@ -335,11 +335,11 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
 
     if (!mounted) return;
     setState(() => _isAnalyzingMed = false);
-    _showResultDialog('💊 تحليل علبة الدواء', result);
+    _showResultDialog('💊 قراءة علبة الدواء', result, notice: AiService.medicationLabelNotice);
   }
 
-  /// يعرض نتيجة التحليل في نافذة قابلة للتمرير
-  void _showResultDialog(String title, String content) {
+  /// يعرض نتيجة التحليل في نافذة قابلة للتمرير، و[notice] تحتها إن وُجد.
+  void _showResultDialog(String title, String content, {String? notice}) {
     showDialog(
       context: context,
       builder: (context) => Directionality(
@@ -351,7 +351,19 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
           content: SizedBox(
             width: double.maxFinite,
             child: SingleChildScrollView(
-              child: SelectableText(content, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SelectableText(content, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
+                  if (notice != null) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      notice,
+                      style: const TextStyle(color: AppTheme.accentColor, fontSize: 13, height: 1.6),
+                    ),
+                  ],
+                ],
+              ),
             ),
           ),
           actions: [
@@ -623,12 +635,13 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
                   children: [
                     Icon(Icons.medication_liquid_rounded, color: AppTheme.accentColor),
                     SizedBox(width: 8),
-                    Text('تحليل الدواء بالذكاء الاصطناعي', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
+                    Text('قراءة علبة الدواء بالذكاء الاصطناعي', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
                   ],
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'التقاط صورة لعلبة الدواء أو المكمل الغذائي لمعرفة الجرعة والتحذيرات',
+                  'صورة لعلبة الدواء أو المكمل، فيُقرأ ما هو مكتوب عليها: الاسم والجرعة المكتوبة والتحذيرات. '
+                  'القراءة الآلية قد تخطئ، والمرجع نشرة الدواء أو الصيدلي.',
                   style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
                 ),
                 const SizedBox(height: 12),

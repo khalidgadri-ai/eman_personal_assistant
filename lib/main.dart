@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'core/app_events.dart';
 import 'core/config/app_contact.dart';
+import 'core/config/app_locale.dart';
 import 'core/services/contact_service.dart';
 import 'core/services/database_service.dart';
 import 'core/services/notification_service.dart';
@@ -53,6 +54,9 @@ class EmanLifeApp extends StatelessWidget {
       title: 'إيمان',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
+      locale: AppLocale.locale,
+      supportedLocales: AppLocale.supported,
+      localizationsDelegates: AppLocale.delegates,
       home: const AppGate(),
     );
   }

@@ -8,6 +8,8 @@ import 'package:eman_life_app/core/config/app_locale.dart';
 import 'package:eman_life_app/core/widgets/ai_provider_screen.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
+import 'package:eman_life_app/features/awareness/models/social_app.dart';
+import 'package:eman_life_app/features/awareness/usage_awareness_screen.dart';
 import 'package:eman_life_app/features/budget/budget_plan_service.dart';
 import 'package:eman_life_app/features/budget/budget_service.dart';
 import 'package:eman_life_app/features/budget/models/budget_plan.dart';
@@ -338,6 +340,18 @@ void main() {
       expect(AiService.missingKeyMessage, 'Set up the AI provider and its key in Settings first.');
       expect(AiPresets.byId(AiPresets.customId).displayLabel, 'Custom (OpenAI-compatible)');
       expect(AiPresets.byId(AiPresets.geminiId).displayLabel, AiPresets.byId(AiPresets.geminiId).label);
+    });
+
+    testWidgets('usage awareness speaks English; social apps have English names', (tester) async {
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(const UsageAwarenessScreen()));
+      await settle(tester);
+      expect(find.text('Usage awareness'), findsOneWidget);
+      expect(find.textContaining(_arabicLetter), findsNothing);
+      for (final app in socialApps) {
+        expect(app.nameFor('en'), isNot(contains(_arabicLetter)));
+        expect(app.nameFor('ar'), app.arabicName);
+      }
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

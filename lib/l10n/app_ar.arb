@@ -1149,5 +1149,157 @@
   "assistantStarting": "جارٍ تهيئة المساعد الذكي...",
   "assistantThinking": "جارٍ التفكير...",
   "assistantHint": "اسأل المساعد الذكي أو اطلب اقتراحاً...",
-  "send": "إرسال"
+  "send": "إرسال",
+  "coachDomainBeliefs": "المعتقدات",
+  "coachDomainEmotions": "المشاعر",
+  "coachDomainGoals": "الأهداف والتخطيط",
+  "coachDomainOrganization": "التنظيم والتوازن",
+  "coachDomainSkills": "المهارات والتقنيات",
+  "coachHintBudget": "لاحظنا نمطًا في مصاريفك هذا الأسبوع",
+  "coachHintUsage": "هذا السؤال مرتبط بتوزيع وقتك اليوم",
+  "coachHintReflection": "لاحظنا فكرة تتكرر في إجاباتك الأخيرة",
+  "coachQuotaRemaining": "متبقٍ {remaining} من {limit} مجانًا هذا الشهر",
+  "@coachQuotaRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "coachQuotaUsedUp": "انتهت المحاولات المجانية لهذا الشهر، وتتجدد في {date}",
+  "@coachQuotaUsedUp": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coachQuotaRenews": "تتجدد محاولاتك المجانية في {date}",
+  "@coachQuotaRenews": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coachQuotaOffer": "{limit, plural, =1{تحصل مجانًا على سؤال متابعة واحد كل شهر.} =2{تحصل مجانًا على سؤالَي متابعة كل شهر.} few{تحصل مجانًا على {limit} أسئلة متابعة كل شهر.} other{تحصل مجانًا على {limit} سؤال متابعة كل شهر.}} الاشتراك يجعلها بلا حد.",
+  "@coachQuotaOffer": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "crisisResponse": "إذا كنت تمر بأزمة فعلية أو تفكر في إيذاء نفسك، الرجاء التواصل فورًا مع خط مساعدة مختص أو أقرب جهة طوارئ. هذا التطبيق أداة تأمل ذاتي فقط، وليس بديلاً عن معالج نفسي مرخّص.",
+  "crisisSaudiNote": "في المملكة العربية السعودية (خطوط حكومية رسمية):",
+  "crisisLocalEmergency": "إن كان هناك خطر مباشر، اتصل الآن برقم الطوارئ في بلدك، أو اذهب إلى أقرب قسم طوارئ.",
+  "crisisFinderLabel": "ابحث عن خط مساعدة مجاني في بلدك",
+  "crisisImportant": "مهم",
+  "gotIt": "فهمت",
+  "coachHistory": "سجل جلسات المدرب",
+  "coachDisclaimer": "هذه أداة تأمل ذاتي، وليست بديلًا عن معالج نفسي مرخّص.",
+  "coachAnswerHint": "إجابتك (اختياري)...",
+  "coachDeepen": "عمّق أكثر",
+  "coachSessionDeleted": "حُذفت الجلسة",
+  "coachNoSessions": "لا توجد جلسات محفوظة بعد",
+  "coachDeleteSession": "حذف الجلسة",
+  "payPending": "الدفع قيد المعالجة لدى Google Play، وسيُفعَّل الاشتراك تلقائيًا عند اكتماله.",
+  "payError": "تعذّر إتمام الشراء، حاول مرة أخرى.",
+  "payOpenFailed": "تعذّر فتح نافذة الشراء، حاول مرة أخرى.",
+  "payNoSubscription": "لا يوجد اشتراك فعّال على حساب Google Play هذا.",
+  "payTitle": "الاشتراك الشهري",
+  "payHeadingMeditation": "كل جلسات التأمل",
+  "payHeadingCoach": "تعمّق أكثر في تأملك",
+  "payBenefitDeepen": "«عمّق أكثر» بلا حد: سؤال متابعة مبني على إجابتك أنت، بلا نصائح ولا أحكام.",
+  "payBenefitMeditation": "كل جلسات التأمل المرشدة والحركية: مسح الجسد، والحضور في اللحظة، وحركة ثم سكون.",
+  "payBenefitControl": "أنت تقرر متى تستعملها، لا شيء يحدث تلقائيًا.",
+  "payFreeNote": "الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك المؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.",
+  "payUnavailable": "الاشتراك غير متاح حاليًا",
+  "paySubscribe": "اشترك الآن — {price} شهريًا",
+  "@paySubscribe": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "payAndroidOnly": "الاشتراك متاح في نسخة Android المثبتة من Google Play.",
+  "payRestore": "استعادة المشتريات",
+  "payRenewal": "يتجدد الاشتراك تلقائيًا كل شهر بنفس السعر حتى تلغيه. يمكنك الإلغاء في أي وقت من Google Play ← الدفعات والاشتراكات ← الاشتراكات.",
+  "hoursShort": "{h} س",
+  "@hoursShort": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursMinutesShort": "{h} س {m} د",
+  "@hoursMinutesShort": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "refresh": "تحديث",
+  "usageAndroidOnly": "هذه الميزة تعمل على أجهزة Android فقط، لأنها تعتمد على صلاحية \"الوصول إلى بيانات الاستخدام\" في النظام.",
+  "usageReadFailed": "تعذّرت قراءة بيانات الاستخدام من النظام، حاول مرة أخرى لاحقًا.",
+  "usageToday": "وقتك اليوم في تطبيقات التواصل",
+  "usageNone": "لم يُسجَّل استخدام لهذه التطبيقات اليوم.",
+  "usageBreakdown": "التوزيع بين التطبيقات (بالدقائق)",
+  "usageShare": "{percent}٪ من وقت التواصل اليوم",
+  "@usageShare": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "usageSource": "من منتصف الليل حتى الآن، كما يسجّلها نظام Android. الأرقام تبقى على جهازك فقط.",
+  "usageHowTitle": "كيف تعمل هذه الميزة؟",
+  "usageHowBody": "نقرأ من نظام Android عدد الدقائق التي قضيتها اليوم في: {apps}. رقم واحد لكل تطبيق، لا أكثر.\nلا نقرأ رسائلك ولا إشعاراتك ولا أي محتوى داخل هذه التطبيقات، ولا نطلب تسجيل الدخول لأي حساب.\nالأرقام تبقى على جهازك فقط ولا تُرسل لأي مكان، ويمكنك إلغاء الصلاحية في أي وقت من نفس الإعدادات.",
+  "@usageHowBody": {
+    "placeholders": {
+      "apps": {
+        "type": "String"
+      }
+    }
+  },
+  "usageEnableTitle": "لتفعيلها:",
+  "usageStep1": "اضغط \"فتح الإعدادات\" بالأسفل.",
+  "usageStep2": "ابحث في القائمة عن تطبيق \"{app}\".",
+  "@usageStep2": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "usageStep3": "فعّل خيار السماح بالوصول إلى بيانات الاستخدام (قد يختلف الاسم قليلًا حسب نوع الجهاز).",
+  "usageStep4": "ارجع إلى التطبيق، وستظهر أرقام اليوم تلقائيًا.",
+  "openSettings": "فتح الإعدادات",
+  "notNow": "ليس الآن",
+  "backupWeakPassword": "كلمة المرور قصيرة: يلزم {min} أحرف على الأقل.",
+  "@backupWeakPassword": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "backupNotABackup": "هذا الملف ليس نسخة احتياطية من هذا التطبيق.",
+  "backupUnsupportedVersion": "هذه النسخة أحدث من إصدار التطبيق الحالي. يرجى تحديث التطبيق ثم إعادة المحاولة.",
+  "backupWrongPassword": "كلمة المرور غير صحيحة، أو أن الملف تالف.",
+  "backupRestoreFailed": "تعذّرت الاستعادة، وأُعيدت البيانات كما كانت.",
+  "backupRestoreFailedUnsafe": "تعذّرت الاستعادة وقد تكون البيانات ناقصة. يرجى إعادة المحاولة بنفس الملف.",
+  "backupSaveDialog": "حفظ النسخة الاحتياطية",
+  "backupPickDialog": "اختيار ملف النسخة الاحتياطية",
+  "contactSubject": "تواصل بخصوص التطبيق"
 }

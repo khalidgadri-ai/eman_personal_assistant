@@ -4,6 +4,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/widgets/undo_snackbar.dart';
 import 'coach_session_service.dart';
 import 'models/coach_question.dart';
+import '../../l10n/l10n.dart';
 
 class CoachHistoryScreen extends StatefulWidget {
   const CoachHistoryScreen({super.key});
@@ -42,7 +43,7 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
     final removed = await service.deleteSession('${session['id']}');
     await _load();
     if (removed == null || !mounted) return;
-    showUndoSnackBar(context, 'حُذفت الجلسة', () async {
+    showUndoSnackBar(context, context.l10n.coachSessionDeleted, () async {
       await service.restoreSession(removed);
       if (mounted) await _load();
     });
@@ -50,24 +51,21 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('سجل جلسات المدرب')),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : _grouped.isEmpty
-                ? const Center(
-                    child: Text(
-                      'لا توجد جلسات محفوظة بعد',
-                      style: TextStyle(color: AppTheme.subTextColor),
-                    ),
-                  )
-                : ListView(
-                    padding: const EdgeInsets.all(16),
-                    children: _grouped.entries.map(_buildDomainSection).toList(),
+    return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.coachHistory)),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : _grouped.isEmpty
+              ? Center(
+                  child: Text(
+                    context.l10n.coachNoSessions,
+                    style: TextStyle(color: AppTheme.subTextColor),
                   ),
-      ),
+                )
+              : ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: _grouped.entries.map(_buildDomainSection).toList(),
+                ),
     );
   }
 
@@ -78,7 +76,7 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            entry.key.arabicLabel,
+            entry.key.label(context.l10n),
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -121,7 +119,7 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
                   ),
                 ),
                 IconButton(
-                  tooltip: 'حذف الجلسة',
+                  tooltip: context.l10n.coachDeleteSession,
                   visualDensity: VisualDensity.compact,
                   icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor, size: 20),
                   onPressed: () => _delete(session),

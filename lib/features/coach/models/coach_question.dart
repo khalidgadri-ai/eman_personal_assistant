@@ -1,6 +1,19 @@
+import '../../../l10n/app_localizations.dart';
+
 enum CoachDomain { beliefs, emotions, goals, organization, budget, skills }
 
 extension CoachDomainLabel on CoachDomain {
+  /// اسم المجال بلغة التطبيق.
+  String label(AppLocalizations l10n) => switch (this) {
+        CoachDomain.beliefs => l10n.coachDomainBeliefs,
+        CoachDomain.emotions => l10n.coachDomainEmotions,
+        CoachDomain.goals => l10n.coachDomainGoals,
+        CoachDomain.organization => l10n.coachDomainOrganization,
+        CoachDomain.budget => l10n.tourBudgetTitle,
+        CoachDomain.skills => l10n.coachDomainSkills,
+      };
+
+  /// الاسم العربي، لتعليمات المدرب العربية للذكاء الاصطناعي فقط (الواجهة تستعمل [label]).
   String get arabicLabel {
     switch (this) {
       case CoachDomain.beliefs:

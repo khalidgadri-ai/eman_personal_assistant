@@ -1,3 +1,5 @@
+import 'app_locale.dart';
+
 /// جهة التواصل مع مطوّر التطبيق.
 abstract final class AppContact {
   /// البريد العام الذي يفتحه زر "تواصل معنا". **اتركه فارغًا حتى تضع بريد الدعم الذي ستنشره في
@@ -5,5 +7,6 @@ abstract final class AppContact {
   /// لم تقرر نشره، فهو يظهر لكل مستخدم.
   static const String supportEmail = '';
 
-  static const String subject = 'تواصل بخصوص التطبيق';
+  /// عنوان الرسالة بلغة التطبيق.
+  static String get subject => AppLocale.texts.contactSubject;
 }

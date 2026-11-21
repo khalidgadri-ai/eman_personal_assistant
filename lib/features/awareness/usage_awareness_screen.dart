@@ -6,19 +6,17 @@ import '../../core/theme/app_theme.dart';
 import '../../core/utils/nice_axis_step.dart';
 import 'models/social_app.dart';
 import 'usage_service.dart';
+import '../../l10n/l10n.dart';
 
 // اسم التطبيق كما يظهر في قائمة إعدادات Android (android:label في AndroidManifest.xml).
 const String _androidAppLabel = 'إيمان';
 
-// fl_chart يرسم من اليسار لليمين دائمًا، فنعكس الترتيب ليبدأ القارئ العربي من اليمين.
-final List<SocialApp> _chartOrder = socialApps.reversed.toList();
-
-String _formatMinutes(int minutes) {
+String _formatMinutes(AppLocalizations l10n, int minutes) {
   final hours = minutes ~/ 60;
   final rest = minutes % 60;
-  if (hours == 0) return '$rest د';
-  if (rest == 0) return '$hours س';
-  return '$hours س $rest د';
+  if (hours == 0) return l10n.minutesShort(rest);
+  if (rest == 0) return l10n.hoursShort(hours);
+  return l10n.hoursMinutesShort(hours, rest);
 }
 
 class UsageAwarenessScreen extends StatefulWidget {
@@ -79,35 +77,29 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('وعي الاستخدام'),
-          actions: [
-            if (_hasPermission)
-              IconButton(
-                tooltip: 'تحديث',
-                icon: const Icon(Icons.refresh_rounded, color: AppTheme.accentColor),
-                onPressed: _load,
-              ),
-          ],
-        ),
-        body: _buildBody(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.awarenessTooltip),
+        actions: [
+          if (_hasPermission)
+            IconButton(
+              tooltip: context.l10n.refresh,
+              icon: const Icon(Icons.refresh_rounded, color: AppTheme.accentColor),
+              onPressed: _load,
+            ),
+        ],
       ),
+      body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
     if (!UsageService.isSupported) {
-      return const _CenteredNote(
-        'هذه الميزة تعمل على أجهزة Android فقط، لأنها تعتمد على صلاحية '
-        '"الوصول إلى بيانات الاستخدام" في النظام.',
-      );
+      return _CenteredNote(context.l10n.usageAndroidOnly);
     }
     if (_loading) return const Center(child: CircularProgressIndicator());
     if (_readFailed) {
-      return const _CenteredNote('تعذّرت قراءة بيانات الاستخدام من النظام، حاول مرة أخرى لاحقًا.');
+      return _CenteredNote(context.l10n.usageReadFailed);
     }
     if (!_hasPermission) {
       return _PermissionGuide(
@@ -126,8 +118,8 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
       children: [
-        const Text(
-          'وقتك اليوم في تطبيقات التواصل',
+        Text(
+          context.l10n.usageToday,
           style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
         ),
         const SizedBox(height: 4),
@@ -135,16 +127,16 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.centerStart,
           child: Text(
-            _formatMinutes(total),
+            _formatMinutes(context.l10n, total),
             style: const TextStyle(color: AppTheme.textColor, fontSize: 48, fontWeight: FontWeight.w600),
           ),
         ),
         const SizedBox(height: 24),
         if (total == 0)
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(top: 24),
             child: Text(
-              'لم يُسجَّل استخدام لهذه التطبيقات اليوم.',
+              context.l10n.usageNone,
               textAlign: TextAlign.center,
               style: TextStyle(color: AppTheme.subTextColor),
             ),
@@ -159,8 +151,8 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'التوزيع بين التطبيقات (بالدقائق)',
+                Text(
+                  context.l10n.usageBreakdown,
                   style: TextStyle(color: AppTheme.textColor, fontSize: 15, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 16),
@@ -178,13 +170,13 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
               children: [
                 for (final row in rows)
                   ListTile(
-                    title: Text(row.app.arabicName, style: const TextStyle(color: AppTheme.textColor)),
+                    title: Text(row.app.nameFor(context.appLang), style: const TextStyle(color: AppTheme.textColor)),
                     subtitle: Text(
-                      '${(row.minutes / total * 100).round()}٪ من وقت التواصل اليوم',
+                      context.l10n.usageShare((row.minutes / total * 100).round()),
                       style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
                     ),
                     trailing: Text(
-                      _formatMinutes(row.minutes),
+                      _formatMinutes(context.l10n, row.minutes),
                       style: const TextStyle(
                         color: AppTheme.textColor,
                         fontWeight: FontWeight.w600,
@@ -197,8 +189,8 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
           ),
         ],
         const SizedBox(height: 16),
-        const Text(
-          'من منتصف الليل حتى الآن، كما يسجّلها نظام Android. الأرقام تبقى على جهازك فقط.',
+        Text(
+          context.l10n.usageSource,
           style: TextStyle(color: AppTheme.subTextColor, fontSize: 11),
         ),
       ],
@@ -206,12 +198,28 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
   }
 
   Widget _buildChart() {
+    // fl_chart يرسم من اليسار لليمين دائمًا، فنعكس الترتيب في العربية ليبدأ القارئ من اليمين.
+    final rtl = Directionality.of(context) == TextDirection.rtl;
+    final order = rtl ? socialApps.reversed.toList() : socialApps;
+    final lang = context.appLang;
     final minutesById = {for (final u in _usage) u.app.id: u.minutes};
-    final values = [for (final app in _chartOrder) (minutesById[app.id] ?? 0).toDouble()];
+    final values = [for (final app in order) (minutesById[app.id] ?? 0).toDouble()];
     final maxValue = values.reduce(math.max);
     final step = niceAxisStep(maxValue / 4);
     final maxY = step * (maxValue / step).ceil();
     const axisStyle = TextStyle(color: AppTheme.subTextColor, fontSize: 11);
+    final valueAxis = AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        reservedSize: 36,
+        interval: step,
+        getTitlesWidget: (value, meta) => SideTitleWidget(
+          meta: meta,
+          child: Text(value.toInt().toString(), style: axisStyle),
+        ),
+      ),
+    );
+    const hidden = AxisTitles(sideTitles: SideTitles(showTitles: false));
 
     return BarChart(
       BarChartData(
@@ -219,7 +227,7 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
         maxY: maxY,
         alignment: BarChartAlignment.spaceAround,
         barGroups: [
-          for (var i = 0; i < _chartOrder.length; i++)
+          for (var i = 0; i < order.length; i++)
             BarChartGroupData(
               x: i,
               barRods: [
@@ -243,25 +251,16 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
         ),
         titlesData: FlTitlesData(
           topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 36,
-              interval: step,
-              getTitlesWidget: (value, meta) => SideTitleWidget(
-                meta: meta,
-                child: Text(value.toInt().toString(), style: axisStyle),
-              ),
-            ),
-          ),
+          // محور القيم على جهة نهاية القراءة: يمين في العربية، يسار في الإنجليزية.
+          leftTitles: rtl ? hidden : valueAxis,
+          rightTitles: rtl ? valueAxis : hidden,
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 28,
               getTitlesWidget: (value, meta) => SideTitleWidget(
                 meta: meta,
-                child: Text(_chartOrder[value.toInt()].arabicName, style: axisStyle),
+                child: Text(order[value.toInt()].nameFor(lang), style: axisStyle),
               ),
             ),
           ),
@@ -270,7 +269,7 @@ class _UsageAwarenessScreenState extends State<UsageAwarenessScreen> with Widget
           touchTooltipData: BarTouchTooltipData(
             getTooltipColor: (_) => AppTheme.surfaceColor,
             getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
-              '${_chartOrder[group.x].arabicName}\n${_formatMinutes(rod.toY.toInt())}',
+              '${order[group.x].nameFor(lang)}\n${_formatMinutes(context.l10n, rod.toY.toInt())}',
               const TextStyle(color: AppTheme.textColor, fontSize: 12),
             ),
           ),
@@ -309,12 +308,12 @@ class _PermissionGuide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appNames = socialApps.map((a) => a.arabicName).join('، ');
+    final appNames = socialApps.map((a) => a.nameFor(context.appLang)).join(context.l10n.listSeparator);
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        const Text(
-          'كيف تعمل هذه الميزة؟',
+        Text(
+          context.l10n.usageHowTitle,
           style: TextStyle(color: AppTheme.textColor, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
@@ -325,26 +324,20 @@ class _PermissionGuide extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
-            'نقرأ من نظام Android عدد الدقائق التي قضيتها اليوم في: $appNames. رقم واحد لكل تطبيق، لا أكثر.\n'
-            'لا نقرأ رسائلك ولا إشعاراتك ولا أي محتوى داخل هذه التطبيقات، ولا نطلب تسجيل الدخول لأي حساب.\n'
-            'الأرقام تبقى على جهازك فقط ولا تُرسل لأي مكان، ويمكنك إلغاء الصلاحية في أي وقت من نفس الإعدادات.',
+            context.l10n.usageHowBody(appNames),
             style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.8),
           ),
         ),
         const SizedBox(height: 24),
-        const Text(
-          'لتفعيلها:',
+        Text(
+          context.l10n.usageEnableTitle,
           style: TextStyle(color: AppTheme.textColor, fontSize: 15, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 12),
-        const _Step(1, Icons.settings_rounded, 'اضغط "فتح الإعدادات" بالأسفل.'),
-        const _Step(2, Icons.search_rounded, 'ابحث في القائمة عن تطبيق "$_androidAppLabel".'),
-        const _Step(
-          3,
-          Icons.toggle_on_rounded,
-          'فعّل خيار السماح بالوصول إلى بيانات الاستخدام (قد يختلف الاسم قليلًا حسب نوع الجهاز).',
-        ),
-        const _Step(4, Icons.keyboard_return_rounded, 'ارجع إلى التطبيق، وستظهر أرقام اليوم تلقائيًا.'),
+        _Step(1, Icons.settings_rounded, context.l10n.usageStep1),
+        _Step(2, Icons.search_rounded, context.l10n.usageStep2(_androidAppLabel)),
+        _Step(3, Icons.toggle_on_rounded, context.l10n.usageStep3),
+        _Step(4, Icons.keyboard_return_rounded, context.l10n.usageStep4),
         const SizedBox(height: 24),
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
@@ -353,12 +346,12 @@ class _PermissionGuide extends StatelessWidget {
           ),
           onPressed: onOpenSettings,
           icon: const Icon(Icons.settings_rounded, color: Colors.white),
-          label: const Text('فتح الإعدادات', style: TextStyle(color: Colors.white, fontSize: 16)),
+          label: Text(context.l10n.openSettings, style: TextStyle(color: Colors.white, fontSize: 16)),
         ),
         const SizedBox(height: 8),
         TextButton(
           onPressed: onDecline,
-          child: const Text('ليس الآن', style: TextStyle(color: AppTheme.subTextColor)),
+          child: Text(context.l10n.notNow, style: TextStyle(color: AppTheme.subTextColor)),
         ),
       ],
     );

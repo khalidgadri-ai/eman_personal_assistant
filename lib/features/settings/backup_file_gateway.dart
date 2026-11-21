@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'backup_service.dart';
+import '../../core/config/app_locale.dart';
 
 /// حفظ ملف النسخة الاحتياطية واختياره. يُستبدل في الاختبارات؛ الأصل منتقي ملفات النظام.
 abstract class BackupFileGateway {
@@ -24,14 +25,14 @@ class SystemBackupFileGateway extends BackupFileGateway {
     final saved = await FilePicker.saveFile(
       fileName: fileName,
       bytes: bytes,
-      dialogTitle: 'حفظ النسخة الاحتياطية',
+      dialogTitle: AppLocale.texts.backupSaveDialog,
     );
     return saved != null;
   }
 
   @override
   Future<Uint8List?> pick() async {
-    final files = await FilePicker.pickFiles(dialogTitle: 'اختيار ملف النسخة الاحتياطية');
+    final files = await FilePicker.pickFiles(dialogTitle: AppLocale.texts.backupPickDialog);
     if (files.isEmpty) return null;
     final file = files.first;
     final size = await file.length();

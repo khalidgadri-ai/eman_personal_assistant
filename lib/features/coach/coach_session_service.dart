@@ -94,7 +94,7 @@ class CoachSessionService {
   CoachQuestion pickQuestion(CoachDomain domain, {String? excludeId, Random? random}) {
     final inDomain = questionsForDomain(domain);
     if (inDomain.isEmpty) {
-      throw StateError('لا توجد أسئلة محفوظة لهذا المجال: ${domain.name}');
+      throw StateError('No questions in the bank for domain ${domain.name}');
     }
     return chooseQuestion(
       inDomain: inDomain,

@@ -12,6 +12,7 @@ import 'coach_safety.dart';
 import 'coach_session_service.dart';
 import 'coach_signal_service.dart';
 import 'models/coach_question.dart';
+import '../../l10n/l10n.dart';
 
 /// يتأكد أن مزوّد الذكاء الاصطناعي مُعدّ (ويعرض شاشة الإعداد إن لم يكن). false إن غادر المستخدم دون إعداد.
 typedef CoachAiAccess = Future<bool> Function(BuildContext context);
@@ -239,23 +240,23 @@ class _CoachScreenState extends State<CoachScreen> {
 
   Future<void> _showCrisisDialog() async {
     final general = <Widget>[
-      const Text(
-        crisisLocalEmergencyMessage,
-        style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.w600, height: 1.6),
+      Text(
+        context.l10n.crisisLocalEmergency,
+        style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.w600, height: 1.6),
       ),
       const SizedBox(height: 8),
       OutlinedButton.icon(
         style: OutlinedButton.styleFrom(side: const BorderSide(color: AppTheme.accentColor)),
         onPressed: () => widget.openLink(crisisHelplineFinderUrl),
         icon: const Icon(Icons.open_in_new_rounded, size: 18, color: AppTheme.accentColor),
-        label: const Text(crisisHelplineFinderLabel, style: TextStyle(color: AppTheme.accentColor)),
+        label: Text(context.l10n.crisisFinderLabel, style: const TextStyle(color: AppTheme.accentColor)),
       ),
       const SizedBox(height: 16),
     ];
     final saudi = <Widget>[
-      const Text(
-        crisisHelplinesNote,
-        style: TextStyle(color: AppTheme.subTextColor, fontSize: 12, fontWeight: FontWeight.w600),
+      Text(
+        context.l10n.crisisSaudiNote,
+        style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12, fontWeight: FontWeight.w600),
       ),
       const SizedBox(height: 8),
       for (final line in crisisHelplines)
@@ -274,7 +275,7 @@ class _CoachScreenState extends State<CoachScreen> {
                 ),
               ),
               Text(
-                line.description,
+                line.descriptionFor(context.appLang),
                 style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
               ),
             ],
@@ -285,74 +286,68 @@ class _CoachScreenState extends State<CoachScreen> {
 
     await showDialog<void>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('مهم', style: TextStyle(color: AppTheme.textColor)),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  crisisResponseMessage,
-                  style: TextStyle(color: AppTheme.textColor, height: 1.6),
-                ),
-                const SizedBox(height: 16),
-                ...saudiFirst ? [...saudi, ...general] : [...general, ...saudi],
-              ],
-            ),
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(context.l10n.crisisImportant, style: TextStyle(color: AppTheme.textColor)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.l10n.crisisResponse,
+                style: const TextStyle(color: AppTheme.textColor, height: 1.6),
+              ),
+              const SizedBox(height: 16),
+              ...saudiFirst ? [...saudi, ...general] : [...general, ...saudi],
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('فهمت', style: TextStyle(color: AppTheme.primaryColor)),
-            ),
-          ],
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(context.l10n.gotIt, style: TextStyle(color: AppTheme.primaryColor)),
+          ),
+        ],
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('مدرب الحياة'),
-          actions: [
-            IconButton(
-              tooltip: 'سجل جلسات المدرب',
-              icon: const Icon(Icons.history_rounded, color: AppTheme.accentColor),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => const CoachHistoryScreen()),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.coachTooltip),
+        actions: [
+          IconButton(
+            tooltip: context.l10n.coachHistory,
+            icon: const Icon(Icons.history_rounded, color: AppTheme.accentColor),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const CoachHistoryScreen()),
             ),
-          ],
-        ),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16),
-                      child: _buildQuestionArea(),
-                    ),
-                  ),
-                  // الأزرار خارج منطقة التمرير: تبقى فوق لوحة المفاتيح على الجوالات الصغيرة.
-                  SafeArea(
-                    top: false,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                      child: _buildActions(),
-                    ),
-                  ),
-                ],
-              ),
+          ),
+        ],
       ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: _buildQuestionArea(),
+                  ),
+                ),
+                // الأزرار خارج منطقة التمرير: تبقى فوق لوحة المفاتيح على الجوالات الصغيرة.
+                SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                    child: _buildActions(),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
@@ -366,8 +361,8 @@ class _CoachScreenState extends State<CoachScreen> {
             color: AppTheme.cardColor,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Text(
-            'هذه أداة تأمل ذاتي، وليست بديلًا عن معالج نفسي مرخّص.',
+          child: Text(
+            context.l10n.coachDisclaimer,
             style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
           ),
         ),
@@ -380,7 +375,7 @@ class _CoachScreenState extends State<CoachScreen> {
           items: CoachDomain.values
               .map((d) => DropdownMenuItem(
                     value: d,
-                    child: Text(d.arabicLabel),
+                    child: Text(d.label(context.l10n)),
                   ))
               .toList(),
           onChanged: _deepening
@@ -415,8 +410,8 @@ class _CoachScreenState extends State<CoachScreen> {
           controller: _answerController,
           maxLines: 4,
           style: const TextStyle(color: AppTheme.textColor),
-          decoration: const InputDecoration(
-            hintText: 'إجابتك (اختياري)...',
+          decoration: InputDecoration(
+            hintText: context.l10n.coachAnswerHint,
             hintStyle: TextStyle(color: AppTheme.subTextColor),
           ),
         ),
@@ -440,8 +435,8 @@ class _CoachScreenState extends State<CoachScreen> {
                       backgroundColor: AppTheme.primaryColor,
                     ),
                     onPressed: _deepening ? null : _onNext,
-                    child: const Text(
-                      'التالي',
+                    child: Text(
+                      context.l10n.next,
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -459,8 +454,8 @@ class _CoachScreenState extends State<CoachScreen> {
                             height: 16,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text(
-                            'عمّق أكثر',
+                        : Text(
+                            context.l10n.coachDeepen,
                             style: TextStyle(color: AppTheme.accentColor),
                           ),
                   ),

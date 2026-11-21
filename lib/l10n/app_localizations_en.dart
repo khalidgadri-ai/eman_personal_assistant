@@ -2161,4 +2161,264 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get send => 'Send';
+
+  @override
+  String get coachDomainBeliefs => 'Beliefs';
+
+  @override
+  String get coachDomainEmotions => 'Emotions';
+
+  @override
+  String get coachDomainGoals => 'Goals & planning';
+
+  @override
+  String get coachDomainOrganization => 'Organization & balance';
+
+  @override
+  String get coachDomainSkills => 'Skills & techniques';
+
+  @override
+  String get coachHintBudget =>
+      'We noticed a pattern in your spending this week';
+
+  @override
+  String get coachHintUsage =>
+      'This question relates to how your time was spent today';
+
+  @override
+  String get coachHintReflection =>
+      'We noticed an idea repeating in your recent answers';
+
+  @override
+  String coachQuotaRemaining(int remaining, int limit) {
+    return '$remaining of $limit free left this month';
+  }
+
+  @override
+  String coachQuotaUsedUp(String date) {
+    return 'The free uses for this month are used up; they renew on $date';
+  }
+
+  @override
+  String coachQuotaRenews(String date) {
+    return 'Your free uses renew on $date';
+  }
+
+  @override
+  String coachQuotaOffer(int limit) {
+    String _temp0 = intl.Intl.pluralLogic(
+      limit,
+      locale: localeName,
+      other: 'You get $limit free follow-up questions every month.',
+      one: 'You get 1 free follow-up question every month.',
+    );
+    return '$_temp0 A subscription makes them unlimited.';
+  }
+
+  @override
+  String get crisisResponse =>
+      'If you are going through a real crisis or thinking about harming yourself, please contact a specialist helpline or the nearest emergency service right away. This app is only a self-reflection tool, not a substitute for a licensed therapist.';
+
+  @override
+  String get crisisSaudiNote => 'In Saudi Arabia (official government lines):';
+
+  @override
+  String get crisisLocalEmergency =>
+      'If there is immediate danger, call your country\'s emergency number now, or go to the nearest emergency department.';
+
+  @override
+  String get crisisFinderLabel => 'Find a free helpline in your country';
+
+  @override
+  String get crisisImportant => 'Important';
+
+  @override
+  String get gotIt => 'Got it';
+
+  @override
+  String get coachHistory => 'Coach session history';
+
+  @override
+  String get coachDisclaimer =>
+      'This is a self-reflection tool, not a substitute for a licensed therapist.';
+
+  @override
+  String get coachAnswerHint => 'Your answer (optional)...';
+
+  @override
+  String get coachDeepen => 'Go deeper';
+
+  @override
+  String get coachSessionDeleted => 'Session deleted';
+
+  @override
+  String get coachNoSessions => 'No saved sessions yet';
+
+  @override
+  String get coachDeleteSession => 'Delete session';
+
+  @override
+  String get payPending =>
+      'The payment is being processed by Google Play; the subscription will turn on by itself once it completes.';
+
+  @override
+  String get payError =>
+      'The purchase couldn\'t be completed. Please try again.';
+
+  @override
+  String get payOpenFailed =>
+      'The purchase window couldn\'t be opened. Please try again.';
+
+  @override
+  String get payNoSubscription =>
+      'There is no active subscription on this Google Play account.';
+
+  @override
+  String get payTitle => 'Monthly subscription';
+
+  @override
+  String get payHeadingMeditation => 'All meditation sessions';
+
+  @override
+  String get payHeadingCoach => 'Go deeper in your reflection';
+
+  @override
+  String get payBenefitDeepen =>
+      'Unlimited \"Go deeper\": a follow-up question built on your own answer, with no advice and no judgement.';
+
+  @override
+  String get payBenefitMeditation =>
+      'All guided and active meditation sessions: body scan, present moment, and move, then be still.';
+
+  @override
+  String get payBenefitControl =>
+      'You decide when to use them; nothing happens automatically.';
+
+  @override
+  String get payFreeNote =>
+      'The local questions, your session history and budget tracking stay completely free, as do the silent timer, gamma waves and the calm breathing session.\nThe follow-up question works with the AI provider key you set in Settings.';
+
+  @override
+  String get payUnavailable => 'Subscription not available right now';
+
+  @override
+  String paySubscribe(String price) {
+    return 'Subscribe now — $price a month';
+  }
+
+  @override
+  String get payAndroidOnly =>
+      'The subscription is available in the Android version installed from Google Play.';
+
+  @override
+  String get payRestore => 'Restore purchases';
+
+  @override
+  String get payRenewal =>
+      'The subscription renews automatically every month at the same price until you cancel. You can cancel any time in Google Play → Payments & subscriptions → Subscriptions.';
+
+  @override
+  String hoursShort(int h) {
+    return '$h h';
+  }
+
+  @override
+  String hoursMinutesShort(int h, int m) {
+    return '$h h $m min';
+  }
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
+  String get usageAndroidOnly =>
+      'This feature works on Android devices only, because it relies on the system\'s \"Usage access\" permission.';
+
+  @override
+  String get usageReadFailed =>
+      'The usage data couldn\'t be read from the system. Please try again later.';
+
+  @override
+  String get usageToday => 'Your time in social apps today';
+
+  @override
+  String get usageNone => 'No use of these apps was recorded today.';
+
+  @override
+  String get usageBreakdown => 'Breakdown by app (minutes)';
+
+  @override
+  String usageShare(int percent) {
+    return '$percent% of today\'s social time';
+  }
+
+  @override
+  String get usageSource =>
+      'From midnight until now, as recorded by Android. The numbers stay on your device only.';
+
+  @override
+  String get usageHowTitle => 'How does this feature work?';
+
+  @override
+  String usageHowBody(String apps) {
+    return 'We read from Android how many minutes you spent today in: $apps. One number per app, nothing more.\nWe don\'t read your messages, your notifications or any content inside these apps, and we don\'t ask you to sign in to any account.\nThe numbers stay on your device only and are never sent anywhere. You can turn the permission off at any time in the same settings.';
+  }
+
+  @override
+  String get usageEnableTitle => 'To turn it on:';
+
+  @override
+  String get usageStep1 => 'Tap \"Open settings\" below.';
+
+  @override
+  String usageStep2(String app) {
+    return 'Find the app \"$app\" in the list.';
+  }
+
+  @override
+  String get usageStep3 =>
+      'Turn on the option that allows usage access (the name may differ a little depending on the device).';
+
+  @override
+  String get usageStep4 =>
+      'Come back to the app, and today\'s numbers will show by themselves.';
+
+  @override
+  String get openSettings => 'Open settings';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String backupWeakPassword(int min) {
+    return 'The password is too short: at least $min characters are needed.';
+  }
+
+  @override
+  String get backupNotABackup => 'This file isn\'t a backup from this app.';
+
+  @override
+  String get backupUnsupportedVersion =>
+      'This backup is newer than this version of the app. Please update the app, then try again.';
+
+  @override
+  String get backupWrongPassword =>
+      'The password is wrong, or the file is damaged.';
+
+  @override
+  String get backupRestoreFailed =>
+      'The restore failed, and the data was put back as it was.';
+
+  @override
+  String get backupRestoreFailedUnsafe =>
+      'The restore failed and some data may be missing. Please try again with the same file.';
+
+  @override
+  String get backupSaveDialog => 'Save the backup';
+
+  @override
+  String get backupPickDialog => 'Choose the backup file';
+
+  @override
+  String get contactSubject => 'About the app';
 }

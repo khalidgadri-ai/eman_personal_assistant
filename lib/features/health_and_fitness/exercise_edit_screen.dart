@@ -255,7 +255,7 @@ class _ExerciseEditScreenState extends State<ExerciseEditScreen> {
               maxLength: Exercise.maxStepLength,
               maxLines: null,
               style: const TextStyle(color: AppTheme.textColor),
-              decoration: InputDecoration(labelText: 'الخطوة ${index + 1}', counterText: ''),
+              decoration: InputDecoration(labelText: context.l10n.stepNumber(index + 1), counterText: ''),
             ),
           ),
           IconButton(

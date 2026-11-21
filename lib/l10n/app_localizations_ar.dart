@@ -2180,4 +2180,260 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get send => 'إرسال';
+
+  @override
+  String get coachDomainBeliefs => 'المعتقدات';
+
+  @override
+  String get coachDomainEmotions => 'المشاعر';
+
+  @override
+  String get coachDomainGoals => 'الأهداف والتخطيط';
+
+  @override
+  String get coachDomainOrganization => 'التنظيم والتوازن';
+
+  @override
+  String get coachDomainSkills => 'المهارات والتقنيات';
+
+  @override
+  String get coachHintBudget => 'لاحظنا نمطًا في مصاريفك هذا الأسبوع';
+
+  @override
+  String get coachHintUsage => 'هذا السؤال مرتبط بتوزيع وقتك اليوم';
+
+  @override
+  String get coachHintReflection => 'لاحظنا فكرة تتكرر في إجاباتك الأخيرة';
+
+  @override
+  String coachQuotaRemaining(int remaining, int limit) {
+    return 'متبقٍ $remaining من $limit مجانًا هذا الشهر';
+  }
+
+  @override
+  String coachQuotaUsedUp(String date) {
+    return 'انتهت المحاولات المجانية لهذا الشهر، وتتجدد في $date';
+  }
+
+  @override
+  String coachQuotaRenews(String date) {
+    return 'تتجدد محاولاتك المجانية في $date';
+  }
+
+  @override
+  String coachQuotaOffer(int limit) {
+    String _temp0 = intl.Intl.pluralLogic(
+      limit,
+      locale: localeName,
+      other: 'تحصل مجانًا على $limit سؤال متابعة كل شهر.',
+      few: 'تحصل مجانًا على $limit أسئلة متابعة كل شهر.',
+      two: 'تحصل مجانًا على سؤالَي متابعة كل شهر.',
+      one: 'تحصل مجانًا على سؤال متابعة واحد كل شهر.',
+    );
+    return '$_temp0 الاشتراك يجعلها بلا حد.';
+  }
+
+  @override
+  String get crisisResponse =>
+      'إذا كنت تمر بأزمة فعلية أو تفكر في إيذاء نفسك، الرجاء التواصل فورًا مع خط مساعدة مختص أو أقرب جهة طوارئ. هذا التطبيق أداة تأمل ذاتي فقط، وليس بديلاً عن معالج نفسي مرخّص.';
+
+  @override
+  String get crisisSaudiNote =>
+      'في المملكة العربية السعودية (خطوط حكومية رسمية):';
+
+  @override
+  String get crisisLocalEmergency =>
+      'إن كان هناك خطر مباشر، اتصل الآن برقم الطوارئ في بلدك، أو اذهب إلى أقرب قسم طوارئ.';
+
+  @override
+  String get crisisFinderLabel => 'ابحث عن خط مساعدة مجاني في بلدك';
+
+  @override
+  String get crisisImportant => 'مهم';
+
+  @override
+  String get gotIt => 'فهمت';
+
+  @override
+  String get coachHistory => 'سجل جلسات المدرب';
+
+  @override
+  String get coachDisclaimer =>
+      'هذه أداة تأمل ذاتي، وليست بديلًا عن معالج نفسي مرخّص.';
+
+  @override
+  String get coachAnswerHint => 'إجابتك (اختياري)...';
+
+  @override
+  String get coachDeepen => 'عمّق أكثر';
+
+  @override
+  String get coachSessionDeleted => 'حُذفت الجلسة';
+
+  @override
+  String get coachNoSessions => 'لا توجد جلسات محفوظة بعد';
+
+  @override
+  String get coachDeleteSession => 'حذف الجلسة';
+
+  @override
+  String get payPending =>
+      'الدفع قيد المعالجة لدى Google Play، وسيُفعَّل الاشتراك تلقائيًا عند اكتماله.';
+
+  @override
+  String get payError => 'تعذّر إتمام الشراء، حاول مرة أخرى.';
+
+  @override
+  String get payOpenFailed => 'تعذّر فتح نافذة الشراء، حاول مرة أخرى.';
+
+  @override
+  String get payNoSubscription =>
+      'لا يوجد اشتراك فعّال على حساب Google Play هذا.';
+
+  @override
+  String get payTitle => 'الاشتراك الشهري';
+
+  @override
+  String get payHeadingMeditation => 'كل جلسات التأمل';
+
+  @override
+  String get payHeadingCoach => 'تعمّق أكثر في تأملك';
+
+  @override
+  String get payBenefitDeepen =>
+      '«عمّق أكثر» بلا حد: سؤال متابعة مبني على إجابتك أنت، بلا نصائح ولا أحكام.';
+
+  @override
+  String get payBenefitMeditation =>
+      'كل جلسات التأمل المرشدة والحركية: مسح الجسد، والحضور في اللحظة، وحركة ثم سكون.';
+
+  @override
+  String get payBenefitControl =>
+      'أنت تقرر متى تستعملها، لا شيء يحدث تلقائيًا.';
+
+  @override
+  String get payFreeNote =>
+      'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك المؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.';
+
+  @override
+  String get payUnavailable => 'الاشتراك غير متاح حاليًا';
+
+  @override
+  String paySubscribe(String price) {
+    return 'اشترك الآن — $price شهريًا';
+  }
+
+  @override
+  String get payAndroidOnly =>
+      'الاشتراك متاح في نسخة Android المثبتة من Google Play.';
+
+  @override
+  String get payRestore => 'استعادة المشتريات';
+
+  @override
+  String get payRenewal =>
+      'يتجدد الاشتراك تلقائيًا كل شهر بنفس السعر حتى تلغيه. يمكنك الإلغاء في أي وقت من Google Play ← الدفعات والاشتراكات ← الاشتراكات.';
+
+  @override
+  String hoursShort(int h) {
+    return '$h س';
+  }
+
+  @override
+  String hoursMinutesShort(int h, int m) {
+    return '$h س $m د';
+  }
+
+  @override
+  String get refresh => 'تحديث';
+
+  @override
+  String get usageAndroidOnly =>
+      'هذه الميزة تعمل على أجهزة Android فقط، لأنها تعتمد على صلاحية \"الوصول إلى بيانات الاستخدام\" في النظام.';
+
+  @override
+  String get usageReadFailed =>
+      'تعذّرت قراءة بيانات الاستخدام من النظام، حاول مرة أخرى لاحقًا.';
+
+  @override
+  String get usageToday => 'وقتك اليوم في تطبيقات التواصل';
+
+  @override
+  String get usageNone => 'لم يُسجَّل استخدام لهذه التطبيقات اليوم.';
+
+  @override
+  String get usageBreakdown => 'التوزيع بين التطبيقات (بالدقائق)';
+
+  @override
+  String usageShare(int percent) {
+    return '$percent٪ من وقت التواصل اليوم';
+  }
+
+  @override
+  String get usageSource =>
+      'من منتصف الليل حتى الآن، كما يسجّلها نظام Android. الأرقام تبقى على جهازك فقط.';
+
+  @override
+  String get usageHowTitle => 'كيف تعمل هذه الميزة؟';
+
+  @override
+  String usageHowBody(String apps) {
+    return 'نقرأ من نظام Android عدد الدقائق التي قضيتها اليوم في: $apps. رقم واحد لكل تطبيق، لا أكثر.\nلا نقرأ رسائلك ولا إشعاراتك ولا أي محتوى داخل هذه التطبيقات، ولا نطلب تسجيل الدخول لأي حساب.\nالأرقام تبقى على جهازك فقط ولا تُرسل لأي مكان، ويمكنك إلغاء الصلاحية في أي وقت من نفس الإعدادات.';
+  }
+
+  @override
+  String get usageEnableTitle => 'لتفعيلها:';
+
+  @override
+  String get usageStep1 => 'اضغط \"فتح الإعدادات\" بالأسفل.';
+
+  @override
+  String usageStep2(String app) {
+    return 'ابحث في القائمة عن تطبيق \"$app\".';
+  }
+
+  @override
+  String get usageStep3 =>
+      'فعّل خيار السماح بالوصول إلى بيانات الاستخدام (قد يختلف الاسم قليلًا حسب نوع الجهاز).';
+
+  @override
+  String get usageStep4 => 'ارجع إلى التطبيق، وستظهر أرقام اليوم تلقائيًا.';
+
+  @override
+  String get openSettings => 'فتح الإعدادات';
+
+  @override
+  String get notNow => 'ليس الآن';
+
+  @override
+  String backupWeakPassword(int min) {
+    return 'كلمة المرور قصيرة: يلزم $min أحرف على الأقل.';
+  }
+
+  @override
+  String get backupNotABackup => 'هذا الملف ليس نسخة احتياطية من هذا التطبيق.';
+
+  @override
+  String get backupUnsupportedVersion =>
+      'هذه النسخة أحدث من إصدار التطبيق الحالي. يرجى تحديث التطبيق ثم إعادة المحاولة.';
+
+  @override
+  String get backupWrongPassword => 'كلمة المرور غير صحيحة، أو أن الملف تالف.';
+
+  @override
+  String get backupRestoreFailed =>
+      'تعذّرت الاستعادة، وأُعيدت البيانات كما كانت.';
+
+  @override
+  String get backupRestoreFailedUnsafe =>
+      'تعذّرت الاستعادة وقد تكون البيانات ناقصة. يرجى إعادة المحاولة بنفس الملف.';
+
+  @override
+  String get backupSaveDialog => 'حفظ النسخة الاحتياطية';
+
+  @override
+  String get backupPickDialog => 'اختيار ملف النسخة الاحتياطية';
+
+  @override
+  String get contactSubject => 'تواصل بخصوص التطبيق';
 }

@@ -5,19 +5,29 @@ import 'package:flutter/foundation.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/encrypted_boxes.dart';
 import '../reminders/reminder_service.dart';
+import '../../core/config/app_locale.dart';
 
-/// سبب فشل النسخ الاحتياطي أو الاستعادة. الرسالة للمستخدم ثابتة بالعربية: لا نص خطأ خام
+/// سبب فشل النسخ الاحتياطي أو الاستعادة. الرسالة للمستخدم ثابتة بلغة التطبيق: لا نص خطأ خام
 /// ولا مسارات ولا كلمة المرور تصل إلى الشاشة.
 enum BackupFailure {
-  weakPassword('كلمة المرور قصيرة: يلزم ${BackupService.minPasswordLength} أحرف على الأقل.'),
-  notABackup('هذا الملف ليس نسخة احتياطية من هذا التطبيق.'),
-  unsupportedVersion('هذه النسخة أحدث من إصدار التطبيق الحالي. يرجى تحديث التطبيق ثم إعادة المحاولة.'),
-  wrongPasswordOrCorrupt('كلمة المرور غير صحيحة، أو أن الملف تالف.'),
-  restoreFailed('تعذّرت الاستعادة، وأُعيدت البيانات كما كانت.'),
-  restoreFailedUnsafe('تعذّرت الاستعادة وقد تكون البيانات ناقصة. يرجى إعادة المحاولة بنفس الملف.');
+  weakPassword,
+  notABackup,
+  unsupportedVersion,
+  wrongPasswordOrCorrupt,
+  restoreFailed,
+  restoreFailedUnsafe;
 
-  const BackupFailure(this.message);
-  final String message;
+  String get message {
+    final t = AppLocale.texts;
+    return switch (this) {
+      weakPassword => t.backupWeakPassword(BackupService.minPasswordLength),
+      notABackup => t.backupNotABackup,
+      unsupportedVersion => t.backupUnsupportedVersion,
+      wrongPasswordOrCorrupt => t.backupWrongPassword,
+      restoreFailed => t.backupRestoreFailed,
+      restoreFailedUnsafe => t.backupRestoreFailedUnsafe,
+    };
+  }
 }
 
 class BackupException implements Exception {

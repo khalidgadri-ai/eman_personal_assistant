@@ -1,3 +1,4 @@
+import 'package:eman_life_app/core/config/app_locale.dart';
 import 'package:eman_life_app/core/services/free_quota_service.dart';
 import 'package:eman_life_app/features/coach/coach_ai_service.dart';
 import 'package:eman_life_app/features/coach/coach_paywall_screen.dart';
@@ -54,15 +55,13 @@ void main() {
     );
   }
 
-  Future<void> openCoach(WidgetTester tester) async {
+  Future<void> openCoach(WidgetTester tester, {bool english = false}) async {
     // خدمة المدرب تقرأ ملف أسئلة من الأصول: إدخال/إخراج حقيقي يعلّق داخل testWidgets إلا في runAsync.
     await tester.runAsync(CoachSessionService.getInstance);
     tester.view.physicalSize = const Size(900, 2400);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await pumpScreen(
-      tester,
-      CoachScreen(
+    final screen = CoachScreen(
         aiService: CoachAiService(generator: ({required systemPrompt, required userContent}) {
           modelCalls++;
           return modelReply();
@@ -77,8 +76,15 @@ void main() {
           openedLinks.add(url);
           return true;
         },
-      ),
-    );
+      );
+    if (!english) return pumpScreen(tester, screen);
+    await tester.pumpWidget(MaterialApp(
+      locale: AppLocale.english,
+      supportedLocales: AppLocale.supported,
+      localizationsDelegates: AppLocale.delegates,
+      home: screen,
+    ));
+    await settle(tester);
   }
 
   Future<void> tapDeepen(WidgetTester tester, [String text = answer]) async {
@@ -89,6 +95,27 @@ void main() {
   }
 
   final paywall = find.byType(CoachPaywallScreen);
+
+  testWidgets('in English the coach, its free-uses line and the crisis help speak English', (tester) async {
+    AppLocale.choice.value = AppLanguage.en;
+    addTearDown(() => AppLocale.choice.value = AppLanguage.system);
+    await openCoach(tester, english: true);
+    expect(find.text('Life coach'), findsOneWidget);
+    expect(find.text('5 of 5 free left this month'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'I feel suicidal');
+    await tester.pump();
+    await tester.tap(find.text('Go deeper'));
+    await settle(tester);
+
+    expect(find.text('Important'), findsOneWidget);
+    expect(find.text(crisisResponseMessage), findsOneWidget);
+    expect(crisisResponseMessage, startsWith('If you are going through'));
+    expect(find.text('In Saudi Arabia (official government lines):'), findsOneWidget);
+    expect(find.textContaining('Red Crescent'), findsOneWidget);
+    expect(find.text('Find a free helpline in your country'), findsOneWidget);
+    expect(modelCalls, 0);
+  });
 
   group('not subscribed, free uses left', () {
     testWidgets('the model question arrives without the paywall and costs one use', (tester) async {

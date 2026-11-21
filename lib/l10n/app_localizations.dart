@@ -3817,6 +3817,420 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إرسال'**
   String get send;
+
+  /// No description provided for @coachDomainBeliefs.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعتقدات'**
+  String get coachDomainBeliefs;
+
+  /// No description provided for @coachDomainEmotions.
+  ///
+  /// In ar, this message translates to:
+  /// **'المشاعر'**
+  String get coachDomainEmotions;
+
+  /// No description provided for @coachDomainGoals.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأهداف والتخطيط'**
+  String get coachDomainGoals;
+
+  /// No description provided for @coachDomainOrganization.
+  ///
+  /// In ar, this message translates to:
+  /// **'التنظيم والتوازن'**
+  String get coachDomainOrganization;
+
+  /// No description provided for @coachDomainSkills.
+  ///
+  /// In ar, this message translates to:
+  /// **'المهارات والتقنيات'**
+  String get coachDomainSkills;
+
+  /// No description provided for @coachHintBudget.
+  ///
+  /// In ar, this message translates to:
+  /// **'لاحظنا نمطًا في مصاريفك هذا الأسبوع'**
+  String get coachHintBudget;
+
+  /// No description provided for @coachHintUsage.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا السؤال مرتبط بتوزيع وقتك اليوم'**
+  String get coachHintUsage;
+
+  /// No description provided for @coachHintReflection.
+  ///
+  /// In ar, this message translates to:
+  /// **'لاحظنا فكرة تتكرر في إجاباتك الأخيرة'**
+  String get coachHintReflection;
+
+  /// No description provided for @coachQuotaRemaining.
+  ///
+  /// In ar, this message translates to:
+  /// **'متبقٍ {remaining} من {limit} مجانًا هذا الشهر'**
+  String coachQuotaRemaining(int remaining, int limit);
+
+  /// No description provided for @coachQuotaUsedUp.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت المحاولات المجانية لهذا الشهر، وتتجدد في {date}'**
+  String coachQuotaUsedUp(String date);
+
+  /// No description provided for @coachQuotaRenews.
+  ///
+  /// In ar, this message translates to:
+  /// **'تتجدد محاولاتك المجانية في {date}'**
+  String coachQuotaRenews(String date);
+
+  /// No description provided for @coachQuotaOffer.
+  ///
+  /// In ar, this message translates to:
+  /// **'{limit, plural, =1{تحصل مجانًا على سؤال متابعة واحد كل شهر.} =2{تحصل مجانًا على سؤالَي متابعة كل شهر.} few{تحصل مجانًا على {limit} أسئلة متابعة كل شهر.} other{تحصل مجانًا على {limit} سؤال متابعة كل شهر.}} الاشتراك يجعلها بلا حد.'**
+  String coachQuotaOffer(int limit);
+
+  /// No description provided for @crisisResponse.
+  ///
+  /// In ar, this message translates to:
+  /// **'إذا كنت تمر بأزمة فعلية أو تفكر في إيذاء نفسك، الرجاء التواصل فورًا مع خط مساعدة مختص أو أقرب جهة طوارئ. هذا التطبيق أداة تأمل ذاتي فقط، وليس بديلاً عن معالج نفسي مرخّص.'**
+  String get crisisResponse;
+
+  /// No description provided for @crisisSaudiNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'في المملكة العربية السعودية (خطوط حكومية رسمية):'**
+  String get crisisSaudiNote;
+
+  /// No description provided for @crisisLocalEmergency.
+  ///
+  /// In ar, this message translates to:
+  /// **'إن كان هناك خطر مباشر، اتصل الآن برقم الطوارئ في بلدك، أو اذهب إلى أقرب قسم طوارئ.'**
+  String get crisisLocalEmergency;
+
+  /// No description provided for @crisisFinderLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابحث عن خط مساعدة مجاني في بلدك'**
+  String get crisisFinderLabel;
+
+  /// No description provided for @crisisImportant.
+  ///
+  /// In ar, this message translates to:
+  /// **'مهم'**
+  String get crisisImportant;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In ar, this message translates to:
+  /// **'فهمت'**
+  String get gotIt;
+
+  /// No description provided for @coachHistory.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل جلسات المدرب'**
+  String get coachHistory;
+
+  /// No description provided for @coachDisclaimer.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه أداة تأمل ذاتي، وليست بديلًا عن معالج نفسي مرخّص.'**
+  String get coachDisclaimer;
+
+  /// No description provided for @coachAnswerHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'إجابتك (اختياري)...'**
+  String get coachAnswerHint;
+
+  /// No description provided for @coachDeepen.
+  ///
+  /// In ar, this message translates to:
+  /// **'عمّق أكثر'**
+  String get coachDeepen;
+
+  /// No description provided for @coachSessionDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذفت الجلسة'**
+  String get coachSessionDeleted;
+
+  /// No description provided for @coachNoSessions.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد جلسات محفوظة بعد'**
+  String get coachNoSessions;
+
+  /// No description provided for @coachDeleteSession.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الجلسة'**
+  String get coachDeleteSession;
+
+  /// No description provided for @payPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع قيد المعالجة لدى Google Play، وسيُفعَّل الاشتراك تلقائيًا عند اكتماله.'**
+  String get payPending;
+
+  /// No description provided for @payError.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر إتمام الشراء، حاول مرة أخرى.'**
+  String get payError;
+
+  /// No description provided for @payOpenFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر فتح نافذة الشراء، حاول مرة أخرى.'**
+  String get payOpenFailed;
+
+  /// No description provided for @payNoSubscription.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد اشتراك فعّال على حساب Google Play هذا.'**
+  String get payNoSubscription;
+
+  /// No description provided for @payTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاشتراك الشهري'**
+  String get payTitle;
+
+  /// No description provided for @payHeadingMeditation.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل جلسات التأمل'**
+  String get payHeadingMeditation;
+
+  /// No description provided for @payHeadingCoach.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعمّق أكثر في تأملك'**
+  String get payHeadingCoach;
+
+  /// No description provided for @payBenefitDeepen.
+  ///
+  /// In ar, this message translates to:
+  /// **'«عمّق أكثر» بلا حد: سؤال متابعة مبني على إجابتك أنت، بلا نصائح ولا أحكام.'**
+  String get payBenefitDeepen;
+
+  /// No description provided for @payBenefitMeditation.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل جلسات التأمل المرشدة والحركية: مسح الجسد، والحضور في اللحظة، وحركة ثم سكون.'**
+  String get payBenefitMeditation;
+
+  /// No description provided for @payBenefitControl.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت تقرر متى تستعملها، لا شيء يحدث تلقائيًا.'**
+  String get payBenefitControl;
+
+  /// No description provided for @payFreeNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك المؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.'**
+  String get payFreeNote;
+
+  /// No description provided for @payUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاشتراك غير متاح حاليًا'**
+  String get payUnavailable;
+
+  /// No description provided for @paySubscribe.
+  ///
+  /// In ar, this message translates to:
+  /// **'اشترك الآن — {price} شهريًا'**
+  String paySubscribe(String price);
+
+  /// No description provided for @payAndroidOnly.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاشتراك متاح في نسخة Android المثبتة من Google Play.'**
+  String get payAndroidOnly;
+
+  /// No description provided for @payRestore.
+  ///
+  /// In ar, this message translates to:
+  /// **'استعادة المشتريات'**
+  String get payRestore;
+
+  /// No description provided for @payRenewal.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتجدد الاشتراك تلقائيًا كل شهر بنفس السعر حتى تلغيه. يمكنك الإلغاء في أي وقت من Google Play ← الدفعات والاشتراكات ← الاشتراكات.'**
+  String get payRenewal;
+
+  /// No description provided for @hoursShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'{h} س'**
+  String hoursShort(int h);
+
+  /// No description provided for @hoursMinutesShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'{h} س {m} د'**
+  String hoursMinutesShort(int h, int m);
+
+  /// No description provided for @refresh.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديث'**
+  String get refresh;
+
+  /// No description provided for @usageAndroidOnly.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه الميزة تعمل على أجهزة Android فقط، لأنها تعتمد على صلاحية \"الوصول إلى بيانات الاستخدام\" في النظام.'**
+  String get usageAndroidOnly;
+
+  /// No description provided for @usageReadFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّرت قراءة بيانات الاستخدام من النظام، حاول مرة أخرى لاحقًا.'**
+  String get usageReadFailed;
+
+  /// No description provided for @usageToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقتك اليوم في تطبيقات التواصل'**
+  String get usageToday;
+
+  /// No description provided for @usageNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يُسجَّل استخدام لهذه التطبيقات اليوم.'**
+  String get usageNone;
+
+  /// No description provided for @usageBreakdown.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوزيع بين التطبيقات (بالدقائق)'**
+  String get usageBreakdown;
+
+  /// No description provided for @usageShare.
+  ///
+  /// In ar, this message translates to:
+  /// **'{percent}٪ من وقت التواصل اليوم'**
+  String usageShare(int percent);
+
+  /// No description provided for @usageSource.
+  ///
+  /// In ar, this message translates to:
+  /// **'من منتصف الليل حتى الآن، كما يسجّلها نظام Android. الأرقام تبقى على جهازك فقط.'**
+  String get usageSource;
+
+  /// No description provided for @usageHowTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'كيف تعمل هذه الميزة؟'**
+  String get usageHowTitle;
+
+  /// No description provided for @usageHowBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'نقرأ من نظام Android عدد الدقائق التي قضيتها اليوم في: {apps}. رقم واحد لكل تطبيق، لا أكثر.\nلا نقرأ رسائلك ولا إشعاراتك ولا أي محتوى داخل هذه التطبيقات، ولا نطلب تسجيل الدخول لأي حساب.\nالأرقام تبقى على جهازك فقط ولا تُرسل لأي مكان، ويمكنك إلغاء الصلاحية في أي وقت من نفس الإعدادات.'**
+  String usageHowBody(String apps);
+
+  /// No description provided for @usageEnableTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'لتفعيلها:'**
+  String get usageEnableTitle;
+
+  /// No description provided for @usageStep1.
+  ///
+  /// In ar, this message translates to:
+  /// **'اضغط \"فتح الإعدادات\" بالأسفل.'**
+  String get usageStep1;
+
+  /// No description provided for @usageStep2.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابحث في القائمة عن تطبيق \"{app}\".'**
+  String usageStep2(String app);
+
+  /// No description provided for @usageStep3.
+  ///
+  /// In ar, this message translates to:
+  /// **'فعّل خيار السماح بالوصول إلى بيانات الاستخدام (قد يختلف الاسم قليلًا حسب نوع الجهاز).'**
+  String get usageStep3;
+
+  /// No description provided for @usageStep4.
+  ///
+  /// In ar, this message translates to:
+  /// **'ارجع إلى التطبيق، وستظهر أرقام اليوم تلقائيًا.'**
+  String get usageStep4;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح الإعدادات'**
+  String get openSettings;
+
+  /// No description provided for @notNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليس الآن'**
+  String get notNow;
+
+  /// No description provided for @backupWeakPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور قصيرة: يلزم {min} أحرف على الأقل.'**
+  String backupWeakPassword(int min);
+
+  /// No description provided for @backupNotABackup.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الملف ليس نسخة احتياطية من هذا التطبيق.'**
+  String get backupNotABackup;
+
+  /// No description provided for @backupUnsupportedVersion.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه النسخة أحدث من إصدار التطبيق الحالي. يرجى تحديث التطبيق ثم إعادة المحاولة.'**
+  String get backupUnsupportedVersion;
+
+  /// No description provided for @backupWrongPassword.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور غير صحيحة، أو أن الملف تالف.'**
+  String get backupWrongPassword;
+
+  /// No description provided for @backupRestoreFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّرت الاستعادة، وأُعيدت البيانات كما كانت.'**
+  String get backupRestoreFailed;
+
+  /// No description provided for @backupRestoreFailedUnsafe.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّرت الاستعادة وقد تكون البيانات ناقصة. يرجى إعادة المحاولة بنفس الملف.'**
+  String get backupRestoreFailedUnsafe;
+
+  /// No description provided for @backupSaveDialog.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ النسخة الاحتياطية'**
+  String get backupSaveDialog;
+
+  /// No description provided for @backupPickDialog.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار ملف النسخة الاحتياطية'**
+  String get backupPickDialog;
+
+  /// No description provided for @contactSubject.
+  ///
+  /// In ar, this message translates to:
+  /// **'تواصل بخصوص التطبيق'**
+  String get contactSubject;
 }
 
 class _AppLocalizationsDelegate

@@ -198,7 +198,7 @@ void main() {
     test('the hint appears only when the picked domain is the signal domain', () {
       const active = CoachSignals(budget: true);
 
-      expect(active.hintFor(CoachDomain.budget), 'لاحظنا نمط في مصاريفك هذا الأسبوع');
+      expect(active.hintFor(CoachDomain.budget), 'لاحظنا نمطًا في مصاريفك هذا الأسبوع');
       expect(active.hintFor(CoachDomain.emotions), isNull);
       expect(CoachSignals.none.hintFor(CoachDomain.budget), isNull);
     });

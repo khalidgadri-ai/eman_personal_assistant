@@ -2296,7 +2296,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get payFreeNote =>
-      'The local questions, your session history and budget tracking stay completely free, as do the silent timer, gamma waves and the calm breathing session.\nThe follow-up question works with the AI provider key you set in Settings.';
+      'The local questions, your session history and budget tracking stay completely free, as do the wheel of life and naming feelings, the silent timer, gamma waves and the calm breathing session.\nThe follow-up question works with the AI provider key you set in Settings.';
 
   @override
   String get payUnavailable => 'Subscription not available right now';
@@ -2442,8 +2442,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Short step-by-step exercises; the results are saved on this device so you can compare them with earlier ones.';
 
   @override
-  String get coachToolsEntry =>
-      'Coach tools: wheel of life and naming feelings';
+  String get coachToolsEntry => 'Coach tools: wheel of life, feelings and more';
 
   @override
   String get wheelTitle => 'Wheel of life';
@@ -2733,4 +2732,242 @@ class AppLocalizationsEn extends AppLocalizations {
   String historyStep(String step) {
     return 'Step: $step';
   }
+
+  @override
+  String get toolSaved => 'Saved.';
+
+  @override
+  String get toolSavedWithTask =>
+      'Saved, and the step was added to your tasks.';
+
+  @override
+  String get writeSentenceFirst => 'Write the sentence first';
+
+  @override
+  String get beliefTitle => 'Belief check';
+
+  @override
+  String get beliefSubtitle =>
+      'Examine a sentence that keeps repeating in your head, and find a more accurate version.';
+
+  @override
+  String get beliefIntro =>
+      'A sentence that keeps repeating in your head about yourself or life, examined here as a thought, not a fact.';
+
+  @override
+  String get beliefSentence =>
+      'What is the sentence? (for example: \"I never succeed at anything\")';
+
+  @override
+  String get beliefOrigin =>
+      'When did this thought start, and where did it come from?';
+
+  @override
+  String get beliefFor => 'What supports it?';
+
+  @override
+  String get beliefAgainst => 'What goes against it, even if it is small?';
+
+  @override
+  String beliefStrengthBefore(int value) {
+    return 'How true does it feel right now? $value out of 10';
+  }
+
+  @override
+  String get beliefNew =>
+      'A more accurate, fairer version of the same sentence:';
+
+  @override
+  String get beliefNewFor => 'What supports the new version?';
+
+  @override
+  String beliefStrengthAfter(int value) {
+    return 'And how true does the old sentence feel after this? $value out of 10';
+  }
+
+  @override
+  String get beliefStep => 'A small step that tests the new version this week:';
+
+  @override
+  String get innerVoiceTitle => 'Inner voice';
+
+  @override
+  String get innerVoiceSubtitle =>
+      'Get to know the critical voice and reword what it says.';
+
+  @override
+  String get innerVoiceIntro =>
+      'The critical inner voice has repeating patterns. Giving it a name makes it easier to notice when it speaks.';
+
+  @override
+  String get innerVoiceType => 'Which pattern is closest?';
+
+  @override
+  String get voiceWorrier => 'The worrier: expects the worst';
+
+  @override
+  String get voiceCritic => 'The critic: counts every mistake';
+
+  @override
+  String get voiceHopeless => 'The hopeless one: says there is no point';
+
+  @override
+  String get voicePerfectionist =>
+      'The perfectionist: accepts nothing less than perfect';
+
+  @override
+  String get innerVoiceName => 'A name for it (optional)';
+
+  @override
+  String get innerVoiceSentence => 'Which sentence does it repeat most?';
+
+  @override
+  String get innerVoiceWhen => 'When does it usually get loudest?';
+
+  @override
+  String get innerVoiceFriend =>
+      'If a friend said it about themselves, what would the reply be?';
+
+  @override
+  String get innerVoiceReframe =>
+      'A new version of the same sentence, in a calmer and fairer voice:';
+
+  @override
+  String get innerVoiceStep => 'A small practical step for this week:';
+
+  @override
+  String get decisionTitle => 'Decide between two options';
+
+  @override
+  String get decisionSubtitle =>
+      'Compare two options by what is gained and lost, then take a first step.';
+
+  @override
+  String get decisionIntro =>
+      'The app gives no opinion: the questions here are for seeing both options clearly.';
+
+  @override
+  String get decisionOptionA => 'Option one';
+
+  @override
+  String get decisionOptionB => 'Option two';
+
+  @override
+  String decisionGain(String option) {
+    return 'What is gained with \"$option\"?';
+  }
+
+  @override
+  String decisionLoss(String option) {
+    return 'What is lost with \"$option\"?';
+  }
+
+  @override
+  String get decisionRegret =>
+      'Five years from now, giving up which option might be regretted more?';
+
+  @override
+  String get decisionUnsure => 'Not clear yet';
+
+  @override
+  String get decisionExperiment =>
+      'A small experiment to test one option before deciding:';
+
+  @override
+  String get decisionChosen => 'Chosen for now';
+
+  @override
+  String get decisionUndecided => 'Not decided yet';
+
+  @override
+  String get decisionStep => 'First step:';
+
+  @override
+  String get decisionNeedOptions => 'Write both options first';
+
+  @override
+  String get habitTitle => 'Change a habit';
+
+  @override
+  String get habitSubtitle =>
+      'Understand what sets a habit off, with a daily step and 21 days of tracking.';
+
+  @override
+  String get habitIntro =>
+      'A habit often starts from a place, a time, people or a feeling. Noticing them is the first step to changing it.';
+
+  @override
+  String get habitName => 'The habit to change:';
+
+  @override
+  String get habitWhere => 'Where does it usually happen?';
+
+  @override
+  String get habitWhen => 'When?';
+
+  @override
+  String get habitWho => 'With whom?';
+
+  @override
+  String get habitFeeling => 'After which feeling?';
+
+  @override
+  String get habitEnvironment =>
+      'A small change to the place or tools that makes the change easier:';
+
+  @override
+  String get habitDailyStep => 'A small daily step:';
+
+  @override
+  String get habitDailyReminder => 'Daily reminder (optional)';
+
+  @override
+  String get habitStart => 'Start 21 days';
+
+  @override
+  String get habitNeedFields => 'Write the habit and the daily step first';
+
+  @override
+  String get habitStarted => 'The 21 days have started.';
+
+  @override
+  String habitDay(int day) {
+    return 'Day $day of 21';
+  }
+
+  @override
+  String habitDoneCount(int done) {
+    return 'Days done: $done of 21';
+  }
+
+  @override
+  String get habitCheckToday => 'Today\'s step is done';
+
+  @override
+  String get habitUncheckToday => 'Undo today\'s mark';
+
+  @override
+  String get habitStop => 'Stop tracking';
+
+  @override
+  String get habitStopAsk =>
+      'Stop tracking this habit? What was recorded stays, and the daily reminder stops.';
+
+  @override
+  String habitFinished(int done) {
+    return 'The 21 days are complete. Days done: $done.';
+  }
+
+  @override
+  String get habitPast => 'Earlier habits';
+
+  @override
+  String get reminderHabitTitle => 'Today\'s step';
+
+  @override
+  String get payHeadingTools => 'Advanced coach tools';
+
+  @override
+  String get payBenefitTools =>
+      'Four coach tools: belief check, inner voice, deciding between two options, and changing a habit.';
 }

@@ -8,7 +8,7 @@ import 'coach_quota_text.dart';
 import '../../l10n/l10n.dart';
 
 /// من أين فُتحت شاشة الاشتراك: يتغير العنوان، والمزايا هي نفسها (الاشتراك واحد).
-enum PaywallFeature { coach, meditation }
+enum PaywallFeature { coach, meditation, tools }
 
 /// شاشة الاشتراك الشهري الواحد: «عمّق أكثر» بلا حد وكل جلسات التأمل.
 /// يرجع true عندما يصبح الاشتراك فعّالًا (شراء أو استعادة).
@@ -129,15 +129,21 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Icon(
-                    widget.feature == PaywallFeature.meditation
-                        ? Icons.self_improvement_rounded
-                        : Icons.psychology_rounded,
+                    switch (widget.feature) {
+                      PaywallFeature.meditation => Icons.self_improvement_rounded,
+                      PaywallFeature.tools => Icons.handyman_rounded,
+                      PaywallFeature.coach => Icons.psychology_rounded,
+                    },
                     size: 56,
                     color: AppTheme.accentColor,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    widget.feature == PaywallFeature.meditation ? context.l10n.payHeadingMeditation : context.l10n.payHeadingCoach,
+                    switch (widget.feature) {
+                      PaywallFeature.meditation => context.l10n.payHeadingMeditation,
+                      PaywallFeature.tools => context.l10n.payHeadingTools,
+                      PaywallFeature.coach => context.l10n.payHeadingCoach,
+                    },
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: AppTheme.textColor,
@@ -148,6 +154,7 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
                   const SizedBox(height: 20),
                   _Benefit(context.l10n.payBenefitDeepen),
                   _Benefit(context.l10n.payBenefitMeditation),
+                  _Benefit(context.l10n.payBenefitTools),
                   _Benefit(context.l10n.payBenefitControl),
                   const SizedBox(height: 12),
                   Container(

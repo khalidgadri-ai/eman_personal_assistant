@@ -2,7 +2,17 @@ import '../../../l10n/app_localizations.dart';
 
 /// أدوات المدرب: تمارين قصيرة بخطوات، نتيجتها تُحفظ في صندوق `coach_sessions` المشفّر نفسه
 /// (حقل `kind`)، فتدخل النسخة الاحتياطية و«مسح كل بياناتي» تلقائيًا.
-enum CoachToolKind { wheel, emotion }
+enum CoachToolKind {
+  wheel,
+  emotion,
+  belief,
+  innerVoice,
+  decision,
+  habit;
+
+  /// الأدوات الأربع الأخيرة بالاشتراك (نفس اشتراك «عمّق أكثر» والتأمل)؛ العجلة والمشاعر مجانيتان.
+  bool get isPremium => this != wheel && this != emotion;
+}
 
 /// سجل أداة واحد كما يُحفظ. [data] نتيجة الأداة (أرقام ومعرّفات ونصوص المستخدم)، و[step] الخطوة
 /// الصغيرة التي التزم بها المستخدم إن وُجدت؛ المدرب يسأل عنها في مرة لاحقة ([followedUp]).
@@ -211,3 +221,52 @@ Feeling? mostFrequentFeeling(List<CoachToolRecord> records, DateTime now, {int d
   if (counts.isEmpty) return null;
   return counts.entries.reduce((a, b) => b.value > a.value ? b : a).key;
 }
+
+// --- الصوت الداخلي ---
+
+enum InnerVoiceType { worrier, critic, hopeless, perfectionist }
+
+extension InnerVoiceTypeLabel on InnerVoiceType {
+  String label(AppLocalizations l10n) => switch (this) {
+        InnerVoiceType.worrier => l10n.voiceWorrier,
+        InnerVoiceType.critic => l10n.voiceCritic,
+        InnerVoiceType.hopeless => l10n.voiceHopeless,
+        InnerVoiceType.perfectionist => l10n.voicePerfectionist,
+      };
+}
+
+// --- تغيير عادة: عدّاد 21 يومًا ---
+
+const int habitDays = 21;
+
+/// مفتاح يوم ثابت `yyyy-MM-dd` لعلامات الإنجاز.
+String dayKey(DateTime d) =>
+    '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+/// رقم اليوم في المتابعة: 1 يوم البدء، و21 آخر يوم. أكبر من 21 بعد انتهائها.
+int habitDayNumber(CoachToolRecord r, DateTime now) {
+  final start = DateTime(r.date.year, r.date.month, r.date.day);
+  final today = DateTime(now.year, now.month, now.day);
+  // بالأيام التقويمية لا بالساعات، فلا يربكها تغيير التوقيت الصيفي.
+  return DateTime.utc(today.year, today.month, today.day)
+          .difference(DateTime.utc(start.year, start.month, start.day))
+          .inDays +
+      1;
+}
+
+Set<String> habitCheckins(CoachToolRecord r) => {
+      if (r.data['checkins'] case final List list)
+        for (final d in list)
+          if (d is String) d,
+    };
+
+/// الأيام المنجزة داخل الأيام الـ21 فقط.
+int habitDoneCount(CoachToolRecord r) {
+  final start = DateTime(r.date.year, r.date.month, r.date.day);
+  final days = {for (var i = 0; i < habitDays; i++) dayKey(DateTime(start.year, start.month, start.day + i))};
+  return habitCheckins(r).where(days.contains).length;
+}
+
+/// عادة جارية: لم تُوقف ولم تتجاوز يومها الـ21. تذكيرها اليومي يعمل ما دامت جارية.
+bool habitIsActive(CoachToolRecord r, DateTime now) =>
+    r.kind == CoachToolKind.habit && r.data['stopped'] != true && habitDayNumber(r, now) <= habitDays;

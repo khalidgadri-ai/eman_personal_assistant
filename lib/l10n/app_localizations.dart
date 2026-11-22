@@ -4031,7 +4031,7 @@ abstract class AppLocalizations {
   /// No description provided for @payFreeNote.
   ///
   /// In ar, this message translates to:
-  /// **'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك المؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.'**
+  /// **'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك عجلة الحياة وتسمية المشاعر، والمؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.'**
   String get payFreeNote;
 
   /// No description provided for @payUnavailable.
@@ -4265,7 +4265,7 @@ abstract class AppLocalizations {
   /// No description provided for @coachToolsEntry.
   ///
   /// In ar, this message translates to:
-  /// **'أدوات المدرب: عجلة الحياة وتسمية المشاعر'**
+  /// **'أدوات المدرب: عجلة الحياة والمشاعر والمزيد'**
   String get coachToolsEntry;
 
   /// No description provided for @wheelTitle.
@@ -4783,6 +4783,414 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الخطوة: {step}'**
   String historyStep(String step);
+
+  /// No description provided for @toolSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظ.'**
+  String get toolSaved;
+
+  /// No description provided for @toolSavedWithTask.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظ، وأُضيفت الخطوة إلى المهام.'**
+  String get toolSavedWithTask;
+
+  /// No description provided for @writeSentenceFirst.
+  ///
+  /// In ar, this message translates to:
+  /// **'كتابة الجملة أولًا'**
+  String get writeSentenceFirst;
+
+  /// No description provided for @beliefTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'فحص معتقد'**
+  String get beliefTitle;
+
+  /// No description provided for @beliefSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'فحص جملة تتكرر في الرأس، وصياغة أدق لها.'**
+  String get beliefSubtitle;
+
+  /// No description provided for @beliefIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'جملة تتكرر في الرأس عن النفس أو عن الحياة، تُفحص هنا كفكرة لا كحقيقة.'**
+  String get beliefIntro;
+
+  /// No description provided for @beliefSentence.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الجملة؟ (مثل: «لا أنجح في أي شيء»)'**
+  String get beliefSentence;
+
+  /// No description provided for @beliefOrigin.
+  ///
+  /// In ar, this message translates to:
+  /// **'متى بدأت هذه الفكرة، ومن أين جاءت؟'**
+  String get beliefOrigin;
+
+  /// No description provided for @beliefFor.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يؤيدها؟'**
+  String get beliefFor;
+
+  /// No description provided for @beliefAgainst.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي ينقضها، ولو كان صغيرًا؟'**
+  String get beliefAgainst;
+
+  /// No description provided for @beliefStrengthBefore.
+  ///
+  /// In ar, this message translates to:
+  /// **'كم تبدو صحيحة الآن؟ {value} من 10'**
+  String beliefStrengthBefore(int value);
+
+  /// No description provided for @beliefNew.
+  ///
+  /// In ar, this message translates to:
+  /// **'صياغة أدق وأكثر إنصافًا للجملة نفسها:'**
+  String get beliefNew;
+
+  /// No description provided for @beliefNewFor.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يؤيد الصياغة الجديدة؟'**
+  String get beliefNewFor;
+
+  /// No description provided for @beliefStrengthAfter.
+  ///
+  /// In ar, this message translates to:
+  /// **'وكم تبدو الجملة القديمة صحيحة بعد هذا؟ {value} من 10'**
+  String beliefStrengthAfter(int value);
+
+  /// No description provided for @beliefStep.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطوة صغيرة تختبر الصياغة الجديدة هذا الأسبوع:'**
+  String get beliefStep;
+
+  /// No description provided for @innerVoiceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصوت الداخلي'**
+  String get innerVoiceTitle;
+
+  /// No description provided for @innerVoiceSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'التعرّف على الصوت الناقد وإعادة صياغة ما يقوله.'**
+  String get innerVoiceSubtitle;
+
+  /// No description provided for @innerVoiceIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'للصوت الناقد في الداخل أنماط متكررة. تسميته تجعل ملاحظته أسهل حين يتكلم.'**
+  String get innerVoiceIntro;
+
+  /// No description provided for @innerVoiceType.
+  ///
+  /// In ar, this message translates to:
+  /// **'أي نمط هو الأقرب؟'**
+  String get innerVoiceType;
+
+  /// No description provided for @voiceWorrier.
+  ///
+  /// In ar, this message translates to:
+  /// **'القلِق: يتوقع الأسوأ'**
+  String get voiceWorrier;
+
+  /// No description provided for @voiceCritic.
+  ///
+  /// In ar, this message translates to:
+  /// **'الناقد: يحاسب على كل خطأ'**
+  String get voiceCritic;
+
+  /// No description provided for @voiceHopeless.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليائس: يقول لا فائدة'**
+  String get voiceHopeless;
+
+  /// No description provided for @voicePerfectionist.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمالي: لا يرضى إلا بالكمال'**
+  String get voicePerfectionist;
+
+  /// No description provided for @innerVoiceName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم له (اختياري)'**
+  String get innerVoiceName;
+
+  /// No description provided for @innerVoiceSentence.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الجملة التي يكررها كثيرًا؟'**
+  String get innerVoiceSentence;
+
+  /// No description provided for @innerVoiceWhen.
+  ///
+  /// In ar, this message translates to:
+  /// **'متى يعلو صوته عادة؟'**
+  String get innerVoiceWhen;
+
+  /// No description provided for @innerVoiceFriend.
+  ///
+  /// In ar, this message translates to:
+  /// **'لو قالها صديق عن نفسه، ماذا سيكون الرد عليه؟'**
+  String get innerVoiceFriend;
+
+  /// No description provided for @innerVoiceReframe.
+  ///
+  /// In ar, this message translates to:
+  /// **'صياغة جديدة للجملة نفسها، بصوت أهدأ وأعدل:'**
+  String get innerVoiceReframe;
+
+  /// No description provided for @innerVoiceStep.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطوة عملية صغيرة لهذا الأسبوع:'**
+  String get innerVoiceStep;
+
+  /// No description provided for @decisionTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'قرار بين خيارين'**
+  String get decisionTitle;
+
+  /// No description provided for @decisionSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقارنة خيارين بما يُكسب ويُخسر، ثم أول خطوة.'**
+  String get decisionSubtitle;
+
+  /// No description provided for @decisionIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يقدّم التطبيق رأيًا: الأسئلة هنا لرؤية الخيارين بوضوح.'**
+  String get decisionIntro;
+
+  /// No description provided for @decisionOptionA.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخيار الأول'**
+  String get decisionOptionA;
+
+  /// No description provided for @decisionOptionB.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخيار الثاني'**
+  String get decisionOptionB;
+
+  /// No description provided for @decisionGain.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يُكسب مع «{option}»؟'**
+  String decisionGain(String option);
+
+  /// No description provided for @decisionLoss.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يُخسر مع «{option}»؟'**
+  String decisionLoss(String option);
+
+  /// No description provided for @decisionRegret.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد خمس سنوات، ترك أيّ الخيارين قد يُندم عليه أكثر؟'**
+  String get decisionRegret;
+
+  /// No description provided for @decisionUnsure.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير واضح بعد'**
+  String get decisionUnsure;
+
+  /// No description provided for @decisionExperiment.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجربة صغيرة تختبر أحد الخيارين قبل الحسم:'**
+  String get decisionExperiment;
+
+  /// No description provided for @decisionChosen.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخيار المختار الآن'**
+  String get decisionChosen;
+
+  /// No description provided for @decisionUndecided.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يُحسم بعد'**
+  String get decisionUndecided;
+
+  /// No description provided for @decisionStep.
+  ///
+  /// In ar, this message translates to:
+  /// **'أول خطوة:'**
+  String get decisionStep;
+
+  /// No description provided for @decisionNeedOptions.
+  ///
+  /// In ar, this message translates to:
+  /// **'كتابة الخيارين أولًا'**
+  String get decisionNeedOptions;
+
+  /// No description provided for @habitTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير عادة'**
+  String get habitTitle;
+
+  /// No description provided for @habitSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'فهم ما يثير العادة، وخطوة يومية مع متابعة 21 يومًا.'**
+  String get habitSubtitle;
+
+  /// No description provided for @habitIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'العادة تبدأ غالبًا من مكان أو وقت أو أشخاص أو شعور. ملاحظة ذلك أول الطريق لتغييرها.'**
+  String get habitIntro;
+
+  /// No description provided for @habitName.
+  ///
+  /// In ar, this message translates to:
+  /// **'العادة المراد تغييرها:'**
+  String get habitName;
+
+  /// No description provided for @habitWhere.
+  ///
+  /// In ar, this message translates to:
+  /// **'أين تحدث غالبًا؟'**
+  String get habitWhere;
+
+  /// No description provided for @habitWhen.
+  ///
+  /// In ar, this message translates to:
+  /// **'متى؟'**
+  String get habitWhen;
+
+  /// No description provided for @habitWho.
+  ///
+  /// In ar, this message translates to:
+  /// **'مع من؟'**
+  String get habitWho;
+
+  /// No description provided for @habitFeeling.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد أي شعور؟'**
+  String get habitFeeling;
+
+  /// No description provided for @habitEnvironment.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل صغير في المكان أو الأدوات يجعل التغيير أسهل:'**
+  String get habitEnvironment;
+
+  /// No description provided for @habitDailyStep.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطوة يومية صغيرة:'**
+  String get habitDailyStep;
+
+  /// No description provided for @habitDailyReminder.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير يومي (اختياري)'**
+  String get habitDailyReminder;
+
+  /// No description provided for @habitStart.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدء 21 يومًا'**
+  String get habitStart;
+
+  /// No description provided for @habitNeedFields.
+  ///
+  /// In ar, this message translates to:
+  /// **'كتابة العادة والخطوة اليومية أولًا'**
+  String get habitNeedFields;
+
+  /// No description provided for @habitStarted.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدأت متابعة 21 يومًا.'**
+  String get habitStarted;
+
+  /// No description provided for @habitDay.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم {day} من 21'**
+  String habitDay(int day);
+
+  /// No description provided for @habitDoneCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأيام المنجزة: {done} من 21'**
+  String habitDoneCount(int done);
+
+  /// No description provided for @habitCheckToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمّت خطوة اليوم'**
+  String get habitCheckToday;
+
+  /// No description provided for @habitUncheckToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء علامة اليوم'**
+  String get habitUncheckToday;
+
+  /// No description provided for @habitStop.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيقاف المتابعة'**
+  String get habitStop;
+
+  /// No description provided for @habitStopAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيقاف متابعة هذه العادة؟ يبقى ما سُجّل، ويتوقف التذكير اليومي.'**
+  String get habitStopAsk;
+
+  /// No description provided for @habitFinished.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتملت الأيام الـ21. الأيام المنجزة: {done}.'**
+  String habitFinished(int done);
+
+  /// No description provided for @habitPast.
+  ///
+  /// In ar, this message translates to:
+  /// **'عادات سابقة'**
+  String get habitPast;
+
+  /// No description provided for @reminderHabitTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطوة اليوم'**
+  String get reminderHabitTitle;
+
+  /// No description provided for @payHeadingTools.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدوات المدرب المتقدمة'**
+  String get payHeadingTools;
+
+  /// No description provided for @payBenefitTools.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة.'**
+  String get payBenefitTools;
 }
 
 class _AppLocalizationsDelegate

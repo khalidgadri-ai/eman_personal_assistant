@@ -11,7 +11,11 @@ import 'package:eman_life_app/features/coach/coach_ai_service.dart';
 import 'package:eman_life_app/features/coach/coach_safety.dart';
 import 'package:eman_life_app/features/coach/coach_session_service.dart';
 import 'package:eman_life_app/features/coach/models/coach_question.dart';
+import 'package:eman_life_app/features/coach/tools/belief_check_screen.dart';
 import 'package:eman_life_app/features/coach/tools/coach_tools_screen.dart';
+import 'package:eman_life_app/features/coach/tools/decision_screen.dart';
+import 'package:eman_life_app/features/coach/tools/habit_change_screen.dart';
+import 'package:eman_life_app/features/coach/tools/inner_voice_screen.dart';
 import 'package:eman_life_app/features/coach/tools/emotion_checkin_screen.dart';
 import 'package:eman_life_app/features/coach/tools/wheel_of_life_screen.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
@@ -459,6 +463,12 @@ void main() {
       await settle(tester);
       expect(find.text('Which feeling is closest right now?'), findsOneWidget);
       expect(find.textContaining(_arabicLetter), findsNothing);
+
+      for (final screen in const [BeliefCheckScreen(), InnerVoiceScreen(), DecisionScreen(), HabitChangeScreen()]) {
+        await tester.pumpWidget(_app(screen));
+        await settle(tester);
+        expect(find.textContaining(_arabicLetter), findsNothing, reason: '${screen.runtimeType}');
+      }
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

@@ -83,14 +83,36 @@ class _CoachHistoryScreenState extends State<CoachHistoryScreen> {
     String title(CoachToolRecord r) => switch (r.kind) {
           CoachToolKind.wheel => l10n.wheelTitle,
           CoachToolKind.emotion => l10n.emotionLine(recordFeeling(r)?.label(l10n) ?? '', recordIntensity(r)),
+          CoachToolKind.belief => l10n.beliefTitle,
+          CoachToolKind.innerVoice => l10n.innerVoiceTitle,
+          CoachToolKind.decision => l10n.decisionTitle,
+          CoachToolKind.habit => l10n.habitTitle,
         };
+    // من القديم إلى الجديد باتجاه القراءة.
+    final arrow = Directionality.of(context) == TextDirection.rtl ? '←' : '→';
+    String text(Object? v) => v is String ? v.trim() : '';
     String? detail(CoachToolRecord r) {
-      if (r.kind != CoachToolKind.wheel) return r.data['trigger'] as String?;
-      final focus = WheelArea.values.where((a) => a.name == r.data['focus']).firstOrNull;
-      return [
-        if (focus != null) l10n.historyWheelFocus(focus.label(l10n), wheelScores(r)[focus] ?? 0),
-        if (r.hasStep) l10n.historyStep(r.step!),
-      ].join('\n');
+      final lines = <String>[];
+      switch (r.kind) {
+        case CoachToolKind.wheel:
+          final focus = WheelArea.values.where((a) => a.name == r.data['focus']).firstOrNull;
+          if (focus != null) lines.add(l10n.historyWheelFocus(focus.label(l10n), wheelScores(r)[focus] ?? 0));
+        case CoachToolKind.emotion:
+          lines.add(text(r.data['trigger']));
+        case CoachToolKind.belief:
+          lines.add(text(r.data['belief']));
+          if (text(r.data['reframe']).isNotEmpty) lines.add('$arrow ${text(r.data['reframe'])}');
+        case CoachToolKind.innerVoice:
+          lines.add(text(r.data['sentence']));
+          if (text(r.data['reframe']).isNotEmpty) lines.add('$arrow ${text(r.data['reframe'])}');
+        case CoachToolKind.decision:
+          lines.add('${text(r.data['optionA'])} / ${text(r.data['optionB'])}');
+        case CoachToolKind.habit:
+          lines.add(text(r.data['habit']));
+          lines.add(l10n.habitDoneCount(habitDoneCount(r)));
+      }
+      if (r.hasStep) lines.add(l10n.historyStep(r.step!));
+      return lines.where((l) => l.isNotEmpty).join('\n');
     }
 
     return Padding(

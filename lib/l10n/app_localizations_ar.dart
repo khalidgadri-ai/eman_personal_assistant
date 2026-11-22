@@ -2313,7 +2313,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get payFreeNote =>
-      'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك المؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.';
+      'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك عجلة الحياة وتسمية المشاعر، والمؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.';
 
   @override
   String get payUnavailable => 'الاشتراك غير متاح حاليًا';
@@ -2457,7 +2457,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'تمارين قصيرة بخطوات، تُحفظ نتائجها على هذا الجهاز للمقارنة بالمرات السابقة.';
 
   @override
-  String get coachToolsEntry => 'أدوات المدرب: عجلة الحياة وتسمية المشاعر';
+  String get coachToolsEntry => 'أدوات المدرب: عجلة الحياة والمشاعر والمزيد';
 
   @override
   String get wheelTitle => 'عجلة الحياة';
@@ -2746,4 +2746,232 @@ class AppLocalizationsAr extends AppLocalizations {
   String historyStep(String step) {
     return 'الخطوة: $step';
   }
+
+  @override
+  String get toolSaved => 'حُفظ.';
+
+  @override
+  String get toolSavedWithTask => 'حُفظ، وأُضيفت الخطوة إلى المهام.';
+
+  @override
+  String get writeSentenceFirst => 'كتابة الجملة أولًا';
+
+  @override
+  String get beliefTitle => 'فحص معتقد';
+
+  @override
+  String get beliefSubtitle => 'فحص جملة تتكرر في الرأس، وصياغة أدق لها.';
+
+  @override
+  String get beliefIntro =>
+      'جملة تتكرر في الرأس عن النفس أو عن الحياة، تُفحص هنا كفكرة لا كحقيقة.';
+
+  @override
+  String get beliefSentence => 'ما الجملة؟ (مثل: «لا أنجح في أي شيء»)';
+
+  @override
+  String get beliefOrigin => 'متى بدأت هذه الفكرة، ومن أين جاءت؟';
+
+  @override
+  String get beliefFor => 'ما الذي يؤيدها؟';
+
+  @override
+  String get beliefAgainst => 'ما الذي ينقضها، ولو كان صغيرًا؟';
+
+  @override
+  String beliefStrengthBefore(int value) {
+    return 'كم تبدو صحيحة الآن؟ $value من 10';
+  }
+
+  @override
+  String get beliefNew => 'صياغة أدق وأكثر إنصافًا للجملة نفسها:';
+
+  @override
+  String get beliefNewFor => 'ما الذي يؤيد الصياغة الجديدة؟';
+
+  @override
+  String beliefStrengthAfter(int value) {
+    return 'وكم تبدو الجملة القديمة صحيحة بعد هذا؟ $value من 10';
+  }
+
+  @override
+  String get beliefStep => 'خطوة صغيرة تختبر الصياغة الجديدة هذا الأسبوع:';
+
+  @override
+  String get innerVoiceTitle => 'الصوت الداخلي';
+
+  @override
+  String get innerVoiceSubtitle =>
+      'التعرّف على الصوت الناقد وإعادة صياغة ما يقوله.';
+
+  @override
+  String get innerVoiceIntro =>
+      'للصوت الناقد في الداخل أنماط متكررة. تسميته تجعل ملاحظته أسهل حين يتكلم.';
+
+  @override
+  String get innerVoiceType => 'أي نمط هو الأقرب؟';
+
+  @override
+  String get voiceWorrier => 'القلِق: يتوقع الأسوأ';
+
+  @override
+  String get voiceCritic => 'الناقد: يحاسب على كل خطأ';
+
+  @override
+  String get voiceHopeless => 'اليائس: يقول لا فائدة';
+
+  @override
+  String get voicePerfectionist => 'الكمالي: لا يرضى إلا بالكمال';
+
+  @override
+  String get innerVoiceName => 'اسم له (اختياري)';
+
+  @override
+  String get innerVoiceSentence => 'ما الجملة التي يكررها كثيرًا؟';
+
+  @override
+  String get innerVoiceWhen => 'متى يعلو صوته عادة؟';
+
+  @override
+  String get innerVoiceFriend => 'لو قالها صديق عن نفسه، ماذا سيكون الرد عليه؟';
+
+  @override
+  String get innerVoiceReframe => 'صياغة جديدة للجملة نفسها، بصوت أهدأ وأعدل:';
+
+  @override
+  String get innerVoiceStep => 'خطوة عملية صغيرة لهذا الأسبوع:';
+
+  @override
+  String get decisionTitle => 'قرار بين خيارين';
+
+  @override
+  String get decisionSubtitle => 'مقارنة خيارين بما يُكسب ويُخسر، ثم أول خطوة.';
+
+  @override
+  String get decisionIntro =>
+      'لا يقدّم التطبيق رأيًا: الأسئلة هنا لرؤية الخيارين بوضوح.';
+
+  @override
+  String get decisionOptionA => 'الخيار الأول';
+
+  @override
+  String get decisionOptionB => 'الخيار الثاني';
+
+  @override
+  String decisionGain(String option) {
+    return 'ما الذي يُكسب مع «$option»؟';
+  }
+
+  @override
+  String decisionLoss(String option) {
+    return 'ما الذي يُخسر مع «$option»؟';
+  }
+
+  @override
+  String get decisionRegret =>
+      'بعد خمس سنوات، ترك أيّ الخيارين قد يُندم عليه أكثر؟';
+
+  @override
+  String get decisionUnsure => 'غير واضح بعد';
+
+  @override
+  String get decisionExperiment => 'تجربة صغيرة تختبر أحد الخيارين قبل الحسم:';
+
+  @override
+  String get decisionChosen => 'الخيار المختار الآن';
+
+  @override
+  String get decisionUndecided => 'لم يُحسم بعد';
+
+  @override
+  String get decisionStep => 'أول خطوة:';
+
+  @override
+  String get decisionNeedOptions => 'كتابة الخيارين أولًا';
+
+  @override
+  String get habitTitle => 'تغيير عادة';
+
+  @override
+  String get habitSubtitle =>
+      'فهم ما يثير العادة، وخطوة يومية مع متابعة 21 يومًا.';
+
+  @override
+  String get habitIntro =>
+      'العادة تبدأ غالبًا من مكان أو وقت أو أشخاص أو شعور. ملاحظة ذلك أول الطريق لتغييرها.';
+
+  @override
+  String get habitName => 'العادة المراد تغييرها:';
+
+  @override
+  String get habitWhere => 'أين تحدث غالبًا؟';
+
+  @override
+  String get habitWhen => 'متى؟';
+
+  @override
+  String get habitWho => 'مع من؟';
+
+  @override
+  String get habitFeeling => 'بعد أي شعور؟';
+
+  @override
+  String get habitEnvironment =>
+      'تعديل صغير في المكان أو الأدوات يجعل التغيير أسهل:';
+
+  @override
+  String get habitDailyStep => 'خطوة يومية صغيرة:';
+
+  @override
+  String get habitDailyReminder => 'تذكير يومي (اختياري)';
+
+  @override
+  String get habitStart => 'بدء 21 يومًا';
+
+  @override
+  String get habitNeedFields => 'كتابة العادة والخطوة اليومية أولًا';
+
+  @override
+  String get habitStarted => 'بدأت متابعة 21 يومًا.';
+
+  @override
+  String habitDay(int day) {
+    return 'اليوم $day من 21';
+  }
+
+  @override
+  String habitDoneCount(int done) {
+    return 'الأيام المنجزة: $done من 21';
+  }
+
+  @override
+  String get habitCheckToday => 'تمّت خطوة اليوم';
+
+  @override
+  String get habitUncheckToday => 'إلغاء علامة اليوم';
+
+  @override
+  String get habitStop => 'إيقاف المتابعة';
+
+  @override
+  String get habitStopAsk =>
+      'إيقاف متابعة هذه العادة؟ يبقى ما سُجّل، ويتوقف التذكير اليومي.';
+
+  @override
+  String habitFinished(int done) {
+    return 'اكتملت الأيام الـ21. الأيام المنجزة: $done.';
+  }
+
+  @override
+  String get habitPast => 'عادات سابقة';
+
+  @override
+  String get reminderHabitTitle => 'خطوة اليوم';
+
+  @override
+  String get payHeadingTools => 'أدوات المدرب المتقدمة';
+
+  @override
+  String get payBenefitTools =>
+      'أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة.';
 }

@@ -1216,7 +1216,7 @@
   "payBenefitDeepen": "«عمّق أكثر» بلا حد: سؤال متابعة مبني على إجابتك أنت، بلا نصائح ولا أحكام.",
   "payBenefitMeditation": "كل جلسات التأمل المرشدة والحركية: مسح الجسد، والحضور في اللحظة، وحركة ثم سكون.",
   "payBenefitControl": "أنت تقرر متى تستعملها، لا شيء يحدث تلقائيًا.",
-  "payFreeNote": "الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك المؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.",
+  "payFreeNote": "الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك عجلة الحياة وتسمية المشاعر، والمؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.",
   "payUnavailable": "الاشتراك غير متاح حاليًا",
   "paySubscribe": "اشترك الآن — {price} شهريًا",
   "@paySubscribe": {
@@ -1314,7 +1314,7 @@
   "assistantGreetingBody": "أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى.",
   "coachToolsTitle": "أدوات المدرب",
   "coachToolsIntro": "تمارين قصيرة بخطوات، تُحفظ نتائجها على هذا الجهاز للمقارنة بالمرات السابقة.",
-  "coachToolsEntry": "أدوات المدرب: عجلة الحياة وتسمية المشاعر",
+  "coachToolsEntry": "أدوات المدرب: عجلة الحياة والمشاعر والمزيد",
   "wheelTitle": "عجلة الحياة",
   "wheelSubtitle": "تقييم مجالات الحياة الثمانية واختيار خطوة صغيرة.",
   "emotionTitle": "تسمية المشاعر",
@@ -1496,5 +1496,122 @@
         "type": "String"
       }
     }
-  }
+  },
+  "toolSaved": "حُفظ.",
+  "toolSavedWithTask": "حُفظ، وأُضيفت الخطوة إلى المهام.",
+  "writeSentenceFirst": "كتابة الجملة أولًا",
+  "beliefTitle": "فحص معتقد",
+  "beliefSubtitle": "فحص جملة تتكرر في الرأس، وصياغة أدق لها.",
+  "beliefIntro": "جملة تتكرر في الرأس عن النفس أو عن الحياة، تُفحص هنا كفكرة لا كحقيقة.",
+  "beliefSentence": "ما الجملة؟ (مثل: «لا أنجح في أي شيء»)",
+  "beliefOrigin": "متى بدأت هذه الفكرة، ومن أين جاءت؟",
+  "beliefFor": "ما الذي يؤيدها؟",
+  "beliefAgainst": "ما الذي ينقضها، ولو كان صغيرًا؟",
+  "beliefStrengthBefore": "كم تبدو صحيحة الآن؟ {value} من 10",
+  "@beliefStrengthBefore": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "beliefNew": "صياغة أدق وأكثر إنصافًا للجملة نفسها:",
+  "beliefNewFor": "ما الذي يؤيد الصياغة الجديدة؟",
+  "beliefStrengthAfter": "وكم تبدو الجملة القديمة صحيحة بعد هذا؟ {value} من 10",
+  "@beliefStrengthAfter": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "beliefStep": "خطوة صغيرة تختبر الصياغة الجديدة هذا الأسبوع:",
+  "innerVoiceTitle": "الصوت الداخلي",
+  "innerVoiceSubtitle": "التعرّف على الصوت الناقد وإعادة صياغة ما يقوله.",
+  "innerVoiceIntro": "للصوت الناقد في الداخل أنماط متكررة. تسميته تجعل ملاحظته أسهل حين يتكلم.",
+  "innerVoiceType": "أي نمط هو الأقرب؟",
+  "voiceWorrier": "القلِق: يتوقع الأسوأ",
+  "voiceCritic": "الناقد: يحاسب على كل خطأ",
+  "voiceHopeless": "اليائس: يقول لا فائدة",
+  "voicePerfectionist": "الكمالي: لا يرضى إلا بالكمال",
+  "innerVoiceName": "اسم له (اختياري)",
+  "innerVoiceSentence": "ما الجملة التي يكررها كثيرًا؟",
+  "innerVoiceWhen": "متى يعلو صوته عادة؟",
+  "innerVoiceFriend": "لو قالها صديق عن نفسه، ماذا سيكون الرد عليه؟",
+  "innerVoiceReframe": "صياغة جديدة للجملة نفسها، بصوت أهدأ وأعدل:",
+  "innerVoiceStep": "خطوة عملية صغيرة لهذا الأسبوع:",
+  "decisionTitle": "قرار بين خيارين",
+  "decisionSubtitle": "مقارنة خيارين بما يُكسب ويُخسر، ثم أول خطوة.",
+  "decisionIntro": "لا يقدّم التطبيق رأيًا: الأسئلة هنا لرؤية الخيارين بوضوح.",
+  "decisionOptionA": "الخيار الأول",
+  "decisionOptionB": "الخيار الثاني",
+  "decisionGain": "ما الذي يُكسب مع «{option}»؟",
+  "@decisionGain": {
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "decisionLoss": "ما الذي يُخسر مع «{option}»؟",
+  "@decisionLoss": {
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "decisionRegret": "بعد خمس سنوات، ترك أيّ الخيارين قد يُندم عليه أكثر؟",
+  "decisionUnsure": "غير واضح بعد",
+  "decisionExperiment": "تجربة صغيرة تختبر أحد الخيارين قبل الحسم:",
+  "decisionChosen": "الخيار المختار الآن",
+  "decisionUndecided": "لم يُحسم بعد",
+  "decisionStep": "أول خطوة:",
+  "decisionNeedOptions": "كتابة الخيارين أولًا",
+  "habitTitle": "تغيير عادة",
+  "habitSubtitle": "فهم ما يثير العادة، وخطوة يومية مع متابعة 21 يومًا.",
+  "habitIntro": "العادة تبدأ غالبًا من مكان أو وقت أو أشخاص أو شعور. ملاحظة ذلك أول الطريق لتغييرها.",
+  "habitName": "العادة المراد تغييرها:",
+  "habitWhere": "أين تحدث غالبًا؟",
+  "habitWhen": "متى؟",
+  "habitWho": "مع من؟",
+  "habitFeeling": "بعد أي شعور؟",
+  "habitEnvironment": "تعديل صغير في المكان أو الأدوات يجعل التغيير أسهل:",
+  "habitDailyStep": "خطوة يومية صغيرة:",
+  "habitDailyReminder": "تذكير يومي (اختياري)",
+  "habitStart": "بدء 21 يومًا",
+  "habitNeedFields": "كتابة العادة والخطوة اليومية أولًا",
+  "habitStarted": "بدأت متابعة 21 يومًا.",
+  "habitDay": "اليوم {day} من 21",
+  "@habitDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "habitDoneCount": "الأيام المنجزة: {done} من 21",
+  "@habitDoneCount": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "habitCheckToday": "تمّت خطوة اليوم",
+  "habitUncheckToday": "إلغاء علامة اليوم",
+  "habitStop": "إيقاف المتابعة",
+  "habitStopAsk": "إيقاف متابعة هذه العادة؟ يبقى ما سُجّل، ويتوقف التذكير اليومي.",
+  "habitFinished": "اكتملت الأيام الـ21. الأيام المنجزة: {done}.",
+  "@habitFinished": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "habitPast": "عادات سابقة",
+  "reminderHabitTitle": "خطوة اليوم",
+  "payHeadingTools": "أدوات المدرب المتقدمة",
+  "payBenefitTools": "أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة."
 }

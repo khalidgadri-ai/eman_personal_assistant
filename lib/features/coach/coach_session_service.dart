@@ -243,6 +243,17 @@ class CoachSessionService {
 
   // --- سجلات أدوات المدرب ---
 
+  /// العادات الجارية لجدولة تذكيرها اليومي. يفتح الصندوق وحده بلا ملف الأسئلة، لأن المزامنة تعمل
+  /// عند كل تشغيل وبعد كل تغيير.
+  static Future<List<CoachToolRecord>> activeHabits(DateTime now) async {
+    _box ??= await EncryptedBoxes.open(_boxName);
+    return [
+      for (final e in _box!.toMap().entries)
+        if (CoachToolRecord.tryParse('${e.key}', e.value) case final r? when habitIsActive(r, now)) r,
+    ];
+  }
+
+
   /// يحفظ سجل أداة ويرجّعه بمفتاحه.
   Future<CoachToolRecord> saveToolRecord(CoachToolRecord record) async {
     final box = _box;

@@ -2,9 +2,18 @@ class AIConfig {
   /// اقتراح ابتدائي لموديل Gemini في إعداد المزوّد؛ **المستخدم يغيّره** من شاشة الإعدادات أو
   /// يجلبه من المزوّد، ولا يوجد موديل مثبّت في الاستدعاءات. هذا الملف الوحيد المسموح بحمل الاسم.
   ///
-  /// المصدر: https://ai.google.dev/gemini-api/docs/models (Gemini 3.8 Flash، "New Stable").
-  /// الاسم القديم gemini-2.0-flash أُغلق في 1 يونيو 2026
-  /// (https://ai.google.dev/gemini-api/docs/deprecations)، فأي طلب به يفشل.
+  /// المصدر: https://ai.google.dev/gemini-api/docs/models (Gemini 3.5 Flash-Lite، مستقر وبلا
+  /// تاريخ إيقاف في https://ai.google.dev/gemini-api/docs/deprecations، تحقّقنا في 22 نوفمبر 2026).
+  /// اخترناه بدل gemini-3.8-flash لأن موديلات flash الأثقل كانت تردّ 503 أو لا تردّ خلال دقيقتين
+  /// بمفتاح مجاني بعد إطلاق Gemini 4، بينما ردّ هذا في 3 إلى 9 ثوانٍ.
+  /// الاسم القديم gemini-2.0-flash أُغلق في 1 يونيو 2026، فأي طلب به يفشل.
   /// عند تغيير الاسم راجع الصفحتين ولا تخمّن الاسم.
-  static const String modelName = 'gemini-3.8-flash';
+  static const String modelName = 'gemini-3.5-flash-lite';
+
+  /// اقتراحات ابتدائية قديمة لم تعد مناسبة بمفتاح مجاني. النسخ حتى 1.0.0+4 كانت تملأ حقل
+  /// الموديل بـ gemini-3.8-flash، فبقي محفوظًا عند من ضغط «حفظ وتفعيل» وظل المساعد يرد
+  /// «خدمة المزوّد مشغولة» أو «تأخّر المزوّد». `AiSettingsService` يستبدله بـ [modelName]
+  /// **مرة واحدة فقط** (رقم إصدار الإعداد `v`)، فلو أعاده المستخدم بنفسه بعدها يبقى كما اختار.
+  /// الموديل ما زال مستقرًا وبلا تاريخ إيقاف (تحقّقنا في 22 نوفمبر 2026)، والمشكلة بطؤه فقط.
+  static const List<String> replacedSuggestions = ['gemini-3.8-flash'];
 }

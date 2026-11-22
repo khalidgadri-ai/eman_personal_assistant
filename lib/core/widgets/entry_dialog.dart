@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../../l10n/l10n.dart';
 
 /// حقل في نافذة الإدخال. إن وُجدت [options] يصبح الحقل قائمة منسدلة بدل حقل نص.
 class EntryField {
@@ -15,6 +16,7 @@ class EntryField {
     this.initial,
     this.validator,
     this.isTime = false,
+    this.optionLabel,
   });
 
   final String key;
@@ -32,6 +34,9 @@ class EntryField {
 
   /// حقل وقت اختياري (تذكير): زر اختيار وقت وزر إزالة، وقيمته `HH:mm` أو فارغة. [initial] بنفس الصيغة.
   final bool isTime;
+
+  /// اسم الخيار المعروض بلغة التطبيق. القيمة المرجعة تبقى الخيار نفسه كما يُحفظ.
+  final String Function(String option)? optionLabel;
 }
 
 /// نافذة إدخال موحّدة لكل شاشات التطبيق. ترجّع القيم المنظّفة بحسب [EntryField.key]،
@@ -40,11 +45,12 @@ Future<Map<String, String>?> showEntryDialog(
   BuildContext context, {
   required String title,
   required List<EntryField> fields,
-  String confirmLabel = 'إضافة',
+  String? confirmLabel,
 }) {
   return showDialog<Map<String, String>>(
     context: context,
-    builder: (_) => _EntryDialog(title: title, fields: fields, confirmLabel: confirmLabel),
+    builder: (dialogContext) =>
+        _EntryDialog(title: title, fields: fields, confirmLabel: confirmLabel ?? dialogContext.l10n.add),
   );
 }
 
@@ -60,8 +66,6 @@ class _EntryDialog extends StatefulWidget {
 }
 
 class _EntryDialogState extends State<_EntryDialog> {
-  static const String _requiredMessage = 'هذا الحقل مطلوب';
-
   late final Map<String, TextEditingController> _controllers;
   late final Map<String, String> _choices;
   late final Map<String, String> _times;
@@ -104,7 +108,7 @@ class _EntryDialogState extends State<_EntryDialog> {
       final value = field.maxLines == 1 ? raw.replaceAll(RegExp(r'\s+'), ' ').trim() : raw.trim();
       values[field.key] = value;
       if (value.isEmpty) {
-        if (field.required) errors[field.key] = _requiredMessage;
+        if (field.required) errors[field.key] = context.l10n.fieldRequired;
       } else if (field.validator != null) {
         errors[field.key] = field.validator!(value);
       }
@@ -150,8 +154,7 @@ class _EntryDialogState extends State<_EntryDialog> {
                 Text(field.label, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
                 const SizedBox(height: 2),
                 Text(
-                  value.isEmpty ? 'بدون تذكير' : 'يوميًا عند $value',
-                  textDirection: TextDirection.rtl,
+                  value.isEmpty ? context.l10n.reminderNone : context.l10n.reminderAt(value),
                   style: TextStyle(
                     color: value.isEmpty ? AppTheme.subTextColor : AppTheme.accentColor,
                     fontWeight: FontWeight.bold,
@@ -162,11 +165,11 @@ class _EntryDialogState extends State<_EntryDialog> {
           ),
           TextButton(
             onPressed: () => _pickTime(field),
-            child: Text(value.isEmpty ? 'ضبط تذكير' : 'تغيير الوقت'),
+            child: Text(value.isEmpty ? context.l10n.reminderSet : context.l10n.reminderChange),
           ),
           if (value.isNotEmpty)
             IconButton(
-              tooltip: 'إزالة التذكير',
+              tooltip: context.l10n.reminderRemove,
               icon: const Icon(Icons.alarm_off_rounded, color: AppTheme.subTextColor),
               onPressed: () => setState(() => _times[field.key] = ''),
             ),
@@ -190,7 +193,7 @@ class _EntryDialogState extends State<_EntryDialog> {
                 for (final option in options)
                   DropdownMenuItem(
                     value: option,
-                    child: Text(option, style: const TextStyle(color: AppTheme.textColor)),
+                    child: Text(field.optionLabel?.call(option) ?? option, style: const TextStyle(color: AppTheme.textColor)),
                   ),
               ],
               onChanged: (value) {
@@ -220,35 +223,32 @@ class _EntryDialogState extends State<_EntryDialog> {
   @override
   Widget build(BuildContext context) {
     final firstText = widget.fields.indexWhere((f) => f.options == null && !f.isTime);
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: AlertDialog(
-        backgroundColor: AppTheme.cardColor,
-        title: Text(widget.title, style: const TextStyle(color: AppTheme.textColor)),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (var i = 0; i < widget.fields.length; i++)
-                  _buildField(widget.fields[i], first: i == firstText),
-              ],
-            ),
+    return AlertDialog(
+      backgroundColor: AppTheme.cardColor,
+      title: Text(widget.title, style: const TextStyle(color: AppTheme.textColor)),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = 0; i < widget.fields.length; i++)
+                _buildField(widget.fields[i], first: i == firstText),
+            ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('إلغاء', style: TextStyle(color: AppTheme.subTextColor)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-            onPressed: _submit,
-            child: Text(widget.confirmLabel, style: const TextStyle(color: Colors.white)),
-          ),
-        ],
       ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(context.l10n.cancel, style: const TextStyle(color: AppTheme.subTextColor)),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+          onPressed: _submit,
+          child: Text(widget.confirmLabel, style: const TextStyle(color: Colors.white)),
+        ),
+      ],
     );
   }
 }

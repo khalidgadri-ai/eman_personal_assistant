@@ -4,6 +4,7 @@ import '../../core/theme/app_theme.dart';
 import 'health_service.dart';
 import 'image_source_sheet.dart';
 import 'models/exercise.dart';
+import '../../l10n/l10n.dart';
 
 typedef ExerciseImagePicker = Future<Uint8List?> Function(BuildContext context);
 
@@ -90,7 +91,7 @@ class _ExerciseEditScreenState extends State<ExerciseEditScreen> {
   Future<void> _save() async {
     final name = _name.text.trim();
     if (name.isEmpty) {
-      setState(() => _nameError = 'هذا الحقل مطلوب');
+      setState(() => _nameError = context.l10n.fieldRequired);
       return;
     }
     setState(() => _saving = true);
@@ -122,89 +123,86 @@ class _ExerciseEditScreenState extends State<ExerciseEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.exercise == null ? 'إضافة تمرين' : 'تعديل التمرين'),
-          actions: [
-            TextButton(
-              onPressed: _saving ? null : _save,
-              child: const Text('حفظ', style: TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
-        body: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            _imageBlock(),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _name,
-              maxLength: Exercise.maxNameLength,
-              style: const TextStyle(color: AppTheme.textColor),
-              decoration: InputDecoration(labelText: 'اسم التمرين', errorText: _nameError, counterText: ''),
-              onChanged: (_) {
-                if (_nameError != null) setState(() => _nameError = null);
-              },
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _muscles,
-              maxLength: Exercise.maxMusclesLength,
-              style: const TextStyle(color: AppTheme.textColor),
-              decoration: const InputDecoration(labelText: 'العضلات المستهدفة', counterText: ''),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                const Text('المجموعات', style: TextStyle(color: AppTheme.textColor)),
-                IconButton(
-                  tooltip: 'تقليل المجموعات',
-                  icon: const Icon(Icons.remove_circle_outline_rounded),
-                  onPressed: _sets > 1 ? () => setState(() => _sets--) : null,
-                ),
-                Text('$_sets', style: const TextStyle(color: AppTheme.textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                IconButton(
-                  tooltip: 'زيادة المجموعات',
-                  icon: const Icon(Icons.add_circle_outline_rounded),
-                  onPressed: _sets < Exercise.maxSets ? () => setState(() => _sets++) : null,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: TextField(
-                    controller: _reps,
-                    maxLength: Exercise.maxRepsLength,
-                    style: const TextStyle(color: AppTheme.textColor),
-                    decoration: const InputDecoration(labelText: 'التكرار', hintText: '10 أو 8-12', counterText: ''),
-                  ),
-                ),
-              ],
-            ),
-            const Divider(height: 32),
-            const Text('خطوات الأداء', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
-            const SizedBox(height: 8),
-            for (var i = 0; i < _steps.length; i++) _stepRow(i),
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: TextButton.icon(
-                onPressed: _steps.length >= Exercise.maxSteps
-                    ? null
-                    : () => setState(() => _steps.add(TextEditingController())),
-                icon: const Icon(Icons.add_rounded),
-                label: const Text('إضافة خطوة'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.exercise == null ? context.l10n.addExercise : context.l10n.exerciseEdit),
+        actions: [
+          TextButton(
+            onPressed: _saving ? null : _save,
+            child: Text(context.l10n.save, style: TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _imageBlock(),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _name,
+            maxLength: Exercise.maxNameLength,
+            style: const TextStyle(color: AppTheme.textColor),
+            decoration: InputDecoration(labelText: context.l10n.exerciseNameField, errorText: _nameError, counterText: ''),
+            onChanged: (_) {
+              if (_nameError != null) setState(() => _nameError = null);
+            },
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _muscles,
+            maxLength: Exercise.maxMusclesLength,
+            style: const TextStyle(color: AppTheme.textColor),
+            decoration: InputDecoration(labelText: context.l10n.musclesField, counterText: ''),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Text(context.l10n.setsField, style: TextStyle(color: AppTheme.textColor)),
+              IconButton(
+                tooltip: context.l10n.setsLess,
+                icon: const Icon(Icons.remove_circle_outline_rounded),
+                onPressed: _sets > 1 ? () => setState(() => _sets--) : null,
               ),
+              Text('$_sets', style: const TextStyle(color: AppTheme.textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+              IconButton(
+                tooltip: context.l10n.setsMore,
+                icon: const Icon(Icons.add_circle_outline_rounded),
+                onPressed: _sets < Exercise.maxSets ? () => setState(() => _sets++) : null,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: TextField(
+                  controller: _reps,
+                  maxLength: Exercise.maxRepsLength,
+                  style: const TextStyle(color: AppTheme.textColor),
+                  decoration: InputDecoration(labelText: context.l10n.repsField, hintText: context.l10n.repsHint, counterText: ''),
+                ),
+              ),
+            ],
+          ),
+          const Divider(height: 32),
+          Text(context.l10n.stepsHeader, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
+          const SizedBox(height: 8),
+          for (var i = 0; i < _steps.length; i++) _stepRow(i),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: TextButton.icon(
+              onPressed: _steps.length >= Exercise.maxSteps
+                  ? null
+                  : () => setState(() => _steps.add(TextEditingController())),
+              icon: const Icon(Icons.add_rounded),
+              label: Text(context.l10n.addStep),
             ),
-            const Divider(height: 32),
-            TextField(
-              controller: _notes,
-              maxLength: Exercise.maxNotesLength,
-              maxLines: 4,
-              style: const TextStyle(color: AppTheme.textColor),
-              decoration: const InputDecoration(labelText: 'ملاحظات (اختياري)', counterText: ''),
-            ),
-          ],
-        ),
+          ),
+          const Divider(height: 32),
+          TextField(
+            controller: _notes,
+            maxLength: Exercise.maxNotesLength,
+            maxLines: 4,
+            style: const TextStyle(color: AppTheme.textColor),
+            decoration: InputDecoration(labelText: context.l10n.notesOptional, counterText: ''),
+          ),
+        ],
       ),
     );
   }
@@ -224,7 +222,7 @@ class _ExerciseEditScreenState extends State<ExerciseEditScreen> {
             TextButton.icon(
               onPressed: _changeImage,
               icon: const Icon(Icons.add_a_photo_rounded),
-              label: Text(image == null ? 'إضافة صورة' : 'تغيير الصورة'),
+              label: Text(image == null ? context.l10n.addImage : context.l10n.changeImage),
             ),
             if (image != null)
               TextButton.icon(
@@ -233,7 +231,7 @@ class _ExerciseEditScreenState extends State<ExerciseEditScreen> {
                   _imageChanged = widget.exercise == null ? false : _imageChanged;
                 }),
                 icon: const Icon(Icons.hide_image_rounded),
-                label: const Text('إزالة الصورة'),
+                label: Text(context.l10n.removeImage),
               ),
           ],
         ),
@@ -257,11 +255,11 @@ class _ExerciseEditScreenState extends State<ExerciseEditScreen> {
               maxLength: Exercise.maxStepLength,
               maxLines: null,
               style: const TextStyle(color: AppTheme.textColor),
-              decoration: InputDecoration(labelText: 'الخطوة ${index + 1}', counterText: ''),
+              decoration: InputDecoration(labelText: context.l10n.stepNumber(index + 1), counterText: ''),
             ),
           ),
           IconButton(
-            tooltip: 'حذف الخطوة',
+            tooltip: context.l10n.deleteStep,
             icon: const Icon(Icons.close_rounded, color: AppTheme.subTextColor),
             onPressed: () => setState(() {
               _steps.removeAt(index).dispose();

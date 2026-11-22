@@ -7,6 +7,7 @@ import 'kitchen_store.dart';
 import 'models/recipe.dart';
 import 'recipe_details_screen.dart';
 import 'recipe_edit_screen.dart';
+import '../../l10n/l10n.dart';
 
 Future<void> startAddRecipe(BuildContext context, KitchenStore store) async {
   await Navigator.of(context).push<bool>(
@@ -17,7 +18,11 @@ Future<void> startAddRecipe(BuildContext context, KitchenStore store) async {
 /// عنوان وصفة من رد الذكاء الاصطناعي: سطر "اسم الوجبة: ..." إن وُجد، وإلا [fallback].
 String recipeTitleFromAiText(String text, String fallback) {
   for (final line in text.split('\n')) {
-    final match = RegExp(r'^[\s#*\-•]*(?:اسم\s+الوجبة|اسم\s+الوصفة|الاسم)\s*[:：]\s*(.+)$').firstMatch(line);
+    // الرد قد يكون بالعربية أو بالإنجليزية (لغة التطبيق).
+    final match = RegExp(
+      r'^[\s#*\-•]*(?:اسم\s+الوجبة|اسم\s+الوصفة|الاسم|recipe\s+name|dish\s+name|name)\s*[:：]\s*(.+)$',
+      caseSensitive: false,
+    ).firstMatch(line);
     if (match == null) continue;
     final title = match.group(1)!.replaceAll(RegExp(r'[*#_`]'), '').trim();
     if (title.isNotEmpty && title.length <= 80) return title;
@@ -57,7 +62,7 @@ class _RecipesTabState extends State<RecipesTab> {
         .toList();
     if (ingredients.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('⚠️ يرجى كتابة المكونات أولاً'), backgroundColor: Colors.orange),
+        SnackBar(content: Text(context.l10n.recipeNeedIngredients), backgroundColor: Colors.orange),
       );
       return;
     }
@@ -72,50 +77,47 @@ class _RecipesTabState extends State<RecipesTab> {
 
     await showDialog<void>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Row(
-            children: [
-              Icon(Icons.restaurant_menu_rounded, color: AppTheme.accentColor),
-              SizedBox(width: 8),
-              Text('وصفة مقترحة 🍽️', style: TextStyle(color: AppTheme.textColor)),
-            ],
-          ),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: SingleChildScrollView(
-              child: Text(result, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('إغلاق', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 18),
-              label: const Text('حفظ في الوصفات', style: TextStyle(color: Colors.white)),
-              onPressed: () async {
-                // نص الوصفة المولَّدة كاملًا يُحفظ في الملاحظات، فلا يضيع عند إغلاق النافذة.
-                await _store.addRecipe(Recipe(
-                  id: '',
-                  title: recipeTitleFromAiText(result, 'وصفة ذكية: ${ingredients.first}'),
-                  category: aiRecipeCategory,
-                  ingredients: [for (final name in ingredients) RecipeIngredient(name: name)],
-                  notes: result,
-                ));
-                if (!dialogContext.mounted) return;
-                _ingredientsController.clear();
-                Navigator.pop(dialogContext);
-                if (mounted) showInfoSnackBar(context, '✅ تمت إضافة الوصفة');
-              },
-            ),
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(Icons.restaurant_menu_rounded, color: AppTheme.accentColor),
+            SizedBox(width: 8),
+            Text(context.l10n.recipeSuggested, style: TextStyle(color: AppTheme.textColor)),
           ],
         ),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            child: Text(result, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(context.l10n.close, style: TextStyle(color: AppTheme.subTextColor)),
+          ),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 18),
+            label: Text(context.l10n.saveToRecipes, style: TextStyle(color: Colors.white)),
+            onPressed: () async {
+              // نص الوصفة المولَّدة كاملًا يُحفظ في الملاحظات، فلا يضيع عند إغلاق النافذة.
+              await _store.addRecipe(Recipe(
+                id: '',
+                title: recipeTitleFromAiText(result, context.l10n.aiRecipeFallbackTitle(ingredients.first)),
+                category: aiRecipeCategory,
+                ingredients: [for (final name in ingredients) RecipeIngredient(name: name)],
+                notes: result,
+              ));
+              if (!dialogContext.mounted) return;
+              _ingredientsController.clear();
+              Navigator.pop(dialogContext);
+              if (mounted) showInfoSnackBar(context, context.l10n.recipeAdded);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -123,7 +125,7 @@ class _RecipesTabState extends State<RecipesTab> {
   Future<void> _delete(Recipe recipe) async {
     final removed = await _store.removeRecipe(recipe.id);
     if (removed == null || !mounted) return;
-    showUndoSnackBar(context, 'حُذفت «${recipe.title}»', () => _store.restoreRecipe(removed));
+    showUndoSnackBar(context, context.l10n.recipeDeleted(recipe.title), () => _store.restoreRecipe(removed));
   }
 
   void _open(Recipe recipe) {
@@ -142,10 +144,10 @@ class _RecipesTabState extends State<RecipesTab> {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
           children: [
             _aiCard(),
-            const KitchenSectionTitle('موسوعة الوصفات وتفاصيل المقادير'),
+            KitchenSectionTitle(context.l10n.recipesHeader),
             const SizedBox(height: 12),
             if (recipes.isEmpty)
-              const KitchenEmptyNote('لا توجد وصفات بعد. اضغط + لإضافة وصفة، أو دع الذكاء الاصطناعي يقترح لك.'),
+              KitchenEmptyNote(context.l10n.recipesEmpty),
             for (final recipe in recipes) _card(recipe),
           ],
         );
@@ -155,9 +157,9 @@ class _RecipesTabState extends State<RecipesTab> {
 
   Widget _card(Recipe recipe) {
     final details = [
-      '${recipe.servings} حصة',
-      if (recipe.ingredients.isNotEmpty) '${recipe.ingredients.length} مكوّن',
-      if (recipe.steps.isNotEmpty) '${recipe.steps.length} خطوة',
+      context.l10n.servingsCount(recipe.servings),
+      if (recipe.ingredients.isNotEmpty) context.l10n.ingredientsCount(recipe.ingredients.length),
+      if (recipe.steps.isNotEmpty) context.l10n.stepsCount(recipe.steps.length),
     ].join(' · ');
     return Card(
       key: ValueKey('recipe_${recipe.id}'),
@@ -185,12 +187,12 @@ class _RecipesTabState extends State<RecipesTab> {
                   ),
                   const SizedBox(width: 8),
                   Chip(
-                    label: Text(recipe.category, style: const TextStyle(color: Colors.white, fontSize: 11)),
+                    label: Text(recipeCategoryLabel(context.l10n, recipe.category), style: const TextStyle(color: Colors.white, fontSize: 11)),
                     backgroundColor: recipe.category == aiRecipeCategory ? Colors.purple : AppTheme.primaryColor,
                     padding: EdgeInsets.zero,
                   ),
                   IconButton(
-                    tooltip: recipe.pinned ? 'إلغاء تثبيت الوصفة' : 'تثبيت الوصفة',
+                    tooltip: recipe.pinned ? context.l10n.recipeUnpin : context.l10n.recipePin,
                     icon: Icon(
                       recipe.pinned ? Icons.push_pin_rounded : Icons.push_pin_outlined,
                       color: AppTheme.subTextColor,
@@ -198,7 +200,7 @@ class _RecipesTabState extends State<RecipesTab> {
                     onPressed: () => _store.toggleRecipePin(recipe.id),
                   ),
                   IconButton(
-                    tooltip: 'حذف الوصفة',
+                    tooltip: context.l10n.recipeDelete,
                     icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                     onPressed: () => _delete(recipe),
                   ),
@@ -208,7 +210,7 @@ class _RecipesTabState extends State<RecipesTab> {
               if (recipe.ingredients.isEmpty && recipe.ingredientsText.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(
-                  'المقادير: ${recipe.ingredientsText}',
+                  context.l10n.ingredientsLine(recipe.ingredientsText),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
@@ -230,19 +232,19 @@ class _RecipesTabState extends State<RecipesTab> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
                 Icon(Icons.smart_toy_rounded, color: AppTheme.accentColor),
                 SizedBox(width: 8),
                 Text(
-                  '🧑‍🍳 توليد وصفة بالذكاء الاصطناعي',
+                  context.l10n.aiRecipeTitle,
                   style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15),
                 ),
               ],
             ),
             const SizedBox(height: 10),
-            const Text(
-              'اكتب المكونات المتاحة في مطبخك (مفصولة بفواصل):',
+            Text(
+              context.l10n.aiRecipePrompt,
               style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
             ),
             const SizedBox(height: 8),
@@ -252,7 +254,7 @@ class _RecipesTabState extends State<RecipesTab> {
               maxLength: 400,
               style: const TextStyle(color: AppTheme.textColor),
               decoration: InputDecoration(
-                hintText: 'مثال: دجاج، أرز، طماطم، بصل، بهارات...',
+                hintText: context.l10n.aiRecipeHint,
                 hintStyle: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
                 filled: true,
                 fillColor: AppTheme.cardColor,
@@ -264,11 +266,11 @@ class _RecipesTabState extends State<RecipesTab> {
             SizedBox(
               width: double.infinity,
               child: _isGenerating
-                  ? const Column(
+                  ? Column(
                       children: [
                         CircularProgressIndicator(color: AppTheme.accentColor),
                         SizedBox(height: 8),
-                        Text('جارٍ توليد الوصفة...', style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                        Text(context.l10n.aiRecipeWorking, style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
                       ],
                     )
                   : ElevatedButton.icon(
@@ -278,7 +280,7 @@ class _RecipesTabState extends State<RecipesTab> {
                       ),
                       onPressed: _generateWithAI,
                       icon: const Icon(Icons.auto_awesome, color: Colors.white),
-                      label: const Text('اقترح وصفة الآن ✨', style: TextStyle(color: Colors.white)),
+                      label: Text(context.l10n.aiRecipeSuggest, style: TextStyle(color: Colors.white)),
                     ),
             ),
           ],

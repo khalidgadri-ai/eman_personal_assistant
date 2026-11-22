@@ -1,32 +1,97 @@
+import 'dart:ui' show PlatformDispatcher;
+
+import 'package:flutter/widgets.dart' show WidgetsBinding;
+
 import 'expense_entry.dart';
 
-/// عملة عرض الميزانية. الافتراضية الريال السعودي، والمستخدم يغيّرها من شاشة الخطة.
+/// عملة عرض الميزانية. المستخدم يختارها من شاشة الخطة؛ قبل إعداد خطة تُقترح عملة بلد الهاتف.
+/// [symbol] و[arabicName] للواجهة العربية، و[englishName] و[latinSymbol] (أو الرمز الدولي [code])
+/// للّغات الأخرى، فلا يظهر «ر.س» في واجهة إنجليزية.
 class BudgetCurrency {
-  const BudgetCurrency(this.code, this.symbol, this.arabicName);
+  const BudgetCurrency(this.code, this.symbol, this.arabicName, this.englishName, [this.latinSymbol]);
 
   final String code;
   final String symbol;
   final String arabicName;
+  final String englishName;
+  final String? latinSymbol;
 
-  static const BudgetCurrency sar = BudgetCurrency('SAR', 'ر.س', 'ريال سعودي');
+  String symbolFor(String lang) => lang == 'ar' ? symbol : latinSymbol ?? code;
+
+  String nameFor(String lang) => lang == 'ar' ? arabicName : englishName;
+
+  static const BudgetCurrency sar = BudgetCurrency('SAR', 'ر.س', 'ريال سعودي', 'Saudi riyal');
+  static const BudgetCurrency usd = BudgetCurrency('USD', r'$', 'دولار أمريكي', 'US dollar', r'$');
 
   static const List<BudgetCurrency> all = [
     sar,
-    BudgetCurrency('AED', 'د.إ', 'درهم إماراتي'),
-    BudgetCurrency('KWD', 'د.ك', 'دينار كويتي'),
-    BudgetCurrency('QAR', 'ر.ق', 'ريال قطري'),
-    BudgetCurrency('BHD', 'د.ب', 'دينار بحريني'),
-    BudgetCurrency('OMR', 'ر.ع', 'ريال عماني'),
-    BudgetCurrency('EGP', 'ج.م', 'جنيه مصري'),
-    BudgetCurrency('JOD', 'د.أ', 'دينار أردني'),
-    BudgetCurrency('USD', r'$', 'دولار أمريكي'),
-    BudgetCurrency('EUR', '€', 'يورو'),
+    BudgetCurrency('AED', 'د.إ', 'درهم إماراتي', 'UAE dirham'),
+    BudgetCurrency('KWD', 'د.ك', 'دينار كويتي', 'Kuwaiti dinar'),
+    BudgetCurrency('QAR', 'ر.ق', 'ريال قطري', 'Qatari riyal'),
+    BudgetCurrency('BHD', 'د.ب', 'دينار بحريني', 'Bahraini dinar'),
+    BudgetCurrency('OMR', 'ر.ع', 'ريال عماني', 'Omani rial'),
+    BudgetCurrency('EGP', 'ج.م', 'جنيه مصري', 'Egyptian pound'),
+    BudgetCurrency('JOD', 'د.أ', 'دينار أردني', 'Jordanian dinar'),
+    BudgetCurrency('IQD', 'د.ع', 'دينار عراقي', 'Iraqi dinar'),
+    BudgetCurrency('LBP', 'ل.ل', 'ليرة لبنانية', 'Lebanese pound'),
+    BudgetCurrency('SYP', 'ل.س', 'ليرة سورية', 'Syrian pound'),
+    BudgetCurrency('YER', 'ر.ي', 'ريال يمني', 'Yemeni rial'),
+    BudgetCurrency('SDG', 'ج.س', 'جنيه سوداني', 'Sudanese pound'),
+    BudgetCurrency('LYD', 'د.ل', 'دينار ليبي', 'Libyan dinar'),
+    BudgetCurrency('TND', 'د.ت', 'دينار تونسي', 'Tunisian dinar'),
+    BudgetCurrency('DZD', 'د.ج', 'دينار جزائري', 'Algerian dinar'),
+    BudgetCurrency('MAD', 'د.م', 'درهم مغربي', 'Moroccan dirham'),
+    usd,
+    BudgetCurrency('EUR', '€', 'يورو', 'Euro', '€'),
+    BudgetCurrency('GBP', '£', 'جنيه إسترليني', 'British pound', '£'),
+    BudgetCurrency('CAD', r'C$', 'دولار كندي', 'Canadian dollar', r'C$'),
+    BudgetCurrency('AUD', r'A$', 'دولار أسترالي', 'Australian dollar', r'A$'),
+    BudgetCurrency('CHF', 'CHF', 'فرنك سويسري', 'Swiss franc'),
+    BudgetCurrency('TRY', '₺', 'ليرة تركية', 'Turkish lira', '₺'),
+    BudgetCurrency('INR', '₹', 'روبية هندية', 'Indian rupee', '₹'),
+    BudgetCurrency('PKR', 'PKR', 'روبية باكستانية', 'Pakistani rupee'),
+    BudgetCurrency('BDT', 'BDT', 'تاكا بنغلاديشية', 'Bangladeshi taka'),
+    BudgetCurrency('MYR', 'RM', 'رينغيت ماليزي', 'Malaysian ringgit', 'RM'),
+    BudgetCurrency('IDR', 'Rp', 'روبية إندونيسية', 'Indonesian rupiah', 'Rp'),
+    BudgetCurrency('NGN', '₦', 'نايرا نيجيرية', 'Nigerian naira', '₦'),
+    BudgetCurrency('JPY', '¥', 'ين ياباني', 'Japanese yen', '¥'),
+    BudgetCurrency('CNY', 'CN¥', 'يوان صيني', 'Chinese yuan', 'CN¥'),
   ];
 
   static bool isKnown(Object? code) => all.any((c) => c.code == code);
 
   /// رمز غير معروف (ملف تالف أو نسخة قديمة) يعود إلى الريال السعودي.
   static BudgetCurrency byCode(Object? code) => all.firstWhere((c) => c.code == code, orElse: () => sar);
+
+  static const Set<String> _euroRegions = {
+    'AT', 'BE', 'CY', 'DE', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PT', 'SI', 'SK',
+  };
+
+  static const Map<String, String> _regionCurrency = {
+    'SA': 'SAR', 'AE': 'AED', 'KW': 'KWD', 'QA': 'QAR', 'BH': 'BHD', 'OM': 'OMR', 'EG': 'EGP', 'JO': 'JOD',
+    'IQ': 'IQD', 'LB': 'LBP', 'SY': 'SYP', 'YE': 'YER', 'SD': 'SDG', 'LY': 'LYD', 'TN': 'TND', 'DZ': 'DZD',
+    'MA': 'MAD', 'US': 'USD', 'GB': 'GBP', 'CA': 'CAD', 'AU': 'AUD', 'CH': 'CHF', 'TR': 'TRY', 'IN': 'INR',
+    'PK': 'PKR', 'BD': 'BDT', 'MY': 'MYR', 'ID': 'IDR', 'NG': 'NGN', 'JP': 'JPY', 'CN': 'CNY',
+  };
+
+  /// عملة بلد الهاتف ([countryCode] مثل "SA")، أو بلد الهاتف الحالي إن لم يُعطَ. بلا بلد معروف:
+  /// الريال السعودي؛ بلد ليست عملته في القائمة: الدولار الأمريكي.
+  static BudgetCurrency forRegion([String? countryCode]) {
+    final region = (countryCode ?? _deviceRegion())?.toUpperCase();
+    if (region == null || region.isEmpty) return sar;
+    if (_euroRegions.contains(region)) return byCode('EUR');
+    final code = _regionCurrency[region];
+    return code == null ? usd : byCode(code);
+  }
+
+  /// بلد الهاتف من ربط Flutter (فيتبع ما تضبطه الاختبارات)، أو من المنصة مباشرة قبل تهيئته.
+  static String? _deviceRegion() {
+    try {
+      return WidgetsBinding.instance.platformDispatcher.locale.countryCode;
+    } catch (_) {
+      return PlatformDispatcher.instance.locale.countryCode;
+    }
+  }
 }
 
 /// مصروف ثابت يتكرر كل دورة (إيجار، قسط، اشتراك...).
@@ -161,6 +226,10 @@ class BudgetPlan {
   bool get isConfigured => income > 0;
 
   BudgetCurrency get currency => BudgetCurrency.byCode(currencyCode);
+
+  /// العملة التي تُعرض بها المبالغ: عملة الخطة إن أُعدَّت، وإلا عملة بلد الهاتف (لم يختر المستخدم بعد).
+  BudgetCurrency displayCurrency([String? countryCode]) =>
+      isConfigured ? currency : BudgetCurrency.forRegion(countryCode);
 
   double get fixedTotal => fixed.fold(0.0, (sum, item) => sum + item.amount);
 

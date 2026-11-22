@@ -5,14 +5,20 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
 import 'coach_quota_text.dart';
+import '../../l10n/l10n.dart';
 
+/// من أين فُتحت شاشة الاشتراك: يتغير العنوان، والمزايا هي نفسها (الاشتراك واحد).
+enum PaywallFeature { coach, meditation, tools }
+
+/// شاشة الاشتراك الشهري الواحد: «عمّق أكثر» بلا حد وكل جلسات التأمل.
 /// يرجع true عندما يصبح الاشتراك فعّالًا (شراء أو استعادة).
 class CoachPaywallScreen extends StatefulWidget {
   /// [quotaExhaustedAt]: وقت فتح الشاشة إن كانت المحاولات المجانية قد انتهت، فيُذكر تاريخ
   /// تجددها. بلا قيمة (null) لا يُذكر تاريخ.
-  const CoachPaywallScreen({super.key, this.quotaExhaustedAt});
+  const CoachPaywallScreen({super.key, this.quotaExhaustedAt, this.feature = PaywallFeature.coach});
 
   final DateTime? quotaExhaustedAt;
+  final PaywallFeature feature;
 
   @override
   State<CoachPaywallScreen> createState() => _CoachPaywallScreenState();
@@ -64,9 +70,8 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
     setState(() {
       _busy = false;
       _message = switch (status) {
-        PurchaseStatus.pending =>
-          'الدفع قيد المعالجة لدى Google Play، وسيُفعَّل الاشتراك تلقائيًا عند اكتماله.',
-        PurchaseStatus.error => 'تعذّر إتمام الشراء، حاول مرة أخرى.',
+        PurchaseStatus.pending => context.l10n.payPending,
+        PurchaseStatus.error => context.l10n.payError,
         _ => null,
       };
     });
@@ -88,7 +93,7 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _message = 'تعذّر فتح نافذة الشراء، حاول مرة أخرى.';
+        _message = context.l10n.payOpenFailed;
       });
     }
   }
@@ -108,52 +113,63 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
     }
     setState(() {
       _busy = false;
-      _message = 'لا يوجد اشتراك فعّال على حساب Google Play هذا.';
+      _message = context.l10n.payNoSubscription;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('سؤال المتابعة الذكي')),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Icon(Icons.psychology_rounded, size: 56, color: AppTheme.accentColor),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'تعمّق أكثر في تأملك',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppTheme.textColor,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+    return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.payTitle)),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Icon(
+                    switch (widget.feature) {
+                      PaywallFeature.meditation => Icons.self_improvement_rounded,
+                      PaywallFeature.tools => Icons.handyman_rounded,
+                      PaywallFeature.coach => Icons.psychology_rounded,
+                    },
+                    size: 56,
+                    color: AppTheme.accentColor,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    switch (widget.feature) {
+                      PaywallFeature.meditation => context.l10n.payHeadingMeditation,
+                      PaywallFeature.tools => context.l10n.payHeadingTools,
+                      PaywallFeature.coach => context.l10n.payHeadingCoach,
+                    },
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: AppTheme.textColor,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 20),
-                    const _Benefit('سؤال متابعة واحد مبني على إجابتك أنت، بدل سؤال عام من البنك.'),
-                    const _Benefit('نفس قواعد المدرب: أسئلة فقط، بلا نصائح ولا أحكام.'),
-                    const _Benefit('أنت تقرر متى تتعمق، لا شيء يحدث تلقائيًا.'),
-                    const SizedBox(height: 12),
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppTheme.cardColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        'الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل.\n'
-                        'سؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.',
-                        style: TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.7),
-                      ),
+                  ),
+                  const SizedBox(height: 20),
+                  _Benefit(context.l10n.payBenefitDeepen),
+                  _Benefit(context.l10n.payBenefitMeditation),
+                  _Benefit(context.l10n.payBenefitTools),
+                  _Benefit(context.l10n.payBenefitControl),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppTheme.cardColor,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: 20),
+                    child: Text(
+                      context.l10n.payFreeNote,
+                      style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.7),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  if (widget.feature == PaywallFeature.coach)
                     Text(
                       coachQuotaOfferLine,
                       textAlign: TextAlign.center,
@@ -164,72 +180,70 @@ class _CoachPaywallScreenState extends State<CoachPaywallScreen> {
                         height: 1.6,
                       ),
                     ),
-                    if (widget.quotaExhaustedAt case final exhaustedAt?)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 6),
-                        child: Text(
-                          coachQuotaRenewalLine(exhaustedAt),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: AppTheme.accentColor, fontSize: 13),
-                        ),
-                      ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryColor,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      onPressed: _busy || _product == null ? null : _subscribe,
-                      child: _busy
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                            )
-                          : Text(
-                              _product == null
-                                  ? 'الاشتراك غير متاح حاليًا'
-                                  : 'اشترك الآن — ${_product!.price} شهريًا',
-                              style: const TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                    ),
-                    if (!(_subscription?.canPurchase ?? false))
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Text(
-                          'الاشتراك متاح في نسخة Android المثبتة من Google Play.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                        ),
-                      ),
-                    if (_message case final message?)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: Text(
-                          message,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: AppTheme.textColor, fontSize: 13),
-                        ),
-                      ),
-                    const SizedBox(height: 8),
-                    TextButton(
-                      onPressed: _busy ? null : _restore,
-                      child: const Text(
-                        'استعادة المشتريات',
-                        style: TextStyle(color: AppTheme.accentColor),
+                  if (widget.quotaExhaustedAt case final exhaustedAt?)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        coachQuotaRenewalLine(exhaustedAt),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: AppTheme.accentColor, fontSize: 13),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'يتجدد الاشتراك تلقائيًا كل شهر بنفس السعر حتى تلغيه. يمكنك الإلغاء في أي وقت '
-                      'من Google Play ← الدفعات والاشتراكات ← الاشتراكات.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: AppTheme.subTextColor, fontSize: 11, height: 1.6),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                  ],
-                ),
+                    onPressed: _busy || _product == null ? null : _subscribe,
+                    child: _busy
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                          )
+                        : Text(
+                            _product == null
+                                ? context.l10n.payUnavailable
+                                : context.l10n.paySubscribe(_product!.price),
+                            style: const TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                  ),
+                  if (!(_subscription?.canPurchase ?? false))
+                    Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: Text(
+                        context.l10n.payAndroidOnly,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                      ),
+                    ),
+                  if (_message case final message?)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text(
+                        message,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: AppTheme.textColor, fontSize: 13),
+                      ),
+                    ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: _busy ? null : _restore,
+                    child: Text(
+                      context.l10n.payRestore,
+                      style: TextStyle(color: AppTheme.accentColor),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    context.l10n.payRenewal,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppTheme.subTextColor, fontSize: 11, height: 1.6),
+                  ),
+                ],
               ),
-      ),
+            ),
     );
   }
 }

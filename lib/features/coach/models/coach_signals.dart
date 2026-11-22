@@ -1,4 +1,5 @@
 import 'coach_question.dart';
+import '../../../core/config/app_locale.dart';
 
 class ReflectionSignal {
   /// الكلمة بعد التطبيع وإزالة "ال" والضمير، وليست للعرض.
@@ -20,13 +21,13 @@ class CoachSignals {
   /// تلميح فقط إذا كان المجال المختار هو مجال المحفّز، بدون أي تفاصيل أو أحكام.
   String? hintFor(CoachDomain domain) {
     if (budget && domain == CoachDomain.budget) {
-      return 'لاحظنا نمط في مصاريفك هذا الأسبوع';
+      return AppLocale.texts.coachHintBudget;
     }
-    if (usage && domain == CoachDomain.organization) {
-      return 'هذا السؤال مرتبط بتوزيع وقتك اليوم';
+    if (usage && domain == CoachDomain.digital) {
+      return AppLocale.texts.coachHintUsage;
     }
     if (reflection?.domain == domain) {
-      return 'لاحظنا فكرة تتكرر في إجاباتك الأخيرة';
+      return AppLocale.texts.coachHintReflection;
     }
     return null;
   }

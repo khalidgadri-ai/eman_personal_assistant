@@ -7,7 +7,7 @@ import '../ai_provider.dart';
 /// يغطي كل خدمة تتبع صيغة OpenAI للمحادثة: OpenAI وxAI وOpenRouter وGroq وDeepSeek وMistral
 /// وأي خادم آخر بعنوان https. `{baseUrl}/chat/completions` و`{baseUrl}/models`.
 class OpenAiCompatibleProvider extends AiProvider {
-  OpenAiCompatibleProvider(super.config, super.apiKey, {super.client});
+  OpenAiCompatibleProvider(super.config, super.apiKey, {super.client, super.busyRetryDelay});
 
   Map<String, String> get _headers => {'Authorization': 'Bearer $apiKey'};
 

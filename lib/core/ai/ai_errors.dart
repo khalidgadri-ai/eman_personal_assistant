@@ -5,33 +5,47 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-/// سبب فشل طلب الذكاء الاصطناعي. الرسالة عربية ثابتة: نص الخطأ الخام من المزوّد لا يُعرض
-/// ولا يُسجَّل، والمفتاح لا يظهر في أي رسالة.
-enum AiFailure {
-  missingKey('يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحه من الإعدادات أولًا.'),
-  invalidKey('المفتاح غير صالح أو منتهي. يرجى تحديثه من إعدادات مزوّد الذكاء الاصطناعي ثم إعادة المحاولة.'),
-  modelNotFound(
-    'الموديل المختار غير موجود أو أُوقف. يرجى تحديث قائمة الموديلات من الإعدادات واختيار موديل آخر.',
-  ),
-  rateLimited(
-    'تم بلوغ حد الاستخدام أو الرصيد لدى المزوّد. يرجى الانتظار قليلًا أو مراجعة الحساب لديه ثم إعادة المحاولة.',
-  ),
-  busy('خدمة المزوّد مشغولة الآن. يرجى المحاولة بعد قليل.'),
-  network('تعذّر الاتصال بالإنترنت. يرجى التحقق من الشبكة ثم إعادة المحاولة.'),
-  timeout('تأخّر المزوّد في الرد. حاول مرة أخرى، أو اختر موديلًا أسرع من إعدادات الذكاء الاصطناعي.'),
-  badRequest('رفض المزوّد الطلب. قد لا يدعم الموديل هذا النوع من الطلبات، فجرّب موديلًا آخر.'),
-  imageUnsupported(
-    'الموديل المختار لا يدعم الصور. يرجى اختيار موديل يدعمها من إعدادات مزوّد الذكاء الاصطناعي.',
-  ),
-  blocked('تعذّر تكوين رد لهذا الطلب. جرّب صياغة مختلفة.'),
-  unsupportedLocation('خدمة المزوّد غير متاحة في بلدك حاليًا.'),
-  insecureUrl('عنوان المزوّد يجب أن يبدأ بـ https:// ويكون عنوانًا صحيحًا.'),
-  invalidModelName('اسم الموديل غير صالح. يُسمح بالحروف والأرقام والرموز - _ . : / @ فقط.'),
-  emptyReply('لم يتم استلام رد من المساعد الذكي.'),
-  unknown('حدث خطأ غير متوقع مع المساعد الذكي. يرجى المحاولة مرة أخرى بعد قليل.');
+import '../config/app_locale.dart';
 
-  const AiFailure(this.message);
-  final String message;
+/// سبب فشل طلب الذكاء الاصطناعي. الرسالة ثابتة بلغة التطبيق (من ملفات اللغة): نص الخطأ الخام
+/// من المزوّد لا يُعرض ولا يُسجَّل، والمفتاح لا يظهر في أي رسالة.
+enum AiFailure {
+  missingKey,
+  invalidKey,
+  modelNotFound,
+  rateLimited,
+  busy,
+  network,
+  timeout,
+  badRequest,
+  imageUnsupported,
+  blocked,
+  unsupportedLocation,
+  insecureUrl,
+  invalidModelName,
+  emptyReply,
+  unknown;
+
+  String get message {
+    final t = AppLocale.texts;
+    return switch (this) {
+      missingKey => t.aiMissingKey,
+      invalidKey => t.aiInvalidKey,
+      modelNotFound => t.aiModelNotFound,
+      rateLimited => t.aiRateLimited,
+      busy => t.aiBusy,
+      network => t.aiNetwork,
+      timeout => t.aiTimeout,
+      badRequest => t.aiBadRequest,
+      imageUnsupported => t.aiImageUnsupported,
+      blocked => t.aiBlocked,
+      unsupportedLocation => t.aiUnsupportedLocation,
+      insecureUrl => t.aiInsecureUrl,
+      invalidModelName => t.aiInvalidModelName,
+      emptyReply => t.aiEmptyReply,
+      unknown => t.aiUnknown,
+    };
+  }
 }
 
 class AiException implements Exception {
@@ -50,7 +64,7 @@ class AiException implements Exception {
   String toString() => 'AiException(${failure.name}${statusCode == null ? '' : ', $statusCode'})';
 }
 
-/// يحوّل أي استثناء إلى رسالة عربية ثابتة. يُسجَّل نوع الاستثناء وحده.
+/// يحوّل أي استثناء إلى رسالة ثابتة بلغة التطبيق. يُسجَّل نوع الاستثناء وحده.
 String aiFriendlyError(Object error) {
   if (error is AiException) {
     debugPrint('AI error: ${error.failure.name} ${error.statusCode ?? ''}');

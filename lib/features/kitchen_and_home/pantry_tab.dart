@@ -6,16 +6,24 @@ import '../../core/widgets/undo_snackbar.dart';
 import 'kitchen_constants.dart';
 import 'kitchen_store.dart';
 import 'models/pantry_item.dart';
+import '../../l10n/l10n.dart';
 
 /// إضافة صنف جديد للمؤونة أو المستلزمات (زر + في الشاشة).
 Future<void> startAddPantryItem(BuildContext context, KitchenStore store) async {
   final values = await showEntryDialog(
     context,
-    title: 'إضافة صنف للمؤونة',
-    fields: const [
-      EntryField(key: 'name', label: 'الصنف', required: true),
-      EntryField(key: 'qty', label: 'الكمية (اختياري)', hint: 'مثال: 2 لتر'),
-      EntryField(key: 'category', label: 'التصنيف', options: pantryCategories),
+    title: context.l10n.pantryAddTitle,
+    fields: [
+      EntryField(key: 'name', label: context.l10n.itemField, required: true),
+      EntryField(key: 'qty', label: context.l10n.qtyOptionalField, hint: context.l10n.pantryQtyHint),
+      EntryField(
+        key: 'category',
+        label: context.l10n.categoryField,
+        options: pantryCategories,
+        // صنف جديد يبدأ بـ«أخرى» لا بأول قسم (كان يقترح «الزيوت والبهارات» لكل شيء).
+        initial: KitchenStore.defaultPantryCategory,
+        optionLabel: (c) => pantryCategoryLabel(context.l10n, c),
+      ),
     ],
   );
   if (values == null) return;
@@ -54,12 +62,18 @@ class _PantryTabState extends State<PantryTab> {
         : [...pantryCategories, item.category];
     final values = await showEntryDialog(
       context,
-      title: 'تعديل الصنف',
-      confirmLabel: 'حفظ',
+      title: context.l10n.pantryEditTitle,
+      confirmLabel: context.l10n.save,
       fields: [
-        EntryField(key: 'name', label: 'الصنف', required: true, initial: item.name),
-        EntryField(key: 'qty', label: 'الكمية (اختياري)', hint: 'مثال: 2 لتر', initial: item.qty),
-        EntryField(key: 'category', label: 'التصنيف', options: categories, initial: item.category),
+        EntryField(key: 'name', label: context.l10n.itemField, required: true, initial: item.name),
+        EntryField(key: 'qty', label: context.l10n.qtyOptionalField, hint: context.l10n.pantryQtyHint, initial: item.qty),
+        EntryField(
+          key: 'category',
+          label: context.l10n.categoryField,
+          options: categories,
+          initial: item.category,
+          optionLabel: (c) => pantryCategoryLabel(context.l10n, c),
+        ),
       ],
     );
     if (values == null) return;
@@ -71,13 +85,13 @@ class _PantryTabState extends State<PantryTab> {
   Future<void> _delete(PantryItem item) async {
     final removed = await _store.removePantryItem(item.id);
     if (removed == null || !mounted) return;
-    showUndoSnackBar(context, 'حُذف «${item.name}»', () => _store.restorePantryItem(removed));
+    showUndoSnackBar(context, context.l10n.itemDeleted(item.name), () => _store.restorePantryItem(removed));
   }
 
   Future<void> _outOfStock(PantryItem item) async {
     final moved = await _store.markOutOfStock(item.id);
     if (moved == null || !mounted) return;
-    showUndoSnackBar(context, 'نُقل «${item.name}» إلى المشتريات', () => _store.undoOutOfStock(moved));
+    showUndoSnackBar(context, context.l10n.movedToShopping(item.name), () => _store.undoOutOfStock(moved));
   }
 
   Future<void> _onMenu(String action, PantryItem item) async {
@@ -115,7 +129,7 @@ class _PantryTabState extends State<PantryTab> {
       builder: (context, _) {
         final all = _store.pantry;
         final categories = _presentCategories(all);
-        // قسم تُصفّى عليه ثم حُذفت كل أصنافه: نعود إلى "الكل".
+        // قسم تُصفّى عليه ثم حُذفت كل أصنافه: نعود إلى «الكل».
         final filter = _filter != null && categories.contains(_filter) ? _filter : null;
         final visible = all.where(_matches).toList();
         final pinned = visible.where((p) => p.pinned).toList();
@@ -123,22 +137,22 @@ class _PantryTabState extends State<PantryTab> {
         return ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
           children: [
-            const KitchenSectionTitle('مخزون المطبخ واحتياجات المنزل'),
+            KitchenSectionTitle(context.l10n.pantryHeader),
             const SizedBox(height: 12),
             if (all.isEmpty)
-              const KitchenEmptyNote('المؤونة فارغة. اضغط + لإضافة أول صنف.')
+              KitchenEmptyNote(context.l10n.pantryEmpty)
             else ...[
               TextField(
                 controller: _search,
                 style: const TextStyle(color: AppTheme.textColor),
                 decoration: InputDecoration(
-                  hintText: 'بحث في المؤونة والمستلزمات',
+                  hintText: context.l10n.pantrySearchHint,
                   hintStyle: const TextStyle(color: AppTheme.subTextColor),
                   prefixIcon: const Icon(Icons.search_rounded),
                   suffixIcon: _query.isEmpty
                       ? null
                       : IconButton(
-                          tooltip: 'مسح البحث',
+                          tooltip: context.l10n.clearSearch,
                           icon: const Icon(Icons.close_rounded),
                           onPressed: () {
                             _search.clear();
@@ -154,13 +168,13 @@ class _PantryTabState extends State<PantryTab> {
                 runSpacing: 4,
                 children: [
                   ChoiceChip(
-                    label: const Text('الكل'),
+                    label: Text(context.l10n.filterAll),
                     selected: filter == null,
                     onSelected: (_) => setState(() => _filter = null),
                   ),
                   for (final c in categories)
                     ChoiceChip(
-                      label: Text(c),
+                      label: Text(pantryCategoryLabel(context.l10n, c)),
                       selected: filter == c,
                       onSelected: (_) => setState(() => _filter = c),
                     ),
@@ -168,12 +182,12 @@ class _PantryTabState extends State<PantryTab> {
               ),
               const SizedBox(height: 12),
               if (visible.isEmpty)
-                const KitchenEmptyNote('لا نتائج مطابقة للبحث.')
+                KitchenEmptyNote(context.l10n.noSearchResults)
               else ...[
                 if (pinned.isNotEmpty && (filter == null || pinned.any((p) => p.category == filter)))
                   _section(
                     key: _pinnedKey,
-                    title: '📌 المثبّتة',
+                    title: context.l10n.pinnedSection,
                     items: pinned.where((p) => filter == null || p.category == filter).toList(),
                     showCategory: true,
                   ),
@@ -182,7 +196,7 @@ class _PantryTabState extends State<PantryTab> {
                     if (visible.any((p) => p.category == c && !p.pinned))
                       _section(
                         key: c,
-                        title: c,
+                        title: pantryCategoryLabel(context.l10n, c),
                         items: visible.where((p) => p.category == c && !p.pinned).toList(),
                       ),
               ],
@@ -234,13 +248,13 @@ class _PantryTabState extends State<PantryTab> {
                   style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold),
                 ),
                 if (showCategory)
-                  Text(item.category, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                  Text(pantryCategoryLabel(context.l10n, item.category), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
               ],
             ),
           ),
           if (item.canAdjust) ...[
             IconButton(
-              tooltip: 'نقصان الكمية',
+              tooltip: context.l10n.qtyLess,
               visualDensity: VisualDensity.compact,
               icon: const Icon(Icons.remove_circle_outline_rounded, color: AppTheme.subTextColor),
               onPressed: () => _store.adjustPantryQty(item.id, -1),
@@ -254,7 +268,7 @@ class _PantryTabState extends State<PantryTab> {
               ),
             ),
             IconButton(
-              tooltip: 'زيادة الكمية',
+              tooltip: context.l10n.qtyMore,
               visualDensity: VisualDensity.compact,
               icon: const Icon(Icons.add_circle_outline_rounded, color: AppTheme.subTextColor),
               onPressed: () => _store.adjustPantryQty(item.id, 1),
@@ -265,15 +279,15 @@ class _PantryTabState extends State<PantryTab> {
               child: Text(item.qty, style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
             ),
           PopupMenuButton<String>(
-            tooltip: 'المزيد',
+            tooltip: context.l10n.moreActions,
             color: AppTheme.cardColor,
             icon: const Icon(Icons.more_vert_rounded, color: AppTheme.subTextColor),
             onSelected: (action) => _onMenu(action, item),
             itemBuilder: (_) => [
-              const PopupMenuItem(value: 'edit', child: Text('تعديل')),
-              PopupMenuItem(value: 'pin', child: Text(item.pinned ? 'إلغاء التثبيت' : 'تثبيت')),
-              const PopupMenuItem(value: 'out', child: Text('نفد: إلى المشتريات')),
-              const PopupMenuItem(value: 'delete', child: Text('حذف')),
+              PopupMenuItem(value: 'edit', child: Text(context.l10n.editAction)),
+              PopupMenuItem(value: 'pin', child: Text(item.pinned ? context.l10n.unpinAction : context.l10n.pinAction)),
+              PopupMenuItem(value: 'out', child: Text(context.l10n.outToShopping)),
+              PopupMenuItem(value: 'delete', child: Text(context.l10n.deleteAction)),
             ],
           ),
         ],

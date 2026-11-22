@@ -1,4 +1,5 @@
 // أول تشغيل يجب أن يبدأ فارغًا تمامًا: لا بيانات خاصة بأي شخص في التخزين ولا في الكود.
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:eman_life_app/core/services/database_service.dart';
@@ -111,9 +112,16 @@ void main() {
         ..sort();
       expect(hits, [
         'lib/features/awareness/usage_awareness_screen.dart',
-        'lib/features/onboarding/onboarding_screen.dart',
+        // ترحيب الشاشة الأولى صار في ملفات اللغات (النص العربي والملف المولَّد منه).
+        'lib/l10n/app_localizations.dart',
+        'lib/l10n/app_localizations_ar.dart',
         'lib/main.dart',
       ]);
+      final arabicTexts = (jsonDecode(File('lib/l10n/app_ar.arb').readAsStringSync()) as Map<String, dynamic>)
+          .entries
+          .where((e) => !e.key.startsWith('@') && '${e.value}'.contains('إيمان'))
+          .map((e) => e.key);
+      expect(arabicTexts, ['onboardingWelcome'], reason: 'in the text files only the welcome title names the app');
     });
   });
 }

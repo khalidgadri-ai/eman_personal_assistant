@@ -5,6 +5,18 @@ import 'package:url_launcher/url_launcher.dart';
 /// ليعرض التطبيق العنوان للنسخ بدل أن يفشل بصمت.
 typedef MailOpener = Future<bool> Function(String email, String subject);
 
+/// يفتح رابطًا في المتصفح خارج التطبيق. يرجّع false إن فشل الفتح.
+typedef LinkOpener = Future<bool> Function(Uri url);
+
+Future<bool> openExternalLink(Uri url) async {
+  try {
+    return await launchUrl(url, mode: LaunchMode.externalApplication);
+  } catch (e) {
+    debugPrint('openExternalLink: ${e.runtimeType}');
+    return false;
+  }
+}
+
 Future<bool> openMailApp(String email, String subject) async {
   try {
     // الموضوع يُرمَّز بـ %20 لا بـ + (بعض تطبيقات البريد تعرض + حرفيًا).

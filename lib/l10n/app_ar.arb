@@ -1,0 +1,1620 @@
+{
+  "@@locale": "ar",
+  "navGoals": "الأهداف والمهام",
+  "navHealth": "الصحة واللياقة",
+  "navKitchen": "المطبخ والمنزل",
+  "navBudget": "الميزانية",
+  "navAssistant": "المساعد الذكي",
+  "coachTooltip": "مدرب الحياة",
+  "contactUs": "تواصل معنا",
+  "contactMailFailed": "لم يُفتح تطبيق البريد. يمكنك مراسلتنا على هذا العنوان:",
+  "close": "إغلاق",
+  "copyAddress": "نسخ العنوان",
+  "cancel": "إلغاء",
+  "settingsTitle": "الإعدادات",
+  "settingsAiProvider": "مزوّد الذكاء الاصطناعي",
+  "settingsAiProviderHint": "لتفعيل ميزات الذكاء الاصطناعي بمفتاحك الخاص",
+  "settingsTour": "جولة التعريف بالتطبيق",
+  "settingsTourHint": "شرح قصير لكل أقسام التطبيق وطريقة الحصول على مفتاح",
+  "settingsLanguage": "اللغة",
+  "languageSystem": "لغة الجوال",
+  "languageArabic": "العربية",
+  "languageEnglish": "English",
+  "profileNoName": "بدون اسم",
+  "profileEdit": "تعديل ملفي",
+  "profileEmpty": "لم تُضف اسمًا أو اهتمامات بعد. تُحفظ مشفّرة على جهازك فقط.",
+  "backupSaveTitle": "حفظ نسخة احتياطية مشفّرة",
+  "backupSaveHint": "ملف محميّ بكلمة مرور يُحفظ خارج التطبيق",
+  "backupSaving": "جارٍ التشفير، قد يستغرق ذلك عدة ثوانٍ...",
+  "backupRestoreTitle": "استعادة من نسخة احتياطية",
+  "backupRestoreHint": "استبدال بيانات هذا الجهاز بما في ملف النسخة",
+  "backupRestoring": "جارٍ فتح النسخة، قد يستغرق ذلك عدة ثوانٍ...",
+  "backupSaved": "حُفظت النسخة الاحتياطية. كلمة المرور لا تُسترجع، فيجب الاحتفاظ بها.",
+  "backupNotSaved": "لم تُحفظ النسخة الاحتياطية.",
+  "backupRestoreAsk": "استعادة نسخة احتياطية؟",
+  "backupRestoreBody": "ستُستبدل بيانات هذا الجهاز كلها (الملف الشخصي والمهام والأهداف والصحة والمطبخ والمصاريف وجلسات المدرب) بما في النسخة. مفاتيح الذكاء الاصطناعي لا تتأثر.",
+  "backupChooseFile": "اختيار الملف",
+  "backupRestored": "تمت استعادة النسخة الاحتياطية.",
+  "backupGenericError": "تعذّر إتمام العملية. لم تتغير البيانات.",
+  "passwordTitle": "كلمة مرور النسخة",
+  "passwordNoRecovery": "لا توجد طريقة لاسترجاع كلمة المرور. بدونها لا يمكن فتح النسخة أبدًا.",
+  "passwordHintNew": "كلمة المرور ({count, plural, =1{حرف واحد على الأقل} =2{حرفان على الأقل} few{{count} أحرف على الأقل} many{{count} حرفًا على الأقل} other{{count} حرف على الأقل}})",
+  "@passwordHintNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "passwordHint": "كلمة المرور",
+  "passwordConfirmHint": "تأكيد كلمة المرور",
+  "passwordMismatch": "كلمتا المرور غير متطابقتين.",
+  "passwordRequired": "يرجى كتابة كلمة المرور.",
+  "show": "إظهار",
+  "hide": "إخفاء",
+  "continueAction": "متابعة",
+  "restoreAction": "استعادة",
+  "eraseTitle": "مسح كل بياناتي",
+  "eraseHint": "يحذف كل ما أدخلته من هذا الجهاز ويعيد التطبيق كأول تشغيل",
+  "eraseAsk": "مسح كل بياناتي؟",
+  "eraseBody": "سيُحذف نهائيًا من هذا الجهاز كل ما أدخلته: الملف الشخصي والمهام والأهداف والصحة والمطبخ والمصاريف وجلسات المدرب ومفاتيح الذكاء الاصطناعي. لا يمكن التراجع.",
+  "eraseConfirm": "مسح كل شيء",
+  "eraseFailed": "تعذّر مسح البيانات. لم يُحذف شيء، حاول مرة أخرى.",
+  "back": "رجوع",
+  "next": "التالي",
+  "skip": "تخطي",
+  "save": "حفظ",
+  "start": "ابدأ",
+  "interestHealth": "الصحة واللياقة",
+  "interestGrowth": "التنمية الذاتية",
+  "interestReading": "القراءة",
+  "interestFaith": "العبادة والروحانيات",
+  "interestBudget": "الميزانية والادخار",
+  "interestKitchen": "المطبخ والوصفات",
+  "interestHome": "تنظيم المنزل",
+  "interestSkills": "تعلّم مهارات جديدة",
+  "interestWork": "العمل والإنتاجية",
+  "interestFamily": "الأسرة",
+  "onboardingWelcome": "أهلًا بك في إيمان",
+  "onboardingIntro": "مساعدك الشخصي للمهام والصحة والمطبخ والميزانية. كل ما تدخله يبقى على جهازك.",
+  "onboardingNameQuestion": "ما اسمك؟",
+  "onboardingNameLabel": "ما اسمك؟ (اختياري)",
+  "onboardingInterestsTitle": "ما الذي يهمّك؟",
+  "onboardingInterestsHint": "اختر ما يناسبك، ويمكنك تغييره لاحقًا من الإعدادات.",
+  "onboardingGoalsTitle": "أهدافك (اختياري)",
+  "onboardingGoalLabel": "اكتب هدفًا ثم اضغط +",
+  "onboardingGoalHint": "مثال: قراءة 20 صفحة يوميًا",
+  "onboardingAddGoal": "إضافة هدف",
+  "onboardingRemoveGoal": "حذف الهدف",
+  "onboardingPrivacy": "تُحفظ هذه المعلومات مشفّرة على جهازك. وإن فعّلت المساعد الذكي بمفتاحك، تُرسل مع طلباته إلى مزوّد الذكاء الاصطناعي الذي تختاره لتخصيص الردود.",
+  "onboardingSaveFailed": "تعذّر الحفظ على جهازك. حاول مرة أخرى.",
+  "tourPageOf": "صفحة {page} من {total}",
+  "@tourPageOf": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "tourIntroTitle": "جولة قصيرة",
+  "tourIntro1": "سنعرّفك على التطبيق في 10 صفحات قصيرة.",
+  "tourIntro2": "في كل صفحة فكرة واحدة فقط.",
+  "tourIntro3": "يمكنك الرجوع لأي صفحة بزر «رجوع».",
+  "tourTasksTitle": "الأهداف والمهام",
+  "tourTasks1": "اكتب مهمة صغيرة واحدة بزر «+».",
+  "tourTasks2": "حين تنتهي منها، ضع علامة ✓ بجانبها.",
+  "tourTasksExample": "مثال: «اشترِ الخبز».",
+  "tourGoalsTitle": "قسّم الكبير إلى صغير",
+  "tourGoals1": "الهدف الكبير يصبح سهلًا إذا قسّمته.",
+  "tourGoals2": "حرّك شريط التقدّم كلما أنجزت جزءًا.",
+  "tourGoalsExample": "مثال: «ترتيب البيت» هدف شهري، و«ترتيب غرفة النوم» هدف أسبوعي، و«ترتيب درج واحد» مهمة اليوم.",
+  "tourRemindersTitle": "التذكير",
+  "tourReminders1": "يمكنك أن تضع وقتًا للمهمة أو للدواء فيصلك تنبيه.",
+  "tourReminders2": "حين يسألك الجوال عن الإشعارات اضغط «السماح».",
+  "tourReminders3": "قد يتأخر التنبيه دقائق قليلة.",
+  "tourHealthTitle": "الصحة واللياقة",
+  "tourHealth1": "سجّل تمارينك، ومواعيد أدويتك، وروتين العناية.",
+  "tourHealthExample": "مثال: دواء الصباح الساعة 8.",
+  "tourKitchenTitle": "المطبخ والمنزل",
+  "tourKitchen1": "وصفاتك، وما عندك في البيت، وقائمة المشتريات، وجدول الغسيل.",
+  "tourKitchen2": "ما ينقص من البيت يمكنك نقله إلى المشتريات.",
+  "tourBudgetTitle": "الميزانية",
+  "tourBudget1": "اكتب دخلك ومصاريفك الثابتة مرة واحدة، فيحسب لك التطبيق كم يمكنك أن تصرف اليوم.",
+  "tourBudget2": "كل الأرقام تبقى على جوالك.",
+  "tourCoachTitle": "المدرب والمساعد الذكي",
+  "tourCoach1": "زر المدرب (أيقونة الرأس في أسفل وسط الشاشة) يسألك أسئلة تساعدك تفكّر وترتّب أمورك.",
+  "tourCoach2": "أما المساعد الذكي فيجيب أسئلتك، لكنه يحتاج مفتاحًا: الصفحة التالية تشرح كيف تحصل عليه.",
+  "tourKeyTitle": "مفتاح الذكاء الاصطناعي",
+  "tourStartTitle": "ابدأ بخطوة واحدة",
+  "tourStart1": "لا تحاول ترتيب كل شيء اليوم.",
+  "tourStart2": "اختر شيئًا صغيرًا واحدًا وابدأ به.",
+  "tourStart3": "يمكنك إعادة هذه الجولة من الإعدادات.",
+  "tourSaveFailed": "تعذّر حفظ إنهاء الجولة على جهازك.",
+  "tourKeySaved": "✓ تم حفظ المفتاح",
+  "tourAddKeyNow": "أضف المفتاح الآن",
+  "tourAddKeyLater": "سأضيفه لاحقًا",
+  "tourFinishFirstRun": "ابدأ استعمال التطبيق",
+  "tourFinish": "إنهاء",
+  "keyGuideTitle": "كيف أحصل على مفتاح؟",
+  "keyGuideIntro": "المفتاح مثل كلمة سرّ خاصة بك من المزوّد، يسمح للتطبيق أن يسأل الذكاء الاصطناعي باسمك.",
+  "keyGuideStepsWith": "الخطوات مع {provider}:",
+  "@keyGuideStepsWith": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "keyGuideGemini1": "اضغط «افتح صفحة المفاتيح».",
+  "keyGuideGemini2": "سجّل الدخول بحساب Google.",
+  "keyGuideGemini3": "وافق على الشروط إن ظهرت.",
+  "keyGuideGemini4": "اضغط الزر المكتوب عليه Create API key (قد يظهر بلغة جوالك).",
+  "keyGuideGemini5": "انسخ المفتاح.",
+  "keyGuideGemini6": "ارجع إلى التطبيق والصقه في خانة «المفتاح»، ثم اضغط «حفظ وتفعيل».",
+  "keyGuideOther1": "اضغط «افتح صفحة المفاتيح».",
+  "keyGuideOther2": "سجّل الدخول.",
+  "keyGuideOther3": "أنشئ مفتاحًا جديدًا.",
+  "keyGuideOther4": "انسخ المفتاح، ثم ارجع إلى التطبيق والصقه في خانة «المفتاح»، ثم اضغط «حفظ وتفعيل».",
+  "keyGuideGeminiFree": "لـ Gemini استعمال مجاني ضمن حدود تضعها Google. وإن فعّلت الدفع في حسابك عند Google فقد تُحتسب عليك رسوم.",
+  "keyGuidePaymentNote": "قد يطلب بعض المزوّدين إضافة وسيلة دفع قبل أن يعمل المفتاح.",
+  "keyGuideDontShare": "لا تشارك مفتاحك مع أحد ولا تنشره. يُحفظ على جوالك فقط.",
+  "keyGuideOpenPage": "افتح صفحة المفاتيح",
+  "keyGuideLinkCopied": "تم نسخ الرابط. الصقه في المتصفح.",
+  "add": "إضافة",
+  "undo": "تراجع",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "reminderNone": "بدون تذكير",
+  "reminderAt": "يوميًا عند {time}",
+  "@reminderAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSet": "ضبط تذكير",
+  "reminderChange": "تغيير الوقت",
+  "reminderRemove": "إزالة التذكير",
+  "reminderMedicationTitle": "تذكير بالدواء",
+  "reminderRoutineTitle": "تذكير بالعناية",
+  "reminderTaskTitle": "تذكير بمهمة",
+  "reminderNotScheduled": "لم يُضبط التذكير. يلزم تفعيل إشعارات هذا التطبيق من إعدادات الجوال ثم إعادة المحاولة.",
+  "notificationChannelName": "تذكيرات الحياة والمنزل",
+  "notificationChannelDescription": "تذكيرات الأدوية وروتين العناية والمهام التي تضبطها بنفسك",
+  "tasksTitle": "🎯 الأهداف والمهام اليومية",
+  "voiceImportTooltip": "استيراد مهام من المذكرة الصوتية",
+  "tabDailyTasks": "المهام اليومية",
+  "tabGoals": "الأهداف الهرمية",
+  "tabWird": "الورد والتتبع",
+  "taskAddTitle": "إضافة مهمة جديدة",
+  "taskField": "المهمة",
+  "taskHint": "اكتب نص المهمة...",
+  "categoryField": "التصنيف",
+  "reminderField": "تذكير",
+  "taskEditTitle": "تعديل المهمة",
+  "taskDeleted": "حُذفت «{title}»",
+  "@taskDeleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "addTask": "إضافة مهمة",
+  "taskPin": "تثبيت المهمة",
+  "taskUnpin": "إلغاء تثبيت المهمة",
+  "taskDelete": "حذف المهمة",
+  "tasksHeader": "مركز إدارة المهام المقسمة",
+  "tasksVoiceTip": "اضغط على أيقونة الميكروفون 🎙️ في الأعلى لاستيراد مهام من مذكرتك الصوتية",
+  "tasksEmpty": "لا توجد مهام بعد. اضغط + لإضافة مهمة أو استخدم المذكرة الصوتية.",
+  "catPersonal": "شخصي",
+  "catHome": "المنزل",
+  "catWork": "العمل",
+  "catFamily": "العائلة",
+  "goalAdd": "إضافة هدف",
+  "goalField": "الهدف",
+  "goalTypeField": "النوع",
+  "goalEditTitle": "تعديل الهدف",
+  "goalDeleted": "حُذف الهدف «{title}»",
+  "@goalDeleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "goalPin": "تثبيت الهدف",
+  "goalUnpin": "إلغاء تثبيت الهدف",
+  "goalDelete": "حذف الهدف",
+  "goalsHeader": "محرك الأهداف الهرمية (السنوية ⬅️ الشهرية ⬅️ الأسبوعية)",
+  "goalsEmpty": "لا توجد أهداف بعد. اضغط + لإضافة هدفك الأول.",
+  "goalTypeGeneral": "هدف عام",
+  "goalTypeYearly": "هدف سنوي",
+  "goalTypeMonthly": "هدف شهري",
+  "goalTypeWeekly": "هدف أسبوعي",
+  "wirdTitle": "متتبع الورد اليومي والقرآن الكريم",
+  "wirdCurrentPage": "الصفحة الحالية: {page}",
+  "@wirdCurrentPage": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "wirdFinished": "أتممت الختمة 🎉 بارك الله فيك",
+  "wirdRemaining": "المتبقي لإتمام الختمة: {count, plural, =1{صفحة واحدة} =2{صفحتان} few{{count} صفحات} many{{count} صفحة} other{{count} صفحة}}",
+  "@wirdRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "wirdReadOne": "تم قراءة صفحة (+1)",
+  "wirdSetPage": "تحديد الصفحة",
+  "wirdSetTitle": "تحديد الصفحة الحالية",
+  "wirdPageField": "رقم الصفحة (0 - {max})",
+  "@wirdPageField": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "wirdPageError": "أدخل رقمًا من 0 إلى {max}",
+  "@wirdPageError": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceTitle": "🎙️ استيراد من المذكرة الصوتية",
+  "voicePrompt": "اكتب نص المذكرة الصوتية أو ما تريد تحويله لمهام:",
+  "voiceHint": "مثال: أريد اليوم إنهاء التقرير، والذهاب للسوق، وترتيب الخزانة...",
+  "voiceExtracted": "المهام المستخرجة:",
+  "voiceExtracting": "جارٍ الاستخراج...",
+  "voiceExtract": "استخرج المهام 🧠",
+  "voiceImport": "استورد المهام للقائمة ✅",
+  "voiceImported": "{count, plural, =0{لم تُستورد أي مهمة} =1{✅ تم استيراد مهمة واحدة بنجاح} =2{✅ تم استيراد مهمتين بنجاح} few{✅ تم استيراد {count} مهام بنجاح} many{✅ تم استيراد {count} مهمة بنجاح} other{✅ تم استيراد {count} مهمة بنجاح}}",
+  "@voiceImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "healthTitle": "🏋️ الصحة واللياقة والعناية",
+  "awarenessTooltip": "وعي الاستخدام",
+  "tabExercises": "التمارين والعضلات",
+  "tabMeds": "جدول الأدوية",
+  "tabCare": "العناية بالبشرة",
+  "tabMeditation": "التأمل",
+  "exerciseDeleted": "حُذف «{name}»",
+  "@exerciseDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "medAddTitle": "إضافة دواء أو مكمل",
+  "nameField": "الاسم",
+  "medNameHint": "مثال: فيتامين د",
+  "timeOptionalField": "الوقت (اختياري)",
+  "medTimeHint": "مثال: 09:00 صباحاً",
+  "medEditTitle": "تعديل الدواء",
+  "careAddTitle": "إضافة منتج للروتين",
+  "productField": "المنتج",
+  "careProductHint": "مثال: مرطب البشرة",
+  "timeField": "الوقت",
+  "careStepField": "طريقة الاستخدام (اختياري)",
+  "careEditTitle": "تعديل المنتج",
+  "careMorning": "صباحاً",
+  "careEvening": "مساءً",
+  "careBoth": "صباحاً ومساءً",
+  "exerciseAnalysisTitle": "🏋️ تحليل التمرين والعضلات",
+  "saveAsExercise": "حفظ كتمرين",
+  "medReadTitle": "💊 قراءة علبة الدواء",
+  "medLabelNotice": "هذه قراءة آلية لما على العلبة وقد تخطئ. يُرجى الرجوع إلى نشرة الدواء أو الصيدلي أو الطبيب قبل تناول أي جرعة.",
+  "okAction": "حسناً",
+  "addExercise": "إضافة تمرين",
+  "addMedication": "إضافة دواء",
+  "addProduct": "إضافة منتج",
+  "healthLoadFailed": "تعذّر فتح بياناتك الصحية المحفوظة.",
+  "retry": "إعادة المحاولة",
+  "yourExercises": "تمارينك",
+  "analyzingImage": "جارٍ تحليل الصورة بالذكاء الاصطناعي...",
+  "analyzeExerciseImage": "تحليل صورة التمرين بالذكاء الاصطناعي",
+  "exerciseCardsHeader": "بطاقات التمارين بالجولات والتكرارات",
+  "logLabel": "السجل",
+  "noExercises": "لم تُضف تمارين بعد.",
+  "exercisePin": "تثبيت التمرين",
+  "exerciseUnpin": "إلغاء تثبيت التمرين",
+  "exerciseDelete": "حذف التمرين",
+  "medReadHeader": "قراءة علبة الدواء بالذكاء الاصطناعي",
+  "medReadBody": "صورة لعلبة الدواء أو المكمل، فيُقرأ ما هو مكتوب عليها: الاسم والجرعة المكتوبة والتحذيرات. القراءة الآلية قد تخطئ، والمرجع نشرة الدواء أو الصيدلي.",
+  "analyzingMed": "جارٍ تحليل علبة الدواء...",
+  "analyzeMed": "تحليل علبة الدواء 💊",
+  "medsHeader": "توقيتات الأدوية والمكملات اليومية",
+  "noMeds": "لم تُضف أدوية أو مكملات بعد. اضغط + للإضافة.",
+  "medDelete": "حذف الدواء",
+  "careHeader": "سجل منتجات الروتين اليومي للبشرة والشعر",
+  "noCare": "لم تُضف منتجات بعد. اضغط + للإضافة.",
+  "careDelete": "حذف المنتج",
+  "workoutLogTitle": "تسجيل تمرين اليوم",
+  "logAction": "تسجيل",
+  "setsField": "المجموعات",
+  "setsError": "أدخل رقمًا من 1 إلى {max}",
+  "@setsError": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "repsField": "التكرار",
+  "weightField": "الوزن (اختياري)",
+  "weightHint": "مثال: 40 كجم",
+  "noteOptionalField": "ملاحظة (اختياري)",
+  "workoutLogged": "سُجّل تمرين اليوم",
+  "exerciseDeleteAsk": "حذف التمرين؟",
+  "exerciseDeleteBody": "سيُحذف «{name}» وصورته. سجل تمارينك السابق يبقى.",
+  "@exerciseDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAction": "حذف",
+  "exerciseEdit": "تعديل التمرين",
+  "setsRepsLine": "المجموعات والتكرار: {value}",
+  "@setsRepsLine": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "logToday": "سجّل اليوم",
+  "exerciseLogOf": "سجل «{name}»",
+  "@exerciseLogOf": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "latestLogs": "آخر التسجيلات",
+  "stepsHeader": "خطوات الأداء",
+  "notesHeader": "ملاحظات",
+  "exerciseNameField": "اسم التمرين",
+  "musclesField": "العضلات المستهدفة",
+  "setsLess": "تقليل المجموعات",
+  "setsMore": "زيادة المجموعات",
+  "repsHint": "10 أو 8-12",
+  "addStep": "إضافة خطوة",
+  "notesOptional": "ملاحظات (اختياري)",
+  "addImage": "إضافة صورة",
+  "changeImage": "تغيير الصورة",
+  "removeImage": "إزالة الصورة",
+  "deleteStep": "حذف الخطوة",
+  "workoutLogDefaultTitle": "سجل التمارين",
+  "workoutEntryDeleted": "حُذف التسجيل",
+  "noWorkouts": "لم تُسجَّل تمارين بعد. افتح تمرينًا واضغط «سجّل اليوم».",
+  "exerciseFallbackName": "تمرين",
+  "workoutEntryDelete": "حذف التسجيل",
+  "imageSourceTitle": "اختيار مصدر الصورة",
+  "camera": "الكاميرا",
+  "gallery": "المعرض",
+  "draftExercise": "التمرين: {name}",
+  "@draftExercise": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "draftMuscles": "العضلات: {muscles}",
+  "@draftMuscles": {
+    "placeholders": {
+      "muscles": {
+        "type": "String"
+      }
+    }
+  },
+  "draftSteps": "الخطوات:",
+  "draftNotes": "ملاحظات: {notes}",
+  "@draftNotes": {
+    "placeholders": {
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "meditationGammaNotice": "نغمة جاما للاستماع أثناء التأمل، بمستوى صوت منخفض. لا تُستعمل أثناء القيادة أو تشغيل الآلات. من لديه صرع أو جهاز طبي مزروع يستشير الطبيب قبل الاستعمال. النوع المزدوج يحتاج سماعات.",
+  "meditationActiveNotice": "الحركة بلطف، في مكان واسع وآمن، والتوقف عند الدوخة أو الألم. من لديه حالة قلبية أو حمل أو إصابة يستشير الطبيب قبل هذه الجلسة.",
+  "meditationAiVoiceNotice": "صوت المرشد مولَّد بالذكاء الاصطناعي.",
+  "noticeBeforeStart": "ملاحظة قبل البدء",
+  "understoodStart": "فهمت، ابدأ",
+  "meditationLoadFailed": "تعذّر فتح جلسات التأمل. إعادة المحاولة",
+  "meditationWeekMinutes": "دقائق التأمل في آخر 7 أيام: {count}",
+  "@meditationWeekMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "meditationScreenOffTip": "الصوت يستمر والشاشة مطفأة، ويمكن الإيقاف من الإشعار.",
+  "withSubscription": "مع الاشتراك",
+  "toneNone": "بلا نغمة",
+  "toneBinauralShort": "جاما مزدوجة (سماعات)",
+  "toneIsochronicShort": "جاما نبضية",
+  "toneBinaural": "مزدوجة (سماعات)",
+  "toneIsochronic": "نبضية (بلا سماعات)",
+  "durationLabel": "المدة",
+  "backgroundSound": "الصوت في الخلفية",
+  "startSession": "ابدأ الجلسة",
+  "minutesShort": "{count} د",
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesCount": "{count, plural, =1{دقيقة واحدة} =2{دقيقتان} few{{count} دقائق} other{{count} دقيقة}}",
+  "@minutesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesRange": "من {from} إلى {to} {to, plural, few{دقائق} other{دقيقة}}",
+  "@minutesRange": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "soundFailed": "تعذّر تشغيل الصوت. حاول مرة أخرى.",
+  "endSessionAsk": "إنهاء الجلسة؟",
+  "endSessionBody": "تُحفظ الدقائق التي مضت إن كانت دقيقة أو أكثر.",
+  "continueSession": "متابعة الجلسة",
+  "endAction": "إنهاء",
+  "phaseOf": "المرحلة {current} من {total}",
+  "@phaseOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "timeLeft": "الوقت المتبقي",
+  "gammaLevel": "مستوى نغمة جاما",
+  "pauseAction": "إيقاف مؤقت",
+  "resumeAction": "متابعة",
+  "sessionFinished": "انتهت الجلسة",
+  "sessionMinutes": "دقائق هذه الجلسة: {count}",
+  "@sessionMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sessionUnderMinute": "الجلسات الأقصر من دقيقة لا تُحفظ في السجل.",
+  "meditationChannelName": "جلسات التأمل",
+  "kitchenTitle": "🥗 المطبخ والمؤونة والغسيل",
+  "tabRecipes": "الوصفات والوجبات",
+  "tabPantry": "المؤونة والمستلزمات",
+  "tabShopping": "المشتريات",
+  "tabLaundry": "جدول الغسيل",
+  "addRecipe": "إضافة وصفة",
+  "addPantryItem": "إضافة صنف",
+  "addShoppingItem": "إضافة بند للمشتريات",
+  "addLaundry": "إضافة موعد غسيل",
+  "recipeBreakfast": "فطور",
+  "recipeLunch": "غداء",
+  "recipeDinner": "عشاء",
+  "recipeSnack": "وجبة خفيفة",
+  "recipeDessert": "حلويات",
+  "recipeAi": "ذكاء اصطناعي",
+  "otherCategory": "أخرى",
+  "pantryOils": "الزيوت والبهارات",
+  "pantryGrains": "الحبوب والبقوليات",
+  "pantryProduce": "الخضار والفواكه",
+  "pantryDairyMeat": "الألبان واللحوم",
+  "pantryNuts": "المكسرات",
+  "pantryCleaning": "مستلزمات التنظيف",
+  "daySat": "السبت",
+  "daySun": "الأحد",
+  "dayMon": "الاثنين",
+  "dayTue": "الثلاثاء",
+  "dayWed": "الأربعاء",
+  "dayThu": "الخميس",
+  "dayFri": "الجمعة",
+  "sourceOutOfStock": "نفد من المؤونة",
+  "recipeNeedIngredients": "⚠️ يرجى كتابة المكونات أولاً",
+  "recipeSuggested": "وصفة مقترحة 🍽️",
+  "saveToRecipes": "حفظ في الوصفات",
+  "aiRecipeFallbackTitle": "وصفة ذكية: {first}",
+  "@aiRecipeFallbackTitle": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      }
+    }
+  },
+  "recipeAdded": "✅ تمت إضافة الوصفة",
+  "recipeDeleted": "حُذفت «{title}»",
+  "@recipeDeleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "recipesHeader": "موسوعة الوصفات وتفاصيل المقادير",
+  "recipesEmpty": "لا توجد وصفات بعد. اضغط + لإضافة وصفة، أو دع الذكاء الاصطناعي يقترح لك.",
+  "servingsCount": "{count, plural, =1{حصة واحدة} =2{حصتان} few{{count} حصص} other{{count} حصة}}",
+  "@servingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ingredientsCount": "{count, plural, =1{مكوّن واحد} =2{مكوّنان} few{{count} مكوّنات} other{{count} مكوّن}}",
+  "@ingredientsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "stepsCount": "{count, plural, =1{خطوة واحدة} =2{خطوتان} few{{count} خطوات} other{{count} خطوة}}",
+  "@stepsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipePin": "تثبيت الوصفة",
+  "recipeUnpin": "إلغاء تثبيت الوصفة",
+  "recipeDelete": "حذف الوصفة",
+  "ingredientsLine": "المقادير: {text}",
+  "@ingredientsLine": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "aiRecipeTitle": "🧑‍🍳 توليد وصفة بالذكاء الاصطناعي",
+  "aiRecipePrompt": "اكتب المكونات المتاحة في مطبخك (مفصولة بفواصل):",
+  "aiRecipeHint": "مثال: دجاج، أرز، طماطم، بصل، بهارات...",
+  "aiRecipeWorking": "جارٍ توليد الوصفة...",
+  "aiRecipeSuggest": "اقترح وصفة الآن ✨",
+  "pantryAddTitle": "إضافة صنف للمؤونة",
+  "itemField": "الصنف",
+  "qtyOptionalField": "الكمية (اختياري)",
+  "pantryQtyHint": "مثال: 2 لتر",
+  "pantryEditTitle": "تعديل الصنف",
+  "itemDeleted": "حُذف «{name}»",
+  "@itemDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "movedToShopping": "نُقل «{name}» إلى المشتريات",
+  "@movedToShopping": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pantryHeader": "مخزون المطبخ واحتياجات المنزل",
+  "pantryEmpty": "المؤونة فارغة. اضغط + لإضافة أول صنف.",
+  "pantrySearchHint": "بحث في المؤونة والمستلزمات",
+  "clearSearch": "مسح البحث",
+  "filterAll": "الكل",
+  "noSearchResults": "لا نتائج مطابقة للبحث.",
+  "pinnedSection": "📌 المثبّتة",
+  "qtyLess": "نقصان الكمية",
+  "qtyMore": "زيادة الكمية",
+  "moreActions": "المزيد",
+  "editAction": "تعديل",
+  "pinAction": "تثبيت",
+  "unpinAction": "إلغاء التثبيت",
+  "outToShopping": "نفد: إلى المشتريات",
+  "shoppingAddTitle": "إضافة بند للمشتريات",
+  "shoppingItemField": "البند",
+  "shoppingQtyHint": "مثال: 2 كجم",
+  "shoppingEditTitle": "تعديل البند",
+  "shoppingHeader": "قائمة المشتريات",
+  "shoppingEmpty": "قائمة المشتريات فارغة. اضغط + لإضافة بند، أو أضف مقادير وصفة من صفحتها.",
+  "movedToPantry": "{count, plural, =1{نُقل بند واحد إلى المؤونة} =2{نُقل بندان إلى المؤونة} few{نُقلت {count} بنود إلى المؤونة} many{نُقل {count} بندًا إلى المؤونة} other{نُقل {count} بند إلى المؤونة}}",
+  "@movedToPantry": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moveBoughtToPantry": "نقل المشتراة إلى المؤونة",
+  "clearBought": "مسح المشتراة",
+  "shoppingFrom": "من: {source}",
+  "@shoppingFrom": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "shoppingDelete": "حذف البند",
+  "laundryAddTitle": "إضافة موعد غسيل",
+  "dayField": "اليوم",
+  "laundryTypeField": "نوع الغسيل",
+  "laundryTypeHint": "مثال: الملابس الملونة",
+  "instructionsOptional": "التعليمات (اختياري)",
+  "laundryEditTitle": "تعديل موعد الغسيل",
+  "laundryDeleted": "حُذف موعد «{type}»",
+  "@laundryDeleted": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "laundryHeader": "جدول العناية بالأقمشة والغسيل الأسبوعي",
+  "laundryEmpty": "لا توجد مواعيد غسيل بعد. اضغط + لإضافة موعد.",
+  "instructionsLine": "التعليمات: {text}",
+  "@instructionsLine": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "laundryDelete": "حذف الموعد",
+  "recipeDeleteAsk": "حذف الوصفة؟",
+  "recipeDeleteBody": "ستُحذف «{title}» من وصفاتك.",
+  "@recipeDeleteBody": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToShopping": "{count, plural, =1{أُضيف بند واحد إلى المشتريات} =2{أُضيف بندان إلى المشتريات} few{أُضيفت {count} بنود إلى المشتريات} many{أُضيف {count} بندًا إلى المشتريات} other{أُضيف {count} بند إلى المشتريات}}",
+  "@addedToShopping": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyInList": "{count, plural, =1{بند واحد موجود في القائمة أصلًا} =2{بندان موجودان في القائمة أصلًا} few{{count} بنود موجودة في القائمة أصلًا} many{{count} بندًا موجودًا في القائمة أصلًا} other{{count} بند موجود في القائمة أصلًا}}",
+  "@alreadyInList": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeEdit": "تعديل الوصفة",
+  "ingredientsHeader": "المقادير",
+  "noIngredients": "لم تُضف مقادير بعد.",
+  "addIngredientsToShopping": "أضف المقادير إلى المشتريات",
+  "prepSteps": "خطوات التحضير",
+  "servingsScaled": "{servings, plural, =1{حصة واحدة} =2{حصتان} few{{servings} حصص} other{{servings} حصة}} (الأصل {original})",
+  "@servingsScaled": {
+    "placeholders": {
+      "servings": {
+        "type": "int"
+      },
+      "original": {
+        "type": "int"
+      }
+    }
+  },
+  "servingsLess": "تقليل الحصص",
+  "servingsMore": "زيادة الحصص",
+  "whatToShopping": "ما الذي تريد إضافته للمشتريات؟",
+  "inPantry": "موجود في المؤونة",
+  "addCount": "إضافة ({count})",
+  "@addCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ingredientNameRequired": "اسم المكوّن مطلوب",
+  "invalidAmount": "كمية غير صالحة",
+  "mealNameField": "اسم الوجبة",
+  "servingsField": "عدد الحصص",
+  "freeTextIngredients": "مقادير مكتوبة كنص حر:",
+  "convertIngredients": "تحويل إلى مقادير منظّمة",
+  "addIngredient": "إضافة مكوّن",
+  "ingredientField": "المكوّن",
+  "amountField": "الكمية",
+  "unitField": "الوحدة",
+  "unitHint": "كوب",
+  "deleteIngredient": "حذف المكوّن",
+  "stepNumber": "الخطوة {number}",
+  "@stepNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeTypeField": "النوع",
+  "expenseFood": "طعام",
+  "expenseTransport": "مواصلات",
+  "expenseEntertainment": "ترفيه",
+  "expenseBills": "فواتير",
+  "expenseShopping": "تسوق",
+  "percentSign": "٪",
+  "listSeparator": "، ",
+  "planSaved": "حُفظت خطة الميزانية",
+  "limitsSaved": "حُفظت الحدود. عدّلها من «تعديل الخطة»",
+  "budgetTitle": "💰 المحفظة المالية والميزانية",
+  "monthlyExpenses": "مصاريفي الشهرية",
+  "budgetOpenFailed": "تعذّر فتح بيانات الميزانية",
+  "setupBudgetTitle": "ابدأ بإعداد ميزانيتك",
+  "setupBudgetBody": "أدخل دخلك الشهري ويوم نزول الراتب ومصروفاتك الثابتة، وسنحسب لك كم يبقى لك وكم تصرف يوميًا. تُحفظ كل بياناتك على جهازك مشفّرة.",
+  "setupBudgetButton": "إعداد الميزانية",
+  "currentCycleBudget": "ميزانية الدورة الحالية",
+  "daysLeft": "{count, plural, =1{باقي يوم واحد} =2{باقي يومان} few{باقي {count} أيام} many{باقي {count} يومًا} other{باقي {count} يوم}}",
+  "@daysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cycleRange": "من {start} إلى {end}",
+  "@cycleRange": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingLabel": "المتبقي",
+  "spentPercent": "صرفت {percent}٪ من المتاح",
+  "@spentPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "incomeLabel": "الدخل",
+  "fixedExpenses": "المصروفات الثابتة",
+  "savingsLabel": "الادخار",
+  "availableToSpend": "المتاح للصرف",
+  "spentSoFar": "المصروف حتى الآن",
+  "dailyAvailable": "المتاح يوميًا",
+  "overcommittedWarning": "المصروفات الثابتة والادخار ({amount}) أكبر من دخلك. عدّل الخطة.",
+  "@overcommittedWarning": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "overspentWarning": "تجاوزت المتاح في هذه الدورة بمقدار {amount}.",
+  "@overspentWarning": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "nearEndWarning": "اقتربت من نهاية المتاح: صرفت {percent}٪ ويبقى {amount}.",
+  "@nearEndWarning": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "editPlan": "تعديل الخطة",
+  "suggestBudget": "اقتراح ميزانية",
+  "paidCount": "دُفع {paid} من {total}",
+  "@paidCount": {
+    "placeholders": {
+      "paid": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dueDayLine": "يوم {day} من الشهر",
+  "@dueDayLine": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "dueDayAmount": "يوم {day} من الشهر · {amount}",
+  "@dueDayAmount": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "byCategory": "الصرف حسب الفئة",
+  "noCategorySpending": "لا صرف مسجَّل في هذه الدورة ولا حدود للفئات. يمكنك اقتراح حدود من «اقتراح ميزانية».",
+  "overLimit": "تجاوزت حد «{category}» بمقدار {amount}.",
+  "@overLimit": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "nearLimit": "اقتربت من حد «{category}»: صرفت {percent}٪ منه.",
+  "@nearLimit": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "recentExpenses": "آخر المصاريف",
+  "noRecentExpenses": "لا مصاريف مسجَّلة في هذه الدورة بعد.",
+  "recordExpense": "سجّل مصروف",
+  "allExpenses": "كل المصاريف",
+  "invalidAmountPositive": "أدخل مبلغًا صحيحًا أكبر من صفر",
+  "percentRange": "أدخل نسبة بين 0 و100",
+  "savingsAmountInvalid": "أدخل مبلغًا صحيحًا (أو اتركه فارغًا)",
+  "checkRedFields": "راجع الحقول المعلَّمة بالأحمر ثم احفظ مرة أخرى",
+  "planSaveFailed": "تعذّر حفظ الخطة. حاول مرة أخرى",
+  "unsavedChanges": "تعديلات غير محفوظة",
+  "unsavedPlanBody": "لم تحفظ التغييرات على خطة الميزانية. هل تحفظها قبل الخروج؟",
+  "keepEditing": "متابعة التعديل",
+  "leaveWithoutSaving": "خروج بلا حفظ",
+  "savePlan": "حفظ الخطة",
+  "newFixedExpense": "مصروف ثابت جديد",
+  "editFixedExpense": "تعديل المصروف الثابت",
+  "expenseName": "اسم المصروف",
+  "expenseNameHint": "مثال: إيجار",
+  "amountLabel": "المبلغ",
+  "dueDayField": "يوم الاستحقاق (من 1 إلى 31)",
+  "dueDayInvalid": "أدخل يومًا من 1 إلى 31",
+  "budgetPlanTitle": "خطة الميزانية",
+  "incomeAndCycle": "الدخل والدورة",
+  "monthlyIncome": "الدخل الشهري",
+  "paydayField": "يوم نزول الراتب",
+  "paydayHelper": "تبدأ دورة الميزانية من هذا اليوم كل شهر",
+  "currencyField": "العملة",
+  "fixedEmptyHint": "أضف ما يتكرر كل شهر: إيجار، أقساط، اشتراكات، فواتير.",
+  "deleteNamed": "حذف {name}",
+  "@deleteNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "totalLine": "المجموع: {amount}",
+  "@totalLine": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "addFixedExpense": "إضافة مصروف ثابت",
+  "monthlySavingsGoal": "هدف الادخار الشهري",
+  "savingsModeAmount": "مبلغ",
+  "savingsModePercent": "نسبة من الدخل",
+  "savingsPercentField": "نسبة الادخار",
+  "savingsAmountField": "مبلغ الادخار",
+  "equalsMonthly": "يساوي {amount} شهريًا",
+  "@equalsMonthly": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryLimitsOptional": "حدود الفئات (اختياري)",
+  "categoryLimitsHint": "حدّ أقصى للصرف في كل فئة خلال الدورة. اتركه فارغًا لعدم وضع حد.",
+  "categoryLimitField": "حد {category}",
+  "@categoryLimitField": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "planOvercommitted": "المصروفات الثابتة والادخار ({committed}) أكبر من الدخل ({income}). لن يبقى شيء للصرف.",
+  "@planOvercommitted": {
+    "placeholders": {
+      "committed": {
+        "type": "String"
+      },
+      "income": {
+        "type": "String"
+      }
+    }
+  },
+  "limitsOverAvailable": "مجموع حدود الفئات ({limits}) أكبر من المتاح للصرف ({available}).",
+  "@limitsOverAvailable": {
+    "placeholders": {
+      "limits": {
+        "type": "String"
+      },
+      "available": {
+        "type": "String"
+      }
+    }
+  },
+  "planSummary": "ملخص الخطة",
+  "limitsSaveFailed": "تعذّر حفظ الحدود. حاول مرة أخرى",
+  "yourAiProvider": "مزوّد الذكاء الاصطناعي الذي اخترته",
+  "sendFinancialData": "إرسال بياناتك المالية؟",
+  "financialConsentBody": "سيُرسل إلى «{provider}» الأرقام التالية فقط:\n• الدخل الشهري: {income}\n• مجموع المصروفات الثابتة: {fixed}\n• هدف الادخار: {savings}\n• المتاح للصرف: {available}\n\nلن تُرسل أسماء مصروفاتك الثابتة ولا مصاريفك المسجَّلة. ما يُرسل يخضع لسياسة هذا المزوّد. نسألك في كل مرة، ولا شيء يُرسل قبل موافقتك.",
+  "@financialConsentBody": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "income": {
+        "type": "String"
+      },
+      "fixed": {
+        "type": "String"
+      },
+      "savings": {
+        "type": "String"
+      },
+      "available": {
+        "type": "String"
+      }
+    }
+  },
+  "agreeAndSend": "أوافق وأرسل هذه المرة",
+  "aiSuggestionUnreadable": "لم أتمكن من قراءة الاقتراح كحدود للفئات. {reply}",
+  "@aiSuggestionUnreadable": {
+    "placeholders": {
+      "reply": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAsLimits": "حفظ كحدود للفئات",
+  "availableMonthly": "المتاح للصرف شهريًا",
+  "noAvailableForLimits": "لا يوجد متاح للصرف في خطتك الآن، فلا يمكن اقتراح حدود. عدّل الدخل أو المصروفات الثابتة أو الادخار أولًا.",
+  "localSuggestion": "اقتراح محلي (بلا إنترنت)",
+  "localRuleText": "قاعدة بسيطة توزّع المتاح هكذا: {rule}. بعد الحفظ تعدّل أي حد من «تعديل الخطة».",
+  "@localRuleText": {
+    "placeholders": {
+      "rule": {
+        "type": "String"
+      }
+    }
+  },
+  "aiSuggestionOptional": "اقتراح بالذكاء الاصطناعي (اختياري)",
+  "aiSuggestionNote": "يرسل أرقام خطتك المالية إلى المزوّد الذي اخترته، ولا يُرسل شيء إلا بموافقتك في كل مرة.",
+  "askAiSuggestion": "اطلب اقتراحًا بالذكاء الاصطناعي",
+  "aiSuggestionOver": "مجموع هذا الاقتراح ({amount}) أكبر من المتاح للصرف. عدّله بعد الحفظ.",
+  "@aiSuggestionOver": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseDeleted": "حُذف مصروف {amount}",
+  "@expenseDeleted": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "noMonthExpenses": "لا توجد مصاريف مسجلة في هذا الشهر",
+  "previousMonth": "الشهر السابق",
+  "nextMonth": "الشهر التالي",
+  "totalSpending": "إجمالي الصرف",
+  "breakdownByCategory": "التوزيع حسب الفئة",
+  "percentOfTotal": "{percent}٪ من الإجمالي",
+  "@percentOfTotal": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "monthExpenses": "مصروفات الشهر",
+  "deleteExpense": "حذف المصروف",
+  "recordExpenseTitle": "تسجيل مصروف",
+  "editExpenseTitle": "تعديل مصروف",
+  "expenseCategoryField": "الفئة",
+  "dateLine": "التاريخ: {date}",
+  "@dateLine": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "changeDate": "تغيير التاريخ",
+  "aiMissingKey": "يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحه من الإعدادات أولًا.",
+  "aiInvalidKey": "المفتاح غير صالح أو منتهي. يرجى تحديثه من إعدادات مزوّد الذكاء الاصطناعي ثم إعادة المحاولة.",
+  "aiModelNotFound": "الموديل المختار غير موجود أو أُوقف. يرجى تحديث قائمة الموديلات من الإعدادات واختيار موديل آخر.",
+  "aiRateLimited": "تم بلوغ حد الاستخدام أو الرصيد لدى المزوّد. يرجى الانتظار قليلًا أو مراجعة الحساب لديه ثم إعادة المحاولة.",
+  "aiBusy": "خوادم المزوّد مزدحمة الآن، والمشكلة عنده لا في التطبيق. يرجى المحاولة بعد قليل، أو اختيار موديل أخفّ من إعدادات الذكاء الاصطناعي (مثل الموديلات التي في اسمها lite أو mini أو haiku).",
+  "aiNetwork": "تعذّر الاتصال بالإنترنت. يرجى التحقق من الشبكة ثم إعادة المحاولة.",
+  "aiTimeout": "لم يصل رد من المزوّد في الوقت المحدد، وغالبًا خوادمه مزدحمة. يرجى المحاولة مرة أخرى، أو اختيار موديل أخفّ وأسرع من إعدادات الذكاء الاصطناعي (مثل الموديلات التي في اسمها lite أو mini أو haiku).",
+  "aiBadRequest": "رفض المزوّد الطلب. قد لا يدعم الموديل هذا النوع من الطلبات، فجرّب موديلًا آخر.",
+  "aiImageUnsupported": "الموديل المختار لا يدعم الصور. يرجى اختيار موديل يدعمها من إعدادات مزوّد الذكاء الاصطناعي.",
+  "aiBlocked": "تعذّر تكوين رد لهذا الطلب. جرّب صياغة مختلفة.",
+  "aiUnsupportedLocation": "خدمة المزوّد غير متاحة في بلدك حاليًا.",
+  "aiInsecureUrl": "عنوان المزوّد يجب أن يبدأ بـ https:// ويكون عنوانًا صحيحًا.",
+  "aiInvalidModelName": "اسم الموديل غير صالح. يُسمح بالحروف والأرقام والرموز - _ . : / @ فقط.",
+  "aiEmptyReply": "لم يتم استلام رد من المساعد الذكي.",
+  "aiUnknown": "حدث خطأ غير متوقع مع المساعد الذكي. يرجى المحاولة مرة أخرى بعد قليل.",
+  "aiEmptyImageReply": "لم أتمكن من تحليل الصورة.",
+  "aiNoKeySet": "لم يُضبط مفتاح",
+  "customProviderLabel": "مخصص (متوافق مع OpenAI)",
+  "providerConnectionOk": "الاتصال سليم والموديل يرد.",
+  "providerImageRejected": "الموديل لم يقبل الصورة، فعُلّم بأنه لا يدعم الصور.",
+  "providerImagesOk": "الموديل يدعم الصور.",
+  "providerNoModels": "لم يُرجع المزوّد أي موديل.",
+  "providerSaved": "تم حفظ إعداد الذكاء الاصطناعي.",
+  "providerKeyDeleted": "حُذف المفتاح من هذا الجهاز.",
+  "linkCopied": "تم نسخ الرابط",
+  "providerIntro": "اختر المزوّد الذي تريد استعماله وأدخل مفتاحك الخاص منه.\nالمفتاح يُحفظ على جهازك فقط في تخزين آمن، ويُرسل إلى المزوّد الذي تختاره وحده مع طلباتك، بلا خادم وسيط. ما تُرسله يخضع لسياسة الخصوصية لدى ذلك المزوّد.",
+  "providerField": "المزوّد",
+  "providerUrlField": "عنوان المزوّد",
+  "modelNameField": "اسم الموديل",
+  "modelNameHint": "اكتب الاسم أو اجلبه من المزوّد",
+  "fetchModels": "جلب الموديلات المتاحة",
+  "keyField": "المفتاح",
+  "copyLink": "نسخ الرابط",
+  "pasteKeyHint": "الصق مفتاحك هنا",
+  "savedKeyHint": "محفوظ: {preview} (اتركه فارغًا للإبقاء عليه)",
+  "@savedKeyHint": {
+    "placeholders": {
+      "preview": {
+        "type": "String"
+      }
+    }
+  },
+  "showKey": "إظهار المفتاح",
+  "hideKey": "إخفاء المفتاح",
+  "deleteSavedKey": "حذف المفتاح المحفوظ",
+  "modelImagesQuestion": "هل يدعم الموديل الصور؟",
+  "yes": "نعم",
+  "no": "لا",
+  "unknownSupport": "غير معروف",
+  "testImagesAuto": "اختبار دعم الصور تلقائيًا",
+  "testConnection": "اختبار الاتصال",
+  "saveAndActivate": "حفظ وتفعيل",
+  "searchModels": "بحث في {count} موديل",
+  "@searchModels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "assistantActivated": "✅ تم تفعيل المزوّد بنجاح! يمكنك الآن استخدام جميع ميزات الذكاء الاصطناعي.",
+  "assistantTitle": "🤖 المساعد الذكي",
+  "assistantProviderSetup": "إعداد مزوّد الذكاء الاصطناعي",
+  "assistantStarting": "جارٍ تهيئة المساعد الذكي...",
+  "assistantThinking": "جارٍ التفكير...",
+  "assistantHint": "اسأل المساعد الذكي أو اطلب اقتراحاً...",
+  "send": "إرسال",
+  "coachDomainBeliefs": "المعتقدات",
+  "coachDomainEmotions": "المشاعر",
+  "coachDomainGoals": "الأهداف والتخطيط",
+  "coachDomainOrganization": "التنظيم والتوازن",
+  "coachDomainSkills": "المهارات والتقنيات",
+  "coachHintBudget": "لاحظنا نمطًا في مصاريفك هذا الأسبوع",
+  "coachHintUsage": "هذا السؤال مرتبط بتوزيع وقتك اليوم",
+  "coachHintReflection": "لاحظنا فكرة تتكرر في إجاباتك الأخيرة",
+  "coachQuotaRemaining": "متبقٍ {remaining} من {limit} مجانًا هذا الشهر",
+  "@coachQuotaRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "coachQuotaUsedUp": "انتهت المحاولات المجانية لهذا الشهر، وتتجدد في {date}",
+  "@coachQuotaUsedUp": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coachQuotaRenews": "تتجدد محاولاتك المجانية في {date}",
+  "@coachQuotaRenews": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coachQuotaOffer": "{limit, plural, =1{تحصل مجانًا على سؤال متابعة واحد كل شهر.} =2{تحصل مجانًا على سؤالَي متابعة كل شهر.} few{تحصل مجانًا على {limit} أسئلة متابعة كل شهر.} other{تحصل مجانًا على {limit} سؤال متابعة كل شهر.}} الاشتراك يجعلها بلا حد.",
+  "@coachQuotaOffer": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "crisisResponse": "إذا كنت تمر بأزمة فعلية أو تفكر في إيذاء نفسك، الرجاء التواصل فورًا مع خط مساعدة مختص أو أقرب جهة طوارئ. هذا التطبيق أداة تأمل ذاتي فقط، وليس بديلاً عن معالج نفسي مرخّص.",
+  "crisisSaudiNote": "في المملكة العربية السعودية (خطوط حكومية رسمية):",
+  "crisisLocalEmergency": "إن كان هناك خطر مباشر، اتصل الآن برقم الطوارئ في بلدك، أو اذهب إلى أقرب قسم طوارئ.",
+  "crisisFinderLabel": "ابحث عن خط مساعدة مجاني في بلدك",
+  "crisisImportant": "مهم",
+  "gotIt": "فهمت",
+  "coachHistory": "سجل جلسات المدرب",
+  "coachDisclaimer": "هذه أداة تأمل ذاتي، وليست بديلًا عن معالج نفسي مرخّص.",
+  "coachAnswerHint": "إجابتك (اختياري)...",
+  "coachDeepen": "عمّق أكثر",
+  "coachSessionDeleted": "حُذفت الجلسة",
+  "coachNoSessions": "لا توجد جلسات محفوظة بعد",
+  "coachDeleteSession": "حذف الجلسة",
+  "payPending": "الدفع قيد المعالجة لدى Google Play، وسيُفعَّل الاشتراك تلقائيًا عند اكتماله.",
+  "payError": "تعذّر إتمام الشراء، حاول مرة أخرى.",
+  "payOpenFailed": "تعذّر فتح نافذة الشراء، حاول مرة أخرى.",
+  "payNoSubscription": "لا يوجد اشتراك فعّال على حساب Google Play هذا.",
+  "payTitle": "الاشتراك الشهري",
+  "payHeadingMeditation": "كل جلسات التأمل",
+  "payHeadingCoach": "تعمّق أكثر في تأملك",
+  "payBenefitDeepen": "«عمّق أكثر» بلا حد: سؤال متابعة مبني على إجابتك أنت، بلا نصائح ولا أحكام.",
+  "payBenefitMeditation": "كل جلسات التأمل المرشدة والحركية: مسح الجسد، والحضور في اللحظة، وحركة ثم سكون.",
+  "payBenefitControl": "أنت تقرر متى تستعملها، لا شيء يحدث تلقائيًا.",
+  "payFreeNote": "الأسئلة المحلية وسجل جلساتك وتتبع الميزانية تبقى مجانية بالكامل، وكذلك عجلة الحياة وتسمية المشاعر، والمؤقت الصامت وموجات جاما وجلسة التنفّس الهادئ.\nسؤال المتابعة يعمل بمفتاح مزوّد الذكاء الاصطناعي الذي تحدده من الإعدادات.",
+  "payUnavailable": "الاشتراك غير متاح حاليًا",
+  "paySubscribe": "اشترك الآن — {price} شهريًا",
+  "@paySubscribe": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "payAndroidOnly": "الاشتراك متاح في نسخة Android المثبتة من Google Play.",
+  "payRestore": "استعادة المشتريات",
+  "payRenewal": "يتجدد الاشتراك تلقائيًا كل شهر بنفس السعر حتى تلغيه. يمكنك الإلغاء في أي وقت من Google Play ← الدفعات والاشتراكات ← الاشتراكات.",
+  "hoursShort": "{h} س",
+  "@hoursShort": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursMinutesShort": "{h} س {m} د",
+  "@hoursMinutesShort": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "refresh": "تحديث",
+  "usageAndroidOnly": "هذه الميزة تعمل على أجهزة Android فقط، لأنها تعتمد على صلاحية \"الوصول إلى بيانات الاستخدام\" في النظام.",
+  "usageReadFailed": "تعذّرت قراءة بيانات الاستخدام من النظام، حاول مرة أخرى لاحقًا.",
+  "usageToday": "وقتك اليوم في تطبيقات التواصل",
+  "usageNone": "لم يُسجَّل استخدام لهذه التطبيقات اليوم.",
+  "usageBreakdown": "التوزيع بين التطبيقات (بالدقائق)",
+  "usageShare": "{percent}٪ من وقت التواصل اليوم",
+  "@usageShare": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "usageSource": "من منتصف الليل حتى الآن، كما يسجّلها نظام Android. الأرقام تبقى على جهازك فقط.",
+  "usageHowTitle": "كيف تعمل هذه الميزة؟",
+  "usageHowBody": "نقرأ من نظام Android عدد الدقائق التي قضيتها اليوم في: {apps}. رقم واحد لكل تطبيق، لا أكثر.\nلا نقرأ رسائلك ولا إشعاراتك ولا أي محتوى داخل هذه التطبيقات، ولا نطلب تسجيل الدخول لأي حساب.\nالأرقام تبقى على جهازك فقط ولا تُرسل لأي مكان، ويمكنك إلغاء الصلاحية في أي وقت من نفس الإعدادات.",
+  "@usageHowBody": {
+    "placeholders": {
+      "apps": {
+        "type": "String"
+      }
+    }
+  },
+  "usageEnableTitle": "لتفعيلها:",
+  "usageStep1": "اضغط \"فتح الإعدادات\" بالأسفل.",
+  "usageStep2": "ابحث في القائمة عن تطبيق \"{app}\".",
+  "@usageStep2": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "usageStep3": "فعّل خيار السماح بالوصول إلى بيانات الاستخدام (قد يختلف الاسم قليلًا حسب نوع الجهاز).",
+  "usageStep4": "ارجع إلى التطبيق، وستظهر أرقام اليوم تلقائيًا.",
+  "openSettings": "فتح الإعدادات",
+  "notNow": "ليس الآن",
+  "backupWeakPassword": "كلمة المرور قصيرة: يلزم {min} أحرف على الأقل.",
+  "@backupWeakPassword": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "backupNotABackup": "هذا الملف ليس نسخة احتياطية من هذا التطبيق.",
+  "backupUnsupportedVersion": "هذه النسخة أحدث من إصدار التطبيق الحالي. يرجى تحديث التطبيق ثم إعادة المحاولة.",
+  "backupWrongPassword": "كلمة المرور غير صحيحة، أو أن الملف تالف.",
+  "backupRestoreFailed": "تعذّرت الاستعادة، وأُعيدت البيانات كما كانت.",
+  "backupRestoreFailedUnsafe": "تعذّرت الاستعادة وقد تكون البيانات ناقصة. يرجى إعادة المحاولة بنفس الملف.",
+  "backupSaveDialog": "حفظ النسخة الاحتياطية",
+  "backupPickDialog": "اختيار ملف النسخة الاحتياطية",
+  "contactSubject": "تواصل بخصوص التطبيق",
+  "assistantHello": "أهلًا بك!",
+  "assistantHelloName": "أهلًا بك يا {name}!",
+  "@assistantHelloName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "assistantGreetingBody": "أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى.",
+  "coachToolsTitle": "أدوات المدرب",
+  "coachToolsIntro": "تمارين قصيرة بخطوات، تُحفظ نتائجها على هذا الجهاز للمقارنة بالمرات السابقة.",
+  "coachToolsEntry": "أدوات المدرب: عجلة الحياة والمشاعر والمزيد",
+  "wheelTitle": "عجلة الحياة",
+  "wheelSubtitle": "تقييم مجالات الحياة الثمانية واختيار خطوة صغيرة.",
+  "emotionTitle": "تسمية المشاعر",
+  "emotionSubtitle": "تسمية الشعور ومتابعته عبر الأيام.",
+  "wheelHealth": "الصحة",
+  "wheelWork": "العمل أو الدراسة",
+  "wheelMoney": "المال",
+  "wheelFamily": "الأسرة",
+  "wheelRelationships": "الأصدقاء والعلاقات",
+  "wheelGrowth": "التطور الشخصي",
+  "wheelSpirit": "الجانب الروحي",
+  "wheelFun": "المتعة والراحة",
+  "wheelIntro": "تقييم الرضا عن كل مجال من 0 إلى 10، ثم اختيار مجال واحد للعمل عليه.",
+  "wheelNow": "الآن",
+  "wheelLastTime": "المرة السابقة ({date})",
+  "@wheelLastTime": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "wheelWas": "كان {score}",
+  "@wheelWas": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "wheelFocus": "مجال التركيز",
+  "wheelQ1": "ما الذي يجعل «{area}» عند {score} وليس أقل؟",
+  "@wheelQ1": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "wheelQ2": "لو صار «{area}» عند {target}، ما أول ما سيتغيّر في اليوم؟",
+  "@wheelQ2": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "wheelQ2Keep": "ما الذي يساعد على إبقاء «{area}» في هذا المستوى؟",
+  "@wheelQ2Keep": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "wheelQ3": "ما الذي يقف في الطريق الآن؟",
+  "wheelQ4": "ما خطوة صغيرة واحدة تقرّب هذا المجال نقطة واحدة هذا الأسبوع؟",
+  "answerOptional": "الإجابة (اختياري)",
+  "stepToTask": "إضافة الخطوة إلى المهام",
+  "stepReminder": "تذكير: {time}",
+  "@stepReminder": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "stepNoReminder": "بلا تذكير",
+  "stepSetReminder": "ضبط تذكير",
+  "wheelSave": "حفظ العجلة",
+  "wheelSaved": "حُفظت عجلة الحياة.",
+  "wheelSavedWithTask": "حُفظت عجلة الحياة، وأُضيفت الخطوة إلى المهام.",
+  "emotionIntro": "تسمية الشعور بدقة خطوة أولى لفهمه. لا توجد إجابة صحيحة أو خاطئة.",
+  "emotionWhich": "ما الشعور الأقرب الآن؟",
+  "emotionWord": "كلمة أدق (اختياري)",
+  "emotionIntensity": "الشدة الآن: {value} من 10",
+  "@emotionIntensity": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "emotionWhere": "أين يظهر هذا الشعور في الجسد؟",
+  "emotionTrigger": "ما الذي أثاره؟ (اختياري)",
+  "emotionNeed": "ما الذي يحتاجه هذا الشعور الآن؟",
+  "emotionPickFirst": "اختيار الشعور أولًا",
+  "emotionSaved": "حُفظ الشعور في السجل.",
+  "emotionStrong": "الشعور قوي الآن. إن رغبت، جلسة «تنفّس هادئ» في تبويب التأمل تتيح بضع دقائق من التنفّس البطيء.",
+  "openMeditation": "فتح التأمل",
+  "emotionLog": "سجل المشاعر",
+  "emotionLogEmpty": "لا مشاعر مسجّلة بعد.",
+  "emotionMostFrequent": "الأكثر تكرارًا في آخر 30 يومًا: {feeling}",
+  "@emotionMostFrequent": {
+    "placeholders": {
+      "feeling": {
+        "type": "String"
+      }
+    }
+  },
+  "emotionLine": "{feeling} · {value} من 10",
+  "@emotionLine": {
+    "placeholders": {
+      "feeling": {
+        "type": "String"
+      },
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "toolRecordDeleted": "حُذف السجل",
+  "deleteEntry": "حذف السجل",
+  "feelingHappy": "سعادة",
+  "feelingCalm": "هدوء",
+  "feelingGrateful": "امتنان",
+  "feelingHopeful": "أمل",
+  "feelingProud": "فخر",
+  "feelingTired": "تعب",
+  "feelingAnxious": "قلق",
+  "feelingStressed": "توتر",
+  "feelingSad": "حزن",
+  "feelingLonely": "وحدة",
+  "feelingAngry": "غضب",
+  "feelingFrustrated": "إحباط",
+  "feelingAfraid": "خوف",
+  "feelingGuilty": "شعور بالذنب",
+  "feelingBored": "ملل",
+  "feelingOverwhelmed": "إرهاق",
+  "bodyHead": "الرأس",
+  "bodyThroat": "الحلق",
+  "bodyChest": "الصدر",
+  "bodyStomach": "البطن",
+  "bodyShoulders": "الكتفان",
+  "bodyHands": "اليدان",
+  "bodyWhole": "كل الجسد",
+  "bodyUnsure": "غير واضح",
+  "needRest": "راحة",
+  "needTalk": "حديث مع شخص",
+  "needMovement": "حركة",
+  "needQuiet": "وقت هادئ",
+  "needSolve": "حل أمر عالق",
+  "needWrite": "الكتابة عنه",
+  "needNothing": "لا شيء الآن",
+  "followUpTitle": "آخر خطوة",
+  "followUpQuestion": "«{step}». كيف سارت؟",
+  "@followUpQuestion": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "followUpDone": "تمّت",
+  "followUpNotYet": "لم تتم بعد",
+  "followUpNoted": "سُجّل ذلك.",
+  "historyToolsSection": "أدوات المدرب",
+  "historyWheelFocus": "التركيز: {area} ({score})",
+  "@historyWheelFocus": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "historyStep": "الخطوة: {step}",
+  "@historyStep": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "toolSaved": "حُفظ.",
+  "toolSavedWithTask": "حُفظ، وأُضيفت الخطوة إلى المهام.",
+  "writeSentenceFirst": "كتابة الجملة أولًا",
+  "beliefTitle": "فحص معتقد",
+  "beliefSubtitle": "فحص جملة تتكرر في الرأس، وصياغة أدق لها.",
+  "beliefIntro": "جملة تتكرر في الرأس عن النفس أو عن الحياة، تُفحص هنا كفكرة لا كحقيقة.",
+  "beliefSentence": "ما الجملة؟ (مثل: «لا أنجح في أي شيء»)",
+  "beliefOrigin": "متى بدأت هذه الفكرة، ومن أين جاءت؟",
+  "beliefFor": "ما الذي يؤيدها؟",
+  "beliefAgainst": "ما الذي ينقضها، ولو كان صغيرًا؟",
+  "beliefStrengthBefore": "كم تبدو صحيحة الآن؟ {value} من 10",
+  "@beliefStrengthBefore": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "beliefNew": "صياغة أدق وأكثر إنصافًا للجملة نفسها:",
+  "beliefNewFor": "ما الذي يؤيد الصياغة الجديدة؟",
+  "beliefStrengthAfter": "وكم تبدو الجملة القديمة صحيحة بعد هذا؟ {value} من 10",
+  "@beliefStrengthAfter": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "beliefStep": "خطوة صغيرة تختبر الصياغة الجديدة هذا الأسبوع:",
+  "innerVoiceTitle": "الصوت الداخلي",
+  "innerVoiceSubtitle": "التعرّف على الصوت الناقد وإعادة صياغة ما يقوله.",
+  "innerVoiceIntro": "للصوت الناقد في الداخل أنماط متكررة. تسميته تجعل ملاحظته أسهل حين يتكلم.",
+  "innerVoiceType": "أي نمط هو الأقرب؟",
+  "voiceWorrier": "القلِق: يتوقع الأسوأ",
+  "voiceCritic": "الناقد: يحاسب على كل خطأ",
+  "voiceHopeless": "اليائس: يقول لا فائدة",
+  "voicePerfectionist": "الكمالي: لا يرضى إلا بالكمال",
+  "innerVoiceName": "اسم له (اختياري)",
+  "innerVoiceSentence": "ما الجملة التي يكررها كثيرًا؟",
+  "innerVoiceWhen": "متى يعلو صوته عادة؟",
+  "innerVoiceFriend": "لو قالها صديق عن نفسه، ماذا سيكون الرد عليه؟",
+  "innerVoiceReframe": "صياغة جديدة للجملة نفسها، بصوت أهدأ وأعدل:",
+  "innerVoiceStep": "خطوة عملية صغيرة لهذا الأسبوع:",
+  "decisionTitle": "قرار بين خيارين",
+  "decisionSubtitle": "مقارنة خيارين بما يُكسب ويُخسر، ثم أول خطوة.",
+  "decisionIntro": "لا يقدّم التطبيق رأيًا: الأسئلة هنا لرؤية الخيارين بوضوح.",
+  "decisionOptionA": "الخيار الأول",
+  "decisionOptionB": "الخيار الثاني",
+  "decisionGain": "ما الذي يُكسب مع «{option}»؟",
+  "@decisionGain": {
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "decisionLoss": "ما الذي يُخسر مع «{option}»؟",
+  "@decisionLoss": {
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "decisionRegret": "بعد خمس سنوات، ترك أيّ الخيارين قد يُندم عليه أكثر؟",
+  "decisionUnsure": "غير واضح بعد",
+  "decisionExperiment": "تجربة صغيرة تختبر أحد الخيارين قبل الحسم:",
+  "decisionChosen": "الخيار المختار الآن",
+  "decisionUndecided": "لم يُحسم بعد",
+  "decisionStep": "أول خطوة:",
+  "decisionNeedOptions": "كتابة الخيارين أولًا",
+  "habitTitle": "تغيير عادة",
+  "habitSubtitle": "فهم ما يثير العادة، وخطوة يومية مع متابعة 21 يومًا.",
+  "habitIntro": "العادة تبدأ غالبًا من مكان أو وقت أو أشخاص أو شعور. ملاحظة ذلك أول الطريق لتغييرها.",
+  "habitName": "العادة المراد تغييرها:",
+  "habitWhere": "أين تحدث غالبًا؟",
+  "habitWhen": "متى؟",
+  "habitWho": "مع من؟",
+  "habitFeeling": "بعد أي شعور؟",
+  "habitEnvironment": "تعديل صغير في المكان أو الأدوات يجعل التغيير أسهل:",
+  "habitDailyStep": "خطوة يومية صغيرة:",
+  "habitDailyReminder": "تذكير يومي (اختياري)",
+  "habitStart": "بدء 21 يومًا",
+  "habitNeedFields": "كتابة العادة والخطوة اليومية أولًا",
+  "habitStarted": "بدأت متابعة 21 يومًا.",
+  "habitDay": "اليوم {day} من 21",
+  "@habitDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "habitDoneCount": "الأيام المنجزة: {done} من 21",
+  "@habitDoneCount": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "habitCheckToday": "تمّت خطوة اليوم",
+  "habitUncheckToday": "إلغاء علامة اليوم",
+  "habitStop": "إيقاف المتابعة",
+  "habitStopAsk": "إيقاف متابعة هذه العادة؟ يبقى ما سُجّل، ويتوقف التذكير اليومي.",
+  "habitFinished": "اكتملت الأيام الـ21. الأيام المنجزة: {done}.",
+  "@habitFinished": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "habitPast": "عادات سابقة",
+  "reminderHabitTitle": "خطوة اليوم",
+  "payHeadingTools": "أدوات المدرب المتقدمة",
+  "payBenefitTools": "أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة.",
+  "coachDomainRelationships": "العلاقات",
+  "coachDomainWork": "العمل والمسار المهني",
+  "coachDomainDigital": "الحياة الرقمية"
+}

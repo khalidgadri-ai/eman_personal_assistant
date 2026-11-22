@@ -1,5 +1,7 @@
 package com.khalidibrahimgadri.eman
 
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
 
-class MainActivity : FlutterActivity()
+// AudioServiceActivity بدل FlutterActivity: يشارك محرك Flutter مع خدمة صوت التأمل
+// (audio_service) فيستمر الصوت والشاشة مطفأة.
+class MainActivity : AudioServiceActivity()

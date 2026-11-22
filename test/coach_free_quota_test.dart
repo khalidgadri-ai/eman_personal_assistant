@@ -1,3 +1,4 @@
+import 'package:eman_life_app/core/config/app_locale.dart';
 import 'package:eman_life_app/core/services/free_quota_service.dart';
 import 'package:eman_life_app/features/coach/coach_ai_service.dart';
 import 'package:eman_life_app/features/coach/coach_paywall_screen.dart';
@@ -26,6 +27,8 @@ void main() {
   var aiAccessCalls = 0;
   var aiConfigured = true;
   late Future<String> Function() modelReply;
+  String? country;
+  final openedLinks = <Uri>[];
 
   setUp(() async {
     storage = await TestStorage.inMemory();
@@ -33,6 +36,8 @@ void main() {
     aiAccessCalls = 0;
     aiConfigured = true;
     modelReply = () async => modelQuestion;
+    country = null;
+    openedLinks.clear();
   });
   tearDown(() => storage.dispose());
 
@@ -50,15 +55,13 @@ void main() {
     );
   }
 
-  Future<void> openCoach(WidgetTester tester) async {
+  Future<void> openCoach(WidgetTester tester, {bool english = false}) async {
     // خدمة المدرب تقرأ ملف أسئلة من الأصول: إدخال/إخراج حقيقي يعلّق داخل testWidgets إلا في runAsync.
     await tester.runAsync(CoachSessionService.getInstance);
     tester.view.physicalSize = const Size(900, 2400);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await pumpScreen(
-      tester,
-      CoachScreen(
+    final screen = CoachScreen(
         aiService: CoachAiService(generator: ({required systemPrompt, required userContent}) {
           modelCalls++;
           return modelReply();
@@ -68,8 +71,20 @@ void main() {
           aiAccessCalls++;
           return aiConfigured;
         },
-      ),
-    );
+        countryCode: () => country,
+        openLink: (url) async {
+          openedLinks.add(url);
+          return true;
+        },
+      );
+    if (!english) return pumpScreen(tester, screen);
+    await tester.pumpWidget(MaterialApp(
+      locale: AppLocale.english,
+      supportedLocales: AppLocale.supported,
+      localizationsDelegates: AppLocale.delegates,
+      home: screen,
+    ));
+    await settle(tester);
   }
 
   Future<void> tapDeepen(WidgetTester tester, [String text = answer]) async {
@@ -80,6 +95,27 @@ void main() {
   }
 
   final paywall = find.byType(CoachPaywallScreen);
+
+  testWidgets('in English the coach, its free-uses line and the crisis help speak English', (tester) async {
+    AppLocale.choice.value = AppLanguage.en;
+    addTearDown(() => AppLocale.choice.value = AppLanguage.system);
+    await openCoach(tester, english: true);
+    expect(find.text('Life coach'), findsOneWidget);
+    expect(find.text('5 of 5 free left this month'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'I feel suicidal');
+    await tester.pump();
+    await tester.tap(find.text('Go deeper'));
+    await settle(tester);
+
+    expect(find.text('Important'), findsOneWidget);
+    expect(find.text(crisisResponseMessage), findsOneWidget);
+    expect(crisisResponseMessage, startsWith('If you are going through'));
+    expect(find.text('In Saudi Arabia (official government lines):'), findsOneWidget);
+    expect(find.textContaining('Red Crescent'), findsOneWidget);
+    expect(find.text('Find a free helpline in your country'), findsOneWidget);
+    expect(modelCalls, 0);
+  });
 
   group('not subscribed, free uses left', () {
     testWidgets('the model question arrives without the paywall and costs one use', (tester) async {
@@ -166,6 +202,35 @@ void main() {
       expect(aiAccessCalls, 0);
       expect(paywall, findsNothing);
       expect(freeLeft(), 5);
+    });
+
+    testWidgets('outside Saudi Arabia the crisis help starts with the local emergency number and a helpline finder',
+        (tester) async {
+      country = 'EG';
+      await openCoach(tester);
+
+      await tapDeepen(tester, 'I feel suicidal');
+
+      final general = tester.getTopLeft(find.text(crisisLocalEmergencyMessage)).dy;
+      final saudi = tester.getTopLeft(find.text(crisisHelplinesNote)).dy;
+      expect(general, lessThan(saudi), reason: 'Saudi lines are still shown, labelled, but after');
+      expect(modelCalls, 0, reason: 'English crisis words are caught too');
+
+      await tester.tap(find.text(crisisHelplineFinderLabel));
+      await tester.pump();
+      expect(openedLinks, [crisisHelplineFinderUrl]);
+    });
+
+    testWidgets('on a Saudi phone the official Saudi lines come first', (tester) async {
+      country = 'SA';
+      await openCoach(tester);
+
+      await tapDeepen(tester, 'أفكر في الانتحار');
+
+      final general = tester.getTopLeft(find.text(crisisLocalEmergencyMessage)).dy;
+      final saudi = tester.getTopLeft(find.text(crisisHelplinesNote)).dy;
+      expect(saudi, lessThan(general));
+      expect(find.text('937'), findsOneWidget);
     });
 
     testWidgets('the model answering with the crisis sentinel shows the helpline and costs nothing',

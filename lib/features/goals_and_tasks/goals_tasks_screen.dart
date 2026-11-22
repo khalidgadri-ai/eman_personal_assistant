@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../../core/app_events.dart';
 import '../../core/services/database_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/arabic_numbers.dart';
@@ -9,10 +10,29 @@ import '../../core/widgets/ai_provider_screen.dart';
 import '../../core/widgets/entry_dialog.dart';
 import '../../core/widgets/undo_snackbar.dart';
 import '../reminders/reminder_notice.dart';
+import '../../l10n/l10n.dart';
 import '../settings/settings_button.dart';
 
+/// تصنيفات المهام وأنواع الأهداف تُحفظ بهذا النص العربي (معرّفات ثابتة في بيانات المستخدم)،
+/// وتُعرض بلغة التطبيق عبر [taskCategoryLabel] و[goalTypeLabel].
 const List<String> _taskCategories = ['شخصي', 'المنزل', 'العمل', 'العائلة'];
 const List<String> _goalTypes = ['هدف عام', 'هدف سنوي', 'هدف شهري', 'هدف أسبوعي'];
+
+String taskCategoryLabel(AppLocalizations l10n, String stored) => switch (stored) {
+      'شخصي' => l10n.catPersonal,
+      'المنزل' => l10n.catHome,
+      'العمل' => l10n.catWork,
+      'العائلة' => l10n.catFamily,
+      _ => stored,
+    };
+
+String goalTypeLabel(AppLocalizations l10n, String stored) => switch (stored) {
+      'هدف عام' => l10n.goalTypeGeneral,
+      'هدف سنوي' => l10n.goalTypeYearly,
+      'هدف شهري' => l10n.goalTypeMonthly,
+      'هدف أسبوعي' => l10n.goalTypeWeekly,
+      _ => stored,
+    };
 
 class GoalsTasksScreen extends StatefulWidget {
   const GoalsTasksScreen({super.key});
@@ -33,6 +53,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this)..addListener(_onTabChanged);
+    AppEvents.tasksChanged.addListener(_loadData);
     _loadData();
   }
 
@@ -96,13 +117,19 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   }
 
   Future<void> _showAddTaskDialog() async {
+    final l10n = context.l10n;
     final values = await showEntryDialog(
       context,
-      title: 'إضافة مهمة جديدة',
-      fields: const [
-        EntryField(key: 'title', label: 'المهمة', hint: 'اكتب نص المهمة...', required: true),
-        EntryField(key: 'category', label: 'التصنيف', options: _taskCategories),
-        EntryField(key: 'reminder', label: 'تذكير', isTime: true),
+      title: l10n.taskAddTitle,
+      fields: [
+        EntryField(key: 'title', label: l10n.taskField, hint: l10n.taskHint, required: true),
+        EntryField(
+          key: 'category',
+          label: l10n.categoryField,
+          options: _taskCategories,
+          optionLabel: (c) => taskCategoryLabel(l10n, c),
+        ),
+        EntryField(key: 'reminder', label: l10n.reminderField, isTime: true),
       ],
     );
     if (values == null) return;
@@ -110,20 +137,22 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   }
 
   Future<void> _editTask(Map<String, dynamic> task) async {
+    final l10n = context.l10n;
     final category = '${task['category'] ?? _taskCategories.first}';
     final values = await showEntryDialog(
       context,
-      title: 'تعديل المهمة',
-      confirmLabel: 'حفظ',
+      title: l10n.taskEditTitle,
+      confirmLabel: l10n.save,
       fields: [
-        EntryField(key: 'title', label: 'المهمة', required: true, initial: '${task['title'] ?? ''}'),
+        EntryField(key: 'title', label: l10n.taskField, required: true, initial: '${task['title'] ?? ''}'),
         EntryField(
           key: 'category',
-          label: 'التصنيف',
+          label: l10n.categoryField,
           options: _taskCategories.contains(category) ? _taskCategories : [..._taskCategories, category],
           initial: category,
+          optionLabel: (c) => taskCategoryLabel(l10n, c),
         ),
-        EntryField(key: 'reminder', label: 'تذكير', isTime: true, initial: '${task['reminder'] ?? ''}'),
+        EntryField(key: 'reminder', label: l10n.reminderField, isTime: true, initial: '${task['reminder'] ?? ''}'),
       ],
     );
     if (values == null) return;
@@ -146,7 +175,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
     setState(() => _dailyTasks.remove(task));
     _db?.saveDailyTasks(_dailyTasks);
     _syncReminders();
-    showUndoSnackBar(context, 'حُذفت «${task['title']}»', () async {
+    showUndoSnackBar(context, context.l10n.taskDeleted('${task['title']}'), () async {
       if (!mounted) return;
       setState(() => _dailyTasks.insert(index.clamp(0, _dailyTasks.length), task));
       await _db?.saveDailyTasks(_dailyTasks);
@@ -157,12 +186,18 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   // --- الأهداف ---
 
   Future<void> _showAddGoalDialog() async {
+    final l10n = context.l10n;
     final values = await showEntryDialog(
       context,
-      title: 'إضافة هدف',
-      fields: const [
-        EntryField(key: 'title', label: 'الهدف', hint: 'مثال: قراءة 20 صفحة يوميًا', required: true),
-        EntryField(key: 'type', label: 'النوع', options: _goalTypes),
+      title: l10n.goalAdd,
+      fields: [
+        EntryField(key: 'title', label: l10n.goalField, hint: l10n.onboardingGoalHint, required: true),
+        EntryField(
+          key: 'type',
+          label: l10n.goalTypeField,
+          options: _goalTypes,
+          optionLabel: (t) => goalTypeLabel(l10n, t),
+        ),
       ],
     );
     if (values == null) return;
@@ -179,18 +214,20 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   }
 
   Future<void> _editGoal(Map<String, dynamic> goal) async {
+    final l10n = context.l10n;
     final type = '${goal['type'] ?? _goalTypes.first}';
     final values = await showEntryDialog(
       context,
-      title: 'تعديل الهدف',
-      confirmLabel: 'حفظ',
+      title: l10n.goalEditTitle,
+      confirmLabel: l10n.save,
       fields: [
-        EntryField(key: 'title', label: 'الهدف', required: true, initial: '${goal['title'] ?? ''}'),
+        EntryField(key: 'title', label: l10n.goalField, required: true, initial: '${goal['title'] ?? ''}'),
         EntryField(
           key: 'type',
-          label: 'النوع',
+          label: l10n.goalTypeField,
           options: _goalTypes.contains(type) ? _goalTypes : [..._goalTypes, type],
           initial: type,
+          optionLabel: (t) => goalTypeLabel(l10n, t),
         ),
       ],
     );
@@ -211,7 +248,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
     final index = _goals.indexOf(goal);
     setState(() => _goals.remove(goal));
     _db?.saveGoals(_goals);
-    showUndoSnackBar(context, 'حُذف الهدف «${goal['title']}»', () async {
+    showUndoSnackBar(context, context.l10n.goalDeleted('${goal['title']}'), () async {
       if (!mounted) return;
       setState(() => _goals.insert(index.clamp(0, _goals.length), goal));
       await _db?.saveGoals(_goals);
@@ -227,14 +264,15 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   }
 
   Future<void> _showSetQuranPageDialog() async {
+    final l10n = context.l10n;
     final values = await showEntryDialog(
       context,
-      title: 'تحديد الصفحة الحالية',
-      confirmLabel: 'حفظ',
+      title: l10n.wirdSetTitle,
+      confirmLabel: l10n.save,
       fields: [
         EntryField(
           key: 'page',
-          label: 'رقم الصفحة (0 - ${DatabaseService.quranPages})',
+          label: l10n.wirdPageField(DatabaseService.quranPages),
           keyboardType: TextInputType.number,
           maxLength: 3,
           required: true,
@@ -242,7 +280,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
           validator: (value) {
             final page = parseInteger(value);
             if (page == null || page < 0 || page > DatabaseService.quranPages) {
-              return 'أدخل رقمًا من 0 إلى ${DatabaseService.quranPages}';
+              return l10n.wirdPageError(DatabaseService.quranPages);
             }
             return null;
           },
@@ -255,6 +293,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
 
   /// ✅ يفتح نافذة كتابة المذكرة الصوتية ويستخرج المهام بالذكاء الاصطناعي
   void _showVoiceNoteDialog() {
+    final l10n = context.l10n;
     final noteController = TextEditingController();
     bool isAnalyzing = false;
     String aiResult = '';
@@ -265,135 +304,134 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Directionality(
-              textDirection: TextDirection.rtl,
-              child: AlertDialog(
-                backgroundColor: AppTheme.cardColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                title: const Row(
-                  children: [
-                    Icon(Icons.mic_rounded, color: AppTheme.accentColor),
-                    SizedBox(width: 8),
-                    Text('🎙️ استيراد من المذكرة الصوتية', style: TextStyle(color: AppTheme.textColor, fontSize: 16)),
-                  ],
-                ),
-                content: SizedBox(
-                  width: double.maxFinite,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'اكتب نص المذكرة الصوتية أو ما تريد تحويله لمهام:',
-                          style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
-                        ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          controller: noteController,
-                          maxLines: 4,
-                          maxLength: 2000,
-                          style: const TextStyle(color: AppTheme.textColor, fontSize: 14),
-                          decoration: InputDecoration(
-                            hintText: 'مثال: أريد اليوم إنهاء التقرير، والذهاب للسوق، وترتيب الخزانة...',
-                            hintStyle: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                            filled: true,
-                            fillColor: AppTheme.surfaceColor,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        if (aiResult.isNotEmpty) ...[
-                          const SizedBox(height: 14),
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: AppTheme.surfaceColor,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.accentColor.withValues(alpha: 0.3)),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Row(
-                                  children: [
-                                    Icon(Icons.auto_awesome, color: AppTheme.accentColor, size: 16),
-                                    SizedBox(width: 6),
-                                    Text('المهام المستخرجة:', style: TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold, fontSize: 13)),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(aiResult, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.5)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
+            return AlertDialog(
+              backgroundColor: AppTheme.cardColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              title: Row(
+                children: [
+                  const Icon(Icons.mic_rounded, color: AppTheme.accentColor),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(l10n.voiceTitle, style: const TextStyle(color: AppTheme.textColor, fontSize: 16)),
                   ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('إغلاق', style: TextStyle(color: AppTheme.subTextColor)),
-                  ),
-                  if (aiResult.isEmpty)
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-                      onPressed: isAnalyzing
-                          ? null
-                          : () async {
-                              final text = noteController.text.trim();
-                              if (text.isEmpty) return;
-                              final ai = await requireAiService(context);
-                              if (ai == null || !context.mounted) return;
-                              setModalState(() => isAnalyzing = true);
-                              final result = await ai.parseVoiceNoteToTasks(text);
-                              if (!context.mounted) return;
-                              setModalState(() {
-                                isAnalyzing = false;
-                                aiResult = result;
-                              });
-                            },
-                      icon: isAnalyzing
-                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                          : const Icon(Icons.auto_awesome, color: Colors.white, size: 18),
-                      label: Text(isAnalyzing ? 'جارٍ الاستخراج...' : 'استخرج المهام 🧠', style: const TextStyle(color: Colors.white)),
-                    ),
-                  if (aiResult.isNotEmpty)
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                      onPressed: () {
-                        // استيراد المهام من النتيجة وإضافتها للقائمة
-                        final lines = aiResult
-                            .split('\n')
-                            .map((l) => l.replaceAll(RegExp(r'^[-•*\d.]+\s*'), '').trim())
-                            .where((l) => l.length > 3)
-                            .toList();
-
-                        int addedCount = 0;
-                        for (final line in lines) {
-                          if (line.isNotEmpty) {
-                            _addNewTask(line, 'شخصي');
-                            addedCount++;
-                          }
-                        }
-
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('✅ تم استيراد $addedCount مهمة بنجاح'),
-                            backgroundColor: Colors.green,
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.playlist_add_check_rounded, color: Colors.white, size: 18),
-                      label: const Text('استورد المهام للقائمة ✅', style: TextStyle(color: Colors.white)),
-                    ),
                 ],
               ),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.voicePrompt,
+                        style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: noteController,
+                        maxLines: 4,
+                        maxLength: 2000,
+                        style: const TextStyle(color: AppTheme.textColor, fontSize: 14),
+                        decoration: InputDecoration(
+                          hintText: l10n.voiceHint,
+                          hintStyle: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                          filled: true,
+                          fillColor: AppTheme.surfaceColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                      if (aiResult.isNotEmpty) ...[
+                        const SizedBox(height: 14),
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppTheme.surfaceColor,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: AppTheme.accentColor.withValues(alpha: 0.3)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.auto_awesome, color: AppTheme.accentColor, size: 16),
+                                  const SizedBox(width: 6),
+                                  Text(l10n.voiceExtracted, style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold, fontSize: 13)),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(aiResult, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13, height: 1.5)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(l10n.close, style: const TextStyle(color: AppTheme.subTextColor)),
+                ),
+                if (aiResult.isEmpty)
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+                    onPressed: isAnalyzing
+                        ? null
+                        : () async {
+                            final text = noteController.text.trim();
+                            if (text.isEmpty) return;
+                            final ai = await requireAiService(context);
+                            if (ai == null || !context.mounted) return;
+                            setModalState(() => isAnalyzing = true);
+                            final result = await ai.parseVoiceNoteToTasks(text);
+                            if (!context.mounted) return;
+                            setModalState(() {
+                              isAnalyzing = false;
+                              aiResult = result;
+                            });
+                          },
+                    icon: isAnalyzing
+                        ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                        : const Icon(Icons.auto_awesome, color: Colors.white, size: 18),
+                    label: Text(isAnalyzing ? l10n.voiceExtracting : l10n.voiceExtract, style: const TextStyle(color: Colors.white)),
+                  ),
+                if (aiResult.isNotEmpty)
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                    onPressed: () {
+                      // استيراد المهام من النتيجة وإضافتها للقائمة
+                      final lines = aiResult
+                          .split('\n')
+                          .map((l) => l.replaceAll(RegExp(r'^[-•*\d.]+\s*'), '').trim())
+                          .where((l) => l.length > 3)
+                          .toList();
+
+                      int addedCount = 0;
+                      for (final line in lines) {
+                        if (line.isNotEmpty) {
+                          _addNewTask(line, 'شخصي');
+                          addedCount++;
+                        }
+                      }
+
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.voiceImported(addedCount)),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.playlist_add_check_rounded, color: Colors.white, size: 18),
+                    label: Text(l10n.voiceImport, style: const TextStyle(color: Colors.white)),
+                  ),
+              ],
             );
           },
         );
@@ -403,6 +441,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
 
   @override
   void dispose() {
+    AppEvents.tasksChanged.removeListener(_loadData);
     _tabController
       ..removeListener(_onTabChanged)
       ..dispose();
@@ -414,14 +453,14 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
     return switch (_tabController.index) {
       0 => FloatingActionButton(
           heroTag: 'add_task_fab',
-          tooltip: 'إضافة مهمة',
+          tooltip: context.l10n.addTask,
           backgroundColor: AppTheme.primaryColor,
           onPressed: _showAddTaskDialog,
           child: const Icon(Icons.add, color: Colors.white),
         ),
       1 => FloatingActionButton(
           heroTag: 'add_goal_fab',
-          tooltip: 'إضافة هدف',
+          tooltip: context.l10n.goalAdd,
           backgroundColor: AppTheme.primaryColor,
           onPressed: _showAddGoalDialog,
           child: const Icon(Icons.add, color: Colors.white),
@@ -432,13 +471,14 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🎯 الأهداف والمهام اليومية'),
+        title: Text(l10n.tasksTitle),
         actions: [
           // ✅ زر المذكرة الصوتية في الـ AppBar
           IconButton(
-            tooltip: 'استيراد مهام من المذكرة الصوتية',
+            tooltip: l10n.voiceImportTooltip,
             icon: const Icon(Icons.mic_rounded, color: AppTheme.accentColor),
             onPressed: _showVoiceNoteDialog,
           ),
@@ -449,10 +489,10 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
           indicatorColor: AppTheme.accentColor,
           labelColor: AppTheme.accentColor,
           unselectedLabelColor: AppTheme.subTextColor,
-          tabs: const [
-            Tab(text: 'المهام اليومية'),
-            Tab(text: 'الأهداف الهرمية'),
-            Tab(text: 'الورد والتتبع'),
+          tabs: [
+            Tab(text: l10n.tabDailyTasks),
+            Tab(text: l10n.tabGoals),
+            Tab(text: l10n.tabWird),
           ],
         ),
       ),
@@ -469,24 +509,25 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   }
 
   Widget _buildDailyTasksTab() {
+    final l10n = context.l10n;
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       children: [
-        const Text(
-          'مركز إدارة المهام المقسمة',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textColor),
+        Text(
+          l10n.tasksHeader,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textColor),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'اضغط على أيقونة الميكروفون 🎙️ في الأعلى لاستيراد مهام من مذكرتك الصوتية',
-          style: TextStyle(fontSize: 12, color: AppTheme.subTextColor),
+        Text(
+          l10n.tasksVoiceTip,
+          style: const TextStyle(fontSize: 12, color: AppTheme.subTextColor),
         ),
         const SizedBox(height: 12),
         if (_dailyTasks.isEmpty)
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.all(32),
-              child: Text('لا توجد مهام بعد. اضغط + لإضافة مهمة أو استخدم المذكرة الصوتية.', style: TextStyle(color: AppTheme.subTextColor), textAlign: TextAlign.center),
+              padding: const EdgeInsets.all(32),
+              child: Text(l10n.tasksEmpty, style: const TextStyle(color: AppTheme.subTextColor), textAlign: TextAlign.center),
             ),
           ),
         ..._pinnedFirst(_dailyTasks).map((task) => Card(
@@ -526,12 +567,12 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    '${task['category']}',
+                    taskCategoryLabel(l10n, '${task['category']}'),
                     style: const TextStyle(color: AppTheme.accentColor, fontSize: 12),
                   ),
                 ),
                 IconButton(
-                  tooltip: task['pinned'] == true ? 'إلغاء تثبيت المهمة' : 'تثبيت المهمة',
+                  tooltip: task['pinned'] == true ? l10n.taskUnpin : l10n.taskPin,
                   icon: Icon(
                     task['pinned'] == true ? Icons.push_pin_rounded : Icons.push_pin_outlined,
                     color: AppTheme.subTextColor,
@@ -539,7 +580,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
                   onPressed: () => _toggleTaskPin(task),
                 ),
                 IconButton(
-                  tooltip: 'حذف المهمة',
+                  tooltip: l10n.taskDelete,
                   icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                   onPressed: () => _deleteTask(task),
                 ),
@@ -552,19 +593,20 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   }
 
   Widget _buildGoalsCascadeTab() {
+    final l10n = context.l10n;
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       children: [
-        const Text(
-          'محرك الأهداف الهرمية (السنوية ⬅️ الشهرية ⬅️ الأسبوعية)',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor),
+        Text(
+          l10n.goalsHeader,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor),
         ),
         const SizedBox(height: 12),
         if (_goals.isEmpty)
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.all(32),
-              child: Text('لا توجد أهداف بعد. اضغط + لإضافة هدفك الأول.', style: TextStyle(color: AppTheme.subTextColor), textAlign: TextAlign.center),
+              padding: const EdgeInsets.all(32),
+              child: Text(l10n.goalsEmpty, style: const TextStyle(color: AppTheme.subTextColor), textAlign: TextAlign.center),
             ),
           ),
         ..._pinnedFirst(_goals).map((goal) {
@@ -580,17 +622,17 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${goal['type']}', style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
+                      Text(goalTypeLabel(l10n, '${goal['type']}'), style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
                       Row(
                         children: [
                           Text('${(progress * 100).round()}%', style: const TextStyle(color: AppTheme.textColor)),
                           IconButton(
-                            tooltip: 'تعديل الهدف',
+                            tooltip: l10n.goalEditTitle,
                             icon: const Icon(Icons.edit_rounded, color: AppTheme.subTextColor),
                             onPressed: () => _editGoal(goal),
                           ),
                           IconButton(
-                            tooltip: goal['pinned'] == true ? 'إلغاء تثبيت الهدف' : 'تثبيت الهدف',
+                            tooltip: goal['pinned'] == true ? l10n.goalUnpin : l10n.goalPin,
                             icon: Icon(
                               goal['pinned'] == true ? Icons.push_pin_rounded : Icons.push_pin_outlined,
                               color: AppTheme.subTextColor,
@@ -598,7 +640,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
                             onPressed: () => _toggleGoalPin(goal),
                           ),
                           IconButton(
-                            tooltip: 'حذف الهدف',
+                            tooltip: l10n.goalDelete,
                             icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                             onPressed: () => _deleteGoal(goal),
                           ),
@@ -625,6 +667,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   }
 
   Widget _buildQuranTrackerTab() {
+    final l10n = context.l10n;
     final finished = _quranPage >= DatabaseService.quranPages;
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
@@ -636,14 +679,12 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
             children: [
               const Icon(Icons.menu_book_rounded, size: 50, color: AppTheme.accentColor),
               const SizedBox(height: 10),
-              const Text('متتبع الورد اليومي والقرآن الكريم', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textColor), textAlign: TextAlign.center),
+              Text(l10n.wirdTitle, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textColor), textAlign: TextAlign.center),
               const SizedBox(height: 15),
-              Text('الصفحة الحالية: $_quranPage', style: const TextStyle(fontSize: 22, color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
+              Text(l10n.wirdCurrentPage(_quranPage), style: const TextStyle(fontSize: 22, color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
               Text(
-                finished
-                    ? 'أتممت الختمة 🎉 بارك الله فيك'
-                    : 'المتبقي لإتمام الختمة: ${DatabaseService.quranPages - _quranPage} صفحة',
+                finished ? l10n.wirdFinished : l10n.wirdRemaining(DatabaseService.quranPages - _quranPage),
                 style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
               ),
               const SizedBox(height: 15),
@@ -664,13 +705,13 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
                     style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
                     onPressed: finished || _db == null ? null : () => _changeQuranPage(_quranPage + 1),
                     icon: const Icon(Icons.add, color: Colors.white),
-                    label: const Text('تم قراءة صفحة (+1)', style: TextStyle(color: Colors.white)),
+                    label: Text(l10n.wirdReadOne, style: const TextStyle(color: Colors.white)),
                   ),
                   OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(side: const BorderSide(color: AppTheme.accentColor)),
                     onPressed: _db == null ? null : _showSetQuranPageDialog,
                     icon: const Icon(Icons.edit_rounded, color: AppTheme.accentColor, size: 18),
-                    label: const Text('تحديد الصفحة', style: TextStyle(color: AppTheme.accentColor)),
+                    label: Text(l10n.wirdSetPage, style: const TextStyle(color: AppTheme.accentColor)),
                   ),
                 ],
               ),

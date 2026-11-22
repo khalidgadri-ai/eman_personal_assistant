@@ -18,7 +18,12 @@ class DatabaseService {
     'recipes',
     'laundry_schedule',
     'shopping',
+    coachSeenQuestionsKey,
   ];
+
+  /// أسئلة المدرب التي ظهرت ({id, at})، حتى لا يتكرر سؤال قبل أن تظهر كل أسئلة مجاله.
+  /// معرّفات فقط بلا نص المستخدم، وتدخل النسخة حتى لا تبدأ الدورة من أولها بعد الاستعادة.
+  static const String coachSeenQuestionsKey = 'coach_seen_questions';
   static const String quranPageKey = 'quran_page';
 
   static DatabaseService? _instance;
@@ -119,6 +124,51 @@ class DatabaseService {
   }
 
   static const String legacyGeminiKeyName = 'gemini_api_key';
+
+  // --- أسئلة المدرب التي ظهرت (CoachSessionService) ---
+  /// null إن لم يُحفظ المفتاح أبدًا (للترقية من الجلسات القديمة)، وقائمة فارغة إن كان تالفًا.
+  List<Map<String, dynamic>>? getCoachSeenQuestions() {
+    if (_prefs?.containsKey(coachSeenQuestionsKey) != true) return null;
+    return _readList(coachSeenQuestionsKey);
+  }
+
+  Future<void> saveCoachSeenQuestions(List<Map<String, dynamic>> entries) =>
+      _writeList(coachSeenQuestionsKey, entries);
+
+  // --- ملاحظات السلامة في التأمل ---
+  // تظهر مرة واحدة لكل نوع (جاما، الحركي). إعداد خاص بالجهاز خارج النسخة الاحتياطية عمدًا،
+  // و«مسح كل بياناتي» يعيدها.
+  static const String meditationNoticesKey = 'meditation_notices_seen';
+
+  bool hasSeenMeditationNotice(String kind) =>
+      _prefs?.getStringList(meditationNoticesKey)?.contains(kind) ?? false;
+
+  Future<void> markMeditationNoticeSeen(String kind) async {
+    final seen = {...?_prefs?.getStringList(meditationNoticesKey), kind}.toList()..sort();
+    await _prefs?.setStringList(meditationNoticesKey, seen);
+  }
+
+  // --- لغة التطبيق (AppLocale) ---
+  // إعداد خاص بهذا الجهاز، خارج [backupListKeys] مثل جولة التعريف. «مسح كل بياناتي» يعيده للغة الجوال.
+  static const String appLanguageKey = 'app_language';
+
+  String? getAppLanguage() => _prefs?.getString(appLanguageKey);
+
+  Future<void> saveAppLanguage(String language) async {
+    await _prefs?.setString(appLanguageKey, language);
+  }
+
+  // --- جولة التعريف (AppTour) ---
+  // إعداد خاص بهذا الجهاز لا من بيانات المستخدم، فهو خارج [backupListKeys] عمدًا.
+  // «مسح كل بياناتي» يمسحه مع SharedPreferences كلها، فتعود الجولة بعد المسح.
+  static const String appTourVersionKey = 'app_tour_version';
+
+  /// رقم آخر جولة رآها المستخدم على هذا الجهاز، و0 إن لم يرَ أي جولة.
+  int getAppTourVersion() => _prefs?.getInt(appTourVersionKey) ?? 0;
+
+  Future<void> saveAppTourVersion(int version) async {
+    await _prefs?.setInt(appTourVersionKey, version);
+  }
 
   // --- Backup (BackupService) ---
   /// القيم الموجودة فقط من [backupListKeys] وصفحة الورد، كما هي مخزّنة.

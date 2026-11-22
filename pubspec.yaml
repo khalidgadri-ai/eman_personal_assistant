@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+3
+version: 1.0.0+6
 
 environment:
   sdk: ^3.11.0
@@ -29,6 +29,9 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
+    sdk: flutter
+  # نوافذ التاريخ والوقت وأسماء الأزرار الجاهزة بالعربية (AppLocale).
+  flutter_localizations:
     sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,6 +55,9 @@ dependencies:
   file_picker: ^13.1.0
   url_launcher: ^6.3.3
   timezone: ^0.11.2
+  just_audio: ^0.10.6
+  audio_service: ^0.18.19
+  audio_session: ^0.2.4
 
 dev_dependencies:
   flutter_test:
@@ -88,8 +94,24 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # نصوص الواجهة بعدة لغات: ملفات lib/l10n/app_*.arb تتحول إلى AppLocalizations (انظر l10n.yaml).
+  generate: true
+
   assets:
     - assets/coach_questions.json
+    - assets/meditation/sessions.json
+    # تسجيلات صوت المرشد (m4a) حسب docs/meditation_recording_script.md. الجلسة المرشدة
+    # تظهر تلقائيًا حين تكتمل كل مقاطعها في مجلدها؛ مجلد جلسة جديدة يُضاف هنا.
+    - assets/meditation/voice/calm_breathing/
+    - assets/meditation/voice/body_scan/
+    - assets/meditation/voice/present_moment/
+    - assets/meditation/voice/move_and_still/
+    # الصوت الإنجليزي (docs/meditation_recording_script_en.md): الجلسة المرشدة تظهر بالإنجليزية
+    # حين تكتمل مقاطعها هنا.
+    - assets/meditation/voice/en/calm_breathing/
+    - assets/meditation/voice/en/body_scan/
+    - assets/meditation/voice/en/present_moment/
+    - assets/meditation/voice/en/move_and_still/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

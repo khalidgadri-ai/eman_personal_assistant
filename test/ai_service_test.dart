@@ -10,6 +10,8 @@ import 'package:eman_life_app/core/ai/ai_settings_service.dart';
 import 'package:eman_life_app/core/config/ai_config.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:eman_life_app/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -170,6 +172,19 @@ void main() {
       expect(fake.sent[0].messages.single.text, contains('التمرين'));
       expect(fake.sent[1].messages.single.text, contains('الدواء'));
     });
+
+    test('the medicine label is only read, never given a dose by the model', () async {
+      final fake = _FakeProvider((_) => const AiReply('x'));
+      final service = AiService.withProvider(fake);
+
+      await service.analyzeMedicationLabel(Uint8List(1));
+
+      final prompt = fake.sent.single.messages.single.text;
+      expect(prompt, isNot(contains('الموصى بها')));
+      expect(prompt, contains('كما هي مكتوبة على العلبة'));
+      expect(prompt, contains('لا تقترح جرعة من عندك'));
+      expect(lookupAppLocalizations(const Locale('ar')).medLabelNotice, contains('الصيدلي'));
+    });
   });
 
   test('capability prompts carry the user input', () async {
@@ -241,7 +256,7 @@ void main() {
 
   group('model name rules for Gemini', () {
     test('the starting suggestion is the current stable model, not a retired one', () {
-      expect(AIConfig.modelName, 'gemini-3.8-flash');
+      expect(AIConfig.modelName, 'gemini-3.5-flash-lite');
       expect(AIConfig.modelName, isNot(startsWith('gemini-2.0')));
       expect(AIConfig.modelName, isNot(startsWith('gemini-1.5')));
     });

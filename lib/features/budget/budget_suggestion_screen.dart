@@ -10,6 +10,7 @@ import 'budget_plan_service.dart';
 import 'models/budget_plan.dart';
 import 'models/budget_suggestion.dart';
 import 'models/expense_entry.dart';
+import '../../l10n/l10n.dart';
 
 /// يحصل على [AiService] جاهز (وقد يعرض شاشة إعداد المزوّد)، أو null. يُستبدل في الاختبارات.
 typedef AiResolver = Future<AiService?> Function(BuildContext context);
@@ -35,7 +36,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
   bool _saving = false;
 
   BudgetPlan get _plan => widget.plan;
-  String get _symbol => _plan.currency.symbol;
+  String get _symbol => _plan.currency.symbolFor(context.appLang);
 
   Future<void> _saveLimits(Map<ExpenseCategory, double> limits) async {
     if (_saving) return;
@@ -47,7 +48,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
       debugPrint('BudgetSuggestionScreen: save failed (${e.runtimeType})');
       if (!mounted) return;
       setState(() => _saving = false);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('تعذّر حفظ الحدود. حاول مرة أخرى')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.limitsSaveFailed)));
       return;
     }
     if (!mounted) return;
@@ -55,13 +56,14 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
   }
 
   Future<String> _providerLabel() async {
+    final fallback = context.l10n.yourAiProvider;
     try {
       final settings = await AiSettingsService.getInstance();
       final id = settings.selectedId;
       final preset = AiPresets.all.where((p) => p.id == id).firstOrNull;
-      if (preset != null) return preset.label;
+      if (preset != null) return preset.displayLabel;
     } catch (_) {}
-    return 'مزوّد الذكاء الاصطناعي الذي اخترته';
+    return fallback;
   }
 
   Future<void> _askAi() async {
@@ -72,35 +74,32 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
     if (!mounted) return;
     final consent = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('إرسال بياناتك المالية؟', style: TextStyle(color: AppTheme.textColor)),
-          content: SingleChildScrollView(
-            child: Text(
-              'سيُرسل إلى «$provider» الأرقام التالية فقط:\n'
-              '• الدخل الشهري: ${formatWithCurrency(_plan.income, _symbol)}\n'
-              '• مجموع المصروفات الثابتة: ${formatWithCurrency(_plan.fixedTotal, _symbol)}\n'
-              '• هدف الادخار: ${formatWithCurrency(_plan.savingsAmount, _symbol)}\n'
-              '• المتاح للصرف: ${formatWithCurrency(_plan.available, _symbol)}\n\n'
-              'لن تُرسل أسماء مصروفاتك الثابتة ولا مصاريفك المسجَّلة. ما يُرسل يخضع لسياسة هذا المزوّد. '
-              'نسألك في كل مرة، ولا شيء يُرسل قبل موافقتك.',
-              style: const TextStyle(color: AppTheme.subTextColor, height: 1.7),
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        title: Text(context.l10n.sendFinancialData, style: TextStyle(color: AppTheme.textColor)),
+        content: SingleChildScrollView(
+          child: Text(
+            context.l10n.financialConsentBody(
+              provider,
+              formatWithCurrency(_plan.income, _symbol),
+              formatWithCurrency(_plan.fixedTotal, _symbol),
+              formatWithCurrency(_plan.savingsAmount, _symbol),
+              formatWithCurrency(_plan.available, _symbol),
             ),
+            style: const TextStyle(color: AppTheme.subTextColor, height: 1.7),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, false),
-              child: const Text('إلغاء', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              onPressed: () => Navigator.pop(dialogContext, true),
-              child: const Text('أوافق وأرسل هذه المرة', style: TextStyle(color: Colors.white)),
-            ),
-          ],
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(context.l10n.cancel, style: TextStyle(color: AppTheme.subTextColor)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(context.l10n.agreeAndSend, style: TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
     if (consent != true || !mounted) return;
@@ -115,7 +114,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
       fixedTotal: _plan.fixedTotal,
       savings: _plan.savingsAmount,
       available: _plan.available,
-      currencyName: _plan.currency.arabicName,
+      currencyName: _plan.currency.nameFor(context.appLang),
     );
     if (!mounted) return;
     final parsed = BudgetSuggestion.tryParse(reply);
@@ -123,7 +122,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
       _asking = false;
       _ai = parsed;
       _aiFailure = parsed == null
-          ? 'لم أتمكن من قراءة الاقتراح كحدود للفئات. ${String.fromCharCodes(reply.trim().runes.take(200))}'
+          ? context.l10n.aiSuggestionUnreadable(String.fromCharCodes(reply.trim().runes.take(200)))
           : null;
     });
   }
@@ -136,7 +135,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
             dense: true,
             contentPadding: EdgeInsets.zero,
             leading: Icon(entry.key.icon, color: AppTheme.accentColor),
-            title: Text(entry.key.arabicLabel, style: const TextStyle(color: AppTheme.textColor)),
+            title: Text(entry.key.label(context.l10n), style: const TextStyle(color: AppTheme.textColor)),
             trailing: Text(
               formatWithCurrency(entry.value, _symbol),
               style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.w600),
@@ -155,7 +154,7 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
           padding: const EdgeInsets.symmetric(vertical: 13),
         ),
         onPressed: _saving ? null : () => _saveLimits(limits),
-        child: const Text('حفظ كحدود للفئات', style: TextStyle(color: Colors.white)),
+        child: Text(context.l10n.saveAsLimits, style: TextStyle(color: Colors.white)),
       ),
     );
   }
@@ -171,10 +170,10 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
     );
   }
 
-  static String _ruleText() {
+  static String _ruleText(AppLocalizations l10n) {
     return defaultLimitWeights.entries
-        .map((e) => '${e.key.arabicLabel} ${(e.value * 100).round()}٪')
-        .join('، ');
+        .map((e) => '${e.key.label(l10n)} ${(e.value * 100).round()}${l10n.percentSign}')
+        .join(l10n.listSeparator);
   }
 
   @override
@@ -182,93 +181,90 @@ class _BudgetSuggestionScreenState extends State<BudgetSuggestionScreen> {
     final available = _plan.available;
     final local = BudgetCalculator.suggestLimits(available);
     final ai = _ai;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('اقتراح ميزانية')),
-        body: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
+    return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.suggestBudget)),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _card([
+            Text(context.l10n.availableMonthly, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+            const SizedBox(height: 4),
+            Text(
+              formatWithCurrency(available, _symbol),
+              style: const TextStyle(color: AppTheme.accentColor, fontSize: 26, fontWeight: FontWeight.bold),
+            ),
+          ]),
+          if (local.isEmpty)
             _card([
-              const Text('المتاح للصرف شهريًا', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+              Text(
+                context.l10n.noAvailableForLimits,
+                style: TextStyle(color: Colors.orangeAccent, height: 1.6),
+              ),
+            ])
+          else ...[
+            _card([
+              Text(
+                context.l10n.localSuggestion,
+                style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15),
+              ),
               const SizedBox(height: 4),
               Text(
-                formatWithCurrency(available, _symbol),
-                style: const TextStyle(color: AppTheme.accentColor, fontSize: 26, fontWeight: FontWeight.bold),
+                context.l10n.localRuleText(_ruleText(context.l10n)),
+                style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12, height: 1.6),
               ),
+              const SizedBox(height: 8),
+              _limitsTable(local),
+              const SizedBox(height: 8),
+              _saveButton(local),
             ]),
-            if (local.isEmpty)
-              _card(const [
-                Text(
-                  'لا يوجد متاح للصرف في خطتك الآن، فلا يمكن اقتراح حدود. عدّل الدخل أو المصروفات الثابتة أو الادخار أولًا.',
-                  style: TextStyle(color: Colors.orangeAccent, height: 1.6),
+            _card([
+              Text(
+                context.l10n.aiSuggestionOptional,
+                style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                context.l10n.aiSuggestionNote,
+                style: TextStyle(color: AppTheme.subTextColor, fontSize: 12, height: 1.6),
+              ),
+              const SizedBox(height: 12),
+              if (_asking)
+                const Center(child: CircularProgressIndicator(color: AppTheme.accentColor))
+              else
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _askAi,
+                    icon: const Icon(Icons.auto_awesome, color: AppTheme.accentColor),
+                    label: Text(context.l10n.askAiSuggestion),
+                  ),
                 ),
-              ])
-            else ...[
-              _card([
-                const Text(
-                  'اقتراح محلي (بلا إنترنت)',
-                  style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'قاعدة بسيطة توزّع المتاح هكذا: ${_ruleText()}. بعد الحفظ تعدّل أي حد من «تعديل الخطة».',
-                  style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12, height: 1.6),
-                ),
-                const SizedBox(height: 8),
-                _limitsTable(local),
-                const SizedBox(height: 8),
-                _saveButton(local),
-              ]),
-              _card([
-                const Text(
-                  'اقتراح بالذكاء الاصطناعي (اختياري)',
-                  style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'يرسل أرقام خطتك المالية إلى المزوّد الذي اخترته، ولا يُرسل شيء إلا بموافقتك في كل مرة.',
-                  style: TextStyle(color: AppTheme.subTextColor, fontSize: 12, height: 1.6),
-                ),
+              if (_aiFailure != null) ...[
                 const SizedBox(height: 12),
-                if (_asking)
-                  const Center(child: CircularProgressIndicator(color: AppTheme.accentColor))
-                else
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: _askAi,
-                      icon: const Icon(Icons.auto_awesome, color: AppTheme.accentColor),
-                      label: const Text('اطلب اقتراحًا بالذكاء الاصطناعي'),
+                Text(_aiFailure!, style: const TextStyle(color: Colors.orangeAccent, height: 1.6)),
+              ],
+              if (ai != null) ...[
+                const SizedBox(height: 12),
+                if (ai.note.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(ai.note, style: const TextStyle(color: AppTheme.subTextColor, height: 1.6)),
+                  ),
+                _limitsTable(ai.limits),
+                if (ai.total > available)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4, bottom: 4),
+                    child: Text(
+                      context.l10n.aiSuggestionOver(formatWithCurrency(ai.total, _symbol)),
+                      style: const TextStyle(color: Colors.orangeAccent, height: 1.6),
                     ),
                   ),
-                if (_aiFailure != null) ...[
-                  const SizedBox(height: 12),
-                  Text(_aiFailure!, style: const TextStyle(color: Colors.orangeAccent, height: 1.6)),
-                ],
-                if (ai != null) ...[
-                  const SizedBox(height: 12),
-                  if (ai.note.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(ai.note, style: const TextStyle(color: AppTheme.subTextColor, height: 1.6)),
-                    ),
-                  _limitsTable(ai.limits),
-                  if (ai.total > available)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, bottom: 4),
-                      child: Text(
-                        'مجموع هذا الاقتراح (${formatWithCurrency(ai.total, _symbol)}) أكبر من المتاح للصرف. عدّله بعد الحفظ.',
-                        style: const TextStyle(color: Colors.orangeAccent, height: 1.6),
-                      ),
-                    ),
-                  const SizedBox(height: 8),
-                  _saveButton(ai.limits),
-                ],
-              ]),
-            ],
+                const SizedBox(height: 8),
+                _saveButton(ai.limits),
+              ],
+            ]),
           ],
-        ),
+        ],
       ),
     );
   }

@@ -6,7 +6,7 @@ import '../ai_provider.dart';
 
 /// Claude عبر Messages API: `POST /v1/messages` و`GET /v1/models`.
 class AnthropicProvider extends AiProvider {
-  AnthropicProvider(super.config, super.apiKey, {super.client});
+  AnthropicProvider(super.config, super.apiKey, {super.client, super.busyRetryDelay});
 
   static const String apiVersion = '2023-06-01';
 

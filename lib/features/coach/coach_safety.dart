@@ -3,6 +3,8 @@
 /// سريعة وليس الفحص الوحيد المطلوب.
 library;
 
+import '../../core/config/app_locale.dart';
+
 const List<String> crisisKeywords = [
   // عربي
   'انتحار',
@@ -35,6 +37,12 @@ const List<String> crisisKeywords = [
   'hurt myself',
   'no reason to live',
   'better off dead',
+  'suicidal',
+  'take my own life',
+  'kill my self',
+  "don't want to live",
+  'dont want to live',
+  "don't want to be alive",
 ];
 
 const List<String> advicePhrases = [
@@ -49,31 +57,72 @@ const List<String> advicePhrases = [
   'عليك ان',
   'ما رايك ان',
   'الا تعتقد ان',
+  // English
+  'you should',
+  'you must',
+  'you need to',
+  'i suggest',
+  'i recommend',
+  'i advise',
+  'my advice',
+  'the solution',
+  'try to',
+  'it is better to',
+  "it's better to",
+  "why don't you",
+  'have you tried',
 ];
 
-const String crisisResponseMessage =
-    'إذا كنت تمر بأزمة فعلية أو تفكر في إيذاء نفسك، الرجاء التواصل فورًا مع '
-    'خط مساعدة مختص أو أقرب جهة طوارئ. هذا التطبيق أداة تأمل ذاتي فقط، '
-    'وليس بديلاً عن معالج نفسي مرخّص.';
+/// نصوص نافذة الأزمة بلغة التطبيق (ملفات اللغة: crisis*).
+String get crisisResponseMessage => AppLocale.texts.crisisResponse;
 
 class CrisisHelpline {
   final String number;
   final String description;
-  const CrisisHelpline(this.number, this.description);
+  final String descriptionEn;
+  const CrisisHelpline(this.number, this.description, this.descriptionEn);
+
+  String descriptionFor(String lang) => lang == 'ar' ? description : descriptionEn;
 }
 
 // لا يوجد في السعودية خط وطني مخصص للانتحار على مدار الساعة، لذلك نعرض
 // الخطوط الحكومية الرسمية الأقرب للغرض، مرتبة حسب الأولوية.
+// هذه الأرقام سعودية فقط، وتظهر دائمًا تحت عنوان يقول ذلك ([crisisHelplinesNote])، وأولًا
+// إن كانت منطقة الجوال السعودية ([showSaudiHelplinesFirst]). لا نضع أرقام دول أخرى من عندنا:
+// الرقم الخاطئ في أزمة خطر، فبقية الدول يوجّهها [crisisHelplineFinderUrl].
 const List<CrisisHelpline> crisisHelplines = [
-  CrisisHelpline('911 / 997', 'طوارئ فورية أو خطر مباشر على الحياة (997: الهلال الأحمر)'),
+  CrisisHelpline(
+    '911 / 997',
+    'طوارئ فورية أو خطر مباشر على الحياة (997: الهلال الأحمر)',
+    'Immediate emergency or direct danger to life (997: Red Crescent)',
+  ),
   CrisisHelpline(
     '1919',
     'دعم نفسي متخصص على مدار 24 ساعة — مركز بلاغات العنف الأسري، وزارة الموارد البشرية',
+    '24-hour specialist psychological support — Family Violence Reporting Center, Ministry of Human Resources',
   ),
-  CrisisHelpline('937', 'استشارة طبية على مدار 24 ساعة — مركز اتصال وزارة الصحة'),
+  CrisisHelpline(
+    '937',
+    'استشارة طبية على مدار 24 ساعة — مركز اتصال وزارة الصحة',
+    '24-hour medical advice — Ministry of Health call center',
+  ),
 ];
 
-const String crisisHelplinesNote = 'هذه خطوط حكومية رسمية في المملكة العربية السعودية.';
+String get crisisHelplinesNote => AppLocale.texts.crisisSaudiNote;
+
+/// لكل البلاد، لأن التطبيق متاح خارج السعودية.
+String get crisisLocalEmergencyMessage => AppLocale.texts.crisisLocalEmergency;
+
+String get crisisHelplineFinderLabel => AppLocale.texts.crisisFinderLabel;
+
+/// Find A Helpline (ThroughLine): دليل مجاني لخطوط المساعدة الموثّقة في أكثر من 175 بلدًا،
+/// ويقترح خطوط بلد الزائر (راجعناه في 21 نوفمبر 2026). يُفتح فقط حين يضغط المستخدم،
+/// في المتصفح، ولا يُرسل التطبيق إليه أي شيء.
+final Uri crisisHelplineFinderUrl = Uri.parse('https://findahelpline.com');
+
+/// منطقة الجوال (من إعداد اللغة والمنطقة، مثل ar_SA). تقريب لا موقع فعلي، لذلك لا تُخفى
+/// الأرقام السعودية عن أحد: تتغير فقط هل تأتي قبل الدليل العام أو بعده.
+bool showSaudiHelplinesFirst(String? countryCode) => countryCode?.toUpperCase() == 'SA';
 
 String normalizeArabic(String input) {
   return input

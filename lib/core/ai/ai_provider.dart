@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'ai_errors.dart';
 import 'ai_models.dart';
@@ -98,15 +99,28 @@ Uri joinBaseUrl(String baseUrl, String path, {Map<String, String>? query}) {
 
 /// مزوّد ذكاء اصطناعي واحد بمفتاح واحد. كل محوّل (OpenAI-متوافق، Anthropic، Gemini) يرث منه.
 abstract class AiProvider {
-  AiProvider(this.config, this.apiKey, {http.Client? client}) : _client = client ?? http.Client();
+  AiProvider(
+    this.config,
+    this.apiKey, {
+    http.Client? client,
+    this.busyRetryDelay = const Duration(seconds: 2),
+  }) : _client = client ?? http.Client();
 
   final AiProviderConfig config;
   final String apiKey;
   final http.Client _client;
 
+  /// انتظار قصير قبل إعادة الطلب مرة واحدة حين يردّ المزوّد بأنه مشغول (5xx أو overloaded).
+  /// الاختبارات تمرّر صفرًا حتى لا تنتظر.
+  final Duration busyRetryDelay;
+
   /// موديلات "التفكير" مع تعليمات نظام طويلة قد تحتاج أكثر من دقيقة قبل أول رد.
   static const Duration chatTimeout = Duration(seconds: 120);
   static const Duration listTimeout = Duration(seconds: 20);
+
+  /// لا يُعاد الطلب إن بقي من المهلة أقل من هذا: لن يكفي لرد، والأوضح أن يُقال للمستخدم
+  /// إن المزوّد مشغول بدل أن ينتظر حتى انتهاء المهلة.
+  static const Duration busyRetryMinWindow = Duration(seconds: 15);
 
   Future<AiReply> send(AiRequest request);
 
@@ -146,21 +160,52 @@ abstract class AiProvider {
     return _call(() => _client.get(url, headers: headers), listTimeout, false);
   }
 
+  /// محاولة واحدة، وإعادة واحدة فقط إن ردّ المزوّد بأنه مشغول وبقي من المهلة ما يكفي.
+  /// المحاولتان معًا لا تتجاوزان [timeout]، فأطول انتظار يراه المستخدم لا يزيد.
   Future<Map<String, dynamic>> _call(
     Future<http.Response> Function() request,
     Duration timeout,
     bool hadImages,
   ) async {
-    final http.Response response;
+    var canRetry = true;
+    final retryWindow = Timer(timeout - busyRetryMinWindow, () => canRetry = false);
+    Future<Map<String, dynamic>> attempts() async {
+      try {
+        return await _attempt(request, hadImages);
+      } on AiException catch (e) {
+        if (e.failure != AiFailure.busy || !canRetry) rethrow;
+        debugPrint('AI call: busy, retrying once');
+        await Future<void>.delayed(busyRetryDelay);
+        return _attempt(request, hadImages);
+      }
+    }
+
     try {
-      response = await request().timeout(timeout);
+      return await attempts().timeout(timeout);
     } on TimeoutException {
+      debugPrint('AI call: timeout after ${timeout.inSeconds} s');
       // الإنترنت يعمل غالبًا والمزوّد بطيء؛ لا نقول للمستخدم إن الإنترنت مقطوع.
       throw const AiException(AiFailure.timeout);
+    } finally {
+      retryWindow.cancel();
+    }
+  }
+
+  /// طلب واحد. يُسجَّل رمز الحالة والمدة فقط، لا الجسم ولا المفتاح.
+  Future<Map<String, dynamic>> _attempt(Future<http.Response> Function() request, bool hadImages) async {
+    final http.Response response;
+    final watch = Stopwatch()..start();
+    try {
+      response = await request();
+    } on TimeoutException {
+      debugPrint('AI call: timeout after ${watch.elapsedMilliseconds} ms');
+      throw const AiException(AiFailure.timeout);
     } catch (e) {
+      debugPrint('AI call: ${e.runtimeType} after ${watch.elapsedMilliseconds} ms');
       if (isNetworkError(e)) throw const AiException(AiFailure.network);
       throw const AiException(AiFailure.unknown);
     }
+    debugPrint('AI call: ${response.statusCode} after ${watch.elapsedMilliseconds} ms');
     final text = utf8.decode(response.bodyBytes, allowMalformed: true);
     if (response.statusCode < 200 || response.statusCode >= 300) {
       throw classifyHttpFailure(response.statusCode, text, hadImages: hadImages);

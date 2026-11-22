@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/l10n.dart';
 
 /// رسالة قصيرة بعد حذف عنصر مع زر "تراجع" يعيده إلى مكانه. تحل محل رسالة سابقة إن وُجدت.
 void showUndoSnackBar(BuildContext context, String message, Future<void> Function() onUndo) {
@@ -8,7 +9,7 @@ void showUndoSnackBar(BuildContext context, String message, Future<void> Functio
     ..showSnackBar(
       SnackBar(
         content: Text(message),
-        action: SnackBarAction(label: 'تراجع', onPressed: () => onUndo()),
+        action: SnackBarAction(label: context.l10n.undo, onPressed: () => onUndo()),
       ),
     );
 }

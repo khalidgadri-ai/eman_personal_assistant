@@ -10,6 +10,7 @@ import 'helpers/widget_helpers.dart';
 void main() {
   late TestStorage storage;
 
+  // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ الاختبارات على جوال سعودي (test/flutter_test_config.dart).
   setUp(() async {
     storage = await TestStorage.inMemory();
   });

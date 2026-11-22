@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../core/services/contact_service.dart';
 import '../../core/services/free_quota_service.dart';
 import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/ai_provider_screen.dart';
 import 'coach_ai_service.dart';
+import 'coach_crisis_dialog.dart';
 import 'coach_history_screen.dart';
 import 'coach_paywall_screen.dart';
 import 'coach_quota_text.dart';
@@ -11,6 +13,10 @@ import 'coach_safety.dart';
 import 'coach_session_service.dart';
 import 'coach_signal_service.dart';
 import 'models/coach_question.dart';
+import 'tools/coach_tool_record.dart';
+import 'tools/coach_tools_screen.dart';
+import '../../core/widgets/undo_snackbar.dart';
+import '../../l10n/l10n.dart';
 
 /// يتأكد أن مزوّد الذكاء الاصطناعي مُعدّ (ويعرض شاشة الإعداد إن لم يكن). false إن غادر المستخدم دون إعداد.
 typedef CoachAiAccess = Future<bool> Function(BuildContext context);
@@ -22,17 +28,21 @@ Future<bool> _requireConfiguredAi(BuildContext context) async =>
 enum _DeepenAccess { subscriber, free }
 
 class CoachScreen extends StatefulWidget {
-  /// المعاملات الثلاثة للاختبارات فقط؛ الأصل هو الخدمة الحقيقية وساعة الجهاز.
+  /// المعاملات للاختبارات فقط؛ الأصل هو الخدمة الحقيقية وساعة الجهاز ومنطقته والمتصفح.
   const CoachScreen({
     super.key,
     this.aiService,
     this.clock = DateTime.now,
     this.aiAccess = _requireConfiguredAi,
+    this.countryCode = deviceCountryCode,
+    this.openLink = openExternalLink,
   });
 
   final CoachAiService? aiService;
   final DateTime Function() clock;
   final CoachAiAccess aiAccess;
+  final String? Function() countryCode;
+  final LinkOpener openLink;
 
   @override
   State<CoachScreen> createState() => _CoachScreenState();
@@ -47,6 +57,7 @@ class _CoachScreenState extends State<CoachScreen> {
   CoachDomain _selectedDomain = CoachDomain.beliefs;
   CoachQuestion? _currentQuestion;
   String? _signalHint;
+  CoachToolRecord? _followUp;
   final TextEditingController _answerController = TextEditingController();
   bool _loading = true;
   bool _deepening = false;
@@ -67,6 +78,7 @@ class _CoachScreenState extends State<CoachScreen> {
     final service = await CoachSessionService.getInstance();
     final signals = await CoachSignalService().getSignals();
     final domain = CoachSessionService.pickDomain(signals);
+    final question = await service.showNextQuestion(domain);
     try {
       _subscription = await SubscriptionService.getInstance();
       _quota = await FreeQuotaService.getInstance();
@@ -79,18 +91,39 @@ class _CoachScreenState extends State<CoachScreen> {
       _quotaLine = _buildQuotaLine();
       _service = service;
       _selectedDomain = domain;
-      _currentQuestion = service.pickQuestion(domain);
+      _currentQuestion = question;
       _signalHint = signals.hintFor(domain);
+      _followUp = pendingFollowUp(service.toolRecords(), widget.clock());
       _loading = false;
     });
   }
 
-  void _onDomainChanged(CoachDomain domain) {
+  Future<void> _openTools() async {
+    await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const CoachToolsScreen()));
+    final service = _service;
+    if (!mounted || service == null) return;
+    setState(() => _followUp = pendingFollowUp(service.toolRecords(), widget.clock()));
+  }
+
+  /// جواب سؤال «كيف سارت آخر خطوة؟»: يُحفظ مع سجلها، فلا يُسأل عنها ثانية.
+  Future<void> _answerFollowUp(bool done) async {
+    final record = _followUp;
+    final service = _service;
+    if (record == null || service == null) return;
+    await service.updateToolRecord(record.copyWith(followedUp: true, stepDone: done));
+    if (!mounted) return;
+    setState(() => _followUp = null);
+    showInfoSnackBar(context, context.l10n.followUpNoted);
+  }
+
+  Future<void> _onDomainChanged(CoachDomain domain) async {
     final service = _service;
     if (service == null) return;
+    final question = await service.showNextQuestion(domain);
+    if (!mounted) return;
     setState(() {
       _selectedDomain = domain;
-      _currentQuestion = service.pickQuestion(domain);
+      _currentQuestion = question;
       _signalHint = null;
       _answerController.clear();
     });
@@ -112,10 +145,11 @@ class _CoachScreenState extends State<CoachScreen> {
       question: question,
       answerText: answer.isEmpty ? null : answer,
     );
+    final next = await service.showNextQuestion(_selectedDomain);
 
     if (!mounted) return;
     setState(() {
-      _currentQuestion = service.pickQuestion(_selectedDomain);
+      _currentQuestion = next;
       _signalHint = null;
       _answerController.clear();
     });
@@ -226,57 +260,157 @@ class _CoachScreenState extends State<CoachScreen> {
     }
   }
 
-  Future<void> _showCrisisDialog() async {
-    await showDialog<void>(
-      context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          title: const Text('مهم', style: TextStyle(color: AppTheme.textColor)),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Future<void> _showCrisisDialog() =>
+      showCrisisHelpDialog(context, countryCode: widget.countryCode(), openLink: widget.openLink);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.coachTooltip),
+        actions: [
+          IconButton(
+            tooltip: context.l10n.coachHistory,
+            icon: const Icon(Icons.history_rounded, color: AppTheme.accentColor),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const CoachHistoryScreen()),
+            ),
+          ),
+        ],
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
               children: [
-                const Text(
-                  crisisResponseMessage,
-                  style: TextStyle(color: AppTheme.textColor, height: 1.6),
-                ),
-                const SizedBox(height: 16),
-                for (final line in crisisHelplines)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                          line.number,
-                          textDirection: TextDirection.ltr,
-                          style: const TextStyle(
-                            color: AppTheme.accentColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          line.description,
-                          style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                        ),
-                      ],
-                    ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: _buildQuestionArea(),
                   ),
-                const Text(
-                  crisisHelplinesNote,
-                  style: TextStyle(color: AppTheme.subTextColor, fontSize: 11),
+                ),
+                // الأزرار خارج منطقة التمرير: تبقى فوق لوحة المفاتيح على الجوالات الصغيرة.
+                SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                    child: _buildActions(),
+                  ),
+                ),
+              ],
+            ),
+    );
+  }
+
+  Widget _buildQuestionArea() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppTheme.cardColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            context.l10n.coachDisclaimer,
+            style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+          ),
+        ),
+        const SizedBox(height: 12),
+        if (_followUp case final record?) _buildFollowUpCard(record),
+        Card(
+          color: AppTheme.cardColor,
+          margin: EdgeInsets.zero,
+          child: ListTile(
+            key: const ValueKey('coach_tools_entry'),
+            leading: const Icon(Icons.handyman_rounded, color: AppTheme.accentColor),
+            title: Text(context.l10n.coachToolsEntry, style: const TextStyle(color: AppTheme.textColor, fontSize: 14)),
+            trailing: const Icon(Icons.chevron_right_rounded, color: AppTheme.subTextColor),
+            onTap: _openTools,
+          ),
+        ),
+        const SizedBox(height: 16),
+        DropdownButton<CoachDomain>(
+          value: _selectedDomain,
+          isExpanded: true,
+          dropdownColor: AppTheme.cardColor,
+          style: const TextStyle(color: AppTheme.textColor),
+          items: CoachDomain.values
+              .map((d) => DropdownMenuItem(
+                    value: d,
+                    child: Text(d.label(context.l10n)),
+                  ))
+              .toList(),
+          onChanged: _deepening
+              ? null
+              : (d) {
+                  if (d != null) _onDomainChanged(d);
+                },
+        ),
+        const SizedBox(height: 24),
+        if (_signalHint case final hint?)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              children: [
+                const Icon(Icons.insights_rounded, size: 16, color: AppTheme.subTextColor),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    hint,
+                    style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
+                  ),
                 ),
               ],
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('فهمت', style: TextStyle(color: AppTheme.primaryColor)),
+        Text(
+          _currentQuestion?.textFor(context.appLang) ?? '',
+          style: const TextStyle(fontSize: 18, color: AppTheme.textColor),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _answerController,
+          maxLines: 4,
+          style: const TextStyle(color: AppTheme.textColor),
+          decoration: InputDecoration(
+            hintText: context.l10n.coachAnswerHint,
+            hintStyle: TextStyle(color: AppTheme.subTextColor),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFollowUpCard(CoachToolRecord record) {
+    final l10n = context.l10n;
+    return Card(
+      key: const ValueKey('coach_follow_up'),
+      color: AppTheme.surfaceColor,
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.followUpTitle, style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 4),
+            Text(l10n.followUpQuestion(record.step ?? ''), style: const TextStyle(color: AppTheme.textColor, height: 1.5)),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(onPressed: () => _answerFollowUp(false), child: Text(l10n.followUpNotYet)),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+                    onPressed: () => _answerFollowUp(true),
+                    child: Text(l10n.followUpDone, style: const TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -284,147 +418,63 @@ class _CoachScreenState extends State<CoachScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('مدرب الحياة'),
-          actions: [
-            IconButton(
-              tooltip: 'سجل جلسات التأمل',
-              icon: const Icon(Icons.history_rounded, color: AppTheme.accentColor),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => const CoachHistoryScreen()),
+  Widget _buildActions() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: _answerController,
+          builder: (context, value, _) {
+            final hasAnswer = value.text.trim().isNotEmpty;
+            return Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                    ),
+                    onPressed: _deepening ? null : _onNext,
+                    child: Text(
+                      context.l10n.next,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppTheme.accentColor),
+                    ),
+                    onPressed: _deepening || !hasAnswer ? null : _onDeepen,
+                    child: _deepening
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(
+                            context.l10n.coachDeepen,
+                            style: TextStyle(color: AppTheme.accentColor),
+                          ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        if (_quotaLine case final line?)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Center(
+              child: Text(
+                line,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
               ),
             ),
-          ],
-        ),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppTheme.cardColor,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Text(
-                        'هذا أداة تأمل ذاتي، وليس بديلاً عن معالج نفسي مرخّص.',
-                        style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    DropdownButton<CoachDomain>(
-                      value: _selectedDomain,
-                      isExpanded: true,
-                      dropdownColor: AppTheme.cardColor,
-                      style: const TextStyle(color: AppTheme.textColor),
-                      items: CoachDomain.values
-                          .map((d) => DropdownMenuItem(
-                                value: d,
-                                child: Text(d.arabicLabel),
-                              ))
-                          .toList(),
-                      onChanged: _deepening
-                          ? null
-                          : (d) {
-                              if (d != null) _onDomainChanged(d);
-                            },
-                    ),
-                    const SizedBox(height: 24),
-                    if (_signalHint case final hint?)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.insights_rounded, size: 16, color: AppTheme.subTextColor),
-                            const SizedBox(width: 6),
-                            Expanded(
-                              child: Text(
-                                hint,
-                                style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    Text(
-                      _currentQuestion?.text ?? '',
-                      style: const TextStyle(fontSize: 18, color: AppTheme.textColor),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _answerController,
-                      maxLines: 4,
-                      style: const TextStyle(color: AppTheme.textColor),
-                      decoration: const InputDecoration(
-                        hintText: 'إجابتك (اختياري)...',
-                        hintStyle: TextStyle(color: AppTheme.subTextColor),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    ValueListenableBuilder<TextEditingValue>(
-                      valueListenable: _answerController,
-                      builder: (context, value, _) {
-                        final hasAnswer = value.text.trim().isNotEmpty;
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppTheme.primaryColor,
-                                ),
-                                onPressed: _deepening ? null : _onNext,
-                                child: const Text(
-                                  'التالي',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(color: AppTheme.accentColor),
-                                ),
-                                onPressed: _deepening || !hasAnswer ? null : _onDeepen,
-                                child: _deepening
-                                    ? const SizedBox(
-                                        width: 16,
-                                        height: 16,
-                                        child: CircularProgressIndicator(strokeWidth: 2),
-                                      )
-                                    : const Text(
-                                        'عمّق أكثر',
-                                        style: TextStyle(color: AppTheme.accentColor),
-                                      ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    if (_quotaLine case final line?)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Center(
-                          child: Text(
-                            line,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-      ),
+          ),
+      ],
     );
   }
 }

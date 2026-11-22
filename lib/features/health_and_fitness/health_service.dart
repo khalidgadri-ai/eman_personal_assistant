@@ -23,6 +23,7 @@ class HealthService {
   static const String _beauty = 'beauty';
   static const String _exercise = 'exercise';
   static const String _workout = 'workout';
+  static const String _meditation = 'meditation';
   static const int maxTextLength = 120;
 
   static HealthService? _instance;
@@ -331,4 +332,35 @@ class HealthService {
     final key = int.tryParse(entry.id);
     if (key != null) await _box!.put(key, entry.toRecord());
   }
+
+  // --- سجل التأمل ---
+  // جلسة اكتملت أو استمرت دقيقة على الأقل. في الصندوق نفسه، فتدخل النسخة الاحتياطية
+  // و«مسح كل بياناتي» تلقائيًا.
+
+  /// أقصى مدة تُسجَّل لجلسة واحدة (حماية من قيمة غريبة).
+  static const int maxMeditationMinutes = 180;
+
+  Future<void> logMeditation({required String sessionId, required int minutes, DateTime? at}) async {
+    if (minutes < 1) return;
+    await _box!.add({
+      'kind': _meditation,
+      'sessionId': _clean(sessionId, 40),
+      'minutes': minutes.clamp(1, maxMeditationMinutes),
+      'at': at ?? DateTime.now(),
+    });
+  }
+
+  /// مجموع دقائق التأمل من [since] (شاملًا) حتى الآن.
+  int meditationMinutesSince(DateTime since) {
+    var total = 0;
+    for (final entry in _ofKind(_meditation)) {
+      final at = entry.value['at'];
+      final minutes = entry.value['minutes'];
+      if (at is DateTime && minutes is int && !at.isBefore(since)) total += minutes;
+    }
+    return total;
+  }
+
+  /// عدد جلسات التأمل المحفوظة.
+  int meditationCount() => _ofKind(_meditation).length;
 }

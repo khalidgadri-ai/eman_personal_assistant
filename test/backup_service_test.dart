@@ -10,6 +10,7 @@ import 'package:eman_life_app/features/budget/models/budget_plan.dart';
 import 'package:eman_life_app/features/budget/models/expense_entry.dart';
 import 'package:eman_life_app/features/coach/coach_session_service.dart';
 import 'package:eman_life_app/features/coach/models/coach_question.dart';
+import 'package:eman_life_app/features/coach/tools/coach_tool_record.dart';
 import 'package:eman_life_app/features/health_and_fitness/health_service.dart';
 import 'package:eman_life_app/features/health_and_fitness/models/exercise.dart';
 import 'package:eman_life_app/features/settings/backup_service.dart';
@@ -194,6 +195,43 @@ void main() {
     expect(plan.fixed.single.name, 'إيجار الشقة');
     expect(plan.fixed.single.paidCycle, '2026-09-27');
     expect(plan.limits[ExpenseCategory.shopping], 400.25);
+  });
+
+  test('coach tool records (nested scores, day marks, a step) come back exactly on a new phone', () async {
+    final coach = await CoachSessionService.getInstance();
+    await coach.saveToolRecord(CoachToolRecord(
+      id: '',
+      kind: CoachToolKind.wheel,
+      date: DateTime(2026, 11, 20, 21, 15),
+      data: {
+        'scores': {for (final a in WheelArea.values) a.name: a.index},
+        'focus': 'health',
+        'answers': ['أ', 'ب', 'ج'],
+      },
+      step: 'مشي عشر دقائق',
+    ));
+    await coach.saveToolRecord(CoachToolRecord(
+      id: '',
+      kind: CoachToolKind.habit,
+      date: DateTime(2026, 11, 18),
+      data: {
+        'habit': 'السهر',
+        'dailyStep': 'إطفاء الجوال',
+        'reminder': '22:30',
+        'checkins': ['2026-11-18', '2026-11-19'],
+      },
+    ));
+    final before = coach.toolRecords().map((r) => r.toMap()).toList();
+    final bytes = await BackupService.createBackup(_password, iterations: _fastIterations);
+
+    await switchToNewPhone();
+    expect((await CoachSessionService.getInstance()).toolRecords(), isEmpty);
+    await BackupService.restoreBackup(bytes, _password);
+
+    final after = (await CoachSessionService.getInstance()).toolRecords();
+    expect(after.map((r) => r.toMap()).toList(), before);
+    expect(wheelScores(after.firstWhere((r) => r.kind == CoachToolKind.wheel))[WheelArea.fun], WheelArea.fun.index);
+    expect(habitCheckins(after.firstWhere((r) => r.kind == CoachToolKind.habit)), {'2026-11-18', '2026-11-19'});
   });
 
   test('the file is encrypted: no readable user text appears in it', () async {

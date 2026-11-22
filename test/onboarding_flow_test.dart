@@ -1,6 +1,7 @@
 import 'package:eman_life_app/core/app_events.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/services/profile_service.dart';
+import 'package:eman_life_app/features/onboarding/app_tour_screen.dart';
 import 'package:eman_life_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,8 +13,10 @@ import 'helpers/test_storage.dart';
 void main() {
   late TestStorage storage;
 
+  // هذه الاختبارات عن الترحيب وحده: الجولة تُعدّ مرئية حتى يفتح التطبيق بعد الترحيب مباشرة.
+  // تسلسل الترحيب ثم الجولة في app_tour_test.dart.
   setUp(() async {
-    storage = await TestStorage.inMemory();
+    storage = await TestStorage.inMemory(prefs: {DatabaseService.appTourVersionKey: AppTour.version});
   });
   tearDown(() => storage.dispose());
 

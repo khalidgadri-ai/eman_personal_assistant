@@ -13,6 +13,7 @@ import '../budget/expense_entry_screen.dart';
 import '../budget/models/budget_plan.dart';
 import '../budget/models/expense_entry.dart';
 import '../settings/settings_button.dart';
+import '../../l10n/l10n.dart';
 
 const Color _green = Color(0xFF22C55E);
 const Color _amber = Color(0xFFF59E0B);
@@ -83,14 +84,15 @@ class _FinancialScreenState extends State<FinancialScreen> {
     });
   }
 
-  String get _symbol => _plan.currency.symbol;
+  // قبل إعداد الخطة: عملة بلد الجوال، كما في شاشة المصاريف الشهرية وتسجيل المصروف.
+  String get _symbol => _plan.displayCurrency().symbolFor(context.appLang);
 
   Future<void> _openPlan() async {
     final saved = await Navigator.of(context).push<bool>(
       MaterialPageRoute(builder: (_) => const BudgetPlanScreen()),
     );
     _refresh();
-    if (saved == true && mounted) showInfoSnackBar(context, 'حُفظت خطة الميزانية');
+    if (saved == true && mounted) showInfoSnackBar(context, context.l10n.planSaved);
   }
 
   Future<void> _openSuggestion() async {
@@ -98,7 +100,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
       MaterialPageRoute(builder: (_) => BudgetSuggestionScreen(plan: _plan, aiResolver: widget.aiResolver)),
     );
     _refresh();
-    if (saved == true && mounted) showInfoSnackBar(context, 'حُفظت الحدود. عدّلها من «تعديل الخطة»');
+    if (saved == true && mounted) showInfoSnackBar(context, context.l10n.limitsSaved);
   }
 
   Future<void> _addExpense() async {
@@ -125,46 +127,43 @@ class _FinancialScreenState extends State<FinancialScreen> {
   @override
   Widget build(BuildContext context) {
     final snapshot = _snapshot;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('💰 المحفظة المالية والميزانية'),
-          actions: [
-            IconButton(
-              tooltip: 'مصاريفي الشهرية',
-              icon: const Icon(Icons.receipt_long_rounded, color: AppTheme.accentColor),
-              onPressed: _openMonthlyExpenses,
-            ),
-            const SettingsButton(),
-          ],
-        ),
-        body: _failed
-            ? Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.budgetTitle),
+        actions: [
+          IconButton(
+            tooltip: context.l10n.monthlyExpenses,
+            icon: const Icon(Icons.receipt_long_rounded, color: AppTheme.accentColor),
+            onPressed: _openMonthlyExpenses,
+          ),
+          const SettingsButton(),
+        ],
+      ),
+      body: _failed
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(context.l10n.budgetOpenFailed, style: TextStyle(color: AppTheme.subTextColor)),
+                  const SizedBox(height: 12),
+                  ElevatedButton(onPressed: _load, child: Text(context.l10n.retry)),
+                ],
+              ),
+            )
+          : snapshot == null
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
                   children: [
-                    const Text('تعذّر فتح بيانات الميزانية', style: TextStyle(color: AppTheme.subTextColor)),
-                    const SizedBox(height: 12),
-                    ElevatedButton(onPressed: _load, child: const Text('إعادة المحاولة')),
+                    if (_plan.isConfigured) ...[
+                      _buildBudgetCard(snapshot),
+                      if (_plan.fixed.isNotEmpty) _buildFixedCard(snapshot),
+                      _buildCategoriesCard(snapshot),
+                    ] else
+                      _buildSetupCard(),
+                    _buildRecentCard(),
                   ],
                 ),
-              )
-            : snapshot == null
-                ? const Center(child: CircularProgressIndicator())
-                : ListView(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-                    children: [
-                      if (_plan.isConfigured) ...[
-                        _buildBudgetCard(snapshot),
-                        if (_plan.fixed.isNotEmpty) _buildFixedCard(snapshot),
-                        _buildCategoriesCard(snapshot),
-                      ] else
-                        _buildSetupCard(),
-                      _buildRecentCard(),
-                    ],
-                  ),
-      ),
     );
   }
 
@@ -183,18 +182,17 @@ class _FinancialScreenState extends State<FinancialScreen> {
 
   Widget _buildSetupCard() {
     return _card([
-      const Row(
+      Row(
         children: [
           Icon(Icons.account_balance_wallet_rounded, color: AppTheme.accentColor),
           SizedBox(width: 8),
-          Text('ابدأ بإعداد ميزانيتك', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 16)),
+          Text(context.l10n.setupBudgetTitle, style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 16)),
         ],
       ),
       const SizedBox(height: 8),
-      const Text(
-        'أدخل دخلك الشهري ويوم نزول الراتب ومصروفاتك الثابتة، وسنحسب لك كم يبقى لك وكم تصرف يوميًا. '
-        'تُحفظ كل بياناتك على جهازك مشفّرة.',
-        style: TextStyle(color: AppTheme.subTextColor, height: 1.6),
+      Text(
+        context.l10n.setupBudgetBody,
+        style: const TextStyle(color: AppTheme.subTextColor, height: 1.6),
       ),
       const SizedBox(height: 12),
       SizedBox(
@@ -203,7 +201,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
           style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor, padding: const EdgeInsets.symmetric(vertical: 13)),
           onPressed: _openPlan,
           icon: const Icon(Icons.tune_rounded, color: Colors.white),
-          label: const Text('إعداد الميزانية', style: TextStyle(color: Colors.white)),
+          label: Text(context.l10n.setupBudgetButton, style: TextStyle(color: Colors.white)),
         ),
       ),
     ]);
@@ -248,19 +246,19 @@ class _FinancialScreenState extends State<FinancialScreen> {
         children: [
           const Icon(Icons.pie_chart_rounded, color: AppTheme.accentColor),
           const SizedBox(width: 8),
-          const Expanded(
-            child: Text('ميزانية الدورة الحالية', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
+          Expanded(
+            child: Text(context.l10n.currentCycleBudget, style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
           ),
-          Text('باقي ${s.daysLeft} يوم', key: const Key('days_left'), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+          Text(context.l10n.daysLeft(s.daysLeft), key: const Key('days_left'), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
         ],
       ),
       const SizedBox(height: 2),
       Text(
-        'من ${formatDayMonth(s.cycle.start)} إلى ${formatDayMonth(s.cycle.lastDay)}',
+        context.l10n.cycleRange(formatDayMonth(s.cycle.start, context.appLang), formatDayMonth(s.cycle.lastDay, context.appLang)),
         style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
       ),
       const SizedBox(height: 14),
-      const Text('المتبقي', style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
+      Text(context.l10n.remainingLabel, style: TextStyle(color: AppTheme.subTextColor, fontSize: 13)),
       FittedBox(
         fit: BoxFit.scaleDown,
         alignment: AlignmentDirectional.centerStart,
@@ -283,17 +281,17 @@ class _FinancialScreenState extends State<FinancialScreen> {
       ),
       const SizedBox(height: 6),
       Text(
-        'صرفت $percent٪ من المتاح',
+        context.l10n.spentPercent(percent),
         key: const Key('budget_percent'),
         style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600),
       ),
       const SizedBox(height: 10),
-      _row('الدخل', s.income, valueKey: const Key('income_value')),
-      _row('المصروفات الثابتة', s.fixedTotal, valueKey: const Key('fixed_value')),
-      _row('الادخار', s.savings, valueKey: const Key('savings_value')),
+      _row(context.l10n.incomeLabel, s.income, valueKey: const Key('income_value')),
+      _row(context.l10n.fixedExpenses, s.fixedTotal, valueKey: const Key('fixed_value')),
+      _row(context.l10n.savingsLabel, s.savings, valueKey: const Key('savings_value')),
       const Divider(color: AppTheme.cardColor),
-      _row('المتاح للصرف', s.available, valueKey: const Key('available_value'), color: AppTheme.accentColor, bold: true),
-      _row('المصروف حتى الآن', s.spent, valueKey: const Key('spent_value')),
+      _row(context.l10n.availableToSpend, s.available, valueKey: const Key('available_value'), color: AppTheme.accentColor, bold: true),
+      _row(context.l10n.spentSoFar, s.spent, valueKey: const Key('spent_value')),
       const SizedBox(height: 8),
       Container(
         width: double.infinity,
@@ -303,7 +301,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
           children: [
             const Icon(Icons.today_rounded, color: AppTheme.accentColor),
             const SizedBox(width: 8),
-            const Expanded(child: Text('المتاح يوميًا', style: TextStyle(color: AppTheme.textColor))),
+            Expanded(child: Text(context.l10n.dailyAvailable, style: TextStyle(color: AppTheme.textColor))),
             Text(
               formatWithCurrency(s.dailyAvailable, _symbol),
               key: const Key('daily_value'),
@@ -314,13 +312,13 @@ class _FinancialScreenState extends State<FinancialScreen> {
       ),
       if (s.overcommitted)
         _warning(
-          'المصروفات الثابتة والادخار (${formatWithCurrency(s.fixedTotal + s.savings, _symbol)}) أكبر من دخلك. عدّل الخطة.',
+          context.l10n.overcommittedWarning(formatWithCurrency(s.fixedTotal + s.savings, _symbol)),
           color: _red,
         ),
       if (!s.overcommitted && s.remaining < 0)
-        _warning('تجاوزت المتاح في هذه الدورة بمقدار ${formatWithCurrency(-s.remaining, _symbol)}.', color: _red),
+        _warning(context.l10n.overspentWarning(formatWithCurrency(-s.remaining, _symbol)), color: _red),
       if (!s.overcommitted && s.remaining >= 0 && level == BudgetLevel.near)
-        _warning('اقتربت من نهاية المتاح: صرفت $percent٪ ويبقى ${formatWithCurrency(s.remaining, _symbol)}.'),
+        _warning(context.l10n.nearEndWarning(percent, formatWithCurrency(s.remaining, _symbol))),
       const SizedBox(height: 12),
       Row(
         children: [
@@ -328,7 +326,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
             child: OutlinedButton.icon(
               onPressed: _openPlan,
               icon: const Icon(Icons.tune_rounded, size: 18),
-              label: const Text('تعديل الخطة'),
+              label: Text(context.l10n.editPlan),
             ),
           ),
           const SizedBox(width: 8),
@@ -336,7 +334,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
             child: OutlinedButton.icon(
               onPressed: _openSuggestion,
               icon: const Icon(Icons.auto_awesome, size: 18),
-              label: const Text('اقتراح ميزانية'),
+              label: Text(context.l10n.suggestBudget),
             ),
           ),
         ],
@@ -351,10 +349,10 @@ class _FinancialScreenState extends State<FinancialScreen> {
         children: [
           const Icon(Icons.event_repeat_rounded, color: AppTheme.accentColor),
           const SizedBox(width: 8),
-          const Expanded(
-            child: Text('المصروفات الثابتة', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
+          Expanded(
+            child: Text(context.l10n.fixedExpenses, style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
           ),
-          Text('دُفع $paidCount من ${_plan.fixed.length}', style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+          Text(context.l10n.paidCount(paidCount, _plan.fixed.length), style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
         ],
       ),
       for (final item in _plan.fixed)
@@ -373,7 +371,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
             ),
           ),
           subtitle: Text(
-            'يوم ${item.dueDay} من الشهر · ${formatWithCurrency(item.amount, _symbol)}',
+            context.l10n.dueDayAmount(item.dueDay, formatWithCurrency(item.amount, _symbol)),
             style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
           ),
         ),
@@ -383,26 +381,26 @@ class _FinancialScreenState extends State<FinancialScreen> {
   Widget _buildCategoriesCard(BudgetSnapshot s) {
     final alerts = s.alerts;
     return _card([
-      const Row(
+      Row(
         children: [
           Icon(Icons.category_rounded, color: AppTheme.accentColor),
           SizedBox(width: 8),
-          Text('الصرف حسب الفئة', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
+          Text(context.l10n.byCategory, style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
         ],
       ),
       if (s.categories.isEmpty)
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(top: 8),
           child: Text(
-            'لا صرف مسجَّل في هذه الدورة ولا حدود للفئات. يمكنك اقتراح حدود من «اقتراح ميزانية».',
+            context.l10n.noCategorySpending,
             style: TextStyle(color: AppTheme.subTextColor, height: 1.6),
           ),
         ),
       for (final alert in alerts)
         _warning(
           alert.level == BudgetLevel.over
-              ? 'تجاوزت حد «${alert.category.arabicLabel}» بمقدار ${formatWithCurrency(alert.overBy, _symbol)}.'
-              : 'اقتربت من حد «${alert.category.arabicLabel}»: صرفت ${(alert.ratio! * 100).round()}٪ منه.',
+              ? context.l10n.overLimit(alert.category.label(context.l10n), formatWithCurrency(alert.overBy, _symbol))
+              : context.l10n.nearLimit(alert.category.label(context.l10n), (alert.ratio! * 100).round()),
           color: alert.level == BudgetLevel.over ? _red : _amber,
         ),
       const SizedBox(height: 8),
@@ -423,7 +421,7 @@ class _FinancialScreenState extends State<FinancialScreen> {
             children: [
               Icon(c.category.icon, size: 18, color: AppTheme.accentColor),
               const SizedBox(width: 8),
-              Expanded(child: Text(c.category.arabicLabel, style: const TextStyle(color: AppTheme.textColor))),
+              Expanded(child: Text(c.category.label(context.l10n), style: const TextStyle(color: AppTheme.textColor))),
               Text(
                 limit == null
                     ? formatWithCurrency(c.spent, _symbol)
@@ -451,16 +449,16 @@ class _FinancialScreenState extends State<FinancialScreen> {
 
   Widget _buildRecentCard() {
     return _card([
-      const Row(
+      Row(
         children: [
           Icon(Icons.receipt_long_rounded, color: AppTheme.accentColor),
           SizedBox(width: 8),
-          Text('آخر المصاريف', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
+          Text(context.l10n.recentExpenses, style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold, fontSize: 15)),
         ],
       ),
       const SizedBox(height: 8),
       if (_recent.isEmpty)
-        const Text('لا مصاريف مسجَّلة في هذه الدورة بعد.', style: TextStyle(color: AppTheme.subTextColor)),
+        Text(context.l10n.noRecentExpenses, style: TextStyle(color: AppTheme.subTextColor)),
       for (final e in _recent)
         ListTile(
           key: ValueKey('recent_${e.id}'),
@@ -468,13 +466,13 @@ class _FinancialScreenState extends State<FinancialScreen> {
           contentPadding: EdgeInsets.zero,
           leading: Icon(e.category.icon, color: AppTheme.accentColor),
           title: Text(
-            e.note == null || e.note!.isEmpty ? e.category.arabicLabel : e.note!,
+            e.note == null || e.note!.isEmpty ? e.category.label(context.l10n) : e.note!,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: AppTheme.textColor),
           ),
           subtitle: Text(
-            '${e.category.arabicLabel} · ${e.date.day}/${e.date.month}',
+            '${e.category.label(context.l10n)} · ${e.date.day}/${e.date.month}',
             style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
           ),
           trailing: Text(
@@ -490,12 +488,12 @@ class _FinancialScreenState extends State<FinancialScreen> {
               style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
               onPressed: _addExpense,
               icon: const Icon(Icons.add_rounded, color: Colors.white),
-              label: const Text('سجّل مصروف', style: TextStyle(color: Colors.white)),
+              label: Text(context.l10n.recordExpense, style: TextStyle(color: Colors.white)),
             ),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: OutlinedButton(onPressed: _openMonthlyExpenses, child: const Text('كل المصاريف')),
+            child: OutlinedButton(onPressed: _openMonthlyExpenses, child: Text(context.l10n.allExpenses)),
           ),
         ],
       ),

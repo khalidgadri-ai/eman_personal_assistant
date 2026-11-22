@@ -10,6 +10,7 @@ import '../../core/widgets/ai_provider_screen.dart';
 import '../../core/widgets/entry_dialog.dart';
 import '../../core/widgets/undo_snackbar.dart';
 import '../awareness/usage_awareness_screen.dart';
+import '../meditation/meditation_tab.dart';
 import '../reminders/reminder_notice.dart';
 import '../settings/settings_button.dart';
 import 'exercise_details_screen.dart';
@@ -19,6 +20,15 @@ import 'image_source_sheet.dart';
 import 'models/exercise.dart';
 import 'models/health_entry.dart';
 import 'workout_log_screen.dart';
+import '../../l10n/l10n.dart';
+
+/// وقت منتج الروتين يُحفظ بهذا النص العربي، ويُعرض بلغة التطبيق.
+String careTimeLabel(AppLocalizations l10n, String stored) => switch (stored) {
+      'صباحاً' => l10n.careMorning,
+      'مساءً' => l10n.careEvening,
+      'صباحاً ومساءً' => l10n.careBoth,
+      _ => stored,
+    };
 
 class HealthFitnessScreen extends StatefulWidget {
   /// [pickImage] و[aiProviderBuilder] يُستبدلان في الاختبارات فقط؛ الأصل هو كاميرا النظام أو
@@ -45,7 +55,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this)..addListener(_onTabChanged);
+    _tabController = TabController(length: 4, vsync: this)..addListener(_onTabChanged);
     _loadData();
   }
 
@@ -124,7 +134,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     final removed = await _health?.deleteExercise(exercise.id);
     _refresh();
     if (removed == null || !mounted) return;
-    showUndoSnackBar(context, 'حُذف «${exercise.name}»', () async {
+    showUndoSnackBar(context, context.l10n.exerciseDeleted(exercise.name), () async {
       await _health?.restoreExercise(removed);
       _refresh();
     });
@@ -148,11 +158,11 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     if (health == null) return;
     final values = await showEntryDialog(
       context,
-      title: 'إضافة دواء أو مكمل',
-      fields: const [
-        EntryField(key: 'name', label: 'الاسم', hint: 'مثال: فيتامين د', required: true),
-        EntryField(key: 'time', label: 'الوقت (اختياري)', hint: 'مثال: 09:00 صباحاً'),
-        EntryField(key: 'reminder', label: 'تذكير', isTime: true),
+      title: context.l10n.medAddTitle,
+      fields: [
+        EntryField(key: 'name', label: context.l10n.nameField, hint: context.l10n.medNameHint, required: true),
+        EntryField(key: 'time', label: context.l10n.timeOptionalField, hint: context.l10n.medTimeHint),
+        EntryField(key: 'reminder', label: context.l10n.reminderField, isTime: true),
       ],
     );
     if (values == null) return;
@@ -166,12 +176,12 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     if (health == null) return;
     final values = await showEntryDialog(
       context,
-      title: 'تعديل الدواء',
-      confirmLabel: 'حفظ',
+      title: context.l10n.medEditTitle,
+      confirmLabel: context.l10n.save,
       fields: [
-        EntryField(key: 'name', label: 'الاسم', required: true, initial: med.name),
-        EntryField(key: 'time', label: 'الوقت (اختياري)', initial: med.time),
-        EntryField(key: 'reminder', label: 'تذكير', isTime: true, initial: med.reminder),
+        EntryField(key: 'name', label: context.l10n.nameField, required: true, initial: med.name),
+        EntryField(key: 'time', label: context.l10n.timeOptionalField, initial: med.time),
+        EntryField(key: 'reminder', label: context.l10n.reminderField, isTime: true, initial: med.reminder),
       ],
     );
     if (values == null) return;
@@ -198,12 +208,17 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     if (health == null) return;
     final values = await showEntryDialog(
       context,
-      title: 'إضافة منتج للروتين',
-      fields: const [
-        EntryField(key: 'item', label: 'المنتج', hint: 'مثال: مرطب البشرة', required: true),
-        EntryField(key: 'time', label: 'الوقت', options: ['صباحاً', 'مساءً', 'صباحاً ومساءً']),
-        EntryField(key: 'step', label: 'طريقة الاستخدام (اختياري)', maxLength: 200),
-        EntryField(key: 'reminder', label: 'تذكير', isTime: true),
+      title: context.l10n.careAddTitle,
+      fields: [
+        EntryField(key: 'item', label: context.l10n.productField, hint: context.l10n.careProductHint, required: true),
+        EntryField(
+          key: 'time',
+          label: context.l10n.timeField,
+          options: const ['صباحاً', 'مساءً', 'صباحاً ومساءً'],
+          optionLabel: (t) => careTimeLabel(context.l10n, t),
+        ),
+        EntryField(key: 'step', label: context.l10n.careStepField, maxLength: 200),
+        EntryField(key: 'reminder', label: context.l10n.reminderField, isTime: true),
       ],
     );
     if (values == null) return;
@@ -223,18 +238,19 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     const times = ['صباحاً', 'مساءً', 'صباحاً ومساءً'];
     final values = await showEntryDialog(
       context,
-      title: 'تعديل المنتج',
-      confirmLabel: 'حفظ',
+      title: context.l10n.careEditTitle,
+      confirmLabel: context.l10n.save,
       fields: [
-        EntryField(key: 'item', label: 'المنتج', required: true, initial: item.item),
+        EntryField(key: 'item', label: context.l10n.productField, required: true, initial: item.item),
         EntryField(
           key: 'time',
-          label: 'الوقت',
+          label: context.l10n.timeField,
           options: times.contains(item.time) || item.time.isEmpty ? times : [...times, item.time],
           initial: item.time.isEmpty ? times.first : item.time,
+          optionLabel: (t) => careTimeLabel(context.l10n, t),
         ),
-        EntryField(key: 'step', label: 'طريقة الاستخدام (اختياري)', maxLength: 200, initial: item.step),
-        EntryField(key: 'reminder', label: 'تذكير', isTime: true, initial: item.reminder),
+        EntryField(key: 'step', label: context.l10n.careStepField, maxLength: 200, initial: item.step),
+        EntryField(key: 'reminder', label: context.l10n.reminderField, isTime: true, initial: item.reminder),
       ],
     );
     if (values == null) return;
@@ -251,7 +267,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
 
   // --- تحليل الصور بالذكاء الاصطناعي ---
 
-  /// يلتقط صورة تمرين ويحلّلها بالمزوّد المختار، ثم يعرض النتيجة مع "حفظ كتمرين".
+  /// يلتقط صورة تمرين ويحلّلها بالمزوّد المختار، ثم يعرض النتيجة مع «حفظ كتمرين».
   Future<void> _analyzeExerciseImage() async {
     final ai = await requireAiService(context, builder: widget.aiProviderBuilder);
     if (ai == null || !mounted) return;
@@ -274,49 +290,46 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     setState(() => _isAnalyzingExercise = false);
 
     if (error != null) {
-      _showResultDialog('🏋️ تحليل التمرين والعضلات', error);
+      _showResultDialog(context.l10n.exerciseAnalysisTitle, error);
       return;
     }
     final reply = text!;
     final draft = ExerciseDraft.tryParse(reply);
     await _showExerciseResult(
-      draft?.toDisplayText() ?? reply,
+      draft?.toDisplayText(context.l10n) ?? reply,
       // رد ليس بصيغة JSON: يُعرض كما هو ويمكن حفظه كملاحظة تمرين بعد مراجعته.
       draft ?? ExerciseDraft(notes: String.fromCharCodes(reply.runes.take(Exercise.maxNotesLength))),
       image,
     );
   }
 
-  /// نتيجة تحليل التمرين: عرض ثم زر "حفظ كتمرين" يفتح نموذجًا معبّأ للمراجعة.
+  /// نتيجة تحليل التمرين: عرض ثم زر «حفظ كتمرين» يفتح نموذجًا معبّأ للمراجعة.
   Future<void> _showExerciseResult(String shown, ExerciseDraft draft, Uint8List image) async {
     final save = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Text('🏋️ تحليل التمرين والعضلات', style: TextStyle(color: AppTheme.textColor, fontSize: 17)),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: SingleChildScrollView(
-              // نص عادي فقط: ما يولّده الذكاء الاصطناعي لا يُفسَّر Markdown ولا روابط.
-              child: SelectableText(shown, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
-            ),
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(context.l10n.exerciseAnalysisTitle, style: TextStyle(color: AppTheme.textColor, fontSize: 17)),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            // نص عادي فقط: ما يولّده الذكاء الاصطناعي لا يُفسَّر Markdown ولا روابط.
+            child: SelectableText(shown, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, false),
-              child: const Text('إغلاق', style: TextStyle(color: AppTheme.subTextColor)),
-            ),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              icon: const Icon(Icons.bookmark_add_rounded, color: Colors.white, size: 18),
-              label: const Text('حفظ كتمرين', style: TextStyle(color: Colors.white)),
-              onPressed: () => Navigator.pop(dialogContext, true),
-            ),
-          ],
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(context.l10n.close, style: TextStyle(color: AppTheme.subTextColor)),
+          ),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            icon: const Icon(Icons.bookmark_add_rounded, color: Colors.white, size: 18),
+            label: Text(context.l10n.saveAsExercise, style: TextStyle(color: Colors.white)),
+            onPressed: () => Navigator.pop(dialogContext, true),
+          ),
+        ],
       ),
     );
     if (save == true && mounted) await _addExercise(draft: draft, image: image);
@@ -334,33 +347,42 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
 
     if (!mounted) return;
     setState(() => _isAnalyzingMed = false);
-    _showResultDialog('💊 تحليل علبة الدواء', result);
+    _showResultDialog(context.l10n.medReadTitle, result, notice: context.l10n.medLabelNotice);
   }
 
-  /// يعرض نتيجة التحليل في نافذة قابلة للتمرير
-  void _showResultDialog(String title, String content) {
+  /// يعرض نتيجة التحليل في نافذة قابلة للتمرير، و[notice] تحتها إن وُجد.
+  void _showResultDialog(String title, String content, {String? notice}) {
     showDialog(
       context: context,
-      builder: (context) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          backgroundColor: AppTheme.cardColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text(title, style: const TextStyle(color: AppTheme.textColor, fontSize: 17)),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: SingleChildScrollView(
-              child: SelectableText(content, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.cardColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(title, style: const TextStyle(color: AppTheme.textColor, fontSize: 17)),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SelectableText(content, style: const TextStyle(color: AppTheme.subTextColor, fontSize: 14, height: 1.6)),
+                if (notice != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    notice,
+                    style: const TextStyle(color: AppTheme.accentColor, fontSize: 13, height: 1.6),
+                  ),
+                ],
+              ],
             ),
           ),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-              onPressed: () => Navigator.pop(context),
-              child: const Text('حسناً', style: TextStyle(color: Colors.white)),
-            ),
-          ],
         ),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            onPressed: () => Navigator.pop(context),
+            child: Text(context.l10n.okAction, style: TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
   }
@@ -370,21 +392,21 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
     return switch (_tabController.index) {
       0 => FloatingActionButton(
           heroTag: 'add_exercise_fab',
-          tooltip: 'إضافة تمرين',
+          tooltip: context.l10n.addExercise,
           backgroundColor: AppTheme.primaryColor,
           onPressed: _addExercise,
           child: const Icon(Icons.add, color: Colors.white),
         ),
       1 => FloatingActionButton(
           heroTag: 'add_medication_fab',
-          tooltip: 'إضافة دواء',
+          tooltip: context.l10n.addMedication,
           backgroundColor: AppTheme.primaryColor,
           onPressed: _addMedication,
           child: const Icon(Icons.add, color: Colors.white),
         ),
       2 => FloatingActionButton(
           heroTag: 'add_beauty_fab',
-          tooltip: 'إضافة منتج',
+          tooltip: context.l10n.addProduct,
           backgroundColor: AppTheme.primaryColor,
           onPressed: _addBeautyItem,
           child: const Icon(Icons.add, color: Colors.white),
@@ -397,10 +419,10 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🏋️ الصحة واللياقة والعناية'),
+        title: Text(context.l10n.healthTitle),
         actions: [
           IconButton(
-            tooltip: 'وعي الاستخدام',
+            tooltip: context.l10n.awarenessTooltip,
             icon: const Icon(Icons.hourglass_bottom_rounded, color: AppTheme.accentColor),
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(builder: (_) => const UsageAwarenessScreen()),
@@ -410,13 +432,17 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
         ],
         bottom: TabBar(
           controller: _tabController,
+          // أربعة أقسام: قابل للتمرير حتى لا تُقصّ الأسماء على الجوالات الضيقة.
+          isScrollable: true,
+          tabAlignment: TabAlignment.start,
           indicatorColor: AppTheme.accentColor,
           labelColor: AppTheme.accentColor,
           unselectedLabelColor: AppTheme.subTextColor,
-          tabs: const [
-            Tab(text: 'التمارين والعضلات'),
-            Tab(text: 'جدول الأدوية'),
-            Tab(text: 'العناية بالبشرة'),
+          tabs: [
+            Tab(text: context.l10n.tabExercises),
+            Tab(text: context.l10n.tabMeds),
+            Tab(text: context.l10n.tabCare),
+            Tab(text: context.l10n.tabMeditation),
           ],
         ),
       ),
@@ -427,6 +453,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
           _buildFitnessTab(),
           _buildMedsTab(),
           _buildBeautyTab(),
+          const MeditationTab(),
         ],
       ),
     );
@@ -440,13 +467,13 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const Text(
-              'تعذّر فتح بياناتك الصحية المحفوظة.',
+            Text(
+              context.l10n.healthLoadFailed,
               style: TextStyle(color: AppTheme.textColor),
             ),
             TextButton(
               onPressed: _loadData,
-              child: const Text('إعادة المحاولة', style: TextStyle(color: AppTheme.accentColor)),
+              child: Text(context.l10n.retry, style: TextStyle(color: AppTheme.accentColor)),
             ),
           ],
         ),
@@ -468,18 +495,18 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
               children: [
                 const Icon(Icons.fitness_center, size: 48, color: AppTheme.accentColor),
                 const SizedBox(height: 10),
-                const Text(
-                  'تمارينك',
+                Text(
+                  context.l10n.yourExercises,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 12),
                 _isAnalyzingExercise
-                    ? const Column(
+                    ? Column(
                         children: [
                           CircularProgressIndicator(color: AppTheme.accentColor),
                           SizedBox(height: 8),
-                          Text('جارٍ تحليل الصورة بالذكاء الاصطناعي...', style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                          Text(context.l10n.analyzingImage, style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
                         ],
                       )
                     : ElevatedButton.icon(
@@ -489,7 +516,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
                         ),
                         onPressed: _analyzeExerciseImage,
                         icon: const Icon(Icons.camera_alt, color: Colors.white),
-                        label: const Text('تحليل صورة التمرين بالذكاء الاصطناعي', style: TextStyle(color: Colors.white)),
+                        label: Text(context.l10n.analyzeExerciseImage, style: TextStyle(color: Colors.white)),
                       ),
               ],
             ),
@@ -498,9 +525,9 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
         const SizedBox(height: 16),
         Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
-                'بطاقات التمارين بالجولات والتكرارات',
+                context.l10n.exerciseCardsHeader,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor),
               ),
             ),
@@ -508,17 +535,17 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
               TextButton.icon(
                 onPressed: _openWorkoutLog,
                 icon: const Icon(Icons.history_rounded, size: 18),
-                label: const Text('السجل'),
+                label: Text(context.l10n.logLabel),
               ),
           ],
         ),
         const SizedBox(height: 8),
         if (_exercises.isEmpty)
-          const Center(
+          Center(
             child: Padding(
               padding: EdgeInsets.all(24),
               child: Text(
-                'لم تُضف تمارين بعد.',
+                context.l10n.noExercises,
                 style: TextStyle(color: AppTheme.subTextColor),
                 textAlign: TextAlign.center,
               ),
@@ -582,7 +609,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
                 ),
               ),
               IconButton(
-                tooltip: exercise.pinned ? 'إلغاء تثبيت التمرين' : 'تثبيت التمرين',
+                tooltip: exercise.pinned ? context.l10n.exerciseUnpin : context.l10n.exercisePin,
                 icon: Icon(
                   exercise.pinned ? Icons.push_pin_rounded : Icons.push_pin_outlined,
                   color: AppTheme.subTextColor,
@@ -590,7 +617,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
                 onPressed: () => _toggleExercisePin(exercise),
               ),
               IconButton(
-                tooltip: 'حذف التمرين',
+                tooltip: context.l10n.exerciseDelete,
                 icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                 onPressed: () => _deleteExercise(exercise),
               ),
@@ -613,45 +640,45 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
             padding: const EdgeInsets.all(14),
             child: Column(
               children: [
-                const Row(
+                Row(
                   children: [
                     Icon(Icons.medication_liquid_rounded, color: AppTheme.accentColor),
                     SizedBox(width: 8),
-                    Text('تحليل الدواء بالذكاء الاصطناعي', style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
+                    Text(context.l10n.medReadHeader, style: TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'التقاط صورة لعلبة الدواء أو المكمل الغذائي لمعرفة الجرعة والتحذيرات',
-                  style: TextStyle(color: AppTheme.subTextColor, fontSize: 13),
+                Text(
+                  context.l10n.medReadBody,
+                  style: const TextStyle(color: AppTheme.subTextColor, fontSize: 13),
                 ),
                 const SizedBox(height: 12),
                 _isAnalyzingMed
-                    ? const Column(
+                    ? Column(
                         children: [
                           CircularProgressIndicator(color: AppTheme.accentColor),
                           SizedBox(height: 8),
-                          Text('جارٍ تحليل علبة الدواء...', style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
+                          Text(context.l10n.analyzingMed, style: TextStyle(color: AppTheme.subTextColor, fontSize: 12)),
                         ],
                       )
                     : ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
                         onPressed: _analyzeMedicationLabel,
                         icon: const Icon(Icons.camera_alt, color: Colors.white),
-                        label: const Text('تحليل علبة الدواء 💊', style: TextStyle(color: Colors.white)),
+                        label: Text(context.l10n.analyzeMed, style: TextStyle(color: Colors.white)),
                       ),
               ],
             ),
           ),
         ),
-        const Text('توقيتات الأدوية والمكملات اليومية', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
+        Text(context.l10n.medsHeader, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
         const SizedBox(height: 12),
         if (_medications.isEmpty)
-          const Center(
+          Center(
             child: Padding(
               padding: EdgeInsets.all(24),
               child: Text(
-                'لم تُضف أدوية أو مكملات بعد. اضغط + للإضافة.',
+                context.l10n.noMeds,
                 style: TextStyle(color: AppTheme.subTextColor),
                 textAlign: TextAlign.center,
               ),
@@ -684,7 +711,7 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
                   onChanged: (val) => _setMedicationTaken(med, val),
                 ),
                 IconButton(
-                  tooltip: 'حذف الدواء',
+                  tooltip: context.l10n.medDelete,
                   icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
                   onPressed: () => _deleteEntry(med.id),
                 ),
@@ -701,14 +728,14 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       children: [
         if (_loadFailed) _buildLoadFailedCard(),
-        const Text('سجل منتجات الروتين اليومي للبشرة والشعر', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
+        Text(context.l10n.careHeader, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textColor)),
         const SizedBox(height: 12),
         if (_beautyItems.isEmpty)
-          const Center(
+          Center(
             child: Padding(
               padding: EdgeInsets.all(24),
               child: Text(
-                'لم تُضف منتجات بعد. اضغط + للإضافة.',
+                context.l10n.noCare,
                 style: TextStyle(color: AppTheme.subTextColor),
                 textAlign: TextAlign.center,
               ),
@@ -720,14 +747,14 @@ class _HealthFitnessScreenState extends State<HealthFitnessScreen> with SingleTi
             leading: const Icon(Icons.spa_rounded, color: AppTheme.accentColor),
             title: Text(item.item, style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.bold)),
             subtitle: Text(
-              [item.time, item.step, if (item.reminder.isNotEmpty) '⏰ ${item.reminder}']
+              [careTimeLabel(context.l10n, item.time), item.step, if (item.reminder.isNotEmpty) '⏰ ${item.reminder}']
                   .where((s) => s.isNotEmpty)
                   .join(' - '),
               style: const TextStyle(color: AppTheme.subTextColor),
             ),
             onTap: () => _editBeautyItem(item),
             trailing: IconButton(
-              tooltip: 'حذف المنتج',
+              tooltip: context.l10n.careDelete,
               icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.subTextColor),
               onPressed: () => _deleteEntry(item.id),
             ),

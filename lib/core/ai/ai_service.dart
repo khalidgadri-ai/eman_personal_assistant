@@ -3,6 +3,7 @@ import 'ai_errors.dart';
 import 'ai_models.dart';
 import 'ai_provider.dart';
 import 'ai_settings_service.dart';
+import '../config/app_locale.dart';
 import 'provider_presets.dart';
 
 /// واجهة الذكاء الاصطناعي التي تستعملها الشاشات، فوق أي مزوّد (Gemini أو Claude أو أي خدمة
@@ -28,9 +29,9 @@ class AiService {
   final String? _systemPrompt;
   final AiProviderBuilder _builder;
 
-  static final String missingKeyMessage = AiFailure.missingKey.message;
-  static final String emptyReplyMessage = AiFailure.emptyReply.message;
-  static const String emptyImageReplyMessage = 'لم أتمكن من تحليل الصورة.';
+  static String get missingKeyMessage => AiFailure.missingKey.message;
+  static String get emptyReplyMessage => AiFailure.emptyReply.message;
+  static String get emptyImageReplyMessage => AppLocale.texts.aiEmptyImageReply;
 
   /// [systemPrompt] تعليمات اختيارية تُرسل مع كل طلب (مثل تعليمات المساعد العام).
   static Future<AiService> create({String? systemPrompt, AiProviderBuilder? builder}) async {
@@ -76,7 +77,7 @@ class AiService {
     final settings = await AiSettingsService.getInstance();
     final id = settings.selectedId;
     final preview = id == null ? '' : await settings.keyPreview(id);
-    return preview.isEmpty ? 'لم يُضبط مفتاح' : preview;
+    return preview.isEmpty ? AppLocale.texts.aiNoKeySet : preview;
   }
 
   /// طلب خام يرمي [AiException]؛ للمدرب الذي يحتاج تعليمات نظام وأخطاء حقيقية.
@@ -136,8 +137,19 @@ class AiService {
     return reply.text;
   }
 
+  /// الطلبات والردود بلغة التطبيق: الإنجليزية إن اختارها المستخدم، وإلا العربية.
+  static bool get _english => AppLocale.current.languageCode == 'en';
+
   /// تعليمات تحليل صورة تمرين: JSON فقط، فيُملأ نموذج "حفظ كتمرين" مسبقًا ويراجعه المستخدم.
-  static const String exerciseAnalysisPrompt = '''
+  static String get exerciseAnalysisPrompt => _english ? _exercisePromptEn : _exercisePromptAr;
+
+  static const String _exercisePromptEn = '''
+You are a specialist fitness coach. Analyse the image of the exercise or target muscle and return JSON only (no text before or after it and no ``` marks) in this shape:
+{"name": "exercise name", "muscles": "target muscles", "steps": ["first step", "second step"], "sets": 3, "reps": "10-12", "notes": "technique and safety tips"}
+Write the values briefly in English. If the image is not an exercise or a muscle, return {"name": "", "notes": "why it was not recognised"}.
+''';
+
+  static const String _exercisePromptAr = '''
 أنت مدرب لياقة بدنية متخصص. حلّل صورة التمرين أو العضلة المستهدفة وأرجع JSON فقط (بلا أي نص قبله أو بعده وبلا علامات ```) بهذا الشكل:
 {"name": "اسم التمرين", "muscles": "العضلات المستهدفة", "steps": ["الخطوة الأولى", "الخطوة الثانية"], "sets": 3, "reps": "10-12", "notes": "نصائح التكنيك والسلامة"}
 اكتب القيم بالعربية باختصار. إن لم تكن الصورة تمرينًا أو عضلة فأرجع {"name": "", "notes": "سبب عدم التعرف"}.
@@ -150,6 +162,17 @@ class AiService {
 
   /// 🥗 Module 6: Culinary & Recipe Vault generator
   Future<String> suggestRecipes(List<String> ingredients) async {
+    if (_english) {
+      return askAssistant('''
+I have these ingredients in my kitchen: ${ingredients.join(', ')}.
+Suggest a tasty recipe that is quick to prepare, including:
+- Recipe name
+- Exact quantities (weights in grams)
+- Preparation steps
+- Approximate nutritional value
+Answer in English.
+''');
+    }
     final prompt = '''
 لدي المكونات التالية في المطبخ: ${ingredients.join(', ')}.
 اقترح وصفة طعام شهية وسريعة التحضير تشمل:
@@ -163,6 +186,17 @@ class AiService {
 
   /// 🎙️ Module 3: Hybrid Voice Note to Daily Tasks Parser
   Future<String> parseVoiceNoteToTasks(String voiceNoteTranscript) async {
+    if (_english) {
+      return askAssistant('''
+Analyse the following text taken from a voice note and extract a list of the tasks it mentions, with times if there are any:
+"$voiceNoteTranscript"
+
+Format the answer as an organised bullet list where each item has:
+- The task (personal, home or family)
+- The suggested time
+Answer in English.
+''');
+    }
     final prompt = '''
 قم بتحليل النص التالي المستخرج من المذكرة الصوتية واستخرج منه قائمة بالمهام المحددة والمواعيد إن وجدت:
 "$voiceNoteTranscript"
@@ -175,18 +209,30 @@ class AiService {
   }
 
   /// 💊 Module 10: Medication & Supplement Label Analysis
+  /// 💊 قراءة علبة دواء أو مكمل. **قراءة فقط**: ينقل الموديل ما هو مكتوب على العلبة ولا يقترح
+  /// جرعة من عنده، لأن خطأه في الجرعة خطر. الشاشة تعرض بعد الرد تنبيه `medLabelNotice` من ملفات اللغات.
   Future<String> analyzeMedicationLabel(Uint8List imageBytes) async {
     return analyzeImage(
       imageBytes: imageBytes,
       mimeType: 'image/jpeg',
-      prompt: '''
-قم بقراءة وتحليل علبة الدواء أو المكمل الغذائي في هذه الصورة ووفر:
-1. اسم الدواء/المكمل.
-2. الجرعة الموصى بها وطريقة الاستخدام.
-3. التنبيهات والتحذيرات الهامة.
+      prompt: _english
+          ? '''
+Read what is written on the medicine or supplement box in this image, and report it as it is:
+1. The name exactly as printed on the box.
+2. The dose and directions exactly as written on the box. If they are not written, or not clear in the image, say so.
+3. The warnings written on the box.
+Do not suggest a dose of your own, do not diagnose, and do not give medical advice. If something in the image is unclear, say it is unclear instead of guessing. Write your answer in English.
+'''
+          : '''
+اقرأ ما هو مكتوب على علبة الدواء أو المكمل الغذائي في هذه الصورة، وانقله كما هو:
+1. الاسم كما هو مكتوب على العلبة.
+2. الجرعة وطريقة الاستعمال كما هي مكتوبة على العلبة حرفيًا. إن لم تكن مكتوبة أو لم تتضح في الصورة فقل ذلك.
+3. التحذيرات المكتوبة على العلبة.
+لا تقترح جرعة من عندك، ولا تشخّص، ولا تقدّم نصيحة طبية. إن كان شيء غير واضح في الصورة فقل إنه غير واضح بدل التخمين.
 ''',
     );
   }
+
 
   static String _plainNumber(double v) => v == v.roundToDouble() ? v.toInt().toString() : v.toStringAsFixed(2);
 
@@ -201,6 +247,20 @@ class AiService {
     required double available,
     required String currencyName,
   }) async {
+    if (_english) {
+      return askAssistant('''
+You are a personal finance assistant. Return JSON only (no text before or after it and no ``` marks) in this shape:
+{"limits": {"food": 0, "transport": 0, "entertainment": 0, "bills": 0, "shopping": 0, "other": 0}, "note": "one or two sentences explaining the split"}
+Keep the keys exactly as they are: food, transport, entertainment, bills (variable bills), shopping, other.
+The values are monthly spending limits in ($currencyName), and together they must not exceed the amount available to spend.
+Write the note in English.
+
+Monthly income: ${_plainNumber(income)}
+Fixed expenses total: ${_plainNumber(fixedTotal)}
+Monthly savings goal: ${_plainNumber(savings)}
+Available to spend: ${_plainNumber(available)}
+''');
+    }
     final prompt = '''
 أنت مساعد مالي شخصي. أرجع JSON فقط (بلا أي نص قبله أو بعده وبلا علامات ```) بهذا الشكل:
 {"limits": {"food": 0, "transport": 0, "entertainment": 0, "bills": 0, "shopping": 0, "other": 0}, "note": "جملة أو جملتان تشرحان التوزيع"}

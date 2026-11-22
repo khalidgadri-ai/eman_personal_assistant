@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
+import '../../core/config/app_locale.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/notification_service.dart';
 import '../health_and_fitness/health_service.dart';
 import '../health_and_fitness/models/health_entry.dart';
+import '../coach/coach_session_service.dart';
+import '../coach/tools/coach_tool_record.dart';
 
 /// تذكير واحد مخطَّط: ما يظهر وفي أي وقت وهل يتكرر يوميًا.
 class PlannedReminder {
@@ -67,9 +70,11 @@ class PlatformReminderGateway implements ReminderGateway {
 
 /// يحوّل بيانات المستخدم إلى قائمة تذكيرات (دالة نقية، قابلة للاختبار بلا نظام).
 abstract final class ReminderPlanner {
-  static const String medicationTitle = 'تذكير بالدواء';
-  static const String routineTitle = 'تذكير بالعناية';
-  static const String taskTitle = 'تذكير بمهمة';
+  // بلغة التطبيق وقت الجدولة؛ تغيير اللغة يعيد الجدولة فتتبدل العناوين.
+  static String get medicationTitle => AppLocale.texts.reminderMedicationTitle;
+  static String get routineTitle => AppLocale.texts.reminderRoutineTitle;
+  static String get taskTitle => AppLocale.texts.reminderTaskTitle;
+  static String get habitTitle => AppLocale.texts.reminderHabitTitle;
 
   /// معرّف إشعار ثابت بين التشغيلات (FNV-1a)؛ `String.hashCode` غير مضمون الثبات.
   static int stableId(String kind, String id) {
@@ -93,6 +98,7 @@ abstract final class ReminderPlanner {
     required List<Medication> medications,
     required List<BeautyItem> beauty,
     required List<Map<String, dynamic>> tasks,
+    List<CoachToolRecord> habits = const [],
   }) {
     final result = <PlannedReminder>[];
     for (final med in medications) {
@@ -132,6 +138,19 @@ abstract final class ReminderPlanner {
         repeatsDaily: false,
       ));
     }
+    // خطوة العادة اليومية (أدوات المدرب): يوميًا ما دامت العادة جارية؛ المزامنة تمرّر الجارية فقط.
+    for (final habit in habits) {
+      final t = parseTime(habit.data['reminder'] as String?);
+      if (t == null || habit.kind != CoachToolKind.habit) continue;
+      result.add(PlannedReminder(
+        id: stableId('habit', habit.id),
+        title: habitTitle,
+        body: '${habit.data['dailyStep'] ?? ''}',
+        hour: t.hour,
+        minute: t.minute,
+        repeatsDaily: true,
+      ));
+    }
     return result;
   }
 }
@@ -166,8 +185,7 @@ class ReminderService {
   ReminderService._();
 
   /// رسالة للمستخدم حين لا يُضمن أن يرن تذكيره. صيغة لا تخاطب جنسًا بعينه.
-  static const String notScheduledMessage =
-      'لم يُضبط التذكير. يلزم تفعيل إشعارات هذا التطبيق من إعدادات الجوال ثم إعادة المحاولة.';
+  static String get notScheduledMessage => AppLocale.texts.reminderNotScheduled;
 
   @visibleForTesting
   static ReminderGateway? gatewayOverride;
@@ -183,10 +201,18 @@ class ReminderService {
     try {
       final health = await HealthService.getInstance();
       final db = await DatabaseService.getInstance();
+      List<CoachToolRecord> habits = const [];
+      try {
+        habits = await CoachSessionService.activeHabits(DateTime.now());
+      } catch (e) {
+        // بلا تذكير العادة فقط؛ بقية التذكيرات تُجدول.
+        debugPrint('ReminderService.sync: habits unavailable (${e.runtimeType})');
+      }
       final planned = ReminderPlanner.plan(
         medications: health.medications(),
         beauty: health.beautyItems(),
         tasks: db.getDailyTasks(),
+        habits: habits,
       );
       final gateway = _gateway;
       await gateway.cancelAll();

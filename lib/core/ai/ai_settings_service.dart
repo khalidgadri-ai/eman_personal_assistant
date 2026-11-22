@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../config/ai_config.dart';
 import '../services/database_service.dart';
 import 'ai_provider.dart';
 import 'provider_presets.dart';
@@ -11,6 +12,9 @@ import 'provider_presets.dart';
 /// إلا إلى مزوّده، ولا يدخل النسخة الاحتياطية ولا السجلات. "مسح كل بياناتي" يمسحه.
 class AiSettingsService {
   static const String _keyPrefix = 'ai_key_';
+
+  /// رقم إصدار الإعداد المحفوظ. 2 = استُبدل الاقتراح القديم ([AIConfig.replacedSuggestions]).
+  static const int configVersion = 2;
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   static Future<AiSettingsService>? _pending;
@@ -21,12 +25,16 @@ class AiSettingsService {
   String? _selectedId;
   final Map<String, AiProviderConfig> _configs = {};
 
+  /// إصدار الإعداد كما قُرئ من الجهاز؛ null إن لم يكن هناك إعداد محفوظ.
+  int? _storedVersion;
+
   static Future<AiSettingsService> getInstance() => _pending ??= _create();
 
   static Future<AiSettingsService> _create() async {
     try {
       final db = await DatabaseService.getInstance();
       final service = AiSettingsService._(db).._load();
+      await service._replaceOldSuggestion();
       await service._migrateLegacyKey();
       return service;
     } catch (_) {
@@ -44,11 +52,14 @@ class AiSettingsService {
   void _load() {
     _selectedId = null;
     _configs.clear();
+    _storedVersion = null;
     final raw = _db.getAiConfigJson();
     if (raw.isEmpty) return;
     try {
       final decoded = jsonDecode(raw);
       if (decoded is! Map) return;
+      final version = decoded['v'];
+      _storedVersion = version is int ? version : 1;
       final providers = decoded['providers'];
       if (providers is Map) {
         for (final value in providers.values) {
@@ -64,7 +75,9 @@ class AiSettingsService {
   }
 
   Future<void> _persist() {
+    _storedVersion = configVersion;
     return _db.saveAiConfigJson(jsonEncode({
+      'v': configVersion,
       'selected': _selectedId,
       'providers': {for (final e in _configs.entries) e.key: e.value.toJson()},
     }));
@@ -118,6 +131,24 @@ class AiSettingsService {
     final key = await readKey(providerId);
     if (key.isEmpty) return '';
     return key.length <= 8 ? '••••' : '••••${key.substring(key.length - 4)}';
+  }
+
+  /// إعداد محفوظ من نسخة قديمة (حتى 1.0.0+4) قد يحمل موديل Gemini الذي كان اقتراحًا ابتدائيًا
+  /// ثم ثبت أنه مزدحم بمفتاح مجاني ([AIConfig.replacedSuggestions]). يُستبدل بالاقتراح الحالي
+  /// مرة واحدة، ثم يُحفظ الإعداد برقم الإصدار الجديد فلا يتكرر الاستبدال. لو فشل الحفظ يبقى
+  /// الاستبدال في الذاكرة لهذا التشغيل وتُعاد المحاولة في التالي.
+  Future<void> _replaceOldSuggestion() async {
+    final version = _storedVersion;
+    if (version == null || version >= configVersion) return;
+    final gemini = _configs[AiPresets.geminiId];
+    if (gemini != null && AIConfig.replacedSuggestions.contains(gemini.model.trim())) {
+      _configs[AiPresets.geminiId] = gemini.copyWith(model: AIConfig.modelName);
+    }
+    try {
+      await _persist();
+    } catch (e) {
+      debugPrint('AiSettingsService: config upgrade deferred (${e.runtimeType})');
+    }
   }
 
   /// مفتاح Gemini كان في SharedPreferences (غير مشفّرة وتدخل النسخ التلقائي لـ Google).

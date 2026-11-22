@@ -1,9 +1,11 @@
+import 'app_locale.dart';
+
 /// جهة التواصل مع مطوّر التطبيق.
 abstract final class AppContact {
-  /// البريد العام الذي يفتحه زر "تواصل معنا". **اتركه فارغًا حتى تضع بريد الدعم الذي ستنشره في
-  /// متجر Google Play**: وهو فارغ يختفي الزر، بدل أن يظهر زر بلا وجهة. لا تضع بريدًا شخصيًا
-  /// لم تقرر نشره، فهو يظهر لكل مستخدم.
-  static const String supportEmail = '';
+  /// البريد العام الذي يفتحه زر "تواصل معنا"، ويظهر لكل مستخدم. اختاره مالك التطبيق في
+  /// 22 نوفمبر 2026. لو صار فارغًا يختفي الزر، بدل أن يظهر زر بلا وجهة.
+  static const String supportEmail = 'khalidibrahimgadrieng@gmail.com';
 
-  static const String subject = 'تواصل بخصوص التطبيق';
+  /// عنوان الرسالة بلغة التطبيق.
+  static String get subject => AppLocale.texts.contactSubject;
 }

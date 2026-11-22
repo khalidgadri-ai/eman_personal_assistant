@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:eman_life_app/core/ai/ai_errors.dart';
 import 'package:eman_life_app/core/ai/ai_models.dart';
 import 'package:eman_life_app/core/ai/ai_provider.dart';
 import 'package:eman_life_app/core/ai/ai_settings_service.dart';
+import 'package:eman_life_app/core/ai/provider_presets.dart';
 import 'package:eman_life_app/core/config/ai_config.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -170,6 +173,71 @@ void main() {
 
       expect(settings.selected, isNull);
       expect(await settings.hasKey('gemini'), isFalse);
+    });
+  });
+
+  group('a config saved by version 1.0.0+4 or older', () {
+    final oldModel = AIConfig.replacedSuggestions.first;
+    final geminiBase = AiPresets.byId(AiPresets.geminiId).defaultConfig.baseUrl;
+
+    String v4Config(String geminiModel) => jsonEncode({
+          'selected': 'gemini',
+          'providers': {
+            'gemini': {'id': 'gemini', 'kind': 'gemini', 'baseUrl': geminiBase, 'model': geminiModel, 'images': 'yes'},
+            'openai': {
+              'id': 'openai',
+              'kind': 'openAiCompatible',
+              'baseUrl': 'https://api.openai.com/v1',
+              'model': 'my-model',
+              'images': 'no'
+            },
+          },
+        });
+
+    Future<Map<String, Object?>> storedConfig() async =>
+        jsonDecode((await SharedPreferences.getInstance()).getString('ai_config')!) as Map<String, Object?>;
+
+    test('the old busy Gemini suggestion becomes the current one, once, and nothing else changes', () async {
+      freshInstall(prefs: {'ai_config': v4Config(oldModel)}, secure: {'ai_key_gemini': _secret});
+
+      final settings = await AiSettingsService.getInstance();
+
+      expect(settings.selectedId, 'gemini');
+      expect(settings.selected!.model, AIConfig.modelName);
+      expect(settings.selected!.baseUrl, geminiBase);
+      expect(settings.selected!.images, AiSupport.yes);
+      expect(settings.configFor('openai').model, 'my-model', reason: 'other providers are untouched');
+      expect(await settings.readKey('gemini'), _secret, reason: 'the key stays where it is');
+      final stored = await storedConfig();
+      expect(stored['v'], AiSettingsService.configVersion);
+      expect(jsonEncode(stored), isNot(contains(oldModel)));
+      expect(jsonEncode(stored), isNot(contains(_secret)));
+    });
+
+    test('a model the user picks again after the upgrade is kept', () async {
+      freshInstall(prefs: {'ai_config': v4Config(oldModel)});
+      var settings = await AiSettingsService.getInstance();
+      await settings.save(settings.configFor('gemini').copyWith(model: oldModel));
+
+      AiSettingsService.resetForTesting();
+      settings = await AiSettingsService.getInstance();
+
+      expect(settings.selected!.model, oldModel, reason: 'the upgrade runs only once');
+    });
+
+    test('a Gemini model the user typed themselves is kept', () async {
+      freshInstall(prefs: {'ai_config': v4Config('my-own-gemini')});
+
+      final settings = await AiSettingsService.getInstance();
+
+      expect(settings.selected!.model, 'my-own-gemini');
+      expect((await storedConfig())['v'], AiSettingsService.configVersion);
+    });
+
+    test('a fresh install still stores nothing', () async {
+      await AiSettingsService.getInstance();
+
+      expect((await SharedPreferences.getInstance()).containsKey('ai_config'), isFalse);
     });
   });
 }

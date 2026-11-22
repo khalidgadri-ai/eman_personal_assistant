@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/services/encrypted_boxes.dart';
 import 'package:eman_life_app/features/coach/coach_ai_service.dart';
 import 'package:eman_life_app/features/coach/coach_safety.dart';
@@ -9,6 +10,7 @@ import 'package:eman_life_app/features/coach/models/coach_question.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,20 @@ void main() {
 
     test('detects English phrasing regardless of case', () {
       expect(containsCrisisSignals('Sometimes I want to DIE'), isTrue);
+      expect(containsCrisisSignals('I have been feeling suicidal'), isTrue);
+      expect(containsCrisisSignals("I don't want to live anymore"), isTrue);
+      expect(containsCrisisSignals('thinking of how to take my own life'), isTrue);
+      expect(containsCrisisSignals('I want to live a calmer life'), isFalse);
+    });
+
+    test('Saudi lines come first only on a Saudi phone; every country gets the finder', () {
+      expect(showSaudiHelplinesFirst('SA'), isTrue);
+      expect(showSaudiHelplinesFirst('sa'), isTrue);
+      expect(showSaudiHelplinesFirst('EG'), isFalse);
+      expect(showSaudiHelplinesFirst(null), isFalse);
+      expect(crisisHelplineFinderUrl.scheme, 'https');
+      expect(crisisHelplineFinderUrl.host, 'findahelpline.com');
+      expect(crisisHelplinesNote, contains('السعودية'), reason: 'Saudi numbers always say where they work');
     });
 
     test('ignores diacritics and tatweel', () {
@@ -112,6 +128,8 @@ void main() {
       hiveDir = Directory.systemTemp.createTempSync('coach_hive_test');
       Hive.init(hiveDir.path);
       FlutterSecureStorage.setMockInitialValues({});
+      SharedPreferences.setMockInitialValues({});
+      DatabaseService.resetForTesting();
       EncryptedBoxes.resetForTesting();
       CoachSessionService.resetForTesting();
     });

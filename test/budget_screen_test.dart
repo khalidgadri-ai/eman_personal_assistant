@@ -57,6 +57,7 @@ final DateTime _today = DateTime(2026, 10, 18, 10);
 void main() {
   late TestStorage storage;
 
+  // قبل إعداد خطة تُعرض عملة بلد الهاتف؛ الاختبارات على جوال سعودي (test/flutter_test_config.dart).
   setUp(() async {
     storage = await TestStorage.inMemory();
   });
@@ -129,7 +130,7 @@ void main() {
       expect(valueOf(tester, 'spent_value'), '0 ر.س');
       expect(valueOf(tester, 'remaining_value'), '5,000 ر.س');
       expect(valueOf(tester, 'daily_value'), '555.56 ر.س', reason: '5000 ÷ 9 days left');
-      expect(valueOf(tester, 'days_left'), 'باقي 9 يوم');
+      expect(valueOf(tester, 'days_left'), 'باقي 9 أيام');
 
       // ما ظهر مكتوب فعلًا في الصندوق المشفّر، لا في ذاكرة الشاشة فقط.
       final stored = (await BudgetPlanService.getInstance()).plan;
@@ -394,7 +395,7 @@ void main() {
       expect(find.text('دُفع 0 من 1'), findsOneWidget);
       expect(tester.widget<CheckboxListTile>(find.byKey(const ValueKey('paid_f1'))).value, isFalse);
       expect(valueOf(tester, 'income_value'), '9,000 ر.س', reason: 'the plan stays');
-      expect(valueOf(tester, 'days_left'), 'باقي 31 يوم');
+      expect(valueOf(tester, 'days_left'), 'باقي 31 يومًا');
       expect(find.text('من 27 أكتوبر إلى 26 نوفمبر'), findsOneWidget);
     });
   });
@@ -528,13 +529,50 @@ void main() {
       expect(find.text('40 د.إ'), findsWidgets);
     });
 
-    testWidgets('the monthly screen keeps the Saudi riyal when no plan exists', (tester) async {
+    testWidgets('the monthly screen shows the Saudi riyal on a Saudi phone when no plan exists', (tester) async {
       final b = await BudgetService.getInstance();
       await b.addExpense(amount: 25.5, category: ExpenseCategory.food, date: DateTime.now());
       await bigScreen(tester);
       await pumpScreen(tester, const BudgetSummaryScreen());
 
       expect(find.text('25.5 ر.س'), findsWidgets);
+    });
+
+    testWidgets('before any plan the phone\'s country picks the currency; a saved plan keeps its own', (tester) async {
+      tester.platformDispatcher.localeTestValue = const Locale('ar', 'EG');
+      addTearDown(() => tester.platformDispatcher.localeTestValue = const Locale('ar', 'SA'));
+      final b = await BudgetService.getInstance();
+      await b.addExpense(amount: 25.5, category: ExpenseCategory.food, date: DateTime.now());
+      await bigScreen(tester);
+      await pumpScreen(tester, const BudgetSummaryScreen());
+      expect(find.text('25.5 ج.م'), findsWidgets);
+      await pumpScreen(tester, FinancialScreen(key: UniqueKey()));
+      expect(find.text('25.5 ج.م'), findsWidgets, reason: 'the budget tab\'s recent list uses the same currency');
+
+      await savePlan(_base); // خطة محفوظة بالريال
+      await pumpScreen(tester, BudgetSummaryScreen(key: UniqueKey()));
+      expect(find.text('25.5 ر.س'), findsWidgets);
+    });
+  });
+
+  group('regions and currencies', () {
+    test('each country gets its currency, euro countries the euro, others the dollar', () {
+      expect(BudgetCurrency.forRegion('SA').code, 'SAR');
+      expect(BudgetCurrency.forRegion('ma').code, 'MAD');
+      expect(BudgetCurrency.forRegion('DE').code, 'EUR');
+      expect(BudgetCurrency.forRegion('GB').code, 'GBP');
+      expect(BudgetCurrency.forRegion('BR').code, 'USD');
+      expect(BudgetCurrency.forRegion('').code, 'SAR');
+    });
+
+    test('Arabic symbols stay in Arabic; other languages get a Latin symbol or the code', () {
+      final sar = BudgetCurrency.byCode('SAR');
+      expect(sar.symbolFor('ar'), 'ر.س');
+      expect(sar.symbolFor('en'), 'SAR');
+      expect(sar.nameFor('en'), 'Saudi riyal');
+      expect(BudgetCurrency.byCode('GBP').symbolFor('en'), '£');
+      final codes = BudgetCurrency.all.map((c) => c.code).toList();
+      expect(codes.toSet().length, codes.length, reason: 'no currency is listed twice');
     });
   });
 

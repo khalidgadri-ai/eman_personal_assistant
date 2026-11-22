@@ -1613,5 +1613,8 @@
   "habitPast": "عادات سابقة",
   "reminderHabitTitle": "خطوة اليوم",
   "payHeadingTools": "أدوات المدرب المتقدمة",
-  "payBenefitTools": "أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة."
+  "payBenefitTools": "أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة.",
+  "coachDomainRelationships": "العلاقات",
+  "coachDomainWork": "العمل والمسار المهني",
+  "coachDomainDigital": "الحياة الرقمية"
 }

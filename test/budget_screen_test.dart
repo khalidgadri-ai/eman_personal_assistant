@@ -546,6 +546,8 @@ void main() {
       await bigScreen(tester);
       await pumpScreen(tester, const BudgetSummaryScreen());
       expect(find.text('25.5 ج.م'), findsWidgets);
+      await pumpScreen(tester, FinancialScreen(key: UniqueKey()));
+      expect(find.text('25.5 ج.م'), findsWidgets, reason: 'the budget tab\'s recent list uses the same currency');
 
       await savePlan(_base); // خطة محفوظة بالريال
       await pumpScreen(tester, BudgetSummaryScreen(key: UniqueKey()));

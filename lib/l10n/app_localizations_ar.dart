@@ -2974,4 +2974,13 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get payBenefitTools =>
       'أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة.';
+
+  @override
+  String get coachDomainRelationships => 'العلاقات';
+
+  @override
+  String get coachDomainWork => 'العمل والمسار المهني';
+
+  @override
+  String get coachDomainDigital => 'الحياة الرقمية';
 }

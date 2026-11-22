@@ -847,5 +847,8 @@
   "habitPast": "Earlier habits",
   "reminderHabitTitle": "Today's step",
   "payHeadingTools": "Advanced coach tools",
-  "payBenefitTools": "Four coach tools: belief check, inner voice, deciding between two options, and changing a habit."
+  "payBenefitTools": "Four coach tools: belief check, inner voice, deciding between two options, and changing a habit.",
+  "coachDomainRelationships": "Relationships",
+  "coachDomainWork": "Work & career",
+  "coachDomainDigital": "Digital life"
 }

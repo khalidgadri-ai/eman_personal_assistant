@@ -140,7 +140,7 @@ void main() {
 
     test('every coach question has an English text with no Arabic in it', () {
       final bank = jsonDecode(File('assets/coach_questions.json').readAsStringSync()) as List;
-      expect(bank, hasLength(300));
+      expect(bank, hasLength(450));
       for (final raw in bank) {
         final q = CoachQuestion.fromJson(Map<String, dynamic>.from(raw as Map));
         expect(q.textEn, isNotNull, reason: q.id);

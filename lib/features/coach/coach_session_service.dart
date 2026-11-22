@@ -67,7 +67,8 @@ class CoachSessionService {
       weights[CoachDomain.budget] = weights[CoachDomain.budget]! + signalBoost;
     }
     if (signals.usage) {
-      weights[CoachDomain.organization] = weights[CoachDomain.organization]! + signalBoost;
+      // وقت طويل في تطبيقات التواصل اليوم: مجال «الحياة الرقمية» هو الأقرب.
+      weights[CoachDomain.digital] = weights[CoachDomain.digital]! + signalBoost;
     }
     final reflection = signals.reflection;
     if (reflection != null) {

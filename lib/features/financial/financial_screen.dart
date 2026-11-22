@@ -84,7 +84,8 @@ class _FinancialScreenState extends State<FinancialScreen> {
     });
   }
 
-  String get _symbol => _plan.currency.symbolFor(context.appLang);
+  // قبل إعداد الخطة: عملة بلد الجوال، كما في شاشة المصاريف الشهرية وتسجيل المصروف.
+  String get _symbol => _plan.displayCurrency().symbolFor(context.appLang);
 
   Future<void> _openPlan() async {
     final saved = await Navigator.of(context).push<bool>(

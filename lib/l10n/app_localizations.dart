@@ -5191,6 +5191,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'أدوات المدرب الأربع: فحص المعتقد، والصوت الداخلي، والقرار بين خيارين، وتغيير العادة.'**
   String get payBenefitTools;
+
+  /// No description provided for @coachDomainRelationships.
+  ///
+  /// In ar, this message translates to:
+  /// **'العلاقات'**
+  String get coachDomainRelationships;
+
+  /// No description provided for @coachDomainWork.
+  ///
+  /// In ar, this message translates to:
+  /// **'العمل والمسار المهني'**
+  String get coachDomainWork;
+
+  /// No description provided for @coachDomainDigital.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحياة الرقمية'**
+  String get coachDomainDigital;
 }
 
 class _AppLocalizationsDelegate

@@ -2970,4 +2970,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get payBenefitTools =>
       'Four coach tools: belief check, inner voice, deciding between two options, and changing a habit.';
+
+  @override
+  String get coachDomainRelationships => 'Relationships';
+
+  @override
+  String get coachDomainWork => 'Work & career';
+
+  @override
+  String get coachDomainDigital => 'Digital life';
 }

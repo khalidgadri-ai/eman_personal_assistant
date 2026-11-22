@@ -23,7 +23,7 @@ class CoachSignals {
     if (budget && domain == CoachDomain.budget) {
       return AppLocale.texts.coachHintBudget;
     }
-    if (usage && domain == CoachDomain.organization) {
+    if (usage && domain == CoachDomain.digital) {
       return AppLocale.texts.coachHintUsage;
     }
     if (reflection?.domain == domain) {

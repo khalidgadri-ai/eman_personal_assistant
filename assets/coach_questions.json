@@ -2098,5 +2098,1055 @@
     "text": "ما التمرين القصير الذي يمكنك تكراره كل يوم في هذه المهارة؟",
     "en": "Which short exercise could you repeat every day for this skill?",
     "followUpPromptHint": "التمرين اليومي القصير"
+  },
+  {
+    "id": "relationships_01",
+    "domain": "relationships",
+    "text": "أي علاقة في حياتك تمنحك طاقة أكثر مما تأخذ منك؟",
+    "en": "Which relationship in your life gives you more energy than it takes?",
+    "followUpPromptHint": "استكشاف ما يجعل هذه العلاقة مغذّية"
+  },
+  {
+    "id": "relationships_02",
+    "domain": "relationships",
+    "text": "مع أي شخص تظهر طبيعتك كما هي دون تكلّف؟",
+    "en": "Who are you completely yourself with, with no effort?",
+    "followUpPromptHint": "ما الذي يجعل الأمان ممكنًا مع هذا الشخص"
+  },
+  {
+    "id": "relationships_03",
+    "domain": "relationships",
+    "text": "ما الحديث المؤجَّل مع شخص قريب، ولماذا تأجّل؟",
+    "en": "What conversation with someone close has been put off, and why?",
+    "followUpPromptHint": "ما الذي يُخشى أن يحدث لو بدأ الحديث"
+  },
+  {
+    "id": "relationships_04",
+    "domain": "relationships",
+    "text": "ما الذي يجعل الخلاف مع شخص عزيز صعبًا؟",
+    "en": "What makes disagreeing with someone dear to you hard?",
+    "followUpPromptHint": "الخوف من فقدان القرب أو من الغضب"
+  },
+  {
+    "id": "relationships_05",
+    "domain": "relationships",
+    "text": "متى كانت آخر مرة شعرت فيها أن كلامك مسموع حقًا؟",
+    "en": "When did you last feel that your words were truly heard?",
+    "followUpPromptHint": "ما الذي فعله الطرف الآخر وجعل الكلام مسموعًا"
+  },
+  {
+    "id": "relationships_06",
+    "domain": "relationships",
+    "text": "ما الحد الذي يحتاج أن يُقال بوضوح في إحدى علاقاتك؟",
+    "en": "Which boundary needs to be said clearly in one of your relationships?",
+    "followUpPromptHint": "كيف يمكن قوله بلطف ووضوح معًا"
+  },
+  {
+    "id": "relationships_07",
+    "domain": "relationships",
+    "text": "من الشخص الذي يستحق كلمة شكر لم تصله بعد؟",
+    "en": "Who deserves a word of thanks that hasn't reached them yet?",
+    "followUpPromptHint": "ما الذي يؤخر هذه الكلمة"
+  },
+  {
+    "id": "relationships_08",
+    "domain": "relationships",
+    "text": "ما الذي يتغير في التعامل مع من حولك حين يشتد التعب؟",
+    "en": "What changes in how you treat the people around you when tiredness builds up?",
+    "followUpPromptHint": "علامات التعب الأولى وأثرها على الآخرين"
+  },
+  {
+    "id": "relationships_09",
+    "domain": "relationships",
+    "text": "أي علاقة تحتاج وقتًا هادئًا أكثر من حلول؟",
+    "en": "Which relationship needs quiet time more than solutions?",
+    "followUpPromptHint": "الفرق بين الإصغاء والإصلاح"
+  },
+  {
+    "id": "relationships_10",
+    "domain": "relationships",
+    "text": "ما الذي تعلمته عن نفسك من خلاف قديم؟",
+    "en": "What did you learn about yourself from an old disagreement?",
+    "followUpPromptHint": "ما الذي بقي من ذلك الخلاف اليوم"
+  },
+  {
+    "id": "relationships_11",
+    "domain": "relationships",
+    "text": "كيف يعرف المقرّبون منك أنهم محبوبون لديك؟",
+    "en": "How do the people close to you know they are loved by you?",
+    "followUpPromptHint": "لغة المحبة المستعملة وهل تصل كما يُراد"
+  },
+  {
+    "id": "relationships_12",
+    "domain": "relationships",
+    "text": "ما الذي يصعب طلبه من الآخرين حتى لو كان بسيطًا؟",
+    "en": "What is hard to ask others for, even when it is simple?",
+    "followUpPromptHint": "ما الذي يجعل الطلب ثقيلًا"
+  },
+  {
+    "id": "relationships_13",
+    "domain": "relationships",
+    "text": "من الشخص الذي يبقى في البال رغم بُعد المسافة؟",
+    "en": "Who stays on your mind despite the distance?",
+    "followUpPromptHint": "ما الذي يربط بكما رغم البعد"
+  },
+  {
+    "id": "relationships_14",
+    "domain": "relationships",
+    "text": "ما الكلمة التي تحتاج علاقة ما أن تسمعها الآن: اعتذار، أم شكر، أم طلب؟",
+    "en": "Which word does one of your relationships need to hear now: an apology, a thank-you, or a request?",
+    "followUpPromptHint": "ما الذي يمنع قولها اليوم"
+  },
+  {
+    "id": "relationships_15",
+    "domain": "relationships",
+    "text": "ما الذي يجعل الإصغاء صعبًا في بعض الأحاديث؟",
+    "en": "What makes listening hard in some conversations?",
+    "followUpPromptHint": "ما الذي يشغل الذهن أثناء كلام الآخر"
+  },
+  {
+    "id": "relationships_16",
+    "domain": "relationships",
+    "text": "أي علاقة تشبه عادة قديمة أكثر من اختيار؟",
+    "en": "Which relationship feels more like an old habit than a choice?",
+    "followUpPromptHint": "ما الذي سيتغير لو صارت اختيارًا"
+  },
+  {
+    "id": "relationships_17",
+    "domain": "relationships",
+    "text": "ما الذي يُنتظر من الآخرين دون أن يُقال لهم؟",
+    "en": "What do you expect from others without ever saying it?",
+    "followUpPromptHint": "أثر التوقعات غير المعلنة"
+  },
+  {
+    "id": "relationships_18",
+    "domain": "relationships",
+    "text": "متى كان آخر وقت ممتع قضيته مع الأسرة دون شاشات؟",
+    "en": "When did you last have an enjoyable time with family, without screens?",
+    "followUpPromptHint": "ما الذي جعله ممتعًا"
+  },
+  {
+    "id": "relationships_19",
+    "domain": "relationships",
+    "text": "ما الحدّ الذي وضعته يومًا وأراحك؟",
+    "en": "Which boundary did you once set that brought you relief?",
+    "followUpPromptHint": "ما الذي ساعد على وضعه"
+  },
+  {
+    "id": "relationships_20",
+    "domain": "relationships",
+    "text": "من الشخص الذي يُشعرك بالأمان حين يكون الحديث صعبًا؟",
+    "en": "Who makes you feel safe when a conversation gets hard?",
+    "followUpPromptHint": "ما الذي يفعله ويصنع هذا الأمان"
+  },
+  {
+    "id": "relationships_21",
+    "domain": "relationships",
+    "text": "ما الذي يحدث داخلك حين يختلف معك شخص قريب؟",
+    "en": "What happens inside you when someone close disagrees with you?",
+    "followUpPromptHint": "الشعور الأول وما يأتي بعده"
+  },
+  {
+    "id": "relationships_22",
+    "domain": "relationships",
+    "text": "أي صداقة قديمة تستحق رسالة قصيرة هذا الأسبوع؟",
+    "en": "Which old friendship deserves a short message this week?",
+    "followUpPromptHint": "ما الذي يجعل التواصل الأول صعبًا"
+  },
+  {
+    "id": "relationships_23",
+    "domain": "relationships",
+    "text": "من يأخذ من وقتك أكثر مما يحتمل يومك؟",
+    "en": "Who takes more of your time than your day can carry?",
+    "followUpPromptHint": "ما الذي يجعل الرفض صعبًا معه"
+  },
+  {
+    "id": "relationships_24",
+    "domain": "relationships",
+    "text": "ما الذي يجعل الاعتذار ثقيلًا على اللسان؟",
+    "en": "What makes an apology feel heavy to say?",
+    "followUpPromptHint": "الفرق بين الاعتذار والشعور بالهزيمة"
+  },
+  {
+    "id": "relationships_25",
+    "domain": "relationships",
+    "text": "ما الصفة التي يقدّرها الآخرون فيك، وكيف تظهر في علاقاتك؟",
+    "en": "Which of your qualities do others value, and how does it show in your relationships?",
+    "followUpPromptHint": "متى ظهرت هذه الصفة آخر مرة"
+  },
+  {
+    "id": "relationships_26",
+    "domain": "relationships",
+    "text": "كيف يبدو يوم جيد مع أهل البيت؟",
+    "en": "What does a good day with the people you live with look like?",
+    "followUpPromptHint": "ما الذي يجعل هذا اليوم ممكنًا أكثر"
+  },
+  {
+    "id": "relationships_27",
+    "domain": "relationships",
+    "text": "ما التوقع غير المعلن الذي يسبب خيبة متكررة؟",
+    "en": "Which unspoken expectation keeps causing disappointment?",
+    "followUpPromptHint": "ما الذي سيتغير لو قيل بوضوح"
+  },
+  {
+    "id": "relationships_28",
+    "domain": "relationships",
+    "text": "من الشخص الذي يستحق وقتًا أكثر منك، ومن يستحق وقتًا أقل؟",
+    "en": "Who deserves more of your time, and who deserves less?",
+    "followUpPromptHint": "كيف يتوزع الوقت اليوم بين العلاقات"
+  },
+  {
+    "id": "relationships_29",
+    "domain": "relationships",
+    "text": "ما الذي يجعل طلب المساعدة صعبًا في عائلتك؟",
+    "en": "What makes asking for help difficult in your family?",
+    "followUpPromptHint": "قواعد غير مكتوبة في البيت عن الحاجة والقوة"
+  },
+  {
+    "id": "relationships_30",
+    "domain": "relationships",
+    "text": "أي جملة تتكرر في خلافاتك، ومن قالها أولًا؟",
+    "en": "Which sentence keeps coming up in your disagreements, and who said it first?",
+    "followUpPromptHint": "النمط المتكرر في الخلاف"
+  },
+  {
+    "id": "relationships_31",
+    "domain": "relationships",
+    "text": "ما الذي يمكن قوله بلطف ووضوح في الوقت نفسه؟",
+    "en": "What could be said kindly and clearly at the same time?",
+    "followUpPromptHint": "صياغة الطلب دون لوم"
+  },
+  {
+    "id": "relationships_32",
+    "domain": "relationships",
+    "text": "متى آخر مرة سُئلت فيها «كيف حالك؟» وكانت الإجابة صادقة؟",
+    "en": "When were you last asked \"How are you?\" and answered honestly?",
+    "followUpPromptHint": "ما الذي يجعل الإجابة الصادقة ممكنة"
+  },
+  {
+    "id": "relationships_33",
+    "domain": "relationships",
+    "text": "ما الذي يمنح علاقة ما فرصة ثانية؟",
+    "en": "What gives a relationship a second chance?",
+    "followUpPromptHint": "ما الذي يحتاج أن يتغير من الطرفين"
+  },
+  {
+    "id": "relationships_34",
+    "domain": "relationships",
+    "text": "أي شخص في حياتك يذكّرك بأفضل ما فيك؟",
+    "en": "Who in your life reminds you of the best in you?",
+    "followUpPromptHint": "ما الذي يراه هذا الشخص"
+  },
+  {
+    "id": "relationships_35",
+    "domain": "relationships",
+    "text": "ما الذي يتغير في العلاقة حين يقلّ الحديث عن المهام ويزيد عن المشاعر؟",
+    "en": "What changes in a relationship when there is less talk about tasks and more about feelings?",
+    "followUpPromptHint": "متى حدث ذلك آخر مرة"
+  },
+  {
+    "id": "relationships_36",
+    "domain": "relationships",
+    "text": "ما القرار الذي يُتخذ في البيت دون نقاش، ويحتاج نقاشًا؟",
+    "en": "Which decision at home is made without discussion but needs one?",
+    "followUpPromptHint": "من يتأثر بهذا القرار أكثر"
+  },
+  {
+    "id": "relationships_37",
+    "domain": "relationships",
+    "text": "من الشخص الذي يصعب قول «لا» له، ولماذا؟",
+    "en": "Who is it hard to say \"no\" to, and why?",
+    "followUpPromptHint": "ما الذي يُخشى بعد الرفض"
+  },
+  {
+    "id": "relationships_38",
+    "domain": "relationships",
+    "text": "ما اللحظة الصغيرة التي قرّبتك من شخص ما مؤخرًا؟",
+    "en": "Which small moment brought you closer to someone recently?",
+    "followUpPromptHint": "ما الذي جعلها مؤثرة رغم صغرها"
+  },
+  {
+    "id": "relationships_39",
+    "domain": "relationships",
+    "text": "كيف يبدو الدعم المناسب لك الآن: كلام، أم حضور، أم مساعدة عملية؟",
+    "en": "What does the right support look like for you now: words, presence, or practical help?",
+    "followUpPromptHint": "هل يعرف المقرّبون هذا"
+  },
+  {
+    "id": "relationships_40",
+    "domain": "relationships",
+    "text": "ما الذي يُفهم خطأً عنك في علاقاتك؟",
+    "en": "What is misunderstood about you in your relationships?",
+    "followUpPromptHint": "من أين جاء هذا الفهم"
+  },
+  {
+    "id": "relationships_41",
+    "domain": "relationships",
+    "text": "أي علاقة تحتاج حدودًا أوضح للوقت أو للمال؟",
+    "en": "Which relationship needs clearer limits on time or money?",
+    "followUpPromptHint": "ما الحد الأدنى المريح للطرفين"
+  },
+  {
+    "id": "relationships_42",
+    "domain": "relationships",
+    "text": "ما الذي يجعل الحديث مع الوالدين سهلًا أو صعبًا الآن؟",
+    "en": "What makes talking with your parents easy or hard right now?",
+    "followUpPromptHint": "ما الذي تغير مع السنين"
+  },
+  {
+    "id": "relationships_43",
+    "domain": "relationships",
+    "text": "لو كتبت رسالة لشخص غائب، ما أول جملة فيها؟",
+    "en": "If you wrote a letter to someone absent, what would its first line be?",
+    "followUpPromptHint": "ما الذي بقي دون قول"
+  },
+  {
+    "id": "relationships_44",
+    "domain": "relationships",
+    "text": "ما الذي يتكرر في الخلافات حول مهام البيت؟",
+    "en": "What keeps repeating in disagreements about household chores?",
+    "followUpPromptHint": "كيف تتوزع المهام وكيف يُرى توزيعها"
+  },
+  {
+    "id": "relationships_45",
+    "domain": "relationships",
+    "text": "من الشخص الذي يحتاج منك صبرًا أكثر هذه الفترة؟",
+    "en": "Who needs more patience from you these days?",
+    "followUpPromptHint": "ما الذي يساعد على هذا الصبر"
+  },
+  {
+    "id": "relationships_46",
+    "domain": "relationships",
+    "text": "ما الذي يُبقي صداقة حيّة رغم الانشغال؟",
+    "en": "What keeps a friendship alive despite busy days?",
+    "followUpPromptHint": "أصغر تواصل يحفظ الصداقة"
+  },
+  {
+    "id": "relationships_47",
+    "domain": "relationships",
+    "text": "ما الذي ساعد على المصالحة في خلاف سابق؟",
+    "en": "What helped make peace after a past disagreement?",
+    "followUpPromptHint": "هل يمكن تكرار ذلك اليوم"
+  },
+  {
+    "id": "relationships_48",
+    "domain": "relationships",
+    "text": "كيف يبدو احترام الوقت في علاقاتك؟",
+    "en": "What does respecting each other's time look like in your relationships?",
+    "followUpPromptHint": "أين يُحترم الوقت وأين لا"
+  },
+  {
+    "id": "relationships_49",
+    "domain": "relationships",
+    "text": "ما الذي يمكن مشاركته مع شخص قريب هذا الأسبوع: فرحة، أم همّ، أم خطة؟",
+    "en": "What could be shared with someone close this week: a joy, a worry, or a plan?",
+    "followUpPromptHint": "ما الذي يجعل المشاركة سهلة"
+  },
+  {
+    "id": "relationships_50",
+    "domain": "relationships",
+    "text": "أي علاقة تحتاج أن تُرى بعين جديدة؟",
+    "en": "Which relationship needs to be seen with fresh eyes?",
+    "followUpPromptHint": "ما الذي تغير فيها ولم يُلاحظ"
+  },
+  {
+    "id": "work_01",
+    "domain": "work",
+    "text": "ما الجزء من عملك الذي يمنحك شعورًا بالمعنى؟",
+    "en": "Which part of your work gives you a sense of meaning?",
+    "followUpPromptHint": "ما الذي يحدث في ذلك الجزء تحديدًا"
+  },
+  {
+    "id": "work_02",
+    "domain": "work",
+    "text": "ما المهمة التي تستنزف طاقتك أكثر من وقتها؟",
+    "en": "Which task drains more energy than the time it takes?",
+    "followUpPromptHint": "لماذا تأخذ من الطاقة أكثر من حجمها"
+  },
+  {
+    "id": "work_03",
+    "domain": "work",
+    "text": "لو وصفت عملك لطفل، ماذا ستقول؟",
+    "en": "If you described your work to a child, what would you say?",
+    "followUpPromptHint": "ما الجوهر البسيط للعمل"
+  },
+  {
+    "id": "work_04",
+    "domain": "work",
+    "text": "ما المهارة التي يستفيد منها عملك ولم تأخذ حقها من التقدير؟",
+    "en": "Which of your skills helps your work but doesn't get the credit it deserves?",
+    "followUpPromptHint": "من يرى هذه المهارة ومن لا يراها"
+  },
+  {
+    "id": "work_05",
+    "domain": "work",
+    "text": "متى يبدأ يوم العمل وينتهي فعلًا؟",
+    "en": "When does your workday really start and end?",
+    "followUpPromptHint": "الفرق بين الدوام المكتوب والدوام الفعلي"
+  },
+  {
+    "id": "work_06",
+    "domain": "work",
+    "text": "ما الحد الذي يحتاجه العمل حتى لا يأخذ من البيت؟",
+    "en": "What limit does work need so it doesn't take from home?",
+    "followUpPromptHint": "أين يتسرب العمل إلى البيت"
+  },
+  {
+    "id": "work_07",
+    "domain": "work",
+    "text": "ما الذي يجعل يوم العمل «جيدًا» من وجهة نظرك؟",
+    "en": "What makes a workday \"good\" in your view?",
+    "followUpPromptHint": "كم يومًا جيدًا في الأسبوع الماضي"
+  },
+  {
+    "id": "work_08",
+    "domain": "work",
+    "text": "أي اجتماع أو مهمة يمكن اختصارها دون خسارة؟",
+    "en": "Which meeting or task could be shortened without losing anything?",
+    "followUpPromptHint": "من يقرر ذلك وكيف يُقترح"
+  },
+  {
+    "id": "work_09",
+    "domain": "work",
+    "text": "ما الأثر الذي يُرجى أن يتركه عملك بعد سنوات؟",
+    "en": "What mark would you like your work to leave years from now?",
+    "followUpPromptHint": "خطوة اليوم نحو هذا الأثر"
+  },
+  {
+    "id": "work_10",
+    "domain": "work",
+    "text": "ما الذي تعلمته من آخر خطأ في العمل؟",
+    "en": "What did you learn from your last mistake at work?",
+    "followUpPromptHint": "كيف كان التعامل مع الخطأ"
+  },
+  {
+    "id": "work_11",
+    "domain": "work",
+    "text": "من الزميل الذي يسهّل يومك، وهل يعرف ذلك؟",
+    "en": "Which colleague makes your day easier, and do they know it?",
+    "followUpPromptHint": "كيف يمكن أن يصله هذا التقدير"
+  },
+  {
+    "id": "work_12",
+    "domain": "work",
+    "text": "ما الذي يؤجَّل في العمل لأنه غير واضح؟",
+    "en": "What gets put off at work because it is unclear?",
+    "followUpPromptHint": "ما السؤال الذي سيجعله واضحًا"
+  },
+  {
+    "id": "work_13",
+    "domain": "work",
+    "text": "أي جزء من المسار المهني يحتاج قرارًا هذا العام؟",
+    "en": "Which part of your career needs a decision this year?",
+    "followUpPromptHint": "ما الذي يجعل القرار مؤجلًا"
+  },
+  {
+    "id": "work_14",
+    "domain": "work",
+    "text": "ما السؤال الذي يتردد طرحه على المدير أو العميل؟",
+    "en": "Which question do you hesitate to ask your manager or a client?",
+    "followUpPromptHint": "ما أسوأ ما قد يحدث لو طُرح"
+  },
+  {
+    "id": "work_15",
+    "domain": "work",
+    "text": "كيف يتغير المزاج بعد يوم عمل طويل، ومن يلاحظ ذلك؟",
+    "en": "How does your mood change after a long workday, and who notices?",
+    "followUpPromptHint": "أثر العمل على من في البيت"
+  },
+  {
+    "id": "work_16",
+    "domain": "work",
+    "text": "ما الذي يُنجز بإتقان ويستحق أن يُذكر؟",
+    "en": "What do you do well at work that deserves to be mentioned?",
+    "followUpPromptHint": "لماذا لا يُذكر عادة"
+  },
+  {
+    "id": "work_17",
+    "domain": "work",
+    "text": "لو كان العمل نصف الوقت، أي المهام تبقى؟",
+    "en": "If work were half the time, which tasks would stay?",
+    "followUpPromptHint": "ما الذي يكشفه هذا عن الأولويات"
+  },
+  {
+    "id": "work_18",
+    "domain": "work",
+    "text": "ما الذي يجعل طلب زيادة أو تقدير صعبًا؟",
+    "en": "What makes asking for a raise or recognition hard?",
+    "followUpPromptHint": "ما الذي يدعم هذا الطلب"
+  },
+  {
+    "id": "work_19",
+    "domain": "work",
+    "text": "أي مهارة جديدة ستفتح بابًا في عملك؟",
+    "en": "Which new skill would open a door in your work?",
+    "followUpPromptHint": "أصغر خطوة لتعلّمها"
+  },
+  {
+    "id": "work_20",
+    "domain": "work",
+    "text": "ما الذي يحدث للتركيز حين تتراكم الرسائل؟",
+    "en": "What happens to your focus when messages pile up?",
+    "followUpPromptHint": "طريقة واحدة لتقليل التراكم"
+  },
+  {
+    "id": "work_21",
+    "domain": "work",
+    "text": "متى كانت آخر مرة شعرت فيها بالفخر بعملك؟",
+    "en": "When did you last feel proud of your work?",
+    "followUpPromptHint": "ما الذي جعل ذلك ممكنًا"
+  },
+  {
+    "id": "work_22",
+    "domain": "work",
+    "text": "ما الذي يُقال له «نعم» في العمل ويستحق «لا»؟",
+    "en": "What gets a \"yes\" at work that deserves a \"no\"?",
+    "followUpPromptHint": "ثمن هذه «نعم» على الوقت"
+  },
+  {
+    "id": "work_23",
+    "domain": "work",
+    "text": "كيف تبدو الاستراحة الحقيقية في يوم العمل؟",
+    "en": "What does a real break look like in your workday?",
+    "followUpPromptHint": "متى أُخذت استراحة كهذه آخر مرة"
+  },
+  {
+    "id": "work_24",
+    "domain": "work",
+    "text": "ما الذي يجعل العودة إلى العمل بعد الإجازة ثقيلة أو خفيفة؟",
+    "en": "What makes going back to work after a holiday heavy or light?",
+    "followUpPromptHint": "ما الذي يمكن تجهيزه قبل الإجازة"
+  },
+  {
+    "id": "work_25",
+    "domain": "work",
+    "text": "أي نوع من المهام يجعل الوقت يمر دون شعور؟",
+    "en": "Which kind of task makes time fly without you noticing?",
+    "followUpPromptHint": "ما الذي يجمع هذه المهام"
+  },
+  {
+    "id": "work_26",
+    "domain": "work",
+    "text": "بماذا يُقارن عملك بعمل الآخرين، وهل هي مقارنة عادلة؟",
+    "en": "How is your work compared with others', and is that comparison fair?",
+    "followUpPromptHint": "ما الذي لا تراه المقارنة"
+  },
+  {
+    "id": "work_27",
+    "domain": "work",
+    "text": "ما الخطوة الصغيرة التي تقرّب العمل من اهتماماتك؟",
+    "en": "Which small step would bring your work closer to your interests?",
+    "followUpPromptHint": "أين يلتقي العمل بالاهتمام"
+  },
+  {
+    "id": "work_28",
+    "domain": "work",
+    "text": "ما الذي يحتاج أن يُفوَّض لغيرك؟",
+    "en": "What needs to be handed over to someone else?",
+    "followUpPromptHint": "ما الذي يمنع التفويض"
+  },
+  {
+    "id": "work_29",
+    "domain": "work",
+    "text": "كيف يبدو النجاح المهني بمقياسك أنت لا بمقياس غيرك؟",
+    "en": "What does career success look like by your own measure, not others'?",
+    "followUpPromptHint": "من أين جاء المقياس الحالي"
+  },
+  {
+    "id": "work_30",
+    "domain": "work",
+    "text": "ما الذي يُتعلَّم من زميل يختلف أسلوبه عن أسلوبك؟",
+    "en": "What can be learned from a colleague whose style differs from yours?",
+    "followUpPromptHint": "ما الذي يزعج في أسلوبه وما الذي يفيد"
+  },
+  {
+    "id": "work_31",
+    "domain": "work",
+    "text": "ما المهمة المؤجلة التي لو أُنجزت لخفّ الحِمل كثيرًا؟",
+    "en": "Which postponed task would lighten the load a lot if it were done?",
+    "followUpPromptHint": "أول عشر دقائق منها"
+  },
+  {
+    "id": "work_32",
+    "domain": "work",
+    "text": "متى يكون الذهن في أفضل حالاته للعمل العميق؟",
+    "en": "When is your mind at its best for deep work?",
+    "followUpPromptHint": "كيف يُحمى هذا الوقت"
+  },
+  {
+    "id": "work_33",
+    "domain": "work",
+    "text": "ما الذي يبقى في البال بعد انتهاء الدوام؟",
+    "en": "What stays on your mind after work is over?",
+    "followUpPromptHint": "طريقة لإغلاق يوم العمل"
+  },
+  {
+    "id": "work_34",
+    "domain": "work",
+    "text": "أي جزء من العمل يستحق إتقانًا أقل وسرعة أكثر؟",
+    "en": "Which part of your work deserves less polish and more speed?",
+    "followUpPromptHint": "الفرق بين الإتقان والكمال"
+  },
+  {
+    "id": "work_35",
+    "domain": "work",
+    "text": "ما الذي يُعطي معنى للعمل حتى في الأيام الرتيبة؟",
+    "en": "What gives your work meaning even on dull days?",
+    "followUpPromptHint": "من يستفيد من هذا العمل"
+  },
+  {
+    "id": "work_36",
+    "domain": "work",
+    "text": "ما الملاحظة التي سمعتها عن عملك وما زالت تؤثر فيك؟",
+    "en": "Which comment about your work still affects you?",
+    "followUpPromptHint": "هل كانت دقيقة أم قاسية"
+  },
+  {
+    "id": "work_37",
+    "domain": "work",
+    "text": "لو بدأت مسارك من جديد، ما الذي سيبقى كما هو؟",
+    "en": "If you started your career again, what would stay the same?",
+    "followUpPromptHint": "ما الذي يكشفه هذا عن القيم"
+  },
+  {
+    "id": "work_38",
+    "domain": "work",
+    "text": "ما العادة الصغيرة التي تجعل الصباح في العمل أهدأ؟",
+    "en": "Which small habit would make mornings at work calmer?",
+    "followUpPromptHint": "متى يمكن تجربتها"
+  },
+  {
+    "id": "work_39",
+    "domain": "work",
+    "text": "ما الذي يُحتمل في العمل اليوم ولن يُحتمل بعد سنة؟",
+    "en": "What is bearable at work today but won't be a year from now?",
+    "followUpPromptHint": "متى يحين وقت التغيير"
+  },
+  {
+    "id": "work_40",
+    "domain": "work",
+    "text": "كيف يُحتفل بإنجاز في عملك، ولو كان صغيرًا؟",
+    "en": "How is an achievement celebrated in your work, even a small one?",
+    "followUpPromptHint": "ما الذي يضيع حين لا يُحتفل"
+  },
+  {
+    "id": "work_41",
+    "domain": "work",
+    "text": "ما الذي يعيق التعاون مع فريقك؟",
+    "en": "What gets in the way of working with your team?",
+    "followUpPromptHint": "ما الجزء الذي يمكن تحسينه من جهتك"
+  },
+  {
+    "id": "work_42",
+    "domain": "work",
+    "text": "أي هدف مهني يحتاج أن يُكتب بوضوح؟",
+    "en": "Which career goal needs to be written down clearly?",
+    "followUpPromptHint": "كيف سيبدو مكتوبًا في جملة"
+  },
+  {
+    "id": "work_43",
+    "domain": "work",
+    "text": "ما الذي يحدث لحدود الوقت حين يكون العمل من البيت؟",
+    "en": "What happens to time boundaries when work is done from home?",
+    "followUpPromptHint": "إشارة بداية ونهاية للعمل"
+  },
+  {
+    "id": "work_44",
+    "domain": "work",
+    "text": "ما الذي يمكن طلبه لجعل العمل أنسب لظروفك؟",
+    "en": "What could be asked for to make work fit your circumstances better?",
+    "followUpPromptHint": "من الشخص المناسب للطلب"
+  },
+  {
+    "id": "work_45",
+    "domain": "work",
+    "text": "ما المشروع الصغير الذي يثير الحماس حين يُذكر؟",
+    "en": "Which small project sparks enthusiasm whenever it comes up?",
+    "followUpPromptHint": "ما الذي يمنع البدء به"
+  },
+  {
+    "id": "work_46",
+    "domain": "work",
+    "text": "ما الذي يُتجنَّب في العمل خوفًا من الفشل؟",
+    "en": "What is avoided at work for fear of failing?",
+    "followUpPromptHint": "كيف يبدو الفشل الصغير المقبول"
+  },
+  {
+    "id": "work_47",
+    "domain": "work",
+    "text": "من الشخص الذي يمكن التعلم منه في مجالك؟",
+    "en": "Who could you learn from in your field?",
+    "followUpPromptHint": "سؤال واحد يمكن طرحه عليه"
+  },
+  {
+    "id": "work_48",
+    "domain": "work",
+    "text": "ما الذي يجعل أسبوع العمل ناجحًا قبل أن يبدأ؟",
+    "en": "What would make the work week successful before it even starts?",
+    "followUpPromptHint": "ما الذي يُجهَّز مساء آخر الأسبوع"
+  },
+  {
+    "id": "work_49",
+    "domain": "work",
+    "text": "أي رسالة يُؤجَّل الرد عليها منذ أيام؟",
+    "en": "Which message has been waiting for a reply for days?",
+    "followUpPromptHint": "ما الذي يجعل الرد ثقيلًا"
+  },
+  {
+    "id": "work_50",
+    "domain": "work",
+    "text": "ما الذي يستحق أن يبقى خارج العمل تمامًا؟",
+    "en": "What deserves to stay completely outside of work?",
+    "followUpPromptHint": "كيف يُحمى هذا الجزء"
+  },
+  {
+    "id": "digital_01",
+    "domain": "digital",
+    "text": "ما أول تطبيق يُفتح في الصباح، وما الذي يتركه في المزاج؟",
+    "en": "Which app is opened first in the morning, and what does it leave in your mood?",
+    "followUpPromptHint": "أثر أول دقائق اليوم على بقيته"
+  },
+  {
+    "id": "digital_02",
+    "domain": "digital",
+    "text": "أي إشعار يقطع التركيز أكثر من غيره؟",
+    "en": "Which notification breaks your focus the most?",
+    "followUpPromptHint": "هل يحتاج هذا الإشعار أن يرن فورًا"
+  },
+  {
+    "id": "digital_03",
+    "domain": "digital",
+    "text": "متى يكون الجوال رفيقًا مفيدًا، ومتى يصير مهربًا؟",
+    "en": "When is your phone a useful companion, and when does it become an escape?",
+    "followUpPromptHint": "الشعور الذي يسبق الهروب إليه"
+  },
+  {
+    "id": "digital_04",
+    "domain": "digital",
+    "text": "ما الذي يحدث للمزاج بعد نصف ساعة من التصفح؟",
+    "en": "What happens to your mood after half an hour of scrolling?",
+    "followUpPromptHint": "ما الذي كان يُبحث عنه في البداية"
+  },
+  {
+    "id": "digital_05",
+    "domain": "digital",
+    "text": "أي حساب متابَع يترك أثرًا سيئًا في كل مرة؟",
+    "en": "Which account you follow leaves you feeling worse every time?",
+    "followUpPromptHint": "ما الذي يبقي متابعته"
+  },
+  {
+    "id": "digital_06",
+    "domain": "digital",
+    "text": "ما الذي يُبحث عنه حين يُفتح الجوال دون سبب؟",
+    "en": "What are you looking for when you open your phone for no reason?",
+    "followUpPromptHint": "الحاجة خلف الحركة التلقائية"
+  },
+  {
+    "id": "digital_07",
+    "domain": "digital",
+    "text": "كيف يبدو المساء دون شاشة في آخر ساعة قبل النوم؟",
+    "en": "What would an evening look like without a screen in the last hour before sleep?",
+    "followUpPromptHint": "ما الذي يمكن أن يملأ تلك الساعة"
+  },
+  {
+    "id": "digital_08",
+    "domain": "digital",
+    "text": "ما المقارنة التي تتسلل من وسائل التواصل إلى يومك؟",
+    "en": "Which comparison sneaks from social media into your day?",
+    "followUpPromptHint": "ما الذي لا تُظهره الصور"
+  },
+  {
+    "id": "digital_09",
+    "domain": "digital",
+    "text": "أي تطبيق يستحق أن يُحذف أو يُخفى من الشاشة الرئيسية؟",
+    "en": "Which app deserves to be deleted or hidden from your home screen?",
+    "followUpPromptHint": "تجربة أسبوع واحد بدونه"
+  },
+  {
+    "id": "digital_10",
+    "domain": "digital",
+    "text": "ما الذي يمكن فعله بالدقائق التي تذهب إلى التصفح؟",
+    "en": "What could be done with the minutes that go to scrolling?",
+    "followUpPromptHint": "نشاط صغير يناسب هذه الدقائق"
+  },
+  {
+    "id": "digital_11",
+    "domain": "digital",
+    "text": "متى يكون الرد السريع على الرسائل ضرورة، ومتى يكون عادة؟",
+    "en": "When is a quick reply to messages a necessity, and when is it a habit?",
+    "followUpPromptHint": "ما الذي يحدث لو تأخر الرد ساعة"
+  },
+  {
+    "id": "digital_12",
+    "domain": "digital",
+    "text": "ما الذي يتغير حين يبقى الجوال في غرفة أخرى؟",
+    "en": "What changes when your phone stays in another room?",
+    "followUpPromptHint": "أول شعور يظهر وبعد كم دقيقة يهدأ"
+  },
+  {
+    "id": "digital_13",
+    "domain": "digital",
+    "text": "أي محتوى يضيف فعلًا إلى يومك؟",
+    "en": "Which content actually adds something to your day?",
+    "followUpPromptHint": "كيف يُعطى هذا المحتوى مساحة أكبر"
+  },
+  {
+    "id": "digital_14",
+    "domain": "digital",
+    "text": "ما الذي يُقال لأفراد الأسرة عن الشاشات، ويصعب تطبيقه على النفس؟",
+    "en": "What is said to the family about screens that is hard to apply to yourself?",
+    "followUpPromptHint": "خطوة مشتركة للأسرة كلها"
+  },
+  {
+    "id": "digital_15",
+    "domain": "digital",
+    "text": "كيف يبدو الملل حين لا يملؤه الجوال؟",
+    "en": "What does boredom feel like when the phone doesn't fill it?",
+    "followUpPromptHint": "ما الذي يظهر في المساحة الفارغة"
+  },
+  {
+    "id": "digital_16",
+    "domain": "digital",
+    "text": "ما الحدّ الرقمي الذي يحتاجه يومك: وقت، أم مكان، أم تطبيق؟",
+    "en": "Which digital limit does your day need: a time, a place, or an app?",
+    "followUpPromptHint": "أسهل حد يمكن البدء به"
+  },
+  {
+    "id": "digital_17",
+    "domain": "digital",
+    "text": "أي مجموعة محادثة تأخذ انتباهًا أكثر من قيمتها؟",
+    "en": "Which group chat takes more attention than it's worth?",
+    "followUpPromptHint": "ما الذي يحدث لو كُتمت أسبوعًا"
+  },
+  {
+    "id": "digital_18",
+    "domain": "digital",
+    "text": "ما الذي يحدث للنوم في الليالي التي يطول فيها السهر على الشاشة؟",
+    "en": "What happens to your sleep on nights with long screen time?",
+    "followUpPromptHint": "ما الذي يُبقي الشاشة مفتوحة ليلًا"
+  },
+  {
+    "id": "digital_19",
+    "domain": "digital",
+    "text": "ما الذي يُنشر أو يُشارك بحثًا عن تفاعل الآخرين؟",
+    "en": "What is posted or shared in search of others' reactions?",
+    "followUpPromptHint": "الشعور حين يقل التفاعل"
+  },
+  {
+    "id": "digital_20",
+    "domain": "digital",
+    "text": "متى كان آخر يوم شعرت فيه أن وقتك كله لك؟",
+    "en": "When was the last day that felt like your time was entirely yours?",
+    "followUpPromptHint": "ما الذي جعله كذلك"
+  },
+  {
+    "id": "digital_21",
+    "domain": "digital",
+    "text": "ما الصورة التي تقدّمها حساباتك، وما مدى قربها من الواقع؟",
+    "en": "What image do your accounts give, and how close is it to reality?",
+    "followUpPromptHint": "الفرق بين المعروض والمعاش"
+  },
+  {
+    "id": "digital_22",
+    "domain": "digital",
+    "text": "أي تطبيق يُفتح تلقائيًا عند الشعور بالقلق؟",
+    "en": "Which app gets opened automatically when you feel anxious?",
+    "followUpPromptHint": "بديل صغير في تلك اللحظة"
+  },
+  {
+    "id": "digital_23",
+    "domain": "digital",
+    "text": "ما الذي يُتعلّم من الإنترنت ويستحق وقتًا أكبر؟",
+    "en": "What do you learn online that deserves more time?",
+    "followUpPromptHint": "كيف يُخصص له وقت ثابت"
+  },
+  {
+    "id": "digital_24",
+    "domain": "digital",
+    "text": "كيف يبدو استعمال الجوال الذي يُرضيك في آخر اليوم؟",
+    "en": "What kind of phone use would leave you satisfied at the end of the day?",
+    "followUpPromptHint": "ما الذي يفصله عن الاستعمال الحالي"
+  },
+  {
+    "id": "digital_25",
+    "domain": "digital",
+    "text": "ما الذي يُخسر حين يُشاهد كل شيء عبر الشاشة بدل أن يُعاش؟",
+    "en": "What is lost when everything is watched through a screen instead of being lived?",
+    "followUpPromptHint": "لحظة حديثة عيشت دون تصوير"
+  },
+  {
+    "id": "digital_26",
+    "domain": "digital",
+    "text": "من الشخص الذي يستحق مكالمة بدل رسالة؟",
+    "en": "Who deserves a call instead of a message?",
+    "followUpPromptHint": "ما الذي يضيفه الصوت"
+  },
+  {
+    "id": "digital_27",
+    "domain": "digital",
+    "text": "ما الذي يحدث للتركيز حين يكون الجوال على الطاولة أثناء العمل؟",
+    "en": "What happens to your focus when the phone is on the desk while you work?",
+    "followUpPromptHint": "تجربة إبعاده ساعة واحدة"
+  },
+  {
+    "id": "digital_28",
+    "domain": "digital",
+    "text": "أي خبر أو محتوى يبقى في البال طوال اليوم؟",
+    "en": "Which news or content stays on your mind all day?",
+    "followUpPromptHint": "هل يمكن فعل شيء حياله"
+  },
+  {
+    "id": "digital_29",
+    "domain": "digital",
+    "text": "ما القاعدة الرقمية التي تناسب أسرتك؟",
+    "en": "Which digital rule suits your family?",
+    "followUpPromptHint": "كيف يُتفق عليها مع الجميع"
+  },
+  {
+    "id": "digital_30",
+    "domain": "digital",
+    "text": "كم مرة يُمسك الجوال قبل الإفطار؟",
+    "en": "How many times is the phone picked up before breakfast?",
+    "followUpPromptHint": "ما الذي يدفع إلى كل مرة"
+  },
+  {
+    "id": "digital_31",
+    "domain": "digital",
+    "text": "ما الذي يُفتقد في الأيام التي يقل فيها استخدام الشاشة؟",
+    "en": "What is missed on days with less screen time?",
+    "followUpPromptHint": "وما الذي يُكسب في المقابل"
+  },
+  {
+    "id": "digital_32",
+    "domain": "digital",
+    "text": "أي هواية قديمة أخذت الشاشة مكانها؟",
+    "en": "Which old hobby did the screen take the place of?",
+    "followUpPromptHint": "خطوة صغيرة للعودة إليها"
+  },
+  {
+    "id": "digital_33",
+    "domain": "digital",
+    "text": "ما الذي يجعل إغلاق التطبيق صعبًا بعد الدخول إليه؟",
+    "en": "What makes closing an app hard once you're in it?",
+    "followUpPromptHint": "إشارة يمكن أن تذكّر بالخروج"
+  },
+  {
+    "id": "digital_34",
+    "domain": "digital",
+    "text": "كيف يتغير الحديث مع الأسرة حين تبقى الجوالات بعيدة؟",
+    "en": "How do conversations with family change when the phones stay away?",
+    "followUpPromptHint": "وقت ثابت بلا جوالات"
+  },
+  {
+    "id": "digital_35",
+    "domain": "digital",
+    "text": "ما المحتوى الذي يترك هدوءًا بدل التوتر؟",
+    "en": "Which content leaves you calm instead of tense?",
+    "followUpPromptHint": "كيف يُقدَّم على غيره"
+  },
+  {
+    "id": "digital_36",
+    "domain": "digital",
+    "text": "ما الذي يُقاس في حياتك عند رؤية حياة الآخرين على الشاشة؟",
+    "en": "What in your own life gets measured when you see others' lives on screen?",
+    "followUpPromptHint": "مقياس أعدل لهذه المقارنة"
+  },
+  {
+    "id": "digital_37",
+    "domain": "digital",
+    "text": "أي إشعار يمكن إيقافه اليوم دون أي خسارة؟",
+    "en": "Which notification could be turned off today without losing anything?",
+    "followUpPromptHint": "ما الذي يجعل إيقافه مؤجلًا"
+  },
+  {
+    "id": "digital_38",
+    "domain": "digital",
+    "text": "ما الذي يُبحث عنه في التصفح الليلي: تسلية، أم هروب، أم تواصل؟",
+    "en": "What is the late-night scrolling looking for: fun, escape, or connection?",
+    "followUpPromptHint": "طريقة أخرى لتلبية الحاجة نفسها"
+  },
+  {
+    "id": "digital_39",
+    "domain": "digital",
+    "text": "كيف يبدو صباح يبدأ دون أخبار ولا رسائل في أول نصف ساعة؟",
+    "en": "What would a morning look like with no news or messages for the first half hour?",
+    "followUpPromptHint": "ما الذي سيحدث بدلًا منها"
+  },
+  {
+    "id": "digital_40",
+    "domain": "digital",
+    "text": "ما الذي يُكتب على الإنترنت ولا يُقال وجهًا لوجه؟",
+    "en": "What is written online that wouldn't be said face to face?",
+    "followUpPromptHint": "ما الذي يكشفه هذا الفرق"
+  },
+  {
+    "id": "digital_41",
+    "domain": "digital",
+    "text": "أي حساب يلهم فعلًا للعمل، لا للمشاهدة فقط؟",
+    "en": "Which account truly inspires action, not just watching?",
+    "followUpPromptHint": "ما الذي جرى تطبيقه منه"
+  },
+  {
+    "id": "digital_42",
+    "domain": "digital",
+    "text": "ما الذي يتغير حين يُستعمل الجوال لهدف محدد ثم يُترك؟",
+    "en": "What changes when the phone is used for a specific purpose and then put away?",
+    "followUpPromptHint": "هدف واحد واضح قبل فتحه"
+  },
+  {
+    "id": "digital_43",
+    "domain": "digital",
+    "text": "ما الذي يحتاجه الأطفال في البيت من الكبار حول الشاشات؟",
+    "en": "What do the children at home need from the adults about screens?",
+    "followUpPromptHint": "القدوة أم القاعدة"
+  },
+  {
+    "id": "digital_44",
+    "domain": "digital",
+    "text": "أي وقت في اليوم يستحق أن يكون خاليًا من الشاشات؟",
+    "en": "Which time of day deserves to be screen-free?",
+    "followUpPromptHint": "كيف يُحمى هذا الوقت"
+  },
+  {
+    "id": "digital_45",
+    "domain": "digital",
+    "text": "ما الذي يُشترى بسبب إعلان رُئي على الشاشة؟",
+    "en": "What gets bought because of an ad seen on a screen?",
+    "followUpPromptHint": "ما الحاجة التي أثارها الإعلان"
+  },
+  {
+    "id": "digital_46",
+    "domain": "digital",
+    "text": "كيف يبدو التواصل الذي يقرّب فعلًا، لا الذي يملأ الوقت فقط؟",
+    "en": "What does connection look like when it truly brings people closer, not just fills time?",
+    "followUpPromptHint": "مثال حديث على كل منهما"
+  },
+  {
+    "id": "digital_47",
+    "domain": "digital",
+    "text": "ما الذي يحدث للصبر بعد يوم مليء بالمقاطع القصيرة؟",
+    "en": "What happens to your patience after a day full of short videos?",
+    "followUpPromptHint": "نشاط بطيء يعيد التوازن"
+  },
+  {
+    "id": "digital_48",
+    "domain": "digital",
+    "text": "ما الخطوة الرقمية الصغيرة التي تريح الأسبوع القادم؟",
+    "en": "Which small digital step would make next week calmer?",
+    "followUpPromptHint": "متى تبدأ وكيف تُقاس"
+  },
+  {
+    "id": "digital_49",
+    "domain": "digital",
+    "text": "ما الذي يُنتظر من الجوال ولا يستطيع أن يعطيه؟",
+    "en": "What is expected from the phone that it cannot give?",
+    "followUpPromptHint": "أين يمكن إيجاده بدلًا منه"
+  },
+  {
+    "id": "digital_50",
+    "domain": "digital",
+    "text": "كيف يبدو يوم رقمي متوازن بمقياسك أنت؟",
+    "en": "What does a balanced digital day look like by your own measure?",
+    "followUpPromptHint": "أول خطوة نحو هذا اليوم"
   }
 ]

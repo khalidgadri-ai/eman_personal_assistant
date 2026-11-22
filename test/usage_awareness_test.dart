@@ -148,20 +148,21 @@ void main() {
   });
 
   group('coach weighting for the usage signal', () {
-    test('boosts only the organization and balance domain', () {
+    test('boosts only the digital life domain', () {
       final weights = CoachSessionService.domainWeights(const CoachSignals(usage: true));
 
-      expect(weights[CoachDomain.organization], 1 + CoachSessionService.signalBoost);
+      expect(weights[CoachDomain.digital], 1 + CoachSessionService.signalBoost);
       expect(
-        weights.entries.where((e) => e.key != CoachDomain.organization).map((e) => e.value).toSet(),
+        weights.entries.where((e) => e.key != CoachDomain.digital).map((e) => e.value).toSet(),
         {1},
       );
     });
 
-    test('the hint is neutral and only shows on the organization domain', () {
+    test('the hint is neutral and only shows on the digital life domain', () {
       const active = CoachSignals(usage: true);
 
-      expect(active.hintFor(CoachDomain.organization), 'هذا السؤال مرتبط بتوزيع وقتك اليوم');
+      expect(active.hintFor(CoachDomain.digital), 'هذا السؤال مرتبط بتوزيع وقتك اليوم');
+      expect(active.hintFor(CoachDomain.organization), isNull);
       expect(active.hintFor(CoachDomain.emotions), isNull);
     });
   });

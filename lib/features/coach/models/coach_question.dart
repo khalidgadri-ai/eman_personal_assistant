@@ -1,6 +1,6 @@
 import '../../../l10n/app_localizations.dart';
 
-enum CoachDomain { beliefs, emotions, goals, organization, budget, skills }
+enum CoachDomain { beliefs, emotions, goals, organization, budget, skills, relationships, work, digital }
 
 extension CoachDomainLabel on CoachDomain {
   /// اسم المجال بلغة التطبيق.
@@ -11,6 +11,9 @@ extension CoachDomainLabel on CoachDomain {
         CoachDomain.organization => l10n.coachDomainOrganization,
         CoachDomain.budget => l10n.tourBudgetTitle,
         CoachDomain.skills => l10n.coachDomainSkills,
+        CoachDomain.relationships => l10n.coachDomainRelationships,
+        CoachDomain.work => l10n.coachDomainWork,
+        CoachDomain.digital => l10n.coachDomainDigital,
       };
 
   /// الاسم العربي، لتعليمات المدرب العربية للذكاء الاصطناعي فقط (الواجهة تستعمل [label]).
@@ -28,6 +31,12 @@ extension CoachDomainLabel on CoachDomain {
         return 'الميزانية';
       case CoachDomain.skills:
         return 'المهارات والتقنيات';
+      case CoachDomain.relationships:
+        return 'العلاقات';
+      case CoachDomain.work:
+        return 'العمل والمسار المهني';
+      case CoachDomain.digital:
+        return 'الحياة الرقمية';
     }
   }
 }

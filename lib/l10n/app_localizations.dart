@@ -4249,6 +4249,540 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى.'**
   String get assistantGreetingBody;
+
+  /// No description provided for @coachToolsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدوات المدرب'**
+  String get coachToolsTitle;
+
+  /// No description provided for @coachToolsIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمارين قصيرة بخطوات، تُحفظ نتائجها على هذا الجهاز للمقارنة بالمرات السابقة.'**
+  String get coachToolsIntro;
+
+  /// No description provided for @coachToolsEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدوات المدرب: عجلة الحياة وتسمية المشاعر'**
+  String get coachToolsEntry;
+
+  /// No description provided for @wheelTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عجلة الحياة'**
+  String get wheelTitle;
+
+  /// No description provided for @wheelSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقييم مجالات الحياة الثمانية واختيار خطوة صغيرة.'**
+  String get wheelSubtitle;
+
+  /// No description provided for @emotionTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسمية المشاعر'**
+  String get emotionTitle;
+
+  /// No description provided for @emotionSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسمية الشعور ومتابعته عبر الأيام.'**
+  String get emotionSubtitle;
+
+  /// No description provided for @wheelHealth.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصحة'**
+  String get wheelHealth;
+
+  /// No description provided for @wheelWork.
+  ///
+  /// In ar, this message translates to:
+  /// **'العمل أو الدراسة'**
+  String get wheelWork;
+
+  /// No description provided for @wheelMoney.
+  ///
+  /// In ar, this message translates to:
+  /// **'المال'**
+  String get wheelMoney;
+
+  /// No description provided for @wheelFamily.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأسرة'**
+  String get wheelFamily;
+
+  /// No description provided for @wheelRelationships.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأصدقاء والعلاقات'**
+  String get wheelRelationships;
+
+  /// No description provided for @wheelGrowth.
+  ///
+  /// In ar, this message translates to:
+  /// **'التطور الشخصي'**
+  String get wheelGrowth;
+
+  /// No description provided for @wheelSpirit.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجانب الروحي'**
+  String get wheelSpirit;
+
+  /// No description provided for @wheelFun.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتعة والراحة'**
+  String get wheelFun;
+
+  /// No description provided for @wheelIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقييم الرضا عن كل مجال من 0 إلى 10، ثم اختيار مجال واحد للعمل عليه.'**
+  String get wheelIntro;
+
+  /// No description provided for @wheelNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'الآن'**
+  String get wheelNow;
+
+  /// No description provided for @wheelLastTime.
+  ///
+  /// In ar, this message translates to:
+  /// **'المرة السابقة ({date})'**
+  String wheelLastTime(String date);
+
+  /// No description provided for @wheelWas.
+  ///
+  /// In ar, this message translates to:
+  /// **'كان {score}'**
+  String wheelWas(int score);
+
+  /// No description provided for @wheelFocus.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجال التركيز'**
+  String get wheelFocus;
+
+  /// No description provided for @wheelQ1.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يجعل «{area}» عند {score} وليس أقل؟'**
+  String wheelQ1(String area, int score);
+
+  /// No description provided for @wheelQ2.
+  ///
+  /// In ar, this message translates to:
+  /// **'لو صار «{area}» عند {target}، ما أول ما سيتغيّر في اليوم؟'**
+  String wheelQ2(String area, int target);
+
+  /// No description provided for @wheelQ2Keep.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يساعد على إبقاء «{area}» في هذا المستوى؟'**
+  String wheelQ2Keep(String area);
+
+  /// No description provided for @wheelQ3.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يقف في الطريق الآن؟'**
+  String get wheelQ3;
+
+  /// No description provided for @wheelQ4.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما خطوة صغيرة واحدة تقرّب هذا المجال نقطة واحدة هذا الأسبوع؟'**
+  String get wheelQ4;
+
+  /// No description provided for @answerOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإجابة (اختياري)'**
+  String get answerOptional;
+
+  /// No description provided for @stepToTask.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة الخطوة إلى المهام'**
+  String get stepToTask;
+
+  /// No description provided for @stepReminder.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير: {time}'**
+  String stepReminder(String time);
+
+  /// No description provided for @stepNoReminder.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا تذكير'**
+  String get stepNoReminder;
+
+  /// No description provided for @stepSetReminder.
+  ///
+  /// In ar, this message translates to:
+  /// **'ضبط تذكير'**
+  String get stepSetReminder;
+
+  /// No description provided for @wheelSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ العجلة'**
+  String get wheelSave;
+
+  /// No description provided for @wheelSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظت عجلة الحياة.'**
+  String get wheelSaved;
+
+  /// No description provided for @wheelSavedWithTask.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظت عجلة الحياة، وأُضيفت الخطوة إلى المهام.'**
+  String get wheelSavedWithTask;
+
+  /// No description provided for @emotionIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسمية الشعور بدقة خطوة أولى لفهمه. لا توجد إجابة صحيحة أو خاطئة.'**
+  String get emotionIntro;
+
+  /// No description provided for @emotionWhich.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الشعور الأقرب الآن؟'**
+  String get emotionWhich;
+
+  /// No description provided for @emotionWord.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة أدق (اختياري)'**
+  String get emotionWord;
+
+  /// No description provided for @emotionIntensity.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشدة الآن: {value} من 10'**
+  String emotionIntensity(int value);
+
+  /// No description provided for @emotionWhere.
+  ///
+  /// In ar, this message translates to:
+  /// **'أين يظهر هذا الشعور في الجسد؟'**
+  String get emotionWhere;
+
+  /// No description provided for @emotionTrigger.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي أثاره؟ (اختياري)'**
+  String get emotionTrigger;
+
+  /// No description provided for @emotionNeed.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما الذي يحتاجه هذا الشعور الآن؟'**
+  String get emotionNeed;
+
+  /// No description provided for @emotionPickFirst.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار الشعور أولًا'**
+  String get emotionPickFirst;
+
+  /// No description provided for @emotionSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظ الشعور في السجل.'**
+  String get emotionSaved;
+
+  /// No description provided for @emotionStrong.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشعور قوي الآن. إن رغبت، جلسة «تنفّس هادئ» في تبويب التأمل تتيح بضع دقائق من التنفّس البطيء.'**
+  String get emotionStrong;
+
+  /// No description provided for @openMeditation.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح التأمل'**
+  String get openMeditation;
+
+  /// No description provided for @emotionLog.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل المشاعر'**
+  String get emotionLog;
+
+  /// No description provided for @emotionLogEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا مشاعر مسجّلة بعد.'**
+  String get emotionLogEmpty;
+
+  /// No description provided for @emotionMostFrequent.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأكثر تكرارًا في آخر 30 يومًا: {feeling}'**
+  String emotionMostFrequent(String feeling);
+
+  /// No description provided for @emotionLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'{feeling} · {value} من 10'**
+  String emotionLine(String feeling, int value);
+
+  /// No description provided for @toolRecordDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُذف السجل'**
+  String get toolRecordDeleted;
+
+  /// No description provided for @deleteEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف السجل'**
+  String get deleteEntry;
+
+  /// No description provided for @feelingHappy.
+  ///
+  /// In ar, this message translates to:
+  /// **'سعادة'**
+  String get feelingHappy;
+
+  /// No description provided for @feelingCalm.
+  ///
+  /// In ar, this message translates to:
+  /// **'هدوء'**
+  String get feelingCalm;
+
+  /// No description provided for @feelingGrateful.
+  ///
+  /// In ar, this message translates to:
+  /// **'امتنان'**
+  String get feelingGrateful;
+
+  /// No description provided for @feelingHopeful.
+  ///
+  /// In ar, this message translates to:
+  /// **'أمل'**
+  String get feelingHopeful;
+
+  /// No description provided for @feelingProud.
+  ///
+  /// In ar, this message translates to:
+  /// **'فخر'**
+  String get feelingProud;
+
+  /// No description provided for @feelingTired.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعب'**
+  String get feelingTired;
+
+  /// No description provided for @feelingAnxious.
+  ///
+  /// In ar, this message translates to:
+  /// **'قلق'**
+  String get feelingAnxious;
+
+  /// No description provided for @feelingStressed.
+  ///
+  /// In ar, this message translates to:
+  /// **'توتر'**
+  String get feelingStressed;
+
+  /// No description provided for @feelingSad.
+  ///
+  /// In ar, this message translates to:
+  /// **'حزن'**
+  String get feelingSad;
+
+  /// No description provided for @feelingLonely.
+  ///
+  /// In ar, this message translates to:
+  /// **'وحدة'**
+  String get feelingLonely;
+
+  /// No description provided for @feelingAngry.
+  ///
+  /// In ar, this message translates to:
+  /// **'غضب'**
+  String get feelingAngry;
+
+  /// No description provided for @feelingFrustrated.
+  ///
+  /// In ar, this message translates to:
+  /// **'إحباط'**
+  String get feelingFrustrated;
+
+  /// No description provided for @feelingAfraid.
+  ///
+  /// In ar, this message translates to:
+  /// **'خوف'**
+  String get feelingAfraid;
+
+  /// No description provided for @feelingGuilty.
+  ///
+  /// In ar, this message translates to:
+  /// **'شعور بالذنب'**
+  String get feelingGuilty;
+
+  /// No description provided for @feelingBored.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملل'**
+  String get feelingBored;
+
+  /// No description provided for @feelingOverwhelmed.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرهاق'**
+  String get feelingOverwhelmed;
+
+  /// No description provided for @bodyHead.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرأس'**
+  String get bodyHead;
+
+  /// No description provided for @bodyThroat.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحلق'**
+  String get bodyThroat;
+
+  /// No description provided for @bodyChest.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصدر'**
+  String get bodyChest;
+
+  /// No description provided for @bodyStomach.
+  ///
+  /// In ar, this message translates to:
+  /// **'البطن'**
+  String get bodyStomach;
+
+  /// No description provided for @bodyShoulders.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكتفان'**
+  String get bodyShoulders;
+
+  /// No description provided for @bodyHands.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليدان'**
+  String get bodyHands;
+
+  /// No description provided for @bodyWhole.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل الجسد'**
+  String get bodyWhole;
+
+  /// No description provided for @bodyUnsure.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير واضح'**
+  String get bodyUnsure;
+
+  /// No description provided for @needRest.
+  ///
+  /// In ar, this message translates to:
+  /// **'راحة'**
+  String get needRest;
+
+  /// No description provided for @needTalk.
+  ///
+  /// In ar, this message translates to:
+  /// **'حديث مع شخص'**
+  String get needTalk;
+
+  /// No description provided for @needMovement.
+  ///
+  /// In ar, this message translates to:
+  /// **'حركة'**
+  String get needMovement;
+
+  /// No description provided for @needQuiet.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت هادئ'**
+  String get needQuiet;
+
+  /// No description provided for @needSolve.
+  ///
+  /// In ar, this message translates to:
+  /// **'حل أمر عالق'**
+  String get needSolve;
+
+  /// No description provided for @needWrite.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكتابة عنه'**
+  String get needWrite;
+
+  /// No description provided for @needNothing.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا شيء الآن'**
+  String get needNothing;
+
+  /// No description provided for @followUpTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر خطوة'**
+  String get followUpTitle;
+
+  /// No description provided for @followUpQuestion.
+  ///
+  /// In ar, this message translates to:
+  /// **'«{step}». كيف سارت؟'**
+  String followUpQuestion(String step);
+
+  /// No description provided for @followUpDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمّت'**
+  String get followUpDone;
+
+  /// No description provided for @followUpNotYet.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تتم بعد'**
+  String get followUpNotYet;
+
+  /// No description provided for @followUpNoted.
+  ///
+  /// In ar, this message translates to:
+  /// **'سُجّل ذلك.'**
+  String get followUpNoted;
+
+  /// No description provided for @historyToolsSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدوات المدرب'**
+  String get historyToolsSection;
+
+  /// No description provided for @historyWheelFocus.
+  ///
+  /// In ar, this message translates to:
+  /// **'التركيز: {area} ({score})'**
+  String historyWheelFocus(String area, int score);
+
+  /// No description provided for @historyStep.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوة: {step}'**
+  String historyStep(String step);
 }
 
 class _AppLocalizationsDelegate

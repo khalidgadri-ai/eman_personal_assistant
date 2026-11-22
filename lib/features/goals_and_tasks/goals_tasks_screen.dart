@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../../core/app_events.dart';
 import '../../core/services/database_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/arabic_numbers.dart';
@@ -52,6 +53,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this)..addListener(_onTabChanged);
+    AppEvents.tasksChanged.addListener(_loadData);
     _loadData();
   }
 
@@ -439,6 +441,7 @@ class _GoalsTasksScreenState extends State<GoalsTasksScreen> with SingleTickerPr
 
   @override
   void dispose() {
+    AppEvents.tasksChanged.removeListener(_loadData);
     _tabController
       ..removeListener(_onTabChanged)
       ..dispose();

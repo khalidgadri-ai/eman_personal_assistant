@@ -2433,4 +2433,304 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get assistantGreetingBody =>
       'I\'m your AI assistant. How can I help you organise your day, suggest meals, or review your exercises?\n\n🔑 To start, set up the AI provider and your own key from the key icon at the top.';
+
+  @override
+  String get coachToolsTitle => 'Coach tools';
+
+  @override
+  String get coachToolsIntro =>
+      'Short step-by-step exercises; the results are saved on this device so you can compare them with earlier ones.';
+
+  @override
+  String get coachToolsEntry =>
+      'Coach tools: wheel of life and naming feelings';
+
+  @override
+  String get wheelTitle => 'Wheel of life';
+
+  @override
+  String get wheelSubtitle =>
+      'Rate the eight areas of your life and pick one small step.';
+
+  @override
+  String get emotionTitle => 'Name the feeling';
+
+  @override
+  String get emotionSubtitle =>
+      'Name what you feel and follow it over the days.';
+
+  @override
+  String get wheelHealth => 'Health';
+
+  @override
+  String get wheelWork => 'Work or study';
+
+  @override
+  String get wheelMoney => 'Money';
+
+  @override
+  String get wheelFamily => 'Family';
+
+  @override
+  String get wheelRelationships => 'Friends & relationships';
+
+  @override
+  String get wheelGrowth => 'Personal growth';
+
+  @override
+  String get wheelSpirit => 'Spiritual life';
+
+  @override
+  String get wheelFun => 'Fun & rest';
+
+  @override
+  String get wheelIntro =>
+      'Rate how satisfied you are with each area from 0 to 10, then choose one area to work on.';
+
+  @override
+  String get wheelNow => 'Now';
+
+  @override
+  String wheelLastTime(String date) {
+    return 'Last time ($date)';
+  }
+
+  @override
+  String wheelWas(int score) {
+    return 'was $score';
+  }
+
+  @override
+  String get wheelFocus => 'Focus area';
+
+  @override
+  String wheelQ1(String area, int score) {
+    return 'What keeps \"$area\" at $score and not lower?';
+  }
+
+  @override
+  String wheelQ2(String area, int target) {
+    return 'If \"$area\" were at $target, what is the first thing that would change in your day?';
+  }
+
+  @override
+  String wheelQ2Keep(String area) {
+    return 'What helps keep \"$area\" at this level?';
+  }
+
+  @override
+  String get wheelQ3 => 'What is standing in the way right now?';
+
+  @override
+  String get wheelQ4 =>
+      'What is one small step that would bring this area one point closer this week?';
+
+  @override
+  String get answerOptional => 'Answer (optional)';
+
+  @override
+  String get stepToTask => 'Add the step to my tasks';
+
+  @override
+  String stepReminder(String time) {
+    return 'Reminder: $time';
+  }
+
+  @override
+  String get stepNoReminder => 'No reminder';
+
+  @override
+  String get stepSetReminder => 'Set a reminder';
+
+  @override
+  String get wheelSave => 'Save the wheel';
+
+  @override
+  String get wheelSaved => 'Wheel of life saved.';
+
+  @override
+  String get wheelSavedWithTask =>
+      'Wheel of life saved, and the step was added to your tasks.';
+
+  @override
+  String get emotionIntro =>
+      'Naming a feeling precisely is a first step to understanding it. There are no right or wrong answers.';
+
+  @override
+  String get emotionWhich => 'Which feeling is closest right now?';
+
+  @override
+  String get emotionWord => 'A more precise word (optional)';
+
+  @override
+  String emotionIntensity(int value) {
+    return 'Intensity now: $value out of 10';
+  }
+
+  @override
+  String get emotionWhere => 'Where does this feeling show up in the body?';
+
+  @override
+  String get emotionTrigger => 'What set it off? (optional)';
+
+  @override
+  String get emotionNeed => 'What does this feeling need right now?';
+
+  @override
+  String get emotionPickFirst => 'Choose the feeling first';
+
+  @override
+  String get emotionSaved => 'Saved to your feelings log.';
+
+  @override
+  String get emotionStrong =>
+      'The feeling is strong right now. If you like, the \"Calm breathing\" session in the Meditation tab gives you a few minutes of slow breathing.';
+
+  @override
+  String get openMeditation => 'Open meditation';
+
+  @override
+  String get emotionLog => 'Feelings log';
+
+  @override
+  String get emotionLogEmpty => 'No feelings logged yet.';
+
+  @override
+  String emotionMostFrequent(String feeling) {
+    return 'Most frequent in the last 30 days: $feeling';
+  }
+
+  @override
+  String emotionLine(String feeling, int value) {
+    return '$feeling · $value/10';
+  }
+
+  @override
+  String get toolRecordDeleted => 'Entry deleted';
+
+  @override
+  String get deleteEntry => 'Delete entry';
+
+  @override
+  String get feelingHappy => 'Happy';
+
+  @override
+  String get feelingCalm => 'Calm';
+
+  @override
+  String get feelingGrateful => 'Grateful';
+
+  @override
+  String get feelingHopeful => 'Hopeful';
+
+  @override
+  String get feelingProud => 'Proud';
+
+  @override
+  String get feelingTired => 'Tired';
+
+  @override
+  String get feelingAnxious => 'Anxious';
+
+  @override
+  String get feelingStressed => 'Stressed';
+
+  @override
+  String get feelingSad => 'Sad';
+
+  @override
+  String get feelingLonely => 'Lonely';
+
+  @override
+  String get feelingAngry => 'Angry';
+
+  @override
+  String get feelingFrustrated => 'Frustrated';
+
+  @override
+  String get feelingAfraid => 'Afraid';
+
+  @override
+  String get feelingGuilty => 'Guilty';
+
+  @override
+  String get feelingBored => 'Bored';
+
+  @override
+  String get feelingOverwhelmed => 'Overwhelmed';
+
+  @override
+  String get bodyHead => 'Head';
+
+  @override
+  String get bodyThroat => 'Throat';
+
+  @override
+  String get bodyChest => 'Chest';
+
+  @override
+  String get bodyStomach => 'Stomach';
+
+  @override
+  String get bodyShoulders => 'Shoulders';
+
+  @override
+  String get bodyHands => 'Hands';
+
+  @override
+  String get bodyWhole => 'Whole body';
+
+  @override
+  String get bodyUnsure => 'Not sure';
+
+  @override
+  String get needRest => 'Rest';
+
+  @override
+  String get needTalk => 'Talking to someone';
+
+  @override
+  String get needMovement => 'Movement';
+
+  @override
+  String get needQuiet => 'Quiet time';
+
+  @override
+  String get needSolve => 'Sorting something out';
+
+  @override
+  String get needWrite => 'Writing about it';
+
+  @override
+  String get needNothing => 'Nothing right now';
+
+  @override
+  String get followUpTitle => 'Your last step';
+
+  @override
+  String followUpQuestion(String step) {
+    return '\"$step\". How did it go?';
+  }
+
+  @override
+  String get followUpDone => 'Done';
+
+  @override
+  String get followUpNotYet => 'Not yet';
+
+  @override
+  String get followUpNoted => 'Noted.';
+
+  @override
+  String get historyToolsSection => 'Coach tools';
+
+  @override
+  String historyWheelFocus(String area, int score) {
+    return 'Focus: $area ($score)';
+  }
+
+  @override
+  String historyStep(String step) {
+    return 'Step: $step';
+  }
 }

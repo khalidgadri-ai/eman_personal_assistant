@@ -5,6 +5,7 @@ import '../../core/services/subscription_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/ai_provider_screen.dart';
 import 'coach_ai_service.dart';
+import 'coach_crisis_dialog.dart';
 import 'coach_history_screen.dart';
 import 'coach_paywall_screen.dart';
 import 'coach_quota_text.dart';
@@ -12,6 +13,9 @@ import 'coach_safety.dart';
 import 'coach_session_service.dart';
 import 'coach_signal_service.dart';
 import 'models/coach_question.dart';
+import 'tools/coach_tool_record.dart';
+import 'tools/coach_tools_screen.dart';
+import '../../core/widgets/undo_snackbar.dart';
 import '../../l10n/l10n.dart';
 
 /// يتأكد أن مزوّد الذكاء الاصطناعي مُعدّ (ويعرض شاشة الإعداد إن لم يكن). false إن غادر المستخدم دون إعداد.
@@ -23,8 +27,6 @@ Future<bool> _requireConfiguredAi(BuildContext context) async =>
 /// كيف سُمح بطلب سؤال المتابعة: اشتراك فعّال، أو استعمال من الحصة المجانية الشهرية.
 enum _DeepenAccess { subscriber, free }
 
-String? _deviceCountryCode() => WidgetsBinding.instance.platformDispatcher.locale.countryCode;
-
 class CoachScreen extends StatefulWidget {
   /// المعاملات للاختبارات فقط؛ الأصل هو الخدمة الحقيقية وساعة الجهاز ومنطقته والمتصفح.
   const CoachScreen({
@@ -32,7 +34,7 @@ class CoachScreen extends StatefulWidget {
     this.aiService,
     this.clock = DateTime.now,
     this.aiAccess = _requireConfiguredAi,
-    this.countryCode = _deviceCountryCode,
+    this.countryCode = deviceCountryCode,
     this.openLink = openExternalLink,
   });
 
@@ -55,6 +57,7 @@ class _CoachScreenState extends State<CoachScreen> {
   CoachDomain _selectedDomain = CoachDomain.beliefs;
   CoachQuestion? _currentQuestion;
   String? _signalHint;
+  CoachToolRecord? _followUp;
   final TextEditingController _answerController = TextEditingController();
   bool _loading = true;
   bool _deepening = false;
@@ -90,8 +93,27 @@ class _CoachScreenState extends State<CoachScreen> {
       _selectedDomain = domain;
       _currentQuestion = question;
       _signalHint = signals.hintFor(domain);
+      _followUp = pendingFollowUp(service.toolRecords(), widget.clock());
       _loading = false;
     });
+  }
+
+  Future<void> _openTools() async {
+    await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const CoachToolsScreen()));
+    final service = _service;
+    if (!mounted || service == null) return;
+    setState(() => _followUp = pendingFollowUp(service.toolRecords(), widget.clock()));
+  }
+
+  /// جواب سؤال «كيف سارت آخر خطوة؟»: يُحفظ مع سجلها، فلا يُسأل عنها ثانية.
+  Future<void> _answerFollowUp(bool done) async {
+    final record = _followUp;
+    final service = _service;
+    if (record == null || service == null) return;
+    await service.updateToolRecord(record.copyWith(followedUp: true, stepDone: done));
+    if (!mounted) return;
+    setState(() => _followUp = null);
+    showInfoSnackBar(context, context.l10n.followUpNoted);
   }
 
   Future<void> _onDomainChanged(CoachDomain domain) async {
@@ -238,80 +260,8 @@ class _CoachScreenState extends State<CoachScreen> {
     }
   }
 
-  Future<void> _showCrisisDialog() async {
-    final general = <Widget>[
-      Text(
-        context.l10n.crisisLocalEmergency,
-        style: const TextStyle(color: AppTheme.textColor, fontWeight: FontWeight.w600, height: 1.6),
-      ),
-      const SizedBox(height: 8),
-      OutlinedButton.icon(
-        style: OutlinedButton.styleFrom(side: const BorderSide(color: AppTheme.accentColor)),
-        onPressed: () => widget.openLink(crisisHelplineFinderUrl),
-        icon: const Icon(Icons.open_in_new_rounded, size: 18, color: AppTheme.accentColor),
-        label: Text(context.l10n.crisisFinderLabel, style: const TextStyle(color: AppTheme.accentColor)),
-      ),
-      const SizedBox(height: 16),
-    ];
-    final saudi = <Widget>[
-      Text(
-        context.l10n.crisisSaudiNote,
-        style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12, fontWeight: FontWeight.w600),
-      ),
-      const SizedBox(height: 8),
-      for (final line in crisisHelplines)
-        Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SelectableText(
-                line.number,
-                textDirection: TextDirection.ltr,
-                style: const TextStyle(
-                  color: AppTheme.accentColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                line.descriptionFor(context.appLang),
-                style: const TextStyle(color: AppTheme.subTextColor, fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-    ];
-    final saudiFirst = showSaudiHelplinesFirst(widget.countryCode());
-
-    await showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        backgroundColor: AppTheme.cardColor,
-        title: Text(context.l10n.crisisImportant, style: TextStyle(color: AppTheme.textColor)),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.l10n.crisisResponse,
-                style: const TextStyle(color: AppTheme.textColor, height: 1.6),
-              ),
-              const SizedBox(height: 16),
-              ...saudiFirst ? [...saudi, ...general] : [...general, ...saudi],
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(context.l10n.gotIt, style: TextStyle(color: AppTheme.primaryColor)),
-          ),
-        ],
-      ),
-    );
-  }
+  Future<void> _showCrisisDialog() =>
+      showCrisisHelpDialog(context, countryCode: widget.countryCode(), openLink: widget.openLink);
 
   @override
   Widget build(BuildContext context) {
@@ -366,6 +316,19 @@ class _CoachScreenState extends State<CoachScreen> {
             style: TextStyle(color: AppTheme.subTextColor, fontSize: 12),
           ),
         ),
+        const SizedBox(height: 12),
+        if (_followUp case final record?) _buildFollowUpCard(record),
+        Card(
+          color: AppTheme.cardColor,
+          margin: EdgeInsets.zero,
+          child: ListTile(
+            key: const ValueKey('coach_tools_entry'),
+            leading: const Icon(Icons.handyman_rounded, color: AppTheme.accentColor),
+            title: Text(context.l10n.coachToolsEntry, style: const TextStyle(color: AppTheme.textColor, fontSize: 14)),
+            trailing: const Icon(Icons.chevron_right_rounded, color: AppTheme.subTextColor),
+            onTap: _openTools,
+          ),
+        ),
         const SizedBox(height: 16),
         DropdownButton<CoachDomain>(
           value: _selectedDomain,
@@ -416,6 +379,42 @@ class _CoachScreenState extends State<CoachScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildFollowUpCard(CoachToolRecord record) {
+    final l10n = context.l10n;
+    return Card(
+      key: const ValueKey('coach_follow_up'),
+      color: AppTheme.surfaceColor,
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.followUpTitle, style: const TextStyle(color: AppTheme.accentColor, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 4),
+            Text(l10n.followUpQuestion(record.step ?? ''), style: const TextStyle(color: AppTheme.textColor, height: 1.5)),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(onPressed: () => _answerFollowUp(false), child: Text(l10n.followUpNotYet)),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+                    onPressed: () => _answerFollowUp(true),
+                    child: Text(l10n.followUpDone, style: const TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 

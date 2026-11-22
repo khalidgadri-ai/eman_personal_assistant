@@ -1311,5 +1311,190 @@
       }
     }
   },
-  "assistantGreetingBody": "أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى."
+  "assistantGreetingBody": "أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى.",
+  "coachToolsTitle": "أدوات المدرب",
+  "coachToolsIntro": "تمارين قصيرة بخطوات، تُحفظ نتائجها على هذا الجهاز للمقارنة بالمرات السابقة.",
+  "coachToolsEntry": "أدوات المدرب: عجلة الحياة وتسمية المشاعر",
+  "wheelTitle": "عجلة الحياة",
+  "wheelSubtitle": "تقييم مجالات الحياة الثمانية واختيار خطوة صغيرة.",
+  "emotionTitle": "تسمية المشاعر",
+  "emotionSubtitle": "تسمية الشعور ومتابعته عبر الأيام.",
+  "wheelHealth": "الصحة",
+  "wheelWork": "العمل أو الدراسة",
+  "wheelMoney": "المال",
+  "wheelFamily": "الأسرة",
+  "wheelRelationships": "الأصدقاء والعلاقات",
+  "wheelGrowth": "التطور الشخصي",
+  "wheelSpirit": "الجانب الروحي",
+  "wheelFun": "المتعة والراحة",
+  "wheelIntro": "تقييم الرضا عن كل مجال من 0 إلى 10، ثم اختيار مجال واحد للعمل عليه.",
+  "wheelNow": "الآن",
+  "wheelLastTime": "المرة السابقة ({date})",
+  "@wheelLastTime": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "wheelWas": "كان {score}",
+  "@wheelWas": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "wheelFocus": "مجال التركيز",
+  "wheelQ1": "ما الذي يجعل «{area}» عند {score} وليس أقل؟",
+  "@wheelQ1": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "wheelQ2": "لو صار «{area}» عند {target}، ما أول ما سيتغيّر في اليوم؟",
+  "@wheelQ2": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "wheelQ2Keep": "ما الذي يساعد على إبقاء «{area}» في هذا المستوى؟",
+  "@wheelQ2Keep": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "wheelQ3": "ما الذي يقف في الطريق الآن؟",
+  "wheelQ4": "ما خطوة صغيرة واحدة تقرّب هذا المجال نقطة واحدة هذا الأسبوع؟",
+  "answerOptional": "الإجابة (اختياري)",
+  "stepToTask": "إضافة الخطوة إلى المهام",
+  "stepReminder": "تذكير: {time}",
+  "@stepReminder": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "stepNoReminder": "بلا تذكير",
+  "stepSetReminder": "ضبط تذكير",
+  "wheelSave": "حفظ العجلة",
+  "wheelSaved": "حُفظت عجلة الحياة.",
+  "wheelSavedWithTask": "حُفظت عجلة الحياة، وأُضيفت الخطوة إلى المهام.",
+  "emotionIntro": "تسمية الشعور بدقة خطوة أولى لفهمه. لا توجد إجابة صحيحة أو خاطئة.",
+  "emotionWhich": "ما الشعور الأقرب الآن؟",
+  "emotionWord": "كلمة أدق (اختياري)",
+  "emotionIntensity": "الشدة الآن: {value} من 10",
+  "@emotionIntensity": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "emotionWhere": "أين يظهر هذا الشعور في الجسد؟",
+  "emotionTrigger": "ما الذي أثاره؟ (اختياري)",
+  "emotionNeed": "ما الذي يحتاجه هذا الشعور الآن؟",
+  "emotionPickFirst": "اختيار الشعور أولًا",
+  "emotionSaved": "حُفظ الشعور في السجل.",
+  "emotionStrong": "الشعور قوي الآن. إن رغبت، جلسة «تنفّس هادئ» في تبويب التأمل تتيح بضع دقائق من التنفّس البطيء.",
+  "openMeditation": "فتح التأمل",
+  "emotionLog": "سجل المشاعر",
+  "emotionLogEmpty": "لا مشاعر مسجّلة بعد.",
+  "emotionMostFrequent": "الأكثر تكرارًا في آخر 30 يومًا: {feeling}",
+  "@emotionMostFrequent": {
+    "placeholders": {
+      "feeling": {
+        "type": "String"
+      }
+    }
+  },
+  "emotionLine": "{feeling} · {value} من 10",
+  "@emotionLine": {
+    "placeholders": {
+      "feeling": {
+        "type": "String"
+      },
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "toolRecordDeleted": "حُذف السجل",
+  "deleteEntry": "حذف السجل",
+  "feelingHappy": "سعادة",
+  "feelingCalm": "هدوء",
+  "feelingGrateful": "امتنان",
+  "feelingHopeful": "أمل",
+  "feelingProud": "فخر",
+  "feelingTired": "تعب",
+  "feelingAnxious": "قلق",
+  "feelingStressed": "توتر",
+  "feelingSad": "حزن",
+  "feelingLonely": "وحدة",
+  "feelingAngry": "غضب",
+  "feelingFrustrated": "إحباط",
+  "feelingAfraid": "خوف",
+  "feelingGuilty": "شعور بالذنب",
+  "feelingBored": "ملل",
+  "feelingOverwhelmed": "إرهاق",
+  "bodyHead": "الرأس",
+  "bodyThroat": "الحلق",
+  "bodyChest": "الصدر",
+  "bodyStomach": "البطن",
+  "bodyShoulders": "الكتفان",
+  "bodyHands": "اليدان",
+  "bodyWhole": "كل الجسد",
+  "bodyUnsure": "غير واضح",
+  "needRest": "راحة",
+  "needTalk": "حديث مع شخص",
+  "needMovement": "حركة",
+  "needQuiet": "وقت هادئ",
+  "needSolve": "حل أمر عالق",
+  "needWrite": "الكتابة عنه",
+  "needNothing": "لا شيء الآن",
+  "followUpTitle": "آخر خطوة",
+  "followUpQuestion": "«{step}». كيف سارت؟",
+  "@followUpQuestion": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "followUpDone": "تمّت",
+  "followUpNotYet": "لم تتم بعد",
+  "followUpNoted": "سُجّل ذلك.",
+  "historyToolsSection": "أدوات المدرب",
+  "historyWheelFocus": "التركيز: {area} ({score})",
+  "@historyWheelFocus": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "historyStep": "الخطوة: {step}",
+  "@historyStep": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  }
 }

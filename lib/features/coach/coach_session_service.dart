@@ -7,6 +7,7 @@ import '../../core/services/database_service.dart';
 import '../../core/services/encrypted_boxes.dart';
 import 'models/coach_question.dart';
 import 'models/coach_signals.dart';
+import 'tools/coach_tool_record.dart';
 import '../../core/config/app_locale.dart';
 
 class CoachSessionService {
@@ -227,9 +228,10 @@ class CoachSessionService {
     });
   }
 
-  /// كل جلسة معها `id` (مفتاح السجل) لحذفها أو إعادتها.
+  /// كل جلسة أسئلة معها `id` (مفتاح السجل) لحذفها أو إعادتها. سجلات الأدوات (بحقل `kind`) لا تدخل.
   List<Map<String, dynamic>> getSessions({CoachDomain? domain}) {
     final entries = (_box?.toMap().entries ?? const <MapEntry<dynamic, dynamic>>[])
+        .where((e) => e.value is Map && (e.value as Map)['kind'] == null)
         .map((e) => {...Map<String, dynamic>.from(e.value as Map), 'id': '${e.key}'});
     final filtered = domain == null
         ? entries
@@ -237,5 +239,30 @@ class CoachSessionService {
     final list = filtered.toList()
       ..sort((a, b) => (b['date'] as DateTime).compareTo(a['date'] as DateTime));
     return list;
+  }
+
+  // --- سجلات أدوات المدرب ---
+
+  /// يحفظ سجل أداة ويرجّعه بمفتاحه.
+  Future<CoachToolRecord> saveToolRecord(CoachToolRecord record) async {
+    final box = _box;
+    if (box == null) return record;
+    final key = await box.add(record.toMap());
+    return CoachToolRecord.tryParse('$key', box.get(key)) ?? record;
+  }
+
+  Future<void> updateToolRecord(CoachToolRecord record) async {
+    final key = int.tryParse(record.id);
+    if (key == null) return;
+    await _box?.put(key, record.toMap());
+  }
+
+  /// سجلات الأدوات، الأحدث أولًا. [kind] لتصفية أداة واحدة.
+  List<CoachToolRecord> toolRecords({CoachToolKind? kind}) {
+    final records = <CoachToolRecord>[
+      for (final e in (_box?.toMap().entries ?? const <MapEntry<dynamic, dynamic>>[]))
+        if (CoachToolRecord.tryParse('${e.key}', e.value) case final r? when kind == null || r.kind == kind) r,
+    ]..sort((a, b) => b.date.compareTo(a.date));
+    return records;
   }
 }

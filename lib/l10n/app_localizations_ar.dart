@@ -2448,4 +2448,302 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get assistantGreetingBody =>
       'أنا مساعدك الذكي. كيف أساعدك في تنظيم يومك، أو اقتراح وجبات، أو مراجعة تمارينك؟\n\n🔑 للبدء يلزم إعداد مزوّد الذكاء الاصطناعي ومفتاحك الخاص من أيقونة المفتاح في الأعلى.';
+
+  @override
+  String get coachToolsTitle => 'أدوات المدرب';
+
+  @override
+  String get coachToolsIntro =>
+      'تمارين قصيرة بخطوات، تُحفظ نتائجها على هذا الجهاز للمقارنة بالمرات السابقة.';
+
+  @override
+  String get coachToolsEntry => 'أدوات المدرب: عجلة الحياة وتسمية المشاعر';
+
+  @override
+  String get wheelTitle => 'عجلة الحياة';
+
+  @override
+  String get wheelSubtitle =>
+      'تقييم مجالات الحياة الثمانية واختيار خطوة صغيرة.';
+
+  @override
+  String get emotionTitle => 'تسمية المشاعر';
+
+  @override
+  String get emotionSubtitle => 'تسمية الشعور ومتابعته عبر الأيام.';
+
+  @override
+  String get wheelHealth => 'الصحة';
+
+  @override
+  String get wheelWork => 'العمل أو الدراسة';
+
+  @override
+  String get wheelMoney => 'المال';
+
+  @override
+  String get wheelFamily => 'الأسرة';
+
+  @override
+  String get wheelRelationships => 'الأصدقاء والعلاقات';
+
+  @override
+  String get wheelGrowth => 'التطور الشخصي';
+
+  @override
+  String get wheelSpirit => 'الجانب الروحي';
+
+  @override
+  String get wheelFun => 'المتعة والراحة';
+
+  @override
+  String get wheelIntro =>
+      'تقييم الرضا عن كل مجال من 0 إلى 10، ثم اختيار مجال واحد للعمل عليه.';
+
+  @override
+  String get wheelNow => 'الآن';
+
+  @override
+  String wheelLastTime(String date) {
+    return 'المرة السابقة ($date)';
+  }
+
+  @override
+  String wheelWas(int score) {
+    return 'كان $score';
+  }
+
+  @override
+  String get wheelFocus => 'مجال التركيز';
+
+  @override
+  String wheelQ1(String area, int score) {
+    return 'ما الذي يجعل «$area» عند $score وليس أقل؟';
+  }
+
+  @override
+  String wheelQ2(String area, int target) {
+    return 'لو صار «$area» عند $target، ما أول ما سيتغيّر في اليوم؟';
+  }
+
+  @override
+  String wheelQ2Keep(String area) {
+    return 'ما الذي يساعد على إبقاء «$area» في هذا المستوى؟';
+  }
+
+  @override
+  String get wheelQ3 => 'ما الذي يقف في الطريق الآن؟';
+
+  @override
+  String get wheelQ4 =>
+      'ما خطوة صغيرة واحدة تقرّب هذا المجال نقطة واحدة هذا الأسبوع؟';
+
+  @override
+  String get answerOptional => 'الإجابة (اختياري)';
+
+  @override
+  String get stepToTask => 'إضافة الخطوة إلى المهام';
+
+  @override
+  String stepReminder(String time) {
+    return 'تذكير: $time';
+  }
+
+  @override
+  String get stepNoReminder => 'بلا تذكير';
+
+  @override
+  String get stepSetReminder => 'ضبط تذكير';
+
+  @override
+  String get wheelSave => 'حفظ العجلة';
+
+  @override
+  String get wheelSaved => 'حُفظت عجلة الحياة.';
+
+  @override
+  String get wheelSavedWithTask =>
+      'حُفظت عجلة الحياة، وأُضيفت الخطوة إلى المهام.';
+
+  @override
+  String get emotionIntro =>
+      'تسمية الشعور بدقة خطوة أولى لفهمه. لا توجد إجابة صحيحة أو خاطئة.';
+
+  @override
+  String get emotionWhich => 'ما الشعور الأقرب الآن؟';
+
+  @override
+  String get emotionWord => 'كلمة أدق (اختياري)';
+
+  @override
+  String emotionIntensity(int value) {
+    return 'الشدة الآن: $value من 10';
+  }
+
+  @override
+  String get emotionWhere => 'أين يظهر هذا الشعور في الجسد؟';
+
+  @override
+  String get emotionTrigger => 'ما الذي أثاره؟ (اختياري)';
+
+  @override
+  String get emotionNeed => 'ما الذي يحتاجه هذا الشعور الآن؟';
+
+  @override
+  String get emotionPickFirst => 'اختيار الشعور أولًا';
+
+  @override
+  String get emotionSaved => 'حُفظ الشعور في السجل.';
+
+  @override
+  String get emotionStrong =>
+      'الشعور قوي الآن. إن رغبت، جلسة «تنفّس هادئ» في تبويب التأمل تتيح بضع دقائق من التنفّس البطيء.';
+
+  @override
+  String get openMeditation => 'فتح التأمل';
+
+  @override
+  String get emotionLog => 'سجل المشاعر';
+
+  @override
+  String get emotionLogEmpty => 'لا مشاعر مسجّلة بعد.';
+
+  @override
+  String emotionMostFrequent(String feeling) {
+    return 'الأكثر تكرارًا في آخر 30 يومًا: $feeling';
+  }
+
+  @override
+  String emotionLine(String feeling, int value) {
+    return '$feeling · $value من 10';
+  }
+
+  @override
+  String get toolRecordDeleted => 'حُذف السجل';
+
+  @override
+  String get deleteEntry => 'حذف السجل';
+
+  @override
+  String get feelingHappy => 'سعادة';
+
+  @override
+  String get feelingCalm => 'هدوء';
+
+  @override
+  String get feelingGrateful => 'امتنان';
+
+  @override
+  String get feelingHopeful => 'أمل';
+
+  @override
+  String get feelingProud => 'فخر';
+
+  @override
+  String get feelingTired => 'تعب';
+
+  @override
+  String get feelingAnxious => 'قلق';
+
+  @override
+  String get feelingStressed => 'توتر';
+
+  @override
+  String get feelingSad => 'حزن';
+
+  @override
+  String get feelingLonely => 'وحدة';
+
+  @override
+  String get feelingAngry => 'غضب';
+
+  @override
+  String get feelingFrustrated => 'إحباط';
+
+  @override
+  String get feelingAfraid => 'خوف';
+
+  @override
+  String get feelingGuilty => 'شعور بالذنب';
+
+  @override
+  String get feelingBored => 'ملل';
+
+  @override
+  String get feelingOverwhelmed => 'إرهاق';
+
+  @override
+  String get bodyHead => 'الرأس';
+
+  @override
+  String get bodyThroat => 'الحلق';
+
+  @override
+  String get bodyChest => 'الصدر';
+
+  @override
+  String get bodyStomach => 'البطن';
+
+  @override
+  String get bodyShoulders => 'الكتفان';
+
+  @override
+  String get bodyHands => 'اليدان';
+
+  @override
+  String get bodyWhole => 'كل الجسد';
+
+  @override
+  String get bodyUnsure => 'غير واضح';
+
+  @override
+  String get needRest => 'راحة';
+
+  @override
+  String get needTalk => 'حديث مع شخص';
+
+  @override
+  String get needMovement => 'حركة';
+
+  @override
+  String get needQuiet => 'وقت هادئ';
+
+  @override
+  String get needSolve => 'حل أمر عالق';
+
+  @override
+  String get needWrite => 'الكتابة عنه';
+
+  @override
+  String get needNothing => 'لا شيء الآن';
+
+  @override
+  String get followUpTitle => 'آخر خطوة';
+
+  @override
+  String followUpQuestion(String step) {
+    return '«$step». كيف سارت؟';
+  }
+
+  @override
+  String get followUpDone => 'تمّت';
+
+  @override
+  String get followUpNotYet => 'لم تتم بعد';
+
+  @override
+  String get followUpNoted => 'سُجّل ذلك.';
+
+  @override
+  String get historyToolsSection => 'أدوات المدرب';
+
+  @override
+  String historyWheelFocus(String area, int score) {
+    return 'التركيز: $area ($score)';
+  }
+
+  @override
+  String historyStep(String step) {
+    return 'الخطوة: $step';
+  }
 }

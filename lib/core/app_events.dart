@@ -7,4 +7,8 @@ abstract final class AppEvents {
 
   /// يُزاد بعد استعادة نسخة احتياطية: البوابة تعيد بناء الشاشات لتقرأ البيانات المستعادة.
   static final ValueNotifier<int> dataRestored = ValueNotifier<int>(0);
+
+  /// يُزاد حين تُضاف مهمة من خارج تبويب المهام (خطوة من أدوات المدرب): التبويب يعيد قراءة مهامه،
+  /// فلا يكتب فوقها قائمته القديمة من الذاكرة.
+  static final ValueNotifier<int> tasksChanged = ValueNotifier<int>(0);
 }

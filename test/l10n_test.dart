@@ -9,7 +9,11 @@ import 'package:eman_life_app/core/services/assistant_prompt.dart';
 import 'package:eman_life_app/core/widgets/ai_provider_screen.dart';
 import 'package:eman_life_app/features/coach/coach_ai_service.dart';
 import 'package:eman_life_app/features/coach/coach_safety.dart';
+import 'package:eman_life_app/features/coach/coach_session_service.dart';
 import 'package:eman_life_app/features/coach/models/coach_question.dart';
+import 'package:eman_life_app/features/coach/tools/coach_tools_screen.dart';
+import 'package:eman_life_app/features/coach/tools/emotion_checkin_screen.dart';
+import 'package:eman_life_app/features/coach/tools/wheel_of_life_screen.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
 import 'package:eman_life_app/features/ai_assistant/ai_assistant_screen.dart';
@@ -433,6 +437,28 @@ void main() {
       await settle(tester);
       expect(find.textContaining('Welcome!'), findsOneWidget);
       expect(find.textContaining('أهلًا بك!'), findsNothing);
+    });
+
+    testWidgets('the coach tools speak English, with no Arabic left on screen', (tester) async {
+      tester.view.physicalSize = const Size(900, 4200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      AppLocale.choice.value = AppLanguage.en;
+      await tester.pumpWidget(_app(const CoachToolsScreen()));
+      await settle(tester);
+      expect(find.text('Coach tools'), findsOneWidget);
+      expect(find.textContaining(_arabicLetter), findsNothing);
+
+      await tester.runAsync(CoachSessionService.getInstance);
+      await tester.pumpWidget(_app(const WheelOfLifeScreen()));
+      await settle(tester);
+      expect(find.text('Save the wheel'), findsOneWidget);
+      expect(find.textContaining(_arabicLetter), findsNothing);
+
+      await tester.pumpWidget(_app(const EmotionCheckinScreen()));
+      await settle(tester);
+      expect(find.text('Which feeling is closest right now?'), findsOneWidget);
+      expect(find.textContaining(_arabicLetter), findsNothing);
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {

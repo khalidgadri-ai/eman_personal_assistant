@@ -31,7 +31,8 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     _initServices();
   }
 
-  /// تغيير لغة التطبيق يعيد بناء تعليمات المساعد بلغته الجديدة (المحادثة نفسها تبقى).
+  /// تغيير لغة التطبيق يعيد بناء تعليمات المساعد بلغته الجديدة. المحادثة تبقى كما هي، إلا رسالة
+  /// الترحيب حين لم تبدأ محادثة بعد: تُكتب من جديد باللغة الجديدة.
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -47,6 +48,9 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     setState(() {
       _systemPrompt = systemPrompt;
       _aiService = service;
+      if (_messages.length == 1 && _messages.first['sender'] == 'assistant') {
+        _messages[0] = {'sender': 'assistant', 'text': assistantGreeting(_profile?.name ?? '')};
+      }
     });
   }
 

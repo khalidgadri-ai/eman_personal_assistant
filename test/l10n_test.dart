@@ -12,6 +12,7 @@ import 'package:eman_life_app/features/coach/coach_safety.dart';
 import 'package:eman_life_app/features/coach/models/coach_question.dart';
 import 'package:eman_life_app/core/services/database_service.dart';
 import 'package:eman_life_app/core/theme/app_theme.dart';
+import 'package:eman_life_app/features/ai_assistant/ai_assistant_screen.dart';
 import 'package:eman_life_app/features/awareness/models/social_app.dart';
 import 'package:eman_life_app/features/awareness/usage_awareness_screen.dart';
 import 'package:eman_life_app/features/budget/budget_plan_service.dart';
@@ -418,6 +419,20 @@ void main() {
         expect(app.nameFor('en'), isNot(contains(_arabicLetter)));
         expect(app.nameFor('ar'), app.arabicName);
       }
+    });
+
+    testWidgets('the assistant greeting follows a language change while no chat has started', (tester) async {
+      await tester.pumpWidget(_app(const AIAssistantScreen()));
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+      await settle(tester);
+      expect(find.textContaining('أهلًا بك!'), findsOneWidget);
+
+      AppLocale.choice.value = AppLanguage.en;
+      await settle(tester);
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+      await settle(tester);
+      expect(find.textContaining('Welcome!'), findsOneWidget);
+      expect(find.textContaining('أهلًا بك!'), findsNothing);
     });
 
     testWidgets('the main tabs and the coach button speak the chosen language', (tester) async {
